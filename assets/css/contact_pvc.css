@@ -1,0 +1,400 @@
+/* PVC Security Contact Section Styles */
+
+:root {
+    --whatsapp-green: #25D366;
+    --whatsapp-hover: #128C7E;
+    /* Use Project Colors */
+    --pvc-gold: #d4af37;
+    --pvc-gold-dark: #b8860b;
+    --pvc-red: #E51f4d;
+    --text-dark: #1a1a1a;
+    --text-muted: #555;
+    --bg-light: #fdfdfd;
+    --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    --card-hover-shadow: 0 25px 60px rgba(184, 134, 11, 0.15);
+    --transition-smooth: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.pvc-contact-section {
+    padding: 100px 0;
+    background-color: var(--bg-light);
+    background-image: radial-gradient(circle at 2px 2px, rgba(0, 0, 0, 0.01) 1px, transparent 0);
+    background-size: 40px 40px;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Section Intro */
+.pvc-contact-intro {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.pvc-contact-intro h2 {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+}
+
+.pvc-contact-intro p {
+    font-size: clamp(14px, 2vw, 18px);
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.pvc-contact-intro p small {
+    display: block;
+    margin-top: 10px;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--pvc-gold-dark);
+    font-weight: 600;
+}
+
+/* Contact Cards Grid */
+.pvc-contact-grid {
+    display: grid;
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+/* Contact Card Base */
+.pvc-contact-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition-smooth);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.pvc-contact-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    border-radius: 24px;
+    z-index: -1;
+    opacity: 0;
+    transition: var(--transition-smooth);
+}
+
+.pvc-contact-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: var(--card-hover-shadow);
+    border-color: rgba(184, 134, 11, 0.2);
+}
+
+.pvc-contact-card:hover::after {
+    opacity: 1;
+}
+
+.pvc-contact-card .icon-box {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    margin-bottom: 25px;
+    transition: var(--transition-smooth);
+    position: relative;
+}
+
+.pvc-contact-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.pvc-contact-card p {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.pvc-contact-card .sub-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* Specific Card Styles */
+
+/* WhatsApp Card (Most Visible) */
+.card-whatsapp {
+    background: linear-gradient(to bottom, #fff, #f0fff4);
+    border-bottom: 6px solid var(--whatsapp-green);
+}
+
+.card-whatsapp .icon-box {
+    background: var(--whatsapp-green);
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+}
+
+/* Gentle Pulse Animation */
+@keyframes intense-pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 20px rgba(37, 211, 102, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
+
+.card-whatsapp .icon-box {
+    animation: intense-pulse 2.5s infinite;
+}
+
+.card-whatsapp:hover {
+    border-color: var(--whatsapp-hover);
+    box-shadow: 0 25px 60px rgba(37, 211, 102, 0.2);
+}
+
+/* Call Card */
+.card-call {
+    border-bottom: 6px solid var(--pvc-gold);
+}
+
+.card-call .icon-box {
+    background: linear-gradient(135deg, var(--pvc-gold-mid), var(--pvc-gold-dark));
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(184, 134, 11, 0.3);
+}
+
+/* Service Area Card */
+.card-area {
+    border-bottom: 6px solid var(--pvc-red);
+}
+
+.card-area .icon-box {
+    background: linear-gradient(135deg, var(--pvc-red), #c01a41);
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(229, 31, 77, 0.3);
+}
+
+/* Email Card */
+.card-email {
+    border-bottom: 6px solid #444;
+}
+
+.card-email .icon-box {
+    background: linear-gradient(135deg, #666, #333);
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Trust Micro-Section */
+.pvc-trust-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 60px;
+    padding-top: 50px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dark);
+    transition: var(--transition-smooth);
+}
+
+.trust-item:hover {
+    transform: scale(1.05);
+    color: var(--pvc-gold-dark);
+}
+
+.trust-item i {
+    color: var(--pvc-gold);
+    font-size: 20px;
+}
+
+/* Sticky Mobile CTA */
+.sticky-mobile-cta {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.1);
+    z-index: 10000;
+    align-items: center;
+    justify-content: space-between;
+    animation: slideUpMobile 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    border-top: 3px solid var(--whatsapp-green);
+    margin: 15px;
+    border-radius: 20px;
+    bottom: 10px;
+}
+
+@keyframes slideUpMobile {
+    from {
+        transform: translateY(120%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.cta-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-grow: 1;
+}
+
+.cta-content .icon-wrap {
+    width: 45px;
+    height: 45px;
+    background: var(--whatsapp-green);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 22px;
+}
+
+.cta-text span {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.cta-text strong {
+    display: block;
+    font-size: 15px;
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.cta-close {
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--text-muted);
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.cta-close:hover {
+    color: var(--pvc-red);
+}
+
+/* RESPONSIVE RULES */
+
+/* 💻 LAPTOP & DESKTOP (≥ 992px) */
+@media (min-width: 992px) {
+    .pvc-contact-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* 📱 TABLET (577px – 991px) */
+@media (min-width: 577px) and (max-width: 991px) {
+    .pvc-contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 📱 MOBILE (≤ 576px) */
+@media (max-width: 576px) {
+    .pvc-contact-section {
+        padding: 40px 15px;
+    }
+
+    .pvc-contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* Match Desktop pattern with 2x2 grid */
+        gap: 15px;
+    }
+
+    .pvc-contact-card {
+        padding: 24px 15px;
+        border-radius: 18px;
+    }
+
+    .pvc-contact-card .icon-box {
+        width: 55px;
+        height: 55px;
+        font-size: 24px;
+        margin-bottom: 15px;
+        border-radius: 14px;
+    }
+
+    .pvc-contact-card h3 {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .pvc-contact-card p {
+        font-size: 13px;
+        margin-bottom: 4px;
+        font-weight: 500;
+        line-height: 1.2;
+    }
+
+    .pvc-contact-card .sub-text {
+        font-size: 10px;
+        opacity: 0.6;
+        display: none;
+        /* Hide to avoid clutter on mobile rows */
+    }
+
+    .sticky-mobile-cta {
+        display: flex;
+    }
+
+    .pvc-trust-section {
+        gap: 10px;
+        margin-top: 30px;
+        padding-top: 30px;
+    }
+
+    .trust-item {
+        font-size: 11px;
+        width: calc(50% - 10px);
+        justify-content: flex-start;
+        gap: 8px;
+    }
+}

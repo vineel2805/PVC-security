@@ -1,0 +1,533 @@
+/* PVC Security Premium About Page Styles */
+
+:root {
+    --pvc-black: #000000;
+    --pvc-gold: #B8860B;
+    --pvc-gold-light: #D4AF37;
+    --pvc-bg-light: #FFFFFF;
+    --pvc-bg-grey: #F8F8F8;
+    --pvc-text-dark: #1A1A1A;
+    --pvc-text-muted: #555555;
+    --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.05);
+    --shadow-gold: 0 15px 45px rgba(184, 134, 11, 0.15);
+    --transition-premium: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    background-color: var(--pvc-bg-light);
+    color: var(--pvc-black);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* HERO SECTION */
+.about-hero-new {
+    background-color: var(--pvc-black);
+    padding: 120px 0 80px;
+    text-align: center;
+    color: #FFFFFF;
+    position: relative;
+    overflow: hidden;
+    margin-top: 80px;
+}
+
+.about-hero-new h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInSlide 0.8s forwards;
+}
+
+.about-hero-new .gold-divider {
+    width: 60px;
+    height: 4px;
+    background: var(--pvc-gold);
+    margin: 0 auto 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-hero-new .gold-divider::after {
+    content: '';
+    position: absolute;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+}
+
+.about-hero-new p {
+    font-size: clamp(16px, 2vw, 22px);
+    color: var(--pvc-gold);
+    font-weight: 500;
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInSlide 0.8s 0.3s forwards;
+}
+
+/* WHO WE ARE SECTION */
+.who-we-are-section {
+    padding: 100px 0;
+    background-color: var(--pvc-bg-light);
+}
+
+.who-text-block h2 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.who-text-block p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--pvc-text-muted);
+    margin-bottom: 20px;
+}
+
+.who-text-block .gold-highlight {
+    color: var(--pvc-gold);
+    font-weight: 600;
+}
+
+/* OUR WORKSPACE - CRITICAL */
+.workspace-section {
+    padding: 100px 0;
+    background-color: var(--pvc-bg-grey);
+}
+
+.workspace-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.workspace-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    background: #fff;
+    transition: var(--transition-premium);
+    height: 350px;
+    /* Fixed height for uniformity */
+}
+
+.workspace-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.workspace-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    padding: 20px;
+    color: #fff;
+    transform: translateY(100%);
+    transition: var(--transition-premium);
+}
+
+.workspace-caption h5 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--pvc-gold-light);
+}
+
+/* Hover Effects */
+.workspace-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(184, 134, 11, 0.2);
+    border: 1px solid var(--pvc-gold);
+}
+
+.workspace-item:hover img {
+    transform: scale(1.1);
+}
+
+.workspace-item:hover .workspace-caption {
+    transform: translateY(0);
+}
+
+/* MISSION & VISION */
+.mission-vision-section {
+    padding: 80px 0;
+    background-color: #fff;
+}
+
+.mv-card {
+    text-align: center;
+    padding: 40px;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    transition: var(--transition-premium);
+}
+
+.mv-card:hover {
+    border-color: var(--pvc-gold);
+    box-shadow: var(--shadow-soft);
+}
+
+.mv-icon {
+    font-size: 36px;
+    color: var(--pvc-gold);
+    margin-bottom: 20px;
+}
+
+.mv-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+/* WHY CHOOSE US - ICON GRID */
+.why-trust-pvc {
+    padding: 100px 0;
+    background-color: var(--pvc-black);
+    color: #fff;
+    text-align: center;
+}
+
+.why-trust-pvc h2 {
+    margin-bottom: 60px;
+    font-weight: 700;
+}
+
+.trust-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+}
+
+.trust-pill {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px 30px;
+    border-radius: 50px;
+    border: 1px solid rgba(184, 134, 11, 0.3);
+    color: #fff;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: var(--transition-premium);
+}
+
+.trust-pill i {
+    color: var(--pvc-gold);
+}
+
+.trust-pill:hover {
+    background: var(--pvc-gold);
+    color: var(--pvc-black);
+    border-color: var(--pvc-gold);
+    transform: translateY(-3px);
+}
+
+.trust-pill:hover i {
+    color: var(--pvc-black);
+}
+
+/* SERVICE AREA */
+.service-map-area {
+    padding: 80px 0;
+    text-align: center;
+    background: var(--pvc-bg-light);
+}
+
+.service-map-area h3 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--pvc-text-dark);
+}
+
+.service-map-area .highlight {
+    color: var(--pvc-gold-dark);
+    display: block;
+    font-size: 36px;
+    margin-top: 10px;
+}
+
+/* FINAL CTA */
+.final-cta-pvc {
+    background: var(--pvc-black);
+    padding: 100px 0;
+    text-align: center;
+    border-top: 1px solid rgba(184, 134, 11, 0.2);
+}
+
+.final-cta-pvc h2 {
+    color: #FFFFFF;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    margin-bottom: 40px;
+}
+
+.cta-button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-pvc-premium {
+    padding: 18px 40px;
+    border: 2px solid var(--pvc-gold);
+    background: transparent;
+    color: var(--pvc-gold);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    border-radius: 50px;
+    transition: var(--transition-premium);
+    text-decoration: none !important;
+}
+
+.btn-pvc-premium:hover {
+    background: var(--pvc-gold);
+    color: var(--pvc-black);
+}
+
+.btn-whatsapp-premium {
+    background: #25D366;
+    border-color: #25D366;
+    color: #FFFFFF;
+}
+
+.btn-whatsapp-premium:hover {
+    background: #128C7E;
+    border-color: #128C7E;
+    color: #FFFFFF;
+}
+
+
+/* Animations */
+@keyframes fadeInSlide {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shimmer {
+    to {
+        left: 100%;
+    }
+}
+
+/* RESPONSIVE */
+
+/* 💻 Large Laptops (1200px - 1400px) */
+@media (max-width: 1399px) {
+    .workspace-item {
+        height: 300px;
+    }
+}
+
+/* 📱 Desktops/Tablets Landscape (992px - 1199px) */
+@media (max-width: 1199px) {
+    .about-hero-new {
+        padding: 100px 0 60px;
+    }
+
+    .workspace-grid {
+        gap: 20px;
+    }
+
+    .workspace-item {
+        height: 280px;
+    }
+}
+
+/* 📱 Tablets Portrait (768px - 991px) */
+@media (max-width: 991px) {
+    .about-hero-new h1 {
+        font-size: 42px;
+    }
+
+    .who-we-are-section {
+        padding: 60px 0;
+        text-align: center;
+    }
+
+    .who-we-are-section .col-lg-6:first-child {
+        margin-bottom: 40px;
+    }
+
+    .who-text-block h2 {
+        font-size: 32px;
+    }
+
+    .workspace-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .workspace-item {
+        height: 260px;
+    }
+
+    /* Center the last item properly on tablet */
+    .workspace-item:last-child {
+        grid-column: span 2;
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .mission-vision-section {
+        padding: 60px 0;
+    }
+
+    .mv-card {
+        padding: 30px 20px;
+        margin-bottom: 20px;
+    }
+
+    .trust-grid {
+        gap: 20px;
+    }
+}
+
+/* 📱 Large Mobile (577px - 767px) */
+@media (max-width: 767px) {
+    .workspace-item:last-child {
+        width: 80%;
+    }
+
+    .trust-pill {
+        width: calc(50% - 15px);
+        /* Two columns on large mobile */
+        justify-content: center;
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+}
+
+/* 📱 Small Mobile (≤ 576px) */
+@media (max-width: 576px) {
+    .about-hero-new {
+        padding: 80px 0 50px;
+        margin-top: 60px;
+        /* Adjust for smaller header */
+    }
+
+    .about-hero-new h1 {
+        font-size: 32px;
+    }
+
+    .about-hero-new p {
+        font-size: 16px;
+        padding: 0 15px;
+    }
+
+    .who-we-are-section {
+        padding: 50px 0;
+    }
+
+    .workspace-section {
+        padding: 60px 0;
+    }
+
+    .workspace-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin-top: 30px;
+    }
+
+    .workspace-item {
+        height: 240px;
+    }
+
+    .workspace-item:last-child {
+        grid-column: auto;
+        width: 100%;
+    }
+
+    .trust-grid {
+        gap: 15px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .trust-pill {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .service-map-area .highlight {
+        font-size: 26px;
+    }
+
+    .final-cta-pvc {
+        padding: 60px 0;
+    }
+
+    .cta-button-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn-pvc-premium {
+        width: 100%;
+        padding: 15px 20px;
+    }
+
+    /* --- FORCE MISSION & VISION SIDE-BY-SIDE ON MOBILE --- */
+    /* Making the specific row behave as a flex container with 2 equal columns */
+    .mission-vision-section .row {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 10px;
+        margin: 0 -5px;
+        /* Negative margin to pull to edges */
+    }
+
+    .mission-vision-section .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0 5px;
+        /* Small gutters */
+        margin-bottom: 0 !important;
+    }
+
+    .mv-card {
+        height: 100%;
+        /* Equal height */
+        padding: 20px 10px;
+        /* Reduced padding */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 180px;
+        /* Force visual consistency */
+    }
+
+    .mv-icon {
+        font-size: 28px;
+        margin-bottom: 12px;
+    }
+
+    .mv-card h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    .mv-card p {
+        font-size: 11px;
+        line-height: 1.35;
+    }
+}
