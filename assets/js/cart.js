@@ -393,41 +393,31 @@ function placeRFQOnWhatsApp() {
     // ===============================
     let message =
         ` REQUEST FOR QUOTATION (RFQ)
-───────────
+──────────────────────
 * RFQ Number: ${rfqNumber}
-
 * Date: ${formattedDate}
 * Name: ${customerName}
 * City/Village: ${cityName}
 * Registered Mobile Number: ${mobileNumber}
-───────────
-Products Requested
-S.No | Product Name| Qty
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+──────────────────────
+
 
 ${productList}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Total Products : ${cart.length}
-
-Thank you.
-
-PVC Team`;
+──────────────────────
+Total Products : ${cart.length}`;
 
     const encodedMessage = encodeURIComponent(message);
 
     // ===============================
     // WHATSAPP NUMBERS
     // ===============================
-    const WHATSAPP_NUMBER_1 = "919144555566";
+    const WHATSAPP_NUMBER_1 = "9114456666";
     const WHATSAPP_NUMBER_2 = "918112456789";
 
-    const whatsappURL1 =
-        `https://wa.me/${WHATSAPP_NUMBER_1}?text=${encodedMessage}`;
+    const whatsappURL1 =`https://wa.me/${WHATSAPP_NUMBER_1}?text=${encodedMessage}`;
 
-    const whatsappURL2 =
-        `https://wa.me/${WHATSAPP_NUMBER_2}?text=${encodedMessage}`;
+    const whatsappURL2 =`https://wa.me/${WHATSAPP_NUMBER_2}?text=${encodedMessage}`;
 
     // Open first WhatsApp
     window.open(whatsappURL1, '_blank');
