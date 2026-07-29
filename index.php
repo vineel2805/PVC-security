@@ -271,9 +271,11 @@ $result = mysqli_query($con, $query);
                     ?>
                     <div class="col-6 col-md-4 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo $delay; ?>">
                         <a href="<?php echo $brandLink; ?>" class="brand-free-item">
-                            <img class="brand-free-img"
-                                 src="<?php echo htmlspecialchars(strpos($row['imagelink'], '../') === 0 ? substr($row['imagelink'], 3) : $row['imagelink']); ?>"
-                                 alt="<?php echo htmlspecialchars($row['brandname']); ?>">
+                            <div class="brand-free-img-wrapper">
+                                <img class="brand-free-img"
+                                     src="<?php echo htmlspecialchars(strpos($row['imagelink'], '../') === 0 ? substr($row['imagelink'], 3) : $row['imagelink']); ?>"
+                                     alt="<?php echo htmlspecialchars($row['brandname']); ?>">
+                            </div>
                             <h3 class="brand-free-name"><?php echo htmlspecialchars($row['brandname']); ?></h3>
                         </a>
                     </div>
@@ -303,39 +305,7 @@ $result = mysqli_query($con, $query);
 
 
 
-  .brand-free-img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-    border: 1.5px solid rgba(201,161,74,0.25);
-    border-radius: 8px;
-    filter: grayscale(15%);
-    transition: filter 0.35s ease, transform 0.35s ease;
-  }
 
-.brand-free-name {
-    font-size: 16px; /* Adjusted for readability */
-    color: #111;
-    margin-top: 10px;
-    text-align: center;
-    display: block; /* Ensures it renders below the image */
-}
-
-.brand-free-item {
-    display: flex;
-    flex-direction: column; /* Stacks image on top of name */
-    align-items: center;
-    text-decoration: none;
-}
-
-  @media (max-width: 767px) {
-
-
-    .brand-free-name {
-      font-size: 13px;
-    }
-  }
 
   /* Relocated Search Container Override in Body */
   .pvc-searchbar-wrap #pvc-search-container {

@@ -42,8 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // This fetches the password stored in the database
-    $stmt = $pdo->prepare("SELECT password_hash FROM users WHERE username = ?");
+    // This fetches the user record stored in the database
+    $stmt = $pdo->prepare("SELECT id, password_hash, profile_image FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -51,6 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user && $password == $user['password_hash']) {
         session_start();
         $_SESSION['username'] = $username;
+        $_SESSION['admin_id'] = $user['id'];
+        $_SESSION['admin_profile_image'] = $user['profile_image'];
         header("Location: brands.php"); // Redirect to your dashboard
         exit();
     } else {

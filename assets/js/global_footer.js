@@ -11,10 +11,10 @@ const PVC_FOOTER_DATA = {
     phone2: '+91 91144 67777',
     phone2Clean: '+919114467777',
     email: 'pvcsecurity@gmail.com',
-    address: 'NEAR KLM SHOPPING MALL,Bhimavaram Town - 1',
+    address: 'NEAR KLM SHOPPING MALL, MAVULLAMMA TEMPLE ROAD, Bhimavaram Town - 1',
     serviceArea: 'Andhra Pradesh & Telangana',
     whatsapp: '+919114456666',
-    workingHours: 'Mon - Sat: 10:00 AM - 8:00 PM'
+    workingHours: 'Mon - Sat: 9:00 AM - 9:00 PM'
 };
 
 function initPvcFooter() {

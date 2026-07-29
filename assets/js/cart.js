@@ -392,13 +392,13 @@ function placeRFQOnWhatsApp() {
     // WHATSAPP MESSAGE
     // ===============================
     let message =
-`🧾 REQUEST FOR QUOTATION (RFQ)
+        ` REQUEST FOR QUOTATION (RFQ)
 ───────────
 * RFQ Number: ${rfqNumber}
-* 📅 Date: ${formattedDate}
-* 👤 Name: ${customerName}
-* 📍 City/Village: ${cityName}
-* 📱 Registered Mobile Number: ${mobileNumber}
+* Date: ${formattedDate}
+* Name: ${customerName}
+* City/Village: ${cityName}
+* Registered Mobile Number: ${mobileNumber}
 ───────────
 📦 Products Requested
 ${productList}

@@ -16304,3 +16304,68 @@ html {
     background: #fdfdfd;
   }
 }
+
+/* ==========================================================================
+   HOMEPAGE BRAND SHOWCASE GRID STYLES (OPTION B IMPLEMENTATION)
+   ========================================================================== */
+
+.brand-free-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  width: 100%;
+}
+
+.brand-free-img-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #ffffff;
+  /*border: 1.5px solid rgba(201, 161, 74, 0.25);*/
+  border-radius: 8px;
+  padding: 25px;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: all 0.35s ease;
+}
+
+.brand-free-img {
+  display: block;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(15%);
+  transition: filter 0.35s ease, transform 0.35s ease;
+}
+
+.brand-free-name {
+  font-size: 16px;
+  color: #111;
+  margin-top: 10px;
+  text-align: center;
+  display: block;
+}
+
+/* Premium interactive hover states */
+.brand-free-item:hover .brand-free-img-wrapper {
+  border-color: rgba(201, 161, 74, 0.75);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(201, 161, 74, 0.15);
+}
+
+.brand-free-item:hover .brand-free-img {
+  filter: grayscale(0%);
+  transform: scale(1.04);
+}
+
+/* Responsive font-size scaling for brand names */
+@media (max-width: 767px) {
+  .brand-free-name {
+    font-size: 13px;
+  }
+}
