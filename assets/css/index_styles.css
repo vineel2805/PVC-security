@@ -910,7 +910,7 @@ body.homepage3-body {
 .contact-boxarea:hover {
     background: #fff !important;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05) !important;
-    transform: translateX(10px);
+   
 }
 
 .header-btn4 {
