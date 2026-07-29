@@ -41,23 +41,59 @@
         <!-- Left Side: User Details Form -->
         <div class="cart-form-col">
           <div class="cart-form-section">
-            <h3 class="section-title"><i class="fa-solid fa-user-circle"></i> Contact Information</h3>
+            <div class="section-title-wrapper">
+              <h3 class="section-title"><i class="fa-solid fa-user-circle"></i> Contact Information</h3>
+              <button id="editContactBtn" class="btn-edit-contact" style="display: none;">
+                <i class="fa-solid fa-pen-to-square"></i> Edit
+              </button>
+            </div>
 
-            <div class="form-row">
-              <div class="form-group">
-                <label for="mobileNumber">Registered Mobile Number <span class="required">*</span></label>
-                <input type="tel" class="form-control" id="mobileNumber" placeholder="Enter your mobile number">
+            <!-- Form Mode -->
+            <div id="contactFormMode">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="mobileNumber">Registered Mobile Number <span class="required">*</span></label>
+                  <input type="tel" class="form-control" id="mobileNumber" placeholder="Enter your mobile number">
+                </div>
+
+                <div class="form-group">
+                  <label for="customerName">Name <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="customerName" placeholder="Enter your full name">
+                </div>
               </div>
 
               <div class="form-group">
-                <label for="customerName">Name <span class="required">*</span></label>
-                <input type="text" class="form-control" id="customerName" placeholder="Enter your full name">
+                <label for="cityName">City / Village <span class="required">*</span></label>
+                <input type="text" class="form-control" id="cityName" placeholder="Enter city or village name">
+              </div>
+              <div class="form-actions text-right mt-2">
+                 <button id="saveContactBtn" class="btn-save-contact">Save Details</button>
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="cityName">City / Village <span class="required">*</span></label>
-              <input type="text" class="form-control" id="cityName" placeholder="Enter city or village name">
+            <!-- Summary Mode -->
+            <div id="contactSummaryMode" class="contact-summary" style="display: none;">
+              <div class="summary-item">
+                <div class="summary-icon"><i class="fa-solid fa-phone"></i></div>
+                <div class="summary-details">
+                  <label>Mobile Number</label>
+                  <p id="summaryMobile"></p>
+                </div>
+              </div>
+              <div class="summary-item">
+                <div class="summary-icon"><i class="fa-regular fa-user"></i></div>
+                <div class="summary-details">
+                  <label>Name</label>
+                  <p id="summaryName"></p>
+                </div>
+              </div>
+              <div class="summary-item">
+                <div class="summary-icon"><i class="fa-solid fa-location-dot"></i></div>
+                <div class="summary-details">
+                  <label>City / Village</label>
+                  <p id="summaryCity"></p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -65,33 +101,15 @@
         <!-- Right Side: Cart Summary -->
         <div class="cart-summary-col">
           <div class="cart-summary-section">
-            <h3 class="section-title"><i class="fa-solid fa-file-invoice"></i> Quote Summary</h3>
-
-            <!-- Cart Items -->
-            <div id="cartItemsContainer" class="cart-items-list">
-              <!-- Cart items will be dynamically inserted here -->
+            <div class="cart-summary-header">
+               <h3 class="section-title"><i class="fa-solid fa-file-invoice"></i> Quote Summary <span id="headerItemCount">(0 Items)</span></h3>
             </div>
 
-            <!-- Cart Summary Totals -->
-            <div class="cart-totals">
-              <div class="cart-total-row">
-                <span>Items:</span>
-                <span id="cartItemCount">0</span>
+            <!-- Scrollable Cart Items Area -->
+            <div class="cart-items-scroll-area">
+              <div id="cartItemsContainer" class="cart-items-list">
+                <!-- Cart items will be dynamically inserted here -->
               </div>
-              <div class="cart-shipping-note">
-                <i class="fa-solid fa-info-circle"></i>
-                <p>Shipping cost will be calculated and added to your final quotation</p>
-              </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="cart-actions">
-              <button id="placeRFQBtn" class="btn-place-rfq" disabled>
-                <i class="fa-brands fa-whatsapp"></i> Place RFQ on WhatsApp
-              </button>
-              <a href="all-products.php" class="btn-continue-shopping">
-                <i class="fa-solid fa-arrow-left"></i> Continue Shopping
-              </a>
             </div>
           </div>
 
@@ -107,6 +125,32 @@
       </div>
     </div>
   </section>
+
+  <!-- Sticky Bottom Action Bar -->
+  <div class="cart-sticky-footer">
+    <div class="container">
+      <div class="sticky-footer-content">
+        <div class="cart-shipping-note">
+          <i class="fa-solid fa-info-circle"></i>
+          <p>Shipping cost will be calculated and added to your final quotation</p>
+        </div>
+        <div class="sticky-footer-actions">
+          <div class="sticky-totals">
+            <span class="total-label">Total Products</span>
+            <span id="cartItemCount" class="total-count">0 Items</span>
+          </div>
+          <div class="sticky-buttons">
+            <button id="placeRFQBtn" class="btn-place-rfq" disabled>
+              <i class="fa-brands fa-whatsapp"></i> Place RFQ on WhatsApp
+            </button>
+            <a href="all-products.php" class="btn-continue-shopping">
+              <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!--===== GLOBAL FOOTER COMPONENT =======-->
   <script src="assets/js/global_footer.js"></script>
@@ -140,8 +184,15 @@
         var nameInput = document.getElementById('customerName');
         var cityInput = document.getElementById('cityName');
         var rfqBtn = document.getElementById('placeRFQBtn');
-
-        if (!mobileInput || !nameInput || !cityInput || !rfqBtn) return;
+        
+        var editBtn = document.getElementById('editContactBtn');
+        var saveBtn = document.getElementById('saveContactBtn');
+        var formMode = document.getElementById('contactFormMode');
+        var summaryMode = document.getElementById('contactSummaryMode');
+        
+        var summaryMobile = document.getElementById('summaryMobile');
+        var summaryName = document.getElementById('summaryName');
+        var summaryCity = document.getElementById('summaryCity');
 
         function checkFormFilled() {
           var filled =
@@ -149,16 +200,62 @@
             nameInput.value.trim() !== '' &&
             cityInput.value.trim() !== '';
 
-          rfqBtn.disabled = !filled;
-          rfqBtn.classList.toggle('is-disabled', !filled);
+          if(rfqBtn) {
+              rfqBtn.disabled = !filled;
+              rfqBtn.classList.toggle('is-disabled', !filled);
+          }
+          return filled;
         }
 
-        [mobileInput, nameInput, cityInput].forEach(function (input) {
-          input.addEventListener('input', checkFormFilled);
-        });
+        function toggleContactMode(isEdit) {
+            if(isEdit) {
+                formMode.style.display = 'block';
+                summaryMode.style.display = 'none';
+                editBtn.style.display = 'none';
+            } else {
+                if(checkFormFilled()) {
+                    summaryMobile.textContent = mobileInput.value.trim();
+                    summaryName.textContent = nameInput.value.trim();
+                    summaryCity.textContent = cityInput.value.trim();
+                    
+                    formMode.style.display = 'none';
+                    summaryMode.style.display = 'flex';
+                    editBtn.style.display = 'inline-flex';
+                }
+            }
+        }
 
-        // Run once on load in case fields are pre-filled (e.g. browser autofill)
-        checkFormFilled();
+        if (mobileInput && nameInput && cityInput) {
+            [mobileInput, nameInput, cityInput].forEach(function (input) {
+              input.addEventListener('input', checkFormFilled);
+            });
+            
+            if(saveBtn) {
+                saveBtn.addEventListener('click', function() {
+                    if(checkFormFilled()) {
+                        toggleContactMode(false);
+                    } else {
+                        alert("Please fill all required fields.");
+                    }
+                });
+            }
+            
+            if(editBtn) {
+                editBtn.addEventListener('click', function() {
+                    toggleContactMode(true);
+                });
+            }
+
+            // Run once on load
+            checkFormFilled();
+            
+            // Auto switch to summary if pre-filled via browser (timeout to allow autofill)
+            setTimeout(function() {
+                if(checkFormFilled()) {
+                    toggleContactMode(false);
+                }
+            }, 500);
+        }
       });
     })();
   </script>

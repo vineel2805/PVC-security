@@ -382,10 +382,10 @@ function placeRFQOnWhatsApp() {
     // ===============================
     // PRODUCT LIST
     // ===============================
-    let productList = '';
+    let productList = "";
 
-    cart.forEach(item => {
-        productList += `• ${item.quantity} × ${item.name}\n`;
+    cart.forEach((item, index) => {
+        productList += `${index + 1}. ${item.name} × ${item.quantity}\n`;
     });
 
     // ===============================
@@ -395,14 +395,25 @@ function placeRFQOnWhatsApp() {
         ` REQUEST FOR QUOTATION (RFQ)
 ───────────
 * RFQ Number: ${rfqNumber}
+
 * Date: ${formattedDate}
 * Name: ${customerName}
 * City/Village: ${cityName}
 * Registered Mobile Number: ${mobileNumber}
 ───────────
-📦 Products Requested
+Products Requested
+S.No | Product Name| Qty
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 ${productList}
-───────────`;
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Total Products : ${cart.length}
+
+Thank you.
+
+PVC Team`;
 
     const encodedMessage = encodeURIComponent(message);
 
