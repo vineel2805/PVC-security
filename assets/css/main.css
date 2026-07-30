@@ -8177,11 +8177,11 @@ img {
 /*============= HEADER CSS AREA ===============*/
 .homepage1-body,
 html {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
 }
 
 .homepage1-body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .homepage1-body .header-area.homepage1.single-page1 nav#navbar-example2 {
@@ -8551,11 +8551,11 @@ html {
 
 .homepage2-body,
 html {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
 }
 
 .homepage2-body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .homepage2-body .header-area.homepage2.single-page2 nav#navbar-example2 {
@@ -8941,11 +8941,11 @@ html {
 
 .homepage3-body,
 html {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
 }
 
 .homepage3-body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .homepage3-body .header-area.homepage3.single-page3 nav#navbar-example2 {
@@ -9300,11 +9300,11 @@ html {
 
 .homepage4-body,
 html {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
 }
 
 .homepage4-body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .homepage4-body .header-area.homepage4.single-page4 nav#navbar-example2 {

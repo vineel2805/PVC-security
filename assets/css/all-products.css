@@ -321,9 +321,9 @@
     flex-direction: column;
     box-sizing: border-box;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.4s ease;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s ease;
 }
 
 .product-card:hover {
@@ -342,7 +342,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    
+
     border-radius: 12px;
     position: relative;
     padding: 16px;
@@ -467,10 +467,12 @@
         transform: scale(1);
         box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7);
     }
+
     70% {
         transform: scale(1.15);
         box-shadow: 0 0 0 5px rgba(39, 174, 96, 0);
     }
+
     100% {
         transform: scale(1);
         box-shadow: 0 0 0 0 rgba(39, 174, 96, 0);
@@ -519,9 +521,9 @@
     letter-spacing: 1px;
     cursor: pointer;
     box-shadow: 0 4px 14px rgba(192, 152, 83, 0.2);
-    transition: background-color 0.3s, 
-                transform 0.2s, 
-                box-shadow 0.3s;
+    transition: background-color 0.3s,
+        transform 0.2s,
+        box-shadow 0.3s;
 }
 
 .card-cart-add:hover {
@@ -1047,4 +1049,648 @@
 
         padding: 6px 4px 10px;
     }
+}
+
+/* =====================================================================
+   card-fix.css content — unchanged from your version, plus a tiny
+   loading-state rule so the AJAX swap dims instead of collapsing.
+   ===================================================================== */
+
+/* Breathing room between the site header/nav and the page content.
+   Mobile is left untouched — this is a desktop-only spacing fix. */
+@media (min-width: 768px) {
+    .all-products-breadcrumb {
+        margin-top: 28px;
+    }
+
+    .all-products-section {
+        margin-top: 32px;
+    }
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+@media (max-width: 767px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 380px) {
+    .products-grid {
+        gap: 8px;
+    }
+}
+
+#productsGridWrap.is-loading {
+    opacity: 0.45;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
+.products-grid .product-card {
+    background: #ffffff;
+    border: 1px solid #ececec;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    height: 100%;
+}
+
+.products-grid .product-card:hover,
+.products-grid .product-card:hover .product-image,
+.products-grid .product-card:hover .product-info {
+    background: #ffffff !important;
+}
+
+.products-grid .product-card:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+    transform: translateY(-2px);
+}
+
+.products-grid .product-image {
+    background: #ffffff;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.products-grid .product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    mix-blend-mode: normal;
+}
+
+.products-grid .product-info {
+    background: #ffffff;
+    padding: 10px 12px 8px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 5px;
+}
+
+.products-grid .product-title {
+    color: #1a1a1a !important;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.35;
+    margin: 0;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.products-grid .product-description {
+    color: #878787 !important;
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 0;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.products-grid .product-status-badge {
+    display: inline-block;
+    width: fit-content;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.products-grid .product-status-badge.in-stock {
+    color: #157347 !important;
+    background: #e6f6ec;
+}
+
+.products-grid .product-status-badge.out-of-stock {
+    color: #b02a37 !important;
+    background: #fbe7e9;
+}
+
+.products-grid .out-of-stock-card {
+    opacity: 0.75;
+}
+
+.products-grid .product-card-controls {
+    margin-top: auto;
+}
+
+.products-grid.tiles-view .product-card {
+    text-align: center;
+}
+
+.products-grid.tiles-view .product-image {
+    aspect-ratio: 4 / 3;
+}
+
+.products-grid.tiles-view .product-info {
+    align-items: center;
+    text-align: center;
+    padding: 14px 12px 16px;
+}
+
+.products-grid.tiles-view .product-title {
+    -webkit-line-clamp: 2;
+    text-align: center;
+}
+
+.no-products-found {
+    color: #4a4a4a !important;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.no-products-found h3 {
+    color: #1a1a1a !important;
+}
+
+/* =====================================================================
+   Category page live search — light theme suited to sidebar/products,
+   now with a pill-shaped bar, glow-on-focus, animated icon/clear
+   button, and a fade/slide-in results dropdown.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------
+   Toolbar shell.
+   Mobile:  search full-width row, then Filter+Sort pills below.
+   Desktop: search + results-count + sort all sit in one inline row.
+   --------------------------------------------------------------- */
+.products-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.toolbar-controls-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.results-count {
+    display: flex;
+    align-items: center;
+    font-size: 13.5px;
+    color: #6b6b6b;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.results-count span {
+    color: #1a1a1a;
+    font-weight: 800;
+    margin-right: 3px;
+}
+
+/* Desktop: plain "Filter" button hidden, sort sits as a clean dropdown */
+.mobile-filter-toggle {
+    display: none;
+}
+
+.sort-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+    height: 44px;
+    box-sizing: border-box;
+    border: 1.5px solid #e6e6e6;
+    border-radius: 10px;
+    background: #ffffff;
+    padding: 0 14px;
+    transition: border-color 0.2s ease;
+}
+
+.sort-wrapper:focus-within {
+    border-color: var(--pvc-gold-mid, #d4af37);
+}
+
+.sort-wrapper label {
+    font-size: 13px;
+    color: #6b6b6b;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.sort-icon {
+    color: var(--pvc-gold-mid, #d4af37);
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.sort-chevron {
+    display: none;
+    color: #9a9a9a;
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+.sort-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a1a;
+    cursor: pointer;
+}
+
+.sidebar-backdrop {
+    display: none;
+}
+
+.product-sidebar-header {
+    display: none;
+}
+
+.sidebar-close-btn {
+    border: none;
+    background: none;
+    font-size: 18px;
+    color: #6b6b6b;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+/* ---------------------------------------------------------------
+   Mobile: filter + sort become equal-height, equal-width pill
+   buttons in a row; sidebar becomes an off-canvas panel with a
+   backdrop; search bar spans full width above the controls row.
+   --------------------------------------------------------------- */
+@media (max-width: 767px) {
+
+    .toolbar-controls-row {
+        gap: 10px;
+    }
+
+    .mobile-filter-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex: 1;
+        height: 44px;
+        box-sizing: border-box;
+        border: 1.5px solid #e6e6e6;
+        border-radius: 10px;
+        padding: 0 12px;
+        background: #ffffff;
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #1a1a1a;
+        cursor: pointer;
+        transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .mobile-filter-toggle:active {
+        background: #faf7ef;
+        border-color: var(--pvc-gold-mid, #d4af37);
+    }
+
+    .mobile-filter-toggle i {
+        color: var(--pvc-gold-mid, #d4af37);
+        font-size: 14px;
+    }
+
+    .results-count {
+        display: none;
+    }
+
+    .sort-wrapper {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .sort-wrapper:active {
+        border-color: var(--pvc-gold-mid, #d4af37);
+    }
+
+    .sort-select {
+        flex: 1;
+        text-align: center;
+        padding-right: 2px;
+    }
+
+    .sort-chevron {
+        display: inline-block;
+    }
+
+    /* Off-canvas sidebar */
+    .product-sidebar-wrapper {
+        position: static;
+    }
+
+    .product-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 82%;
+        max-width: 320px;
+        background: #ffffff;
+        z-index: 999999;
+        padding: 0 18px 18px;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 8px 0 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-sidebar.active {
+        transform: translateX(0);
+    }
+
+    .product-sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: 0 -18px 8px;
+        padding: 18px 18px 14px;
+        background: #ffffff;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+        z-index: 2;
+    }
+
+    .product-sidebar-header h4 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 800;
+        color: #1a1a1a;
+    }
+
+    .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 999998;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .sidebar-backdrop.active {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.cat-search-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+}
+
+/* Desktop: search sits inline on the same row as results-count/sort,
+   instead of stacked as a full-width block above them. */
+@media (min-width: 768px) {
+    .products-toolbar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .cat-search-wrap {
+        max-width: 320px;
+        flex: 1 1 320px;
+    }
+
+    .toolbar-controls-row {
+        flex: 0 0 auto;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .cat-search-wrap {
+        max-width: 100%;
+    }
+}
+
+.cat-search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 46px;
+    box-sizing: border-box;
+    background: #f6f6f6;
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    padding: 0 16px;
+    transition: border-color 0.25s ease, background 0.25s ease,
+}
+
+.cat-search-box:hover {
+    background: #f1f1f1;
+}
+
+.cat-search-box:focus-within {
+    background: #ffffff;
+    border-color: var(--pvc-gold-mid, #d4af37);
+
+    transform: translateY(-1px);
+}
+
+.cat-search-icon {
+    color: #9a9a9a;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.cat-search-box:focus-within .cat-search-icon {
+    color: var(--pvc-gold-mid, #d4af37);
+    transform: scale(1.1);
+}
+
+.cat-search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: transparent;
+    height: 100%;
+}
+
+.cat-search-input::placeholder {
+    color: #a3a3a3;
+    transition: color 0.25s ease;
+}
+
+.cat-search-box:focus-within .cat-search-input::placeholder {
+    color: #c2c2c2;
+}
+
+.cat-search-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 50%;
+    background: #e9e9e9;
+    color: #7a7a7a;
+    cursor: pointer;
+    font-size: 11px;
+    flex-shrink: 0;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.cat-search-clear:hover {
+    background: var(--pvc-gold-mid, #d4af37);
+    color: #ffffff;
+    transform: rotate(90deg);
+}
+
+.cat-search-results {
+    display: block;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ececec;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    max-height: 360px;
+    overflow-y: auto;
+    z-index: 500;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.cat-search-results.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.cat-search-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9a9a9a;
+    padding: 10px 14px 4px;
+}
+
+.cat-search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    text-decoration: none;
+    color: #1a1a1a;
+    cursor: pointer;
+    transition: background 0.15s ease, padding-left 0.15s ease;
+}
+
+.cat-search-result-item:hover {
+    background: #faf7ef;
+    padding-left: 18px;
+}
+
+.cat-search-result-item img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+    flex-shrink: 0;
+    background: #fff;
+}
+
+.cat-search-result-name {
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.cat-search-result-brand {
+    font-size: 11.5px;
+    color: #9a9a9a;
+}
+
+.cat-search-result-item.cat-only i {
+    color: var(--pvc-gold-mid, #d4af37);
+    width: 34px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.cat-search-no-results {
+    padding: 16px 14px;
+    font-size: 13px;
+    color: #9a9a9a;
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    .cat-search-results {
+        left: 0;
+        right: 0;
+    }
+}
+
+/* Make the toolbar sticky globally so it stays visible while scrolling the grid */
+.products-toolbar {
+    position: sticky;
+    top: 50;
+    z-index: 100;
+    background: #fff;
+    padding-top: 15px;
+    margin-top: -15px;
+    padding-bottom: 10px;
+}
+
+/* Ensure the content area does not have overflow hidden, which breaks sticky */
+.products-content-area {
+    overflow: visible !important;
 }

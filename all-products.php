@@ -534,10 +534,10 @@ include 'header.php';
     <link rel="stylesheet" href="assets/css/plugins/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/plugins/fontawesome.css">
     <link rel="stylesheet" href="assets/css/plugins/aos.css">
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/header_styles.css">
+    <link rel="stylesheet" href="assets/css/main.css?v=1785408043">
+    <link rel="stylesheet" href="assets/css/header_styles.css?v=1785408043">
     <link rel="stylesheet" href="assets/css/products_styles.css">
-    <link rel="stylesheet" href="assets/css/all-products.css">
+    <link rel="stylesheet" href="assets/css/all-products.css?v=1785408043">
     <link rel="stylesheet" href="assets/css/cart_styles.css">
     <link rel="stylesheet" href="assets/css/card-fix.css">
 
@@ -566,11 +566,13 @@ include 'header.php';
             <div class="col-lg-3 col-md-4">
                 <div class="product-sidebar-wrapper">
 
-                    <button class="mobile-filter-toggle d-md-none" id="mobileFilterToggle">
-                        <i class="fa-solid fa-filter"></i> Filters
-                    </button>
-
                     <div class="product-sidebar" id="productSidebar">
+                        <div class="product-sidebar-header d-md-none">
+                            <h4>Filters</h4>
+                            <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close filters">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
 
                         <div class="filter-widget">
                             <label class="filter-checkbox-label">
@@ -623,19 +625,52 @@ include 'header.php';
                 <div class="products-content-area">
 
                     <!-- Top Bar -->
-                    <div class="products-top-bar">
-                        <div class="results-count" id="resultsCount">
-                            <?php echo renderResultsCount($viewMode, $brandCategoryTiles, $totalRows); ?>
+                    <div class="products-toolbar">
+
+                        <!-- Category Page Search -->
+                        <div class="cat-search-wrap">
+                            <div class="cat-search-box" id="catSearchBox">
+                                <i class="fa-solid fa-magnifying-glass cat-search-icon"></i>
+                                <input type="text"
+                                       id="catSearchInput"
+                                       class="cat-search-input"
+                                       placeholder="Search products or categories..."
+                                       autocomplete="off">
+                                <button type="button" class="cat-search-clear" id="catSearchClear" style="display:none;">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div class="cat-search-results" id="catSearchResults"></div>
                         </div>
-                        <div class="sort-wrapper" id="sortWrapper" style="<?php echo $viewMode === 'products' ? '' : 'display:none;'; ?>">
-                            <label>Sort By</label>
-                            <select id="sortSelect" class="sort-select">
-                                <option value="default">Default (Name: A to Z)</option>
-                                <option value="name-asc">Name: A to Z</option>
-                                <option value="name-desc">Name: Z to A</option>
-                            </select>
+
+                        <!-- Filter / Results / Sort row -->
+                        <div class="toolbar-controls-row">
+
+                            <button class="mobile-filter-toggle d-md-none" id="mobileFilterToggle">
+                                <i class="fa-solid fa-sliders"></i>
+                                <span>Filter</span>
+                            </button>
+
+                            <div class="results-count" id="resultsCount">
+                                <?php echo renderResultsCount($viewMode, $brandCategoryTiles, $totalRows); ?>
+                            </div>
+
+                            <div class="sort-wrapper" id="sortWrapper">
+                                <i class="fa-solid fa-arrow-up-short-wide sort-icon"></i>
+                                <label class="d-none d-md-inline">Sort By</label>
+                                <select id="sortSelect" class="sort-select">
+                                    <option value="default">Default</option>
+                                    <option value="name-asc">Name: A to Z</option>
+                                    <option value="name-desc">Name: Z to A</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down sort-chevron d-md-none"></i>
+                            </div>
+
                         </div>
                     </div>
+
+                    <!-- Mobile sidebar overlay backdrop -->
+                    <div class="sidebar-backdrop d-md-none" id="sidebarBackdrop"></div>
 
                     <!-- Back button -->
                     <div id="backButtonWrap"><?php echo renderBackButton($brandRow, $catRow, $selectedCatName); ?></div>
@@ -658,6 +693,7 @@ include 'header.php';
 <script src="assets/js/main.js"></script>
 <script src="assets/js/cart.js"></script>
 <script src="assets/js/global_footer.js"></script>
+<script src="assets/js/catalog-search.js"></script>
 
 <script>
 /* ===================================================================
@@ -769,13 +805,38 @@ document.getElementById('clearFilters').addEventListener('click', function(e) {
     loadProducts('all-products.php');
 });
 
-const mobileToggle = document.getElementById('mobileFilterToggle');
-const sidebar      = document.getElementById('productSidebar');
-if (mobileToggle && sidebar) {
-    mobileToggle.addEventListener('click', function() {
-        sidebar.classList.toggle('active');
-    });
+const mobileToggle  = document.getElementById('mobileFilterToggle');
+const sidebar       = document.getElementById('productSidebar');
+const sidebarClose  = document.getElementById('sidebarCloseBtn');
+const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+function openMobileSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.add('active');
+    if (sidebarBackdrop) sidebarBackdrop.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
+
+function closeMobileSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.remove('active');
+    if (sidebarBackdrop) sidebarBackdrop.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+if (mobileToggle && sidebar) {
+    mobileToggle.addEventListener('click', openMobileSidebar);
+}
+if (sidebarClose) {
+    sidebarClose.addEventListener('click', closeMobileSidebar);
+}
+if (sidebarBackdrop) {
+    sidebarBackdrop.addEventListener('click', closeMobileSidebar);
+}
+// Selecting a brand filter on mobile should close the sidebar too
+document.querySelectorAll('#brandFilters .filter-checkbox-label').forEach(function(label) {
+    label.addEventListener('click', closeMobileSidebar);
+});
 
 // NAME-ORDER: "default" now behaves the same as "name-asc" instead of
 // being a no-op, so the grid is always in naming order unless the
@@ -855,164 +916,7 @@ document.addEventListener('click', function(e) {
 if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
 </script>
 
-<style>
-/* =====================================================================
-   card-fix.css content — unchanged from your version, plus a tiny
-   loading-state rule so the AJAX swap dims instead of collapsing.
-   ===================================================================== */
 
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 16px;
-}
-
-#productsGridWrap.is-loading {
-    opacity: 0.45;
-    pointer-events: none;
-    transition: opacity 0.15s ease;
-}
-
-.products-grid .product-card {
-    background: #ffffff;
-    border: 1px solid #ececec;
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-    height: 100%;
-}
-
-.products-grid .product-card:hover,
-.products-grid .product-card:hover .product-image,
-.products-grid .product-card:hover .product-info {
-    background: #ffffff !important;
-}
-
-.products-grid .product-card:hover {
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
-    transform: translateY(-2px);
-}
-
-.products-grid .product-image {
-    background: #ffffff;
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 14px;
-    box-sizing: border-box;
-    border-bottom: 1px solid #f2f2f2;
-}
-
-.products-grid .product-image img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    mix-blend-mode: normal;
-}
-
-.products-grid .product-info {
-    background: #ffffff;
-    padding: 10px 12px 8px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    gap: 5px;
-}
-
-.products-grid .product-title {
-    color: #1a1a1a !important;
-    font-size: 13.5px;
-    font-weight: 500;
-    line-height: 1.35;
-    margin: 0;
-    text-align: left;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.products-grid .product-description {
-    color: #878787 !important;
-    font-size: 12px;
-    line-height: 1.4;
-    margin: 0;
-    text-align: left;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.products-grid .product-status-badge {
-    display: inline-block;
-    width: fit-content;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    padding: 3px 10px;
-    border-radius: 999px;
-}
-
-.products-grid .product-status-badge.in-stock {
-    color: #157347 !important;
-    background: #e6f6ec;
-}
-
-.products-grid .product-status-badge.out-of-stock {
-    color: #b02a37 !important;
-    background: #fbe7e9;
-}
-
-.products-grid .out-of-stock-card {
-    opacity: 0.75;
-}
-
-.products-grid .product-card-controls {
-    margin-top: auto;
-}
-
-.products-grid.tiles-view .product-card {
-    text-align: center;
-}
-
-.products-grid.tiles-view .product-image {
-    aspect-ratio: 4 / 3;
-}
-
-.products-grid.tiles-view .product-info {
-    align-items: center;
-    text-align: center;
-    padding: 14px 12px 16px;
-}
-
-.products-grid.tiles-view .product-title {
-    -webkit-line-clamp: 2;
-    text-align: center;
-}
-
-.no-products-found {
-    color: #4a4a4a !important;
-    text-align: center;
-    padding: 60px 20px;
-}
-
-.no-products-found h3 {
-    color: #1a1a1a !important;
-}
-</style>
 
 </body>
 </html>
