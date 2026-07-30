@@ -392,7 +392,7 @@ function placeRFQOnWhatsApp() {
     // WHATSAPP MESSAGE
     // ===============================
     let message =
-        ` REQUEST FOR QUOTATION (RFQ)
+        `
 ──────────────────────
 * RFQ Number: ${rfqNumber}
 * Date: ${formattedDate}
@@ -415,9 +415,9 @@ Total Products : ${cart.length}`;
     const WHATSAPP_NUMBER_1 = "9114456666";
     const WHATSAPP_NUMBER_2 = "918112456789";
 
-    const whatsappURL1 =`https://wa.me/${WHATSAPP_NUMBER_1}?text=${encodedMessage}`;
+    const whatsappURL1 = `https://wa.me/${WHATSAPP_NUMBER_1}?text=${encodedMessage}`;
 
-    const whatsappURL2 =`https://wa.me/${WHATSAPP_NUMBER_2}?text=${encodedMessage}`;
+    const whatsappURL2 = `https://wa.me/${WHATSAPP_NUMBER_2}?text=${encodedMessage}`;
 
     // Open first WhatsApp
     window.open(whatsappURL1, '_blank');
