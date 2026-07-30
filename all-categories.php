@@ -1,21 +1,5 @@
 <?php
-/*
- * all-categories.php
- * ------------------------------------------------------------------
- * Same conversion as all-products.php, with one extra step: in your
- * original file, <!DOCTYPE html><head>...</head><body> was already
- * printed BEFORE any PHP ran (connect.php, the queries, etc. were
- * included inside <body>). That meant there was no way to bail out
- * with a clean JSON response for AJAX — the doctype/head/body-open
- * would already be sent.
- *
- * So here the data-loading block (params, sidebarCats, brandRow,
- * catRow, viewMode, products, tiles) has been moved ABOVE the
- * <!DOCTYPE html> line, same as all-products.php. Everything it does
- * is otherwise identical to your original — same queries, same
- * merge/normalize logic for category names, same view-mode branches.
- * ------------------------------------------------------------------
- */
+
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -37,7 +21,77 @@ function db_image($path, $defaultImg) {
 }
 
 /* ===================================================================
-   DATA LOADING — identical logic to your original file
+   LIVE SEARCH — separate from the category ajax branch below.
+   Searches products by name, and category names, returns JSON.
+   =================================================================== */
+if (isset($_GET['live_search'])) {
+    header('Content-Type: application/json');
+
+    $term = trim($_GET['live_search'] ?? '');
+    if ($term === '' || mb_strlen($term) < 2) {
+        echo json_encode(['products' => [], 'categories' => []]);
+        exit;
+    }
+
+    $termEscaped = mysqli_real_escape_string($con, $term);
+    $like        = "%{$termEscaped}%";
+    $likeEscaped = mysqli_real_escape_string($con, $like);
+
+    // Matching products
+    $products = [];
+    $pRes = mysqli_query($con, "
+        SELECT p.pid, p.pname, p.pimage, b.brandname
+        FROM   products p
+        JOIN   brands   b ON b.brandid = p.brandid
+        WHERE  p.pname LIKE '$likeEscaped'
+          AND  p.display_status = 1
+          AND  b.status = 'Active'
+          AND  b.display_status = 1
+        ORDER BY p.pname ASC
+        LIMIT 6
+    ");
+    if ($pRes) {
+        while ($row = mysqli_fetch_assoc($pRes)) {
+            $products[] = [
+                'id'    => $row['pid'],
+                'name'  => $row['pname'],
+                'brand' => $row['brandname'],
+                'image' => db_image($row['pimage'] ?? '', $defaultImg),
+                'url'   => 'product-details.php?id=' . urlencode($row['pid']),
+            ];
+        }
+    }
+
+    // Matching categories
+    $categories = [];
+    $cRes = mysqli_query($con, "
+        SELECT DISTINCT TRIM(cat.cname) AS cname
+        FROM   category cat
+        WHERE  cat.cname LIKE '$likeEscaped'
+          AND  cat.display_status = 1
+          AND  EXISTS (
+                SELECT 1 FROM products p
+                WHERE p.pcat = cat.cid AND p.display_status = 1
+              )
+        ORDER BY cat.cname ASC
+        LIMIT 5
+    ");
+    if ($cRes) {
+        while ($row = mysqli_fetch_assoc($cRes)) {
+            $categories[] = [
+                'name' => $row['cname'],
+                'url'  => 'all-categories.php?catname=' . urlencode($row['cname']),
+            ];
+        }
+    }
+
+    echo json_encode(['products' => $products, 'categories' => $categories]);
+    exit;
+}
+
+/* ===================================================================
+   DATA LOADING — identical logic to your original file, minus the
+   status = 'Active' filters (see note above)
    =================================================================== */
 
 $selectedBrand   = isset($_GET['brand'])   ? trim($_GET['brand'])   : '';
@@ -59,7 +113,7 @@ $sidebarCatRes = mysqli_query($con, "
     WHERE  cat.display_status = 1
       AND  EXISTS (
             SELECT 1 FROM products p
-            WHERE p.pcat = cat.cid AND p.status = 'Active' AND p.display_status = 1
+            WHERE p.pcat = cat.cid AND p.display_status = 1
           )
     GROUP  BY key_name
     ORDER  BY key_name ASC
@@ -134,7 +188,6 @@ if (!empty($selectedCatNameEscaped)) {
             JOIN     brands   b ON b.brandid = p.brandid
             JOIN     category c ON c.cid     = p.pcat
             WHERE    p.pcat   IN ($inList)
-              AND    p.status = 'Active'
               AND    p.display_status = 1
               AND    b.status = 'Active'
               AND    b.display_status = 1
@@ -160,7 +213,6 @@ if (!empty($selectedCatNameEscaped)) {
         JOIN     brands   b ON b.brandid = p.brandid
         JOIN     category c ON c.cid     = p.pcat
         WHERE    p.pcat   = '{$catRow['cid']}'
-          AND    p.status = 'Active'
           AND    p.display_status = 1
           AND    b.status = 'Active'
           AND    b.display_status = 1
@@ -182,7 +234,7 @@ if (!empty($selectedCatNameEscaped)) {
           AND  display_status = 1
           AND  EXISTS (
                 SELECT 1 FROM products p
-                WHERE p.pcat = category.cid AND p.status = 'Active' AND p.display_status = 1
+                WHERE p.pcat = category.cid AND p.display_status = 1
               )
         ORDER  BY cname ASC
     ");
@@ -202,7 +254,7 @@ if (!empty($selectedCatNameEscaped)) {
           AND  b.display_status = 1
           AND  EXISTS (
                 SELECT 1 FROM products p
-                WHERE p.pcat = c.cid AND p.status = 'Active' AND p.display_status = 1
+                WHERE p.pcat = c.cid AND p.display_status = 1
               )
         ORDER  BY UPPER(c.cname) ASC, b.brandname ASC
     ");
@@ -281,10 +333,11 @@ function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products
     <div class="products-grid" id="productsGrid">
         <?php if ($totalRows > 0): ?>
             <?php foreach ($products as $product):
-                $imgSrc   = htmlspecialchars(db_image($product['pimage'] ?? '', $defaultImg));
-                $priceVal = isset($product['price']) ? $product['price'] : 0;
+                $imgSrc       = htmlspecialchars(db_image($product['pimage'] ?? '', $defaultImg));
+                $priceVal     = isset($product['price']) ? $product['price'] : 0;
+                $isOutOfStock = is_product_out_of_stock($product);
             ?>
-            <div class="product-card"
+            <div class="product-card<?php echo $isOutOfStock ? ' out-of-stock-card' : ''; ?>"
                  data-name="<?php echo htmlspecialchars($product['pname']); ?>"
                  data-category="<?php echo htmlspecialchars($product['cat_display'] ?? ''); ?>"
                  data-product-id="<?php echo htmlspecialchars($product['pid']); ?>"
@@ -305,7 +358,7 @@ function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products
                         <?php echo htmlspecialchars($product['pname']); ?>
                     </p>
 
-                    <?php if (is_product_out_of_stock($product)): ?>
+                    <?php if ($isOutOfStock): ?>
                         <span class="product-status-badge out-of-stock">OUT OF STOCK</span>
                     <?php else: ?>
                         <span class="product-status-badge in-stock">IN-STOCK</span>
@@ -319,7 +372,7 @@ function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products
                 </div>
 
                 <div class="product-card-controls">
-                    <?php if (is_product_out_of_stock($product)): ?>
+                    <?php if ($isOutOfStock): ?>
                         <button class="btn out-of-stock-label" disabled>Out of Stock</button>
                     <?php else: ?>
                         <button class="card-cart-add"
@@ -449,7 +502,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
         'backButtonHtml'   => renderBackButton($viewMode, $brandRow, $catRow),
         'breadcrumbHtml'   => renderBreadcrumb($brandRow, $catRow, $selectedCatName),
         'resultsCountHtml' => renderResultsCount($viewMode, $brandCategoryTiles, $totalRows, $selectedCatName),
-        'showSort'         => in_array($viewMode, ['products', 'products_named']),
+        'showSort'         => true,
         'pageTitle'        => $pageTitle,
         'activeCatName'    => $selectedCatName,
     ]);
@@ -503,11 +556,13 @@ include 'header.php';
             <div class="col-lg-3 col-md-4">
                 <div class="product-sidebar-wrapper">
 
-                    <button class="mobile-filter-toggle d-md-none" id="mobileFilterToggle">
-                        <i class="fa-solid fa-filter"></i> Filters
-                    </button>
-
                     <div class="product-sidebar" id="productSidebar">
+                        <div class="product-sidebar-header d-md-none">
+                            <h4>Filters</h4>
+                            <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close filters">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
 
                         <div class="filter-widget">
                             <h4>Shop by Category</h4>
@@ -550,20 +605,54 @@ include 'header.php';
                 <div class="products-content-area">
 
                     <!-- Top Bar -->
-                    <div class="products-top-bar">
-                        <div class="results-count" id="resultsCount">
-                            <?php echo renderResultsCount($viewMode, $brandCategoryTiles, $totalRows, $selectedCatName); ?>
+                    <div class="products-toolbar">
+
+                        <!-- Category Page Search -->
+                        <div class="cat-search-wrap">
+                            <div class="cat-search-box" id="catSearchBox">
+                                <i class="fa-solid fa-magnifying-glass cat-search-icon"></i>
+                                <input type="text"
+                                       id="catSearchInput"
+                                       class="cat-search-input"
+                                       placeholder="Search products or categories..."
+                                       autocomplete="off">
+                                <button type="button" class="cat-search-clear" id="catSearchClear" style="display:none;">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div class="cat-search-results" id="catSearchResults"></div>
                         </div>
-                        <div class="sort-wrapper" id="sortWrapper"
-                             style="<?php echo in_array($viewMode, ['products', 'products_named']) ? '' : 'display:none;'; ?>">
-                            <label>Sort By</label>
-                            <select id="sortSelect" class="sort-select">
-                                <option value="default">Default</option>
-                                <option value="name-asc">Name: A to Z</option>
-                                <option value="name-desc">Name: Z to A</option>
-                            </select>
+
+                        <!-- Filter / Results / Sort row -->
+                        <div class="toolbar-controls-row">
+
+                            <button class="mobile-filter-toggle d-md-none" id="mobileFilterToggle">
+                                <i class="fa-solid fa-sliders"></i>
+                                <span>Filter</span>
+                            </button>
+
+                            <div class="results-count" id="resultsCount">
+                                <?php echo renderResultsCount($viewMode, $brandCategoryTiles, $totalRows, $selectedCatName); ?>
+                            </div>
+
+                            <div class="sort-wrapper" id="sortWrapper">
+                                <i class="fa-solid fa-arrow-up-short-wide sort-icon"></i>
+                                <label class="d-none d-md-inline">Sort By</label>
+                                <select id="sortSelect" class="sort-select">
+                                    <option value="default">Default</option>
+                                    <option value="name-asc">Name: A to Z</option>
+                                    <option value="name-desc">Name: Z to A</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down sort-chevron d-md-none"></i>
+                            </div>
+
                         </div>
                     </div>
+
+
+
+                    <!-- Mobile sidebar overlay backdrop -->
+                    <div class="sidebar-backdrop d-md-none" id="sidebarBackdrop"></div>
 
                     <!-- Back button -->
                     <div id="backButtonWrap"><?php echo renderBackButton($viewMode, $brandRow, $catRow); ?></div>
@@ -682,11 +771,38 @@ document.getElementById('clearFilters').addEventListener('click', function(e) {
     loadCategoryView('all-categories.php');
 });
 
-const mobileToggle = document.getElementById('mobileFilterToggle');
-const sidebar      = document.getElementById('productSidebar');
-if (mobileToggle && sidebar) {
-    mobileToggle.addEventListener('click', function() { sidebar.classList.toggle('active'); });
+const mobileToggle  = document.getElementById('mobileFilterToggle');
+const sidebar       = document.getElementById('productSidebar');
+const sidebarClose  = document.getElementById('sidebarCloseBtn');
+const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+function openMobileSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.add('active');
+    if (sidebarBackdrop) sidebarBackdrop.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
+
+function closeMobileSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.remove('active');
+    if (sidebarBackdrop) sidebarBackdrop.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+if (mobileToggle && sidebar) {
+    mobileToggle.addEventListener('click', openMobileSidebar);
+}
+if (sidebarClose) {
+    sidebarClose.addEventListener('click', closeMobileSidebar);
+}
+if (sidebarBackdrop) {
+    sidebarBackdrop.addEventListener('click', closeMobileSidebar);
+}
+// Selecting a category filter on mobile should close the sidebar too
+document.querySelectorAll('#categoryFilters .filter-checkbox-label').forEach(function(label) {
+    label.addEventListener('click', closeMobileSidebar);
+});
 
 document.addEventListener('change', function(e) {
     if (e.target.id !== 'sortSelect') return;
@@ -747,6 +863,113 @@ document.addEventListener('click', function(e) {
 });
 
 if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
+
+/* ===================================================================
+   Category page live search
+   =================================================================== */
+(function() {
+    const input     = document.getElementById('catSearchInput');
+    const clearBtn  = document.getElementById('catSearchClear');
+    const resultsEl = document.getElementById('catSearchResults');
+    if (!input || !resultsEl) return;
+
+    let debounceTimer = null;
+
+    function closeResults() {
+        resultsEl.classList.remove('is-open');
+        resultsEl.innerHTML = '';
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function renderResults(data) {
+        const products   = data.products   || [];
+        const categories = data.categories || [];
+
+        if (!products.length && !categories.length) {
+            resultsEl.innerHTML = '<div class="cat-search-no-results">No matches found.</div>';
+            resultsEl.classList.add('is-open');
+            return;
+        }
+
+        let html = '';
+
+        if (categories.length) {
+            html += '<div class="cat-search-section-label">Categories</div>';
+            categories.forEach(function(c) {
+                html += '' +
+                    '<a href="' + c.url + '" class="cat-search-result-item cat-only js-cat-nav">' +
+                        '<i class="fa-solid fa-layer-group"></i>' +
+                        '<span class="cat-search-result-name">' + escapeHtml(c.name) + '</span>' +
+                    '</a>';
+            });
+        }
+
+        if (products.length) {
+            html += '<div class="cat-search-section-label">Products</div>';
+            products.forEach(function(p) {
+                html += '' +
+                    '<a href="' + p.url + '" class="cat-search-result-item">' +
+                        '<img src="' + p.image + '" alt="' + escapeHtml(p.name) + '" loading="lazy">' +
+                        '<span>' +
+                            '<span class="cat-search-result-name">' + escapeHtml(p.name) + '</span><br>' +
+                            '<span class="cat-search-result-brand">' + escapeHtml(p.brand) + '</span>' +
+                        '</span>' +
+                    '</a>';
+            });
+        }
+
+        resultsEl.innerHTML = html;
+        resultsEl.classList.add('is-open');
+
+        // Category results should use the AJAX in-page nav, not a full reload
+        resultsEl.querySelectorAll('.js-cat-nav').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeResults();
+                input.value = '';
+                clearBtn.style.display = 'none';
+                loadCategoryView(this.getAttribute('href'));
+            });
+        });
+    }
+
+    input.addEventListener('input', function() {
+        const term = this.value.trim();
+        clearBtn.style.display = term ? '' : 'none';
+
+        clearTimeout(debounceTimer);
+        if (term.length < 2) {
+            closeResults();
+            return;
+        }
+
+        debounceTimer = setTimeout(async function() {
+            try {
+                const res  = await fetch('all-categories.php?live_search=' + encodeURIComponent(term));
+                const data = await res.json();
+                renderResults(data);
+            } catch (err) {
+                console.error('Search failed:', err);
+            }
+        }, 250);
+    });
+
+    clearBtn.addEventListener('click', function() {
+        input.value = '';
+        clearBtn.style.display = 'none';
+        closeResults();
+        input.focus();
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.cat-search-wrap')) closeResults();
+    });
+})();
 </script>
 
 <style>
@@ -755,10 +978,35 @@ if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
    loading-state rule so the AJAX swap dims instead of collapsing.
    ===================================================================== */
 
+/* Breathing room between the site header/nav and the page content.
+   Mobile is left untouched — this is a desktop-only spacing fix. */
+@media (min-width: 768px) {
+    .all-products-breadcrumb {
+        margin-top: 28px;
+    }
+
+    .all-products-section {
+        margin-top: 32px;
+    }
+}
+
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 16px;
+}
+
+@media (max-width: 767px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 380px) {
+    .products-grid {
+        gap: 8px;
+    }
 }
 
 #productsGridWrap.is-loading {
@@ -905,6 +1153,452 @@ if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
 
 .no-products-found h3 {
     color: #1a1a1a !important;
+}
+
+/* =====================================================================
+   Category page live search — light theme suited to sidebar/products,
+   now with a pill-shaped bar, glow-on-focus, animated icon/clear
+   button, and a fade/slide-in results dropdown.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------
+   Toolbar shell.
+   Mobile:  search full-width row, then Filter+Sort pills below.
+   Desktop: search + results-count + sort all sit in one inline row.
+   --------------------------------------------------------------- */
+.products-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.toolbar-controls-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.results-count {
+    display: flex;
+    align-items: center;
+    font-size: 13.5px;
+    color: #6b6b6b;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.results-count span {
+    color: #1a1a1a;
+    font-weight: 800;
+    margin-right: 3px;
+}
+
+/* Desktop: plain "Filter" button hidden, sort sits as a clean dropdown */
+.mobile-filter-toggle {
+    display: none;
+}
+
+.sort-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+    height: 44px;
+    box-sizing: border-box;
+    border: 1.5px solid #e6e6e6;
+    border-radius: 10px;
+    background: #ffffff;
+    padding: 0 14px;
+    transition: border-color 0.2s ease;
+}
+
+.sort-wrapper:focus-within {
+    border-color: var(--pvc-gold-mid, #d4af37);
+}
+
+.sort-wrapper label {
+    font-size: 13px;
+    color: #6b6b6b;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.sort-icon {
+    color: var(--pvc-gold-mid, #d4af37);
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.sort-chevron {
+    display: none;
+    color: #9a9a9a;
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+.sort-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a1a;
+    cursor: pointer;
+}
+
+.sidebar-backdrop {
+    display: none;
+}
+
+.product-sidebar-header {
+    display: none;
+}
+
+.sidebar-close-btn {
+    border: none;
+    background: none;
+    font-size: 18px;
+    color: #6b6b6b;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+/* ---------------------------------------------------------------
+   Mobile: filter + sort become equal-height, equal-width pill
+   buttons in a row; sidebar becomes an off-canvas panel with a
+   backdrop; search bar spans full width above the controls row.
+   --------------------------------------------------------------- */
+@media (max-width: 767px) {
+
+    .toolbar-controls-row {
+        gap: 10px;
+    }
+
+    .mobile-filter-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex: 1;
+        height: 44px;
+        box-sizing: border-box;
+        border: 1.5px solid #e6e6e6;
+        border-radius: 10px;
+        padding: 0 12px;
+        background: #ffffff;
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #1a1a1a;
+        cursor: pointer;
+        transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .mobile-filter-toggle:active {
+        background: #faf7ef;
+        border-color: var(--pvc-gold-mid, #d4af37);
+    }
+
+    .mobile-filter-toggle i {
+        color: var(--pvc-gold-mid, #d4af37);
+        font-size: 14px;
+    }
+
+    .results-count {
+        display: none;
+    }
+
+    .sort-wrapper {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .sort-wrapper:active {
+        border-color: var(--pvc-gold-mid, #d4af37);
+    }
+
+    .sort-select {
+        flex: 1;
+        text-align: center;
+        padding-right: 2px;
+    }
+
+    .sort-chevron {
+        display: inline-block;
+    }
+
+    /* Off-canvas sidebar */
+    .product-sidebar-wrapper {
+        position: static;
+    }
+
+    .product-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 82%;
+        max-width: 320px;
+        background: #ffffff;
+        z-index: 999999;
+        padding: 0 18px 18px;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 8px 0 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-sidebar.active {
+        transform: translateX(0);
+    }
+
+    .product-sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: 0 -18px 8px;
+        padding: 18px 18px 14px;
+        background: #ffffff;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+        z-index: 2;
+    }
+
+    .product-sidebar-header h4 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 800;
+        color: #1a1a1a;
+    }
+
+    .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 999998;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .sidebar-backdrop.active {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.cat-search-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+}
+
+/* Desktop: search sits inline on the same row as results-count/sort,
+   instead of stacked as a full-width block above them. */
+@media (min-width: 768px) {
+    .products-toolbar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .cat-search-wrap {
+        max-width: 320px;
+        flex: 1 1 320px;
+    }
+
+    .toolbar-controls-row {
+        flex: 0 0 auto;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .cat-search-wrap {
+        max-width: 100%;
+    }
+}
+
+.cat-search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 46px;
+    box-sizing: border-box;
+    background: #f6f6f6;
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    padding: 0 16px;
+    transition: border-color 0.25s ease, background 0.25s ease,
+}
+
+.cat-search-box:hover {
+    background: #f1f1f1;
+}
+
+.cat-search-box:focus-within {
+    background: #ffffff;
+    border-color: var(--pvc-gold-mid, #d4af37);
+
+    transform: translateY(-1px);
+}
+
+.cat-search-icon {
+    color: #9a9a9a;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.cat-search-box:focus-within .cat-search-icon {
+    color: var(--pvc-gold-mid, #d4af37);
+    transform: scale(1.1);
+}
+
+.cat-search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: transparent;
+    height: 100%;
+}
+
+.cat-search-input::placeholder {
+    color: #a3a3a3;
+    transition: color 0.25s ease;
+}
+
+.cat-search-box:focus-within .cat-search-input::placeholder {
+    color: #c2c2c2;
+}
+
+.cat-search-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 50%;
+    background: #e9e9e9;
+    color: #7a7a7a;
+    cursor: pointer;
+    font-size: 11px;
+    flex-shrink: 0;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.cat-search-clear:hover {
+    background: var(--pvc-gold-mid, #d4af37);
+    color: #ffffff;
+    transform: rotate(90deg);
+}
+
+.cat-search-results {
+    display: block;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ececec;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    max-height: 360px;
+    overflow-y: auto;
+    z-index: 500;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.cat-search-results.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.cat-search-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9a9a9a;
+    padding: 10px 14px 4px;
+}
+
+.cat-search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    text-decoration: none;
+    color: #1a1a1a;
+    cursor: pointer;
+    transition: background 0.15s ease, padding-left 0.15s ease;
+}
+
+.cat-search-result-item:hover {
+    background: #faf7ef;
+    padding-left: 18px;
+}
+
+.cat-search-result-item img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+    flex-shrink: 0;
+    background: #fff;
+}
+
+.cat-search-result-name {
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.cat-search-result-brand {
+    font-size: 11.5px;
+    color: #9a9a9a;
+}
+
+.cat-search-result-item.cat-only i {
+    color: var(--pvc-gold-mid, #d4af37);
+    width: 34px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.cat-search-no-results {
+    padding: 16px 14px;
+    font-size: 13px;
+    color: #9a9a9a;
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    .cat-search-results {
+        left: 0;
+        right: 0;
+    }
 }
 </style>
 
