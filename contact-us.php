@@ -304,29 +304,33 @@
       background: #fff;
       box-shadow: 0 0 0 2px var(--pvc-gold-mid);
     }
-    .btn-submit {
-      background: #25D366;
-      background-size: 200% auto;
-      color: var(--pvc-white) !important;
-      border: none;
-      padding: 15px 0;
-      border-radius: 50px;
-      font-size: 16px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
+    .btn-register-complaint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       width: 100%;
+      background-color: #25D366; /* Vibrantly styled WhatsApp green */
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 50px; /* Full pill-shaped rounded corners */
       cursor: pointer;
-      transition: all 0.4s ease;
+      transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
       margin-top: 20px;
-      box-shadow:0 4px 15px rgba(37, 211, 102, 0.3);
     }
 
-    .btn-submit:hover {
-      background-position: right center;
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(184, 134, 11, 0.4);
-      color: #000;
+    .btn-register-complaint:hover {
+      background-color: #059669;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-register-complaint i {
+      font-size: 1.4rem;
     }
 
     /* Responsive Adjustments */
@@ -706,9 +710,8 @@
               </div>
               
               <!-- Submit Button -->
-              <button type="submit" class="btn-submit" id="complaint-submit-btn">
-                <i class="fa-brands fa-whatsapp" style="margin-right: 10px; font-size: 18px;"></i>
-                Register Complaint via WhatsApp
+              <button type="submit" id="registerComplaintBtn" class="btn-register-complaint">
+                <i class="fab fa-whatsapp"></i> Register Complaint
               </button>
             </form>
             
