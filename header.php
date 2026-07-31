@@ -558,7 +558,144 @@ if ($catRaw) {
     color:      #9a9a9a;
   }
 
+  /* Mobile Navigation */
+
+  /* Bottom Navigation */
+  @media (max-width: 991px) {
+    .pvc-bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 68px;
+      background-color: #ffffff;
+      border-top: 1px solid #eeeeee;
+      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+      border-radius: 18px 18px 0 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 99999;
+      padding-bottom: env(safe-area-inset-bottom);
+      box-sizing: content-box;
+    }
+
+    /* Navigation Item */
+    .pvc-bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #888888;
+      font-size: 11px;
+      font-weight: 600;
+      position: relative;
+      height: 100%;
+      flex: 1;
+      transition: color 0.22s ease;
+    }
+
+    .pvc-bottom-nav-item i {
+      font-size: 20px;
+      margin-bottom: 4px;
+      transition: color 0.22s ease;
+    }
+
+    .pvc-bottom-cart-badge {
+      position: absolute !important;
+      top: -6px !important;
+      right: -8px !important;
+      background: #c9a14a !important;
+      color: #111111 !important;
+      font-size: 9px !important;
+      font-weight: 700 !important;
+      min-width: 14px !important;
+      height: 14px !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 0 2px !important;
+      line-height: 1 !important;
+      pointer-events: none !important;
+    }
+
+    /* Active State */
+    .pvc-bottom-nav-item.active {
+      color: #c9a14a;
+    }
+
+    .pvc-bottom-nav-item.active i {
+      color: #c9a14a;
+    }
+
+    .pvc-bottom-nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 3px;
+      background-color: #c9a14a;
+      border-radius: 2px;
+    }
+
+    /* Safe Area */
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+      .pvc-bottom-nav {
+        height: 68px;
+      }
+    }
+
+    /* WhatsApp Position */
+    .pvc-floating-whatsapp {
+      bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+    }
+
+    /* Mobile Header Fix */
+    #pvc-mobile-toggle,
+    .pvc-mobile-menu,
+    .pvc-overlay {
+      display: none !important;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .pvc-bottom-nav {
+      display: none !important;
+    }
+  }
+
   </style>
+
+  <!-- Modern Mobile Bottom Navigation -->
+  <nav class="pvc-bottom-nav" aria-label="Mobile Navigation">
+    <a href="index.php" class="pvc-bottom-nav-item" id="bottom-nav-home" aria-label="Home">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="all-products.php" class="pvc-bottom-nav-item" id="bottom-nav-brands" aria-label="Brands">
+      <i class="fa-solid fa-tags"></i>
+      <span>Brands</span>
+    </a>
+    <a href="all-categories.php" class="pvc-bottom-nav-item" id="bottom-nav-categories" aria-label="Categories">
+      <i class="fa-solid fa-border-all"></i>
+      <span>Categories</span>
+    </a>
+    <a href="cart.php" class="pvc-bottom-nav-item" id="bottom-nav-rfq" aria-label="RFQ Cart">
+      <div style="position: relative; display: inline-block;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="pvc-bottom-cart-badge" id="pvc-bottom-cart-count" style="display: none;">0</span>
+      </div>
+      <span>RFQ</span>
+    </a>
+    <a href="contact-us.php" class="pvc-bottom-nav-item" id="bottom-nav-contact" aria-label="Contact Us">
+      <i class="fa-solid fa-phone"></i>
+      <span>Contact</span>
+    </a>
+  </nav>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -645,13 +782,23 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ── Cart badge ───────────────────────────────────────── */
   function updateCartCount() {
     const el = document.getElementById('pvc-cart-count');
-    if (!el) return;
+    const elBottom = document.getElementById('pvc-bottom-cart-count');
     try {
       const cart  = JSON.parse(localStorage.getItem('pvcCart')) || [];
       const count = cart.reduce((t, i) => t + (i.quantity || 0), 0);
-      el.textContent   = count;
-      el.style.display = count > 0 ? 'flex' : 'none';
-    } catch(e) { el.style.display = 'none'; }
+      
+      if (el) {
+        el.textContent   = count;
+        el.style.display = count > 0 ? 'flex' : 'none';
+      }
+      if (elBottom) {
+        elBottom.textContent   = count;
+        elBottom.style.display = count > 0 ? 'flex' : 'none';
+      }
+    } catch(e) {
+      if (el) el.style.display = 'none';
+      if (elBottom) elBottom.style.display = 'none';
+    }
   }
   updateCartCount();
   window.addEventListener('storage',          updateCartCount);
@@ -778,6 +925,37 @@ document.addEventListener('DOMContentLoaded', function () {
       if (e.key === 'Escape') { closeSearch(); this.blur(); }
     });
   }
+
+  /* ── Bottom Nav active highlight ──────────────────────── */
+  (function () {
+    const currentLoc = window.location.pathname.split('/').pop() || 'index.php';
+    const params = new URLSearchParams(window.location.search);
+    let activeId = '';
+
+    if (currentLoc === 'index.php') {
+      activeId = 'bottom-nav-home';
+    } else if (currentLoc === 'all-products.php') {
+      activeId = 'bottom-nav-brands';
+    } else if (currentLoc === 'all-categories.php') {
+      if (params.has('brand')) {
+        activeId = 'bottom-nav-brands';
+      } else {
+        activeId = 'bottom-nav-categories';
+      }
+    } else if (currentLoc === 'cart.php') {
+      activeId = 'bottom-nav-rfq';
+    } else if (currentLoc === 'contact-us.php') {
+      activeId = 'bottom-nav-contact';
+    }
+
+    if (activeId) {
+      const activeEl = document.getElementById(activeId);
+      if (activeEl) {
+        activeEl.classList.add('active');
+        activeEl.setAttribute('aria-current', 'page');
+      }
+    }
+  })();
 
 })();
 });
