@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -304,11 +304,10 @@
       background: #fff;
       box-shadow: 0 0 0 2px var(--pvc-gold-mid);
     }
-
     .btn-submit {
-      background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+      background: #25D366;
       background-size: 200% auto;
-      color: #000;
+      color: var(--pvc-white) !important;
       border: none;
       padding: 15px 0;
       border-radius: 50px;
@@ -320,7 +319,7 @@
       cursor: pointer;
       transition: all 0.4s ease;
       margin-top: 20px;
-      box-shadow: 0 10px 20px rgba(184, 134, 11, 0.3);
+      box-shadow:0 4px 15px rgba(37, 211, 102, 0.3);
     }
 
     .btn-submit:hover {
@@ -520,6 +519,66 @@
       transform: translateY(-2px);
       box-shadow: 0 15px 30px rgba(184, 134, 11, 0.4);
     }
+
+    /* Complaint Section & Form Styles */
+    .complaint-section {
+      background: #fafafa;
+      padding: 80px 0;
+    }
+    
+    .complaint-form-container {
+      background: #fff;
+      padding: 60px 80px;
+      border-radius: 30px;
+      box-shadow: 0 10px 60px rgba(0, 0, 0, 0.03);
+      max-width: 750px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    
+    .complaint-form-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .complaint-form-group label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 8px;
+      display: block;
+    }
+    
+    .complaint-form-group label span {
+      color: #E91E63;
+    }
+    
+    .complaint-form-group .form-control.is-invalid {
+      border: 1px solid #E91E63 !important;
+      background-color: #FFF5F7 !important;
+      box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.15) !important;
+    }
+    
+    .complaint-form-group .invalid-feedback {
+      display: none;
+      color: #E91E63;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    
+    /* Touch friendly styling for textarea */
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    @media (max-width: 767px) {
+      .complaint-form-container {
+        padding: 30px;
+        border-radius: 30px;
+      }
+    }
   </style>
 </head>
 
@@ -575,16 +634,15 @@
           </a>
         </div>
 
-        <!-- Card 3: Service Area (Red) -->
+        <!-- Card 3: Register Complaint -->
         <div class="col-6 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-          <a href="#contact-form-area" class="contact-action-card card-red">
+          <a href="javascript:void(0);" id="register-complaint-card" class="contact-action-card card-red">
             <div class="card-icon-box">
-              <i class="fa-solid fa-calendar-check"></i>
+              <i class="fa-solid fa-circle-exclamation"></i>
             </div>
-            <h3>Book Support Vist</h3>
-            <p>Schedule Technicians</p>
-            <span class="micro-text" style="color: #E91E63; font-weight: 700;">Click to Book Appointment <i
-                class="fa-solid fa-chevron-down"></i></span>
+            <h3>Register Complaint</h3>
+            <p>Report CCTV, DVR,<br>NVR or Camera Issues</p>
+            <span class="micro-text" style="color: #E91E63; font-weight: 700;">Click to Register →</span>
           </a>
         </div>
 
@@ -604,9 +662,62 @@
 
     </div>
   </section>
-  <section id="contact-form-area" class="contact-form-section" style="background: #fff;">
+  <!--===== COMPLAINT FORM SECTION =======-->
+  <section id="complaint-section" class="complaint-section">
     <div class="container">
-      <div class="row align-items-center">
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <div class="complaint-form-container" data-aos="fade-up">
+            
+            <div class="text-center mb-4">
+              <h2 class="section-heading-gold" style="font-size: 28px !important; margin-bottom: 10px;">Register Your Complaint</h2>
+              <p style="color: #666; font-size: 15px; font-weight: 500; margin-bottom: 30px; line-height: 1.6;">
+                Facing an issue with your CCTV or security system?<br>Fill out the form below
+              </p>
+            </div>
+            
+            <form id="complaint-form" novalidate>
+              <!-- Customer Name -->
+              <div class="complaint-form-group">
+                <label for="complaint-name">Customer Name <span>*</span></label>
+                <input type="text" id="complaint-name" class="form-control" placeholder="Enter your full name" required>
+                <div class="invalid-feedback" id="complaint-name-error">Customer name is required.</div>
+              </div>
+              
+              <!-- Mobile Number -->
+              <div class="complaint-form-group">
+                <label for="complaint-mobile">Mobile Number <span>*</span></label>
+                <input type="tel" id="complaint-mobile" class="form-control" placeholder="Enter your mobile number" required>
+                <div class="invalid-feedback" id="complaint-mobile-error">Mobile number is required.</div>
+              </div>
+              
+              <!-- Address -->
+              <div class="complaint-form-group">
+                <label for="complaint-address">Address <span>*</span></label>
+                <input type="text" id="complaint-address" class="form-control" placeholder="Enter your address" required>
+                <div class="invalid-feedback" id="complaint-address-error">Address is required.</div>
+              </div>
+              
+              <!-- Complaint Reason -->
+              <div class="complaint-form-group">
+                <label for="complaint-reason">Complaint Reason <span>*</span></label>
+                <textarea id="complaint-reason" class="form-control" placeholder="Describe your issue..." required></textarea>
+                <div class="invalid-feedback" id="complaint-reason-error">Complaint description is required.</div>
+              </div>
+              
+              <!-- Submit Button -->
+              <button type="submit" class="btn-submit" id="complaint-submit-btn">
+                <i class="fa-brands fa-whatsapp" style="margin-right: 10px; font-size: 18px;"></i>
+                Register Complaint via WhatsApp
+              </button>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--===== END COMPLAINT FORM SECTION =======-->
 
 
 
@@ -618,7 +729,100 @@
         <!--===== GLOBAL FOOTER COMPONENT =======-->
         <script src="assets/js/global_footer.js"></script>
         <!--===== END GLOBAL FOOTER =======-->
-        <script src="assets/js/form_validation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const complaintCard = document.getElementById('register-complaint-card');
+      const complaintSection = document.getElementById('complaint-section');
+      const complaintForm = document.getElementById('complaint-form');
+      
+      // Smooth Scrolling Behaviour
+      if (complaintCard && complaintSection) {
+        complaintCard.addEventListener('click', function(e) {
+          e.preventDefault();
+          complaintSection.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+      
+      // Form Input Validation Setup
+      const fields = [
+        { id: 'complaint-name', errorId: 'complaint-name-error', name: 'Customer name' },
+        { id: 'complaint-mobile', errorId: 'complaint-mobile-error', name: 'Mobile number' },
+        { id: 'complaint-address', errorId: 'complaint-address-error', name: 'Address' },
+        { id: 'complaint-reason', errorId: 'complaint-reason-error', name: 'Complaint description' }
+      ];
+      
+      fields.forEach(field => {
+        const inputEl = document.getElementById(field.id);
+        if (inputEl) {
+          inputEl.addEventListener('input', function() {
+            if (inputEl.value.trim() !== '') {
+              inputEl.classList.remove('is-invalid');
+              const errorEl = document.getElementById(field.errorId);
+              if (errorEl) errorEl.style.display = 'none';
+            }
+          });
+        }
+      });
+      
+      // Helper function to generate unique YYYYMMDD-XXX token
+      function generateComplaintToken() {
+        const date = new Date();
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        const xxx = String(Math.floor(Math.random() * 900) + 100);
+        return `PVC-${yyyy}${mm}${dd}-${xxx}`;
+      }
+      
+      // Submit Handler
+      if (complaintForm) {
+        complaintForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          let formIsValid = true;
+          
+          fields.forEach(field => {
+            const inputEl = document.getElementById(field.id);
+            const errorEl = document.getElementById(field.errorId);
+            
+            if (!inputEl.value.trim()) {
+              formIsValid = false;
+              inputEl.classList.add('is-invalid');
+              if (errorEl) {
+                errorEl.textContent = `${field.name} is required.`;
+                errorEl.style.display = 'block';
+              }
+            } else {
+              inputEl.classList.remove('is-invalid');
+              if (errorEl) errorEl.style.display = 'none';
+            }
+          });
+          
+          if (formIsValid) {
+            const name = document.getElementById('complaint-name').value.trim();
+            const mobile = document.getElementById('complaint-mobile').value.trim();
+            const address = document.getElementById('complaint-address').value.trim();
+            const reason = document.getElementById('complaint-reason').value.trim();
+            
+            const token = generateComplaintToken();
+            
+            // Build the WhatsApp message matching required layout
+            const message = `*PVC Security - Complaint Registration*\n\n` +
+                            `Complaint Token: ${token}\n\n` +
+                            `Customer Name: ${name}\n` +
+                            `Mobile: ${mobile}\n` +
+                            `Address: ${address}\n\n` +
+                            `Complaint Reason:\n${reason}`;
+            
+            const encodedText = encodeURIComponent(message);
+            const whatsappNumber = '919114456666';
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedText}`;
+            
+            window.open(whatsappUrl, '_blank');
+          }
+        });
+      }
+    });
+  </script>
 </body>
 
 </html>
