@@ -721,6 +721,22 @@ if ($catRaw) {
   }
 
   </style>
+  <?php
+  $currentPage = basename($_SERVER['PHP_SELF']);
+  if (in_array($currentPage, ['index.php', 'all-products.php', 'all-categories.php'])) {
+      echo '<style>
+      @media (max-width: 991px) {
+          .pvc-floating-whatsapp {
+              bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+          }
+          .pvc-floating-call {
+              bottom: calc(148px + env(safe-area-inset-bottom)) !important;
+              display: flex !important;
+          }
+      }
+      </style>';
+  }
+  ?>
 
   <!-- Modern Mobile Bottom Navigation -->
   <nav class="pvc-bottom-nav" aria-label="Mobile Navigation">

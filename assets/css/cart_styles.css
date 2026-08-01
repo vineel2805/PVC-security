@@ -30,7 +30,8 @@ button.hik-btn-outline {
 
 /* Cart Page Section */
 .cart-page-section {
-    padding: 80px 0 160px; /* Leave space for sticky footer */
+    padding: 80px 0 160px;
+    /* Leave space for sticky footer */
     background: #f9f9f9;
     min-height: 100vh;
 }
@@ -307,15 +308,18 @@ button.hik-btn-outline {
 .cart-items-scroll-area::-webkit-scrollbar {
     width: 6px;
 }
+
 .cart-items-scroll-area::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
 }
+
 .cart-items-scroll-area::-webkit-scrollbar-thumb {
-    background: #ccc; 
+    background: #ccc;
     border-radius: 10px;
 }
+
 .cart-items-scroll-area::-webkit-scrollbar-thumb:hover {
-    background: #999; 
+    background: #999;
 }
 
 /* Cart Items List */
@@ -710,6 +714,7 @@ button.hik-btn-outline {
 }
 
 @media (max-width: 767px) {
+
     /* Ensure page content sits below the fixed header on mobile */
     .cart-page-section {
         padding: 90px 0 160px;
@@ -749,7 +754,7 @@ button.hik-btn-outline {
     .cart-item-name {
         font-size: 13px;
     }
-    
+
     .cart-item-model {
         font-size: 11px;
     }
@@ -762,13 +767,14 @@ button.hik-btn-outline {
         width: 24px;
         height: 24px;
     }
-    
+
     .quantity-control span {
         min-width: 24px;
     }
 
     .floating-cart-btn {
-        display: none !important; /* Hide floating view cart on cart page */
+        display: none !important;
+        /* Hide floating view cart on cart page */
     }
 
     .shipping-card {
@@ -786,18 +792,18 @@ button.hik-btn-outline {
     .cart-form-section .form-row {
         display: block;
     }
-    
+
     .contact-summary {
         flex-direction: column;
         gap: 10px;
     }
-    
+
     .summary-item {
         border-right: none;
         border-bottom: 1px solid var(--cart-border-color);
         padding-bottom: 10px;
     }
-    
+
     .summary-item:last-child {
         border-bottom: none;
         padding-bottom: 0;
@@ -808,7 +814,7 @@ button.hik-btn-outline {
         align-items: stretch;
         gap: 15px;
     }
-    
+
     .sticky-totals {
         flex-direction: row;
         justify-content: space-between;
@@ -816,13 +822,14 @@ button.hik-btn-outline {
         border-bottom: 1px solid var(--cart-border-color);
         padding-bottom: 10px;
     }
-    
+
     .sticky-buttons {
         flex-direction: row;
         gap: 10px;
     }
 
-    .btn-place-rfq, .btn-continue-shopping {
+    .btn-place-rfq,
+    .btn-continue-shopping {
         flex: 1;
         font-size: 13px;
         padding: 10px;
@@ -841,4 +848,118 @@ button.hik-btn-outline {
     .sticky-buttons {
         flex-direction: column;
     }
+}
+
+/* =============================================
+   MOBILE REDESIGN FOR RFQ CART (<992px)
+   ============================================= */
+.mobile-continue-shopping-wrapper {
+    display: none;
+}
+
+@media (max-width: 991px) {
+
+    /* Hide summary footer items not needed on mobile */
+    .cart-sticky-footer .cart-shipping-note,
+    .cart-sticky-footer .sticky-totals,
+    .cart-sticky-footer .btn-continue-shopping {
+        display: none !important;
+    }
+
+    /* Transform sticky footer card to clean minimal layout */
+    .cart-sticky-footer {
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        position: fixed !important;
+        bottom: calc(68px + env(safe-area-inset-bottom) + 8px) !important;
+        /* Spaced 8px above bottom nav */
+        left: 16px !important;
+        right: 16px !important;
+        width: calc(100% - 32px) !important;
+        z-index: 99998 !important;
+    }
+
+    .cart-sticky-footer .container,
+    .cart-sticky-footer .sticky-footer-content,
+    .cart-sticky-footer .sticky-footer-actions,
+    .cart-sticky-footer .sticky-buttons {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        display: block !important;
+        box-shadow: none !important;
+        background: transparent !important;
+    }
+
+    /* Green WhatsApp button styling */
+    .cart-sticky-footer .btn-place-rfq {
+        width: 100% !important;
+        height: 56px !important;
+        border-radius: 12px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        background-color: #25D366 !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3) !important;
+        border: none !important;
+    }
+
+    .cart-sticky-footer .btn-place-rfq i {
+        font-size: 20px !important;
+    }
+
+    /* Outlined Continue Shopping in normal flow */
+    .mobile-continue-shopping-wrapper {
+        display: block;
+        margin-top: 20px;
+        padding: 0 15px 15px;
+    }
+
+    .btn-continue-shopping-outline {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 12px;
+        background: transparent;
+        color: var(--pvc-gold-mid);
+        border: 1px solid var(--pvc-gold-mid);
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-continue-shopping-outline:hover {
+        background: var(--pvc-gold-mid);
+        color: #fff;
+    }
+
+    /* Prevent sticky CTA overlapping content & set proper header spacing */
+    .cart-page-section {
+        padding-top: 12px !important;
+        padding-bottom: 220px !important;
+    }
+
+    /* Position floating items above the sticky CTA button */
+    body .pvc-floating-whatsapp {
+        bottom: calc(148px + env(safe-area-inset-bottom)) !important;
+    }
+
+    body .pvc-floating-call {
+        bottom: calc(212px + env(safe-area-inset-bottom)) !important;
+        display: flex !important;
+    }
+}
+
+floating-cart-btn {
+    display: none !important;
 }

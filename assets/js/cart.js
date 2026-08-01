@@ -232,6 +232,202 @@ function showAddToCartNotification(productName) {
  */
 function loadCartPage() {
     const cart = getCart();
+    const cartPageContainer = document.getElementById('cartPageContainer');
+    const stickyBar = document.getElementById('rfqBottomBar');
+
+    if (!cartPageContainer) return;
+
+    if (cart.length === 0) {
+        // Show empty cart message
+        cartPageContainer.innerHTML = `
+          <div id="emptyCartMessage" class="empty-cart-message">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <h3>Your cart is empty</h3>
+            <p>Add products to your cart to request a quotation</p>
+            <a href="all-products.php" class="btn-continue-shopping">Browse Products</a>
+          </div>
+        `;
+        if (stickyBar) stickyBar.style.display = 'none';
+
+        // Also update totals to 0
+        updateCartTotals();
+        return;
+    }
+
+    // Show sticky bottom bar if items present
+    if (stickyBar) stickyBar.style.display = 'block';
+
+    const savedName = localStorage.getItem('pvcCustomerName') || '';
+    const savedMobile = localStorage.getItem('pvcMobileNumber') || '';
+    const savedCity = localStorage.getItem('pvcCityName') || 'Not set';
+    const isFilled = savedName.trim() !== '' && savedMobile.trim() !== '' && savedCity.trim() !== 'Not set' && savedCity.trim() !== '';
+
+    // Build the dynamic HTML
+    let html = '';
+
+    // 1. Delivery Location banner card
+    html += `
+      <!-- Delivery Location Banner -->
+      <div class="delivery-banner rfq-card">
+        <div class="delivery-left">
+          <span class="delivery-icon">📍</span>
+          <span>Deliver to: <strong id="deliveryLocationText">${savedCity}</strong></span>
+        </div>
+        <div class="delivery-right">
+          <a href="#" id="deliveryLocationChangeBtn" class="delivery-change-link">Change</a>
+        </div>
+      </div>
+    `;
+
+    // 2. Products Section (Product list container wrapper)
+    html += `
+      <div class="products-section">
+        <h3 class="section-subtitle">Products in your RFQ</h3>
+        <div class="cart-items-container">
+          <div class="cart-items-list" id="cartItemsContainer">
+    `;
+
+    cart.forEach(item => {
+        const pricing = getProductPricing(item);
+        const formattedOriginal = '₹' + pricing.original.toLocaleString('en-IN');
+        const formattedDiscounted = '₹' + pricing.discounted.toLocaleString('en-IN');
+
+        html += `
+            <div class="cart-item rfq-card" data-model="${item.model}">
+                <div class="cart-item-left">
+                    <div class="cart-item-img-container">
+                        <img src="${item.image}" alt="${item.name}" onerror="this.onerror=null; this.src='assets/img/products/network-products-update.png';">
+                    </div>
+                </div>
+                <div class="cart-item-right">
+                    <h4 class="cart-item-title">${item.name}</h4>
+                    <p class="cart-item-model-str">Model: ${item.model}</p>
+                    
+                    <div class="cart-item-pricing-row">
+                        <span class="cart-item-original-price">${formattedOriginal}</span>
+                        <span class="cart-item-discounted-price">${formattedDiscounted}</span>
+                        <span class="cart-item-discount-badge">${pricing.discount}% OFF</span>
+                    </div>
+                    
+                    <div class="cart-item-controls-row">
+                        <div class="quantity-control">
+                            <button onclick="updateCartItemQuantity('${item.model}', ${item.quantity - 1})" class="qty-btn">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <span class="qty-val">${item.quantity}</span>
+                            <button onclick="updateCartItemQuantity('${item.model}', ${item.quantity + 1})" class="qty-btn">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                        <button class="cart-item-delete-btn" onclick="removeFromCart('${item.model}')" title="Remove item">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    html += `
+          </div>
+          <!-- Add More Products Button -->
+          <a href="all-products.php" class="btn-add-more-products">
+            <i class="fa-solid fa-plus"></i> Add more products
+          </a>
+        </div>
+      </div>
+    `;
+
+    // 3. Quote Summary Card
+    const totals = calculateCartTotals();
+    html += `
+      <!-- Quote Summary Card -->
+      <div class="quote-summary-card rfq-card">
+        <h3 class="card-section-title">Quote Summary</h3>
+        <div class="summary-row">
+          <span>Total Items</span>
+          <span id="summaryTotalItems">${totals.itemCount}</span>
+        </div>
+        <div class="summary-row">
+          <span>Estimated Shipping <span class="shipping-info-icon" title="Shipping costs will be calculated during quotation confirmation">ⓘ</span></span>
+          <span class="calc-later">Calculated later</span>
+        </div>
+        <hr class="summary-divider">
+        <div class="summary-row total-row">
+          <span>Total (Approx.)</span>
+          <span id="summaryTotalApprox">-</span>
+        </div>
+      </div>
+    `;
+
+    // 4. Contact Information Card
+    html += `
+      <!-- Contact Information Card -->
+      <div class="contact-info-card rfq-card">
+        <div class="card-header-wrapper">
+          <h3 class="card-section-title">Contact Information</h3>
+          <button id="editContactBtn" class="btn-edit-contact" style="display: ${isFilled ? 'inline-flex' : 'none'};">
+            ✏️ Edit
+          </button>
+        </div>
+        
+        <!-- Form Mode -->
+        <div id="contactFormMode" style="display: ${isFilled ? 'none' : 'block'};">
+          <div class="form-group">
+            <label for="customerName">Name <span class="required">*</span></label>
+            <input type="text" class="form-control" id="customerName" placeholder="Enter your full name" value="${savedName}">
+          </div>
+          <div class="form-group">
+            <label for="mobileNumber">Registered Mobile Number <span class="required">*</span></label>
+            <input type="tel" class="form-control" id="mobileNumber" placeholder="Enter your mobile number" value="${savedMobile}">
+          </div>
+          <div class="form-group">
+            <label for="cityName">City / Delivery Address <span class="required">*</span></label>
+            <input type="text" class="form-control" id="cityName" placeholder="Enter city or delivery address" value="${savedCity === 'Not set' ? '' : savedCity}">
+          </div>
+          <div class="form-actions text-right mt-3">
+             <button id="saveContactBtn" class="btn-save-contact">Save Details</button>
+          </div>
+        </div>
+
+        <!-- Summary Mode -->
+        <div id="contactSummaryMode" class="contact-summary" style="display: ${isFilled ? 'block' : 'none'};">
+          <div class="summary-list-item">
+            <span class="summary-list-icon">👤</span>
+            <span id="summaryName">${savedName}</span>
+          </div>
+          <div class="summary-list-item">
+            <span class="summary-list-icon">📞</span>
+            <span id="summaryMobile">${savedMobile}</span>
+          </div>
+          <div class="summary-list-item">
+            <span class="summary-list-icon">📍</span>
+            <span id="summaryCity">${savedCity}</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // 5. WhatsApp Notice Banner
+    html += `
+      <!-- WhatsApp Notice Banner -->
+      <div class="whatsapp-notice-banner mt-3">
+        <span class="checkmark-icon"><i class="fa-solid fa-circle-check"></i></span>
+        <span>We will send your quotation details on WhatsApp</span>
+      </div>
+    `;
+
+    // Render it in container
+    cartPageContainer.innerHTML = html;
+
+    // Bind event listeners to contact controls dynamically
+    bindCartEvents();
+
+    // Update totals
+    updateCartTotals();
+}
+function loadCartPage() {
+    const cart = getCart();
     const cartItemsContainer = document.getElementById('cartItemsContainer');
     const emptyCartMessage = document.getElementById('emptyCartMessage');
     const cartSummarySection = document.querySelector('.cart-summary-section');
@@ -288,10 +484,12 @@ function updateCartTotals() {
     const subtotalEl = document.getElementById('cartSubtotal');
     const itemCountEl = document.getElementById('cartItemCount');
     const totalEl = document.getElementById('cartTotal');
+    const headerItemCountEl = document.getElementById('headerItemCount');
 
     if (subtotalEl) subtotalEl.textContent = formatCurrency(totals.subtotal);
     if (itemCountEl) itemCountEl.textContent = totals.itemCount;
     if (totalEl) totalEl.textContent = formatCurrency(totals.total);
+    if (headerItemCountEl) headerItemCountEl.textContent = '(' + totals.itemCount + ')';
 }
 
 // ==================== SHIPPING METHOD SELECTION ====================

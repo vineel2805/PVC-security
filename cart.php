@@ -31,7 +31,6 @@
       <div class="row">
         <div class="col-12">
           <h1 class="cart-page-title">Your RFQ Cart</h1>
-          <p class="cart-page-subtitle">Complete your details to request a quotation via WhatsApp</p>
         </div>
       </div>
 
@@ -102,7 +101,7 @@
         <div class="cart-summary-col">
           <div class="cart-summary-section">
             <div class="cart-summary-header">
-               <h3 class="section-title"><i class="fa-solid fa-file-invoice"></i> Quote Summary <span id="headerItemCount">(0 Items)</span></h3>
+               <h3 class="section-title"><i class="fa-solid fa-shopping-cart"></i> Products in RFQ <span id="headerItemCount">(0 Items)</span></h3>
             </div>
 
             <!-- Scrollable Cart Items Area -->
@@ -110,6 +109,13 @@
               <div id="cartItemsContainer" class="cart-items-list">
                 <!-- Cart items will be dynamically inserted here -->
               </div>
+            </div>
+
+            <!-- Mobile-only Continue Shopping (Outlined Secondary Button) -->
+            <div class="mobile-continue-shopping-wrapper">
+              <a href="all-products.php" class="btn-continue-shopping-outline">
+                <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+              </a>
             </div>
           </div>
 
@@ -141,7 +147,7 @@
           </div>
           <div class="sticky-buttons">
             <button id="placeRFQBtn" class="btn-place-rfq" disabled>
-              <i class="fa-brands fa-whatsapp"></i> Place RFQ on WhatsApp
+              <i class="fa-brands fa-whatsapp"></i> Place Order
             </button>
             <a href="all-products.php" class="btn-continue-shopping">
               <i class="fa-solid fa-arrow-left"></i> Continue Shopping
