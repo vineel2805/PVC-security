@@ -14,7 +14,7 @@ The project is a PHP storefront with an admin module. The public website is orga
 - search-suggest.php: AJAX autocomplete endpoint
 - connect.php: Shared mysqli connection
 - header.php: Shared site header and navigation
-- headerinfo.php: Additional header data helper
+
 
 ## Admin Structure
 - admin/index.php: Login page
