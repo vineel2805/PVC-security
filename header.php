@@ -218,24 +218,7 @@ if ($catRaw) {
   }
 
   /* Cart badge */
-  .pvc-cart-badge {
-    position: absolute !important;
-    top:   -4px !important;
-    right: -4px !important;
-    background:  #c9a14a !important;
-    color:       #111111 !important;
-    font-size:   10px !important;
-    font-weight: 700 !important;
-    min-width:   18px !important;
-    height:      18px !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 3px !important;
-    line-height: 1 !important;
-    pointer-events: none !important;
-  }
+  
 
   /* Slightly smaller on very small phones */
   @media (max-width: 420px) {
@@ -288,12 +271,6 @@ if ($catRaw) {
   /* ==========================================================
      SEARCH — collapsible dropdown form
   ========================================================== */
-  .pvc-header-search-container {
-    position: relative !important;
-    display: inline-flex !important;
-    align-items: center !important;
-  }
-
   /* Remove browser default button chrome */
   .pvc-header-search-btn-toggle,
   .pvc-header-search-btn-toggle:focus,
@@ -707,12 +684,7 @@ if ($catRaw) {
     }
 
     /* Mobile Header Fix */
-    #pvc-mobile-toggle,
-    .pvc-mobile-menu,
-    .pvc-overlay {
-      display: none !important;
-    }
-  }
+   
 
   @media (min-width: 992px) {
     .pvc-bottom-nav {

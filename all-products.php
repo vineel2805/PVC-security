@@ -168,43 +168,16 @@ if (!empty($selectedSearchEscaped)) {
         }
     }
 } elseif (empty($selectedProductIdEscaped) && !$brandRow) {
-
-    $tr = mysqli_query($con, "
-        SELECT c.cid, c.cname, c.cimage, c.brandid, b.brandname
-        FROM   category c
-        JOIN   brands   b ON b.brandid = c.brandid
-        WHERE  c.display_status = 1
-          AND  b.display_status = 1
-        ORDER  BY UPPER(c.cname) ASC, b.brandname ASC
-    ");
-
-    $mergedMap = [];
-    if ($tr) {
-        while ($row = mysqli_fetch_assoc($tr)) {
-            $key = normalizeCategoryNameForDedup($row['cname']);
-            if (!isset($mergedMap[$key])) {
-                $mergedMap[$key] = [
-                    'cname'  => $row['cname'],
-                    'cimage' => $row['cimage'],
-                    'brands' => [],
-                    'cids'   => [],
-                ];
-            }
-            $mergedMap[$key]['brands'][] = $row['brandname'];
-            $mergedMap[$key]['cids'][]   = $row['cid'];
-        }
-    }
-    if (!empty($mergedMap)) {
-        $brandCategoryTiles = array_values($mergedMap);
-        $viewMode = 'tiles';
-    }
+    // Default view: Show brand banners
+    $viewMode = 'brands';
 } elseif (empty($selectedProductIdEscaped) && $brandRow && !$catRow) {
     $tr = mysqli_query($con, "
-        SELECT *
-        FROM   category
-        WHERE  brandid = '{$brandRow['brandid']}'
-          AND  display_status = 1
-        ORDER  BY cname ASC
+        SELECT c.*, 
+               (SELECT COUNT(p.pid) FROM products p WHERE p.pcat = c.cid AND p.display_status = 1) AS product_count
+        FROM   category c
+        WHERE  c.brandid = '{$brandRow['brandid']}'
+          AND  c.display_status = 1
+        ORDER  BY c.cname ASC
     ");
     if ($tr && mysqli_num_rows($tr) > 0) {
         while ($tile = mysqli_fetch_assoc($tr)) {
@@ -295,24 +268,55 @@ $pageTitle .= " - PVC Security Systems";
    =================================================================== */
 
 function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products, $totalRows, $catRow, $selectedSearch, $selectedCatName, $defaultImg) {
+    global $brands;
     ob_start();
     ?>
-    <?php if ($viewMode === 'tiles'): ?>
+    <?php if ($viewMode === 'brands'): ?>
+    <div class="products-grid brands-view" id="productsGrid">
+        <?php foreach ($brands as $b): ?>
+        <a href="all-products.php?brand=<?php echo urlencode($b['brandid']); ?>"
+           class="brand-card js-product-nav"
+           style="text-decoration:none; color:inherit;"
+           data-name="<?php echo htmlspecialchars($b['brandname']); ?>"
+           data-aos="fade-up">
+            <div class="brand-image">
+                <img src="<?php echo htmlspecialchars(db_image($b['imagelink'] ?? '', $defaultImg)); ?>"
+                     alt="<?php echo htmlspecialchars($b['brandname']); ?>"
+                     loading="lazy"
+                     onerror="this.onerror=null; this.src='<?php echo $defaultImg; ?>';">
+            </div>
+        </a>
+        <?php endforeach; ?>
+    </div>
+    
+    <?php elseif ($viewMode === 'tiles'): ?>
+    
+    <?php if ($brandRow && !$catRow && empty($selectedCatName)): ?>
+        <div class="brand-banner-section" data-aos="fade-up">
+            <div class="brand-banner-content">
+                <img src="<?php echo htmlspecialchars(db_image($brandRow['imagelink'] ?? '', $defaultImg)); ?>"
+                     alt="<?php echo htmlspecialchars($brandRow['brandname']); ?>"
+                     loading="lazy"
+                     class="brand-banner-image"
+                     onerror="this.onerror=null; this.src='<?php echo $defaultImg; ?>';">
+                <div class="brand-banner-meta">
+                    <h2 class="brand-banner-title"><?php echo htmlspecialchars($brandRow['brandname']); ?></h2>
+                    <span class="brand-banner-count"><?php echo count($brandCategoryTiles); ?> Categor<?php echo count($brandCategoryTiles) !== 1 ? 'ies' : 'y'; ?></span>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div class="products-grid tiles-view" id="productsGrid">
         <?php foreach ($brandCategoryTiles as $tile):
             $tileImg = htmlspecialchars(db_image($tile['cimage'] ?? '', $defaultImg));
 
             // A tile with a 'cids' array is a MERGED "All Brands" tile
-            // (built from $mergedMap) — it can represent several
-            // (brandid, cid) pairs at once, so it links to the
-            // cross-brand catname view rather than one specific brand's
-            // category. A plain per-brand tile (single brandid/cid)
-            // still links straight to that brand's category, unchanged.
             if (isset($tile['cids'])) {
                 $tileHref = 'all-products.php?catname=' . urlencode($tile['cname']);
             } else {
                 $tileBrandId = $tile['brandid'] ?? $brandRow['brandid'];
-                $tileHref    = 'all-products.php?brand=' . urlencode($tileBrandId) . '&amp;cat=' . urlencode($tile['cid']);
+                $tileHref    = 'all-products.php?brand=' . urlencode($tileBrandId) . '&cat=' . urlencode($tile['cid']);
             }
         ?>
         <a href="<?php echo $tileHref; ?>"
@@ -332,6 +336,9 @@ function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products
                 <p class="product-title">
                     <?php echo htmlspecialchars($tile['cname']); ?>
                 </p>
+                <?php if (isset($tile['product_count'])): ?>
+                    <span class="product-count-text"><?php echo (int)$tile['product_count']; ?> Product<?php echo (int)$tile['product_count'] !== 1 ? 's' : ''; ?></span>
+                <?php endif; ?>
             </div>
 
         </a>
@@ -493,6 +500,11 @@ function renderBreadcrumb($brandRow, $catRow, $selectedCatName) {
 }
 
 function renderResultsCount($viewMode, $brandCategoryTiles, $totalRows) {
+    global $brands;
+    if ($viewMode === 'brands') {
+        $n = count($brands);
+        return '<span>' . $n . '</span> Brand' . ($n !== 1 ? 's' : '') . ' Found';
+    }
     if ($viewMode === 'tiles') {
         $n = count($brandCategoryTiles);
         return '<span>' . $n . '</span> Categor' . ($n !== 1 ? 'ies' : 'y') . ' Found';

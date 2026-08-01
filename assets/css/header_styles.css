@@ -46,114 +46,20 @@ body {
 /* ==========================================================================
    HEADER MAIN AREA (Black Theme)
    ========================================================================== */
-#header,
-.header-area {
-    background: #000000 !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    position: fixed !important;
-    width: 100%;
-    z-index: 9999 !important;
-    padding: 0 50px !important;
-    height: 80px !important;
-    min-height: 80px !important;
-    max-height: 80px !important;
-    top: 0;
-    left: 0;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4) !important;
-    display: flex;
-    align-items: center;
-    transition: all 0.3s ease;
-}
 
-.header-sticky.sticky {
-    background: #000000 !important;
-    backdrop-filter: none !important;
-    padding: 0 50px !important;
-    height: 70px !important;
-    min-height: 70px !important;
-    max-height: 70px !important;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6) !important;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-    position: fixed !important;
-    top: 0;
-}
+
+
 
 /* ==========================================================================
    LOGO & ELEMENTS
    ========================================================================== */
-.header-elements {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-}
 
-.site-logo {
-    display: flex;
-    align-items: center;
-    z-index: 10001;
-    margin-left: 0;
-}
-
-.site-logo img {
-    height: 65px !important;
-    width: auto !important;
-    display: block !important;
-}
 
 /* ==========================================================================
    MAIN MENU
    ========================================================================== */
-.main-menu {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-}
 
-.main-menu>ul {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-    margin: 0;
-    padding: 10px 28px;
-    /* Gold outline pill border */
-    border: 1px solid #d4a014;
-    border-radius: 50px;
-    background: transparent;
-    transition: all 0.3s ease;
-}
 
-/* Subtle glow on hover of the nav container */
-.main-menu>ul:hover {
-    box-shadow: 0 0 12px rgba(245, 180, 0, 0.15);
-}
-
-.main-menu ul li a {
-    color: #ffffff !important;
-    background: transparent !important;
-    -webkit-text-fill-color: #ffffff !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    font-family: 'Poppins', sans-serif !important;
-    letter-spacing: 0.5px;
-    padding: 5px 0;
-    transition: all 0.3s ease;
-    text-decoration: none !important;
-    background-color: transparent !important;
-    text-transform: uppercase;
-    position: relative;
-}
-
-/* Hover Text Glow */
-.main-menu ul li:hover>a {
-    color: #f5b400 !important;
-    -webkit-text-fill-color: #f5b400 !important;
-    text-shadow: 0 0 8px rgba(245, 180, 0, 0.3);
-    transform: translateY(-1px);
-}
 
 /* ==========================================================================
    GLOBAL SUB-PAGE HERO NORMALIZATION (Screen Half)
@@ -282,156 +188,6 @@ body {
    DROPDOWN MENU STYLES (For All Navigation Items)
    ========================================================================== */
 
-/* Dropdown Parent */
-.main-menu ul li.has-dropdown {
-    position: relative !important;
-}
-
-/* Dropdown Arrow Icon */
-.main-menu ul li.has-dropdown>a i {
-    font-size: 10px !important;
-    margin-left: 5px !important;
-    transition: transform 0.3s ease !important;
-    display: inline-block !important;
-}
-
-.main-menu ul li.has-dropdown:hover>a i {
-    transform: rotate(180deg) !important;
-}
-
-/* Dropdown Menu Container */
-.dropdown-menu-nav {
-    position: absolute !important;
-    top: 100% !important;
-    left: 50% !important;
-    transform: translateX(-50%) translateY(10px) !important;
-    min-width: 260px !important;
-    background: rgba(17, 17, 17, 0.98) !important;
-    border-top: 3px solid var(--pvc-gold-mid) !important;
-    border-radius: 0 0 8px 8px !important;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6) !important;
-    padding: 15px 0 !important;
-    margin: 0 !important;
-    list-style: none !important;
-    z-index: 9999 !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    pointer-events: none;
-    display: block !important;
-}
-
-/* Show dropdown on hover */
-.main-menu ul li.has-dropdown:hover .dropdown-menu-nav {
-    visibility: visible !important;
-    opacity: 1 !important;
-    transform: translateX(-50%) translateY(0) !important;
-    pointer-events: auto;
-}
-
-/* Invisible bridge to prevent menu closing */
-.dropdown-menu-nav::before {
-    content: '';
-    position: absolute;
-    top: -15px;
-    left: 0;
-    width: 100%;
-    height: 15px;
-    background: transparent;
-}
-
-/* Dropdown Menu Items */
-.dropdown-menu-nav li {
-    display: block !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.dropdown-menu-nav li a {
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-    padding: 12px 20px !important;
-    color: rgba(255, 255, 255, 0.8) !important;
-    -webkit-text-fill-color: rgba(255, 255, 255, 0.8) !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    text-decoration: none !important;
-    transition: all 0.25s ease !important;
-    background: transparent !important;
-    border-left: 3px solid transparent !important;
-}
-
-.dropdown-menu-nav li a i {
-    width: 20px !important;
-    text-align: center !important;
-    color: var(--pvc-gold-mid) !important;
-    font-size: 14px !important;
-    transition: transform 0.3s ease !important;
-    transform: none !important;
-}
-
-.dropdown-menu-nav li a:hover {
-    background: rgba(212, 175, 55, 0.1) !important;
-    color: var(--pvc-gold-mid) !important;
-    -webkit-text-fill-color: var(--pvc-gold-mid) !important;
-    border-left-color: var(--pvc-gold-mid) !important;
-    padding-left: 25px !important;
-}
-
-.dropdown-menu-nav li a:hover i {
-    transform: translateX(3px) !important;
-    color: var(--pvc-gold-mid) !important;
-}
-
-/* Dropdown Divider */
-.dropdown-menu-nav li.dropdown-divider {
-    height: 1px !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-    margin: 10px 15px !important;
-    padding: 0 !important;
-}
-
-/* Mobile: Hide dropdown on small screens (use accordion instead) */
-@media (max-width: 991px) {
-    .dropdown-menu-nav {
-        display: none !important;
-    }
-
-    .main-menu ul li.has-dropdown>a i {
-        display: none !important;
-    }
-}
-
-.main-menu ul li a:hover,
-.main-menu ul li a.active,
-.main-menu ul li:hover>a {
-    /* Premium Logo Gold (Foil Effect) */
-    background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C) !important;
-    background-size: 200% auto !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    color: #B38728 !important;
-}
-
-.main-menu ul li a i {
-    display: inline-block !important;
-    margin-left: 6px;
-    font-size: 14px;
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.main-menu ul li:hover>a>i,
-.main-menu ul li a.active>i {
-    transform: rotate(180deg);
-    background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C) !important;
-    background-size: 200% auto !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    color: #B38728 !important;
-}
 
 /* ==========================================================================
    MEGA MENU (Optimized for Dark Theme) - FIXED VERSION

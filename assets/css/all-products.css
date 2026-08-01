@@ -1694,3 +1694,149 @@
 .products-content-area {
     overflow: visible !important;
 }
+
+/* ==========================================================================
+   BRANDS GRID VIEW
+   ========================================================================== */
+
+.brands-view {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.brand-card {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border-color: rgba(192, 152, 83, 0.4);
+}
+
+.brand-image {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.brand-card:hover .brand-image img {
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   BRAND BANNER
+   ========================================================================== */
+
+.brand-banner-section {
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: center;
+    background: transparent;
+    padding: 0;
+}
+
+.brand-banner-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    max-height: 200px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.05));
+    margin: 0 auto 12px auto;
+    display: block;
+}
+
+.brand-banner-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.brand-banner-title {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.brand-banner-count {
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   PRODUCT COUNT BADGE
+   ========================================================================== */
+
+.product-count-text {
+    display: block;
+    color: #888;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* ==========================================================================
+   RESPONSIVE OVERRIDES
+   ========================================================================== */
+
+@media (max-width: 991px) {
+    .brands-view {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .brands-view {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+    
+    .brand-card {
+        padding: 16px;
+        border-radius: 8px;
+    }
+    
+    .brand-banner-section {
+        margin-bottom: 16px;
+    }
+    
+    .brand-banner-image {
+        max-width: 100%;
+        max-height: 160px;
+        margin-bottom: 8px;
+    }
+
+    .brand-banner-title {
+        font-size: 18px;
+    }
+
+    .brand-banner-count {
+        font-size: 12px;
+    }
+}
