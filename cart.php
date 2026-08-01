@@ -8,13 +8,7 @@
 
   <!--=====FAB ICON=======-->
   <link rel="shortcut icon" href="assets/img/logo/Untitled design-3.png" type="image/x-icon">
-  <!--===== CSS LINK =======-->
-  <link rel="stylesheet" href="assets/css/plugins/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/plugins/fontawesome.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="stylesheet" href="assets/css/header_styles.css">
-  <link rel="stylesheet" href="assets/css/pvc-header-footer.css">
-  <link rel="stylesheet" href="assets/css/cart_styles.css">
+
 
   <!--=====  JS SCRIPT LINK =======-->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>

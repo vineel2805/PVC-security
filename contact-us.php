@@ -7,11 +7,7 @@
   <title>Contact Us - PVC Global Security | Expert Technical Support</title>
   <meta name="description"
     content="Reach out to PVC Security for expert surveillance guidance, sales inquiries, and technical support in AP & Telangana. Secure your future with our advanced AIoT solutions.">
-  <link rel="shortcut icon" href="assets/img/logo/Untitled design-3.png" type="image/x-icon">
-  <link rel="stylesheet" href="assets/css/plugins/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/plugins/fontawesome.css">
-  <link rel="stylesheet" href="assets/css/plugins/aos.css">
-  <link rel="stylesheet" href="assets/css/main.css">
+   <?php include 'head.php'; ?>
   <style>
     :root {
       --pvc-gold-dark: #b8860b;

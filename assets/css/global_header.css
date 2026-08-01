@@ -26,6 +26,648 @@
     --z-mobile-menu: 10002;
 }
 
+/*<style id="pvc-header-fixes">*/
+
+/* ==========================================================
+     ICON BUTTONS — Search / Phone / Cart
+     Matches screenshot: solid black circle, thick gold ring,
+     large centred gold icon, subtle glow on hover
+  ========================================================== */
+
+.pvc-header-utils {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+}
+
+/* The single shared class for all three circle icon buttons */
+.pvc-icon-btn {
+    /* size */
+    flex: 0 0 auto !important;
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    padding: 0 !important;
+
+    /* circle shape */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+
+    /* colours — solid black fill, thick gold ring */
+    background-color: #111111 !important;
+    border: 2.5px solid #c9a14a !important;
+    color: #c9a14a !important;
+
+    /* icon size */
+    font-size: 18px !important;
+    line-height: 1 !important;
+
+    /* misc */
+    cursor: pointer !important;
+    text-decoration: none !important;
+    position: relative !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: background-color 0.22s ease,
+        border-color 0.22s ease,
+        color 0.22s ease,
+        box-shadow 0.22s ease !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+.pvc-icon-btn i {
+    color: inherit !important;
+    font-size: inherit !important;
+    pointer-events: none !important;
+}
+
+/* Hover: gold fill, dark icon, soft glow */
+.pvc-icon-btn:hover {
+    background-color: #c9a14a !important;
+    border-color: #c9a14a !important;
+    color: #111111 !important;
+    box-shadow: 0 0 14px rgba(201, 161, 74, 0.45) !important;
+}
+
+/* Cart badge */
+
+
+/* Slightly smaller on very small phones */
+@media (max-width: 420px) {
+    .pvc-icon-btn {
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        font-size: 15px !important;
+    }
+
+    .pvc-header-logo img {
+        width: 96px !important;
+    }
+}
+
+/* Adjust size for mobile devices */
+@media (max-width: 767px) {
+    .pvc-icon-btn {
+        width: 40px !important;
+        /* Reduced from 50px */
+        height: 40px !important;
+        /* Reduced from 50px */
+        min-width: 40px !important;
+        font-size: 15px !important;
+        /* Reduced icon size */
+    }
+
+    /* Adjust cart badge position for smaller buttons */
+    .pvc-cart-badge {
+        top: -2px !important;
+        right: -2px !important;
+        min-width: 16px !important;
+        height: 16px !important;
+        font-size: 9px !important;
+    }
+}
+
+/* Further reduction for very small screens */
+@media (max-width: 420px) {
+    .pvc-icon-btn {
+        width: 36px !important;
+        /* Smaller still */
+        height: 36px !important;
+        min-width: 36px !important;
+        font-size: 14px !important;
+    }
+
+    /* Reduce gap in header so icons fit better */
+    .pvc-header-utils {
+        gap: 10px !important;
+    }
+}
+
+/* Hide phone icon in desktop header on mobile — it lives in the mobile menu */
+@media (max-width: 991px) {
+    .pvc-phone-btn {
+        display: none !important;
+    }
+}
+
+/* ==========================================================
+     SEARCH — collapsible dropdown form
+  ========================================================== */
+.pvc-header-search-container {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+/* Remove browser default button chrome */
+.pvc-header-search-btn-toggle,
+.pvc-header-search-btn-toggle:focus,
+.pvc-header-search-btn-toggle:active {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.pvc-header-search-form {
+    position: absolute !important;
+    top: calc(100% + 12px) !important;
+    right: 0 !important;
+    width: 320px !important;
+    max-width: 90vw !important;
+    background: #fff !important;
+    border-radius: 10px !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .18) !important;
+    padding: 10px !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(-8px) !important;
+    transition: opacity .2s ease, transform .2s ease, visibility .2s ease !important;
+    z-index: 99997 !important;
+}
+
+.pvc-header-search-form.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+}
+
+.pvc-header-search-input {
+    width: 100% !important;
+    border: 1px solid #e3e3e3 !important;
+    border-radius: 8px !important;
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+}
+
+.pvc-header-search-input:focus {
+    border-color: #c9a14a !important;
+}
+
+/* Results panel sits inside the dropdown */
+.pvc-header-search-form .pvc-header-search-results {
+    position: static !important;
+    width: 100% !important;
+    margin-top: 8px !important;
+    border: none !important;
+    border-top: 1px solid #eee !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    max-height: 320px !important;
+    overflow-y: auto !important;
+}
+
+/* Mobile search form position */
+@media (max-width: 991px) {
+    .pvc-header-search-form {
+        right: -95px !important;
+        width: 92vw !important;
+        max-width: 400px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .pvc-header-search-form {
+        right: -80px !important;
+        width: 94vw !important;
+    }
+}
+
+/* ==========================================================
+     CATEGORY MEGA-MENU — 4-column grid + scroll
+  ========================================================== */
+.has-mega-category .pvc-mega-menu {
+    width: 760px !important;
+    max-width: 92vw !important;
+}
+
+.has-mega-category .pvc-mega-list {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    column-gap: 28px !important;
+    row-gap: 6px !important;
+    max-height: 380px !important;
+    overflow-y: auto !important;
+    padding-right: 10px !important;
+    list-style: none !important;
+    margin: 0 !important;
+}
+
+.has-mega-category .pvc-mega-list li {
+    min-width: 0 !important;
+}
+
+.has-mega-category .pvc-mega-list li a {
+    display: block !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.has-mega-category .pvc-mega-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.has-mega-category .pvc-mega-list::-webkit-scrollbar-track {
+    background: #f4f4f4;
+    border-radius: 10px;
+}
+
+.has-mega-category .pvc-mega-list::-webkit-scrollbar-thumb {
+    background: #c9a14a;
+    border-radius: 10px;
+}
+
+@media (max-width: 1400px) {
+    .has-mega-category .pvc-mega-menu {
+        width: 600px !important;
+    }
+
+    .has-mega-category .pvc-mega-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+/* ==========================================================
+     MOBILE SLIDE-OUT MENU
+  ========================================================== */
+@media (max-width: 991px) {
+
+    .pvc-overlay {
+        position: fixed !important;
+        inset: 0 !important;
+        background: rgba(0, 0, 0, .55) !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transition: opacity .3s ease, visibility .3s ease !important;
+        z-index: 99998 !important;
+    }
+
+    .pvc-overlay.active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+
+    .pvc-mobile-menu {
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        left: auto !important;
+        height: 100dvh !important;
+        width: 270px !important;
+        max-width: 82vw !important;
+        background: #111 !important;
+        box-sizing: border-box !important;
+        padding: 18px 18px 24px !important;
+        overflow-y: auto !important;
+        z-index: 99999 !important;
+        transform: translateX(100%) !important;
+        transition: transform .3s ease !important;
+    }
+
+    .pvc-mobile-menu.active {
+        transform: translateX(0) !important;
+    }
+
+    .pvc-mobile-close {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 32px !important;
+        height: 32px !important;
+        margin: 0 0 6px auto !important;
+        border-radius: 50% !important;
+        background: rgba(255, 255, 255, .08) !important;
+        font-size: 15px !important;
+        cursor: pointer !important;
+        transition: background .2s ease !important;
+    }
+
+    .pvc-mobile-close:hover {
+        background: rgba(255, 255, 255, .18) !important;
+    }
+
+    .pvc-mobile-close i {
+        color: #fff !important;
+    }
+
+    body.no-scroll {
+        overflow: hidden !important;
+    }
+
+    .pvc-mobile-nav-list {
+        list-style: none !important;
+        margin: 0 0 16px !important;
+        padding: 0 !important;
+    }
+
+    .pvc-mobile-nav-item {
+        width: 100% !important;
+    }
+
+    .pvc-mobile-nav-link {
+        display: block !important;
+        width: 100% !important;
+        white-space: nowrap !important;
+        padding: 9px 0 !important;
+        font-size: 14px !important;
+        line-height: 1.2 !important;
+    }
+
+    .pvc-mobile-contact-title {
+        font-size: 11px !important;
+        letter-spacing: .06em !important;
+        margin: 0 0 10px !important;
+    }
+
+    .pvc-mobile-btns {
+        display: flex !important;
+        gap: 8px !important;
+        flex-wrap: nowrap !important;
+        margin-bottom: 14px !important;
+    }
+
+    .pvc-mobile-btn {
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        white-space: nowrap !important;
+        justify-content: center !important;
+        padding: 9px 6px !important;
+        font-size: 12px !important;
+        gap: 5px !important;
+    }
+
+    .pvc-mobile-numbers {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 7px !important;
+    }
+
+    .pvc-mobile-num {
+        font-size: 13px !important;
+        white-space: nowrap !important;
+    }
+
+    .pvc-mobile-toggle span {
+        background: #c9a14a !important;
+    }
+}
+
+/* ==========================================================
+     LIVE SEARCH RESULTS DROPDOWN
+  ========================================================== */
+.pvc-header-search-results {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 360px;
+    max-height: 420px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ececec;
+    border-radius: 10px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .14);
+    z-index: 1000;
+}
+
+.pvc-header-search-results.active {
+    display: block;
+}
+
+.pvc-header-search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    text-decoration: none;
+    color: #222;
+    border-bottom: 1px solid #f4f4f4;
+    transition: .15s;
+}
+
+.pvc-header-search-result-item:last-child {
+    border-bottom: none;
+}
+
+.pvc-header-search-result-item:hover {
+    background: #faf6ec;
+}
+
+.pvc-header-search-result-item img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    background: #f6f6f8;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.pvc-header-search-result-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.pvc-header-search-result-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pvc-header-search-result-meta {
+    font-size: 11px;
+    color: #9a9a9a;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pvc-header-search-result-price {
+    font-size: 13px;
+    font-weight: 700;
+    color: #c9a14a;
+    flex-shrink: 0;
+}
+
+.pvc-header-search-empty,
+.pvc-header-search-loading {
+    padding: 16px;
+    text-align: center;
+    font-size: 13px;
+    color: #9a9a9a;
+}
+
+/* Mobile Navigation */
+
+/* Bottom Navigation */
+@media (max-width: 991px) {
+    .pvc-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 68px;
+        background-color: #ffffff;
+        border-top: 1px solid #eeeeee;
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+        border-radius: 18px 18px 0 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 99999;
+        padding-bottom: env(safe-area-inset-bottom);
+        box-sizing: content-box;
+    }
+
+    /* Navigation Item */
+    .pvc-bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #888888;
+        font-size: 11px;
+        font-weight: 600;
+        position: relative;
+        height: 100%;
+        flex: 1;
+        transition: color 0.22s ease;
+    }
+
+    .pvc-bottom-nav-item i {
+        font-size: 20px;
+        margin-bottom: 4px;
+        transition: color 0.22s ease;
+    }
+
+    .pvc-bottom-cart-badge {
+        position: absolute !important;
+        top: -6px !important;
+        right: -8px !important;
+        background: #c9a14a !important;
+        color: #111111 !important;
+        font-size: 9px !important;
+        font-weight: 700 !important;
+        min-width: 14px !important;
+        height: 14px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 2px !important;
+        line-height: 1 !important;
+        pointer-events: none !important;
+    }
+
+    /* Active State */
+    .pvc-bottom-nav-item.active {
+        color: #c9a14a;
+    }
+
+    .pvc-bottom-nav-item.active i {
+        color: #c9a14a;
+    }
+
+    .pvc-bottom-nav-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: 4px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 16px;
+        height: 3px;
+        background-color: #c9a14a;
+        border-radius: 2px;
+    }
+
+    /* Search FAB */
+    .pvc-bottom-nav-item.search-fab {
+        flex: 1.2;
+        position: relative;
+        overflow: visible;
+    }
+
+    .pvc-header-search-fab-icon {
+        width: 54px;
+        height: 54px;
+        background-color: #111111;
+        border: 3px solid #c9a14a;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #c9a14a;
+        box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
+        position: absolute;
+        top: -26px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: all 0.22s ease;
+    }
+
+    .pvc-bottom-nav-item.search-fab i {
+        font-size: 20px;
+        color: #c9a14a;
+        margin-bottom: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .pvc-bottom-nav-item.search-fab span {
+        margin-top: 32px;
+    }
+
+    .pvc-bottom-nav-item.search-fab.active .pvc-header-search-fab-icon {
+        background-color: #c9a14a;
+        border-color: #111111;
+    }
+
+    .pvc-bottom-nav-item.search-fab.active i {
+        color: #111111;
+    }
+
+    .pvc-bottom-nav-item.search-fab.active::after {
+        display: none;
+    }
+
+    /* Safe Area */
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+        .pvc-bottom-nav {
+            height: 68px;
+        }
+    }
+
+    /* WhatsApp Position */
+    .pvc-floating-whatsapp {
+        bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+    }
+
+    /* Mobile Header Fix */
+}
+
+@media (min-width: 992px) {
+    .pvc-bottom-nav {
+        display: none !important;
+    }
+}
+
+
+
 /* Global Reset for Header */
 /* Global Reset for Header - Standard Bar with Internal Rings */
 .pvc-global-header {
@@ -50,6 +692,8 @@
     box-shadow: none;
 }
 
+/* not present in header.php remove it  later*/
+
 .pvc-global-header.sticky {
     height: 70px;
     background: rgba(0, 0, 0, 0.95);
@@ -59,12 +703,16 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
 }
 
+/* not present in header.php remove it  later*/
+
 @media (max-width: 768px) {
     .pvc-global-header {
         width: 100%;
         top: 0;
         height: 56px !important;
     }
+
+    /* not present in header.php remove it  later*/
 }
 
 /* Container */
@@ -80,13 +728,18 @@
     /* Prevent items from wrapping and shifting content */
 }
 
+/* not present in header.php remove it  later*/
+
 /* Logo */
 .pvc-header-logo a {
     display: block;
 }
 
+/* not present in header.php remove it  later*/
+
 .pvc-header-logo img {
     height: 50px;
+    object-fit: contain;
     width: auto;
     transition: var(--transition-smooth);
 }
@@ -118,12 +771,16 @@
     /* Compact on scroll */
 }
 
+/* not present in header.php remove it  later*/
+
 .pvc-nav-item {
     position: relative;
     height: 100%;
     display: flex;
     align-items: center;
 }
+
+/*not in header.php but in js code */
 
 .pvc-nav-link {
     color: var(--pvc-white);
@@ -284,12 +941,16 @@
     /* Ensure no overflow breaks circle */
 }
 
+/*not in header.php remove it later*/
+
 .pvc-util-btn:hover {
     background: var(--pvc-gold);
     color: var(--pvc-black);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
 }
+
+/*not in header.php remove it later*/
 
 /* Cart Badge */
 .pvc-cart-badge {
@@ -418,6 +1079,8 @@
 .pvc-util-btn:hover i {
     color: var(--pvc-black);
 }
+
+/*not in header.php remove it later*/
 
 .pvc-header-search-container.active .pvc-header-search-btn-toggle {
     /* Maintain visibility to keep the circle shape on the right */
@@ -684,6 +1347,7 @@
 
     .pvc-header-logo img {
         height: 36px;
+
     }
 
     .pvc-main-nav {
@@ -709,6 +1373,10 @@
         font-size: 14px;
     }
 
+    /*not in header.php remove it later*/
+
+
+
     .pvc-cart-badge {
         width: 16px;
         height: 16px;
@@ -720,7 +1388,11 @@
     .pvc-util-btn.pvc-phone-btn {
         display: none;
     }
+
+    /*not in header.php remove it later*/
 }
+
+
 
 /* Mobile Sidebar Menu - Natural Scroll Fix */
 .pvc-mobile-menu {

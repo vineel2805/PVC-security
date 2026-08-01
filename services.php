@@ -7,13 +7,7 @@
   <title>Premium Security Services - PVC Global Security</title>
   <meta name="description"
     content="Expert CCTV installation, security planning, and maintenance services. PVC Security provides professional surveillance support across Andhra Pradesh and Telangana.">
-  <link rel="shortcut icon" href="assets/img/logo/Untitled design-3.png" type="image/x-icon">
-  <link rel="stylesheet" href="assets/css/plugins/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/plugins/fontawesome.css">
-  <link rel="stylesheet" href="assets/css/plugins/aos.css">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="stylesheet" href="assets/css/header_styles.css">
-
+    <?php include 'head.php'; ?>
   <!-- JS Plugins -->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
   <!-- FontAwesome 6 (if not already fully loaded) -->

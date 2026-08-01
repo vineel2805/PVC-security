@@ -7,18 +7,7 @@
     <title>About Us - PVC Global Security | Leading AIoT Surveillance</title>
     <meta name="description"
         content="Learn about PVC Security's mission to lead the future of AIoT through innovative surveillance technology and reliable security infrastructure in Andhra Pradesh & Telangana.">
-    <link rel="shortcut icon" href="assets/img/logo/Untitled design-3.png" type="image/x-icon">
-
-    <!-- Plugins -->
-    <link rel="stylesheet" href="assets/css/plugins/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/plugins/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/plugins/aos.css">
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/header_styles.css">
-
-    <!-- FontAwesome 6 (Ensure loaded) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
+    <?php include 'head.php'; ?>
     <style>
         :root {
             --pvc-black: #000000;
