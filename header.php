@@ -642,6 +642,58 @@ if ($catRaw) {
       border-radius: 2px;
     }
 
+    /* Search FAB */
+    .pvc-bottom-nav-item.search-fab {
+      flex: 1.2;
+      position: relative;
+      overflow: visible;
+    }
+    
+    .pvc-search-fab-icon {
+      width: 54px;
+      height: 54px;
+      background-color: #111111;
+      border: 3px solid #c9a14a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #c9a14a;
+      box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
+      position: absolute;
+      top: -26px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all 0.22s ease;
+    }
+    
+    .pvc-bottom-nav-item.search-fab i {
+      font-size: 20px;
+      color: #c9a14a;
+      margin-bottom: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .pvc-bottom-nav-item.search-fab span {
+      margin-top: 32px;
+    }
+    
+    .pvc-bottom-nav-item.search-fab.active .pvc-search-fab-icon {
+      background-color: #c9a14a;
+      border-color: #111111;
+    }
+    
+    .pvc-bottom-nav-item.search-fab.active i {
+      color: #111111;
+    }
+    
+    .pvc-bottom-nav-item.search-fab.active::after {
+      display: none;
+    }
+
     /* Safe Area */
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
       .pvc-bottom-nav {
@@ -680,6 +732,12 @@ if ($catRaw) {
       <i class="fa-solid fa-tags"></i>
       <span>Brands</span>
     </a>
+    <a href="search.php" class="pvc-bottom-nav-item search-fab" id="bottom-nav-search" aria-label="Search">
+      <div class="pvc-search-fab-icon">
+        <i class="fa-solid fa-search"></i>
+      </div>
+      <span>Search</span>
+    </a>
     <a href="all-categories.php" class="pvc-bottom-nav-item" id="bottom-nav-categories" aria-label="Categories">
       <i class="fa-solid fa-border-all"></i>
       <span>Categories</span>
@@ -690,10 +748,6 @@ if ($catRaw) {
         <span class="pvc-bottom-cart-badge" id="pvc-bottom-cart-count" style="display: none;">0</span>
       </div>
       <span>RFQ</span>
-    </a>
-    <a href="contact-us.php" class="pvc-bottom-nav-item" id="bottom-nav-contact" aria-label="Contact Us">
-      <i class="fa-solid fa-phone"></i>
-      <span>Contact</span>
     </a>
   </nav>
 
@@ -969,8 +1023,8 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     } else if (currentLoc === 'cart.php') {
       activeId = 'bottom-nav-rfq';
-    } else if (currentLoc === 'contact-us.php') {
-      activeId = 'bottom-nav-contact';
+    } else if (currentLoc === 'search.php') {
+      activeId = 'bottom-nav-search';
     }
 
     if (activeId) {

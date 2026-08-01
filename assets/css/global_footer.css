@@ -524,3 +524,22 @@
         width: 100%;
     }
 }
+
+/* Hide entire footer content on mobile devices strictly (< 768px) */
+@media (max-width: 767px) {
+    .pvc-global-footer {
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        background: transparent !important;
+    }
+
+    .pvc-global-footer::before {
+        display: none !important;
+    }
+
+    .pvc-footer-container,
+    .pvc-footer-bottom-bar {
+        display: none !important;
+    }
+}
