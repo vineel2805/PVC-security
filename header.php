@@ -288,21 +288,21 @@ if ($catRaw) {
   /* ==========================================================
      SEARCH — collapsible dropdown form
   ========================================================== */
-  .pvc-search-container {
+  .pvc-header-search-container {
     position: relative !important;
     display: inline-flex !important;
     align-items: center !important;
   }
 
   /* Remove browser default button chrome */
-  .pvc-search-btn-toggle,
-  .pvc-search-btn-toggle:focus,
-  .pvc-search-btn-toggle:active {
+  .pvc-header-search-btn-toggle,
+  .pvc-header-search-btn-toggle:focus,
+  .pvc-header-search-btn-toggle:active {
     box-shadow: none !important;
     outline:    none !important;
   }
 
-  .pvc-search-form {
+  .pvc-header-search-form {
     position:   absolute !important;
     top:        calc(100% + 12px) !important;
     right:      0 !important;
@@ -319,13 +319,13 @@ if ($catRaw) {
     z-index:    99997 !important;
   }
 
-  .pvc-search-form.active {
+  .pvc-header-search-form.active {
     opacity:    1 !important;
     visibility: visible !important;
     transform:  translateY(0) !important;
   }
 
-  .pvc-search-input {
+  .pvc-header-search-input {
     width:         100% !important;
     border:        1px solid #e3e3e3 !important;
     border-radius: 8px !important;
@@ -334,10 +334,10 @@ if ($catRaw) {
     outline:       none !important;
     box-sizing:    border-box !important;
   }
-  .pvc-search-input:focus { border-color: #c9a14a !important; }
+  .pvc-header-search-input:focus { border-color: #c9a14a !important; }
 
   /* Results panel sits inside the dropdown */
-  .pvc-search-form .pvc-search-results {
+  .pvc-header-search-form .pvc-header-search-results {
     position:    static !important;
     width:       100% !important;
     margin-top:  8px !important;
@@ -351,14 +351,14 @@ if ($catRaw) {
 
   /* Mobile search form position */
   @media (max-width: 991px) {
-    .pvc-search-form {
+    .pvc-header-search-form {
       right:     -95px !important;
       width:     92vw !important;
       max-width: 400px !important;
     }
   }
   @media (max-width: 480px) {
-    .pvc-search-form {
+    .pvc-header-search-form {
       right: -80px !important;
       width: 94vw !important;
     }
@@ -484,7 +484,7 @@ if ($catRaw) {
   /* ==========================================================
      LIVE SEARCH RESULTS DROPDOWN
   ========================================================== */
-  .pvc-search-results {
+  .pvc-header-search-results {
     display:       none;
     position:      absolute;
     top:           calc(100% + 8px);
@@ -498,9 +498,9 @@ if ($catRaw) {
     box-shadow:    0 12px 30px rgba(0,0,0,.14);
     z-index:       1000;
   }
-  .pvc-search-results.active { display: block; }
+  .pvc-header-search-results.active { display: block; }
 
-  .pvc-search-result-item {
+  .pvc-header-search-result-item {
     display:         flex;
     align-items:     center;
     gap:             12px;
@@ -510,10 +510,10 @@ if ($catRaw) {
     border-bottom:   1px solid #f4f4f4;
     transition:      .15s;
   }
-  .pvc-search-result-item:last-child { border-bottom: none; }
-  .pvc-search-result-item:hover      { background: #faf6ec; }
+  .pvc-header-search-result-item:last-child { border-bottom: none; }
+  .pvc-header-search-result-item:hover      { background: #faf6ec; }
 
-  .pvc-search-result-item img {
+  .pvc-header-search-result-item img {
     width:        44px;
     height:       44px;
     object-fit:   contain;
@@ -522,13 +522,13 @@ if ($catRaw) {
     flex-shrink:  0;
   }
 
-  .pvc-search-result-info {
+  .pvc-header-search-result-info {
     display:        flex;
     flex-direction: column;
     flex:           1;
     min-width:      0;
   }
-  .pvc-search-result-name {
+  .pvc-header-search-result-name {
     font-size:     13px;
     font-weight:   600;
     color:         #1a1a1a;
@@ -536,7 +536,7 @@ if ($catRaw) {
     overflow:      hidden;
     text-overflow: ellipsis;
   }
-  .pvc-search-result-meta {
+  .pvc-header-search-result-meta {
     font-size:     11px;
     color:         #9a9a9a;
     margin-top:    2px;
@@ -544,14 +544,14 @@ if ($catRaw) {
     overflow:      hidden;
     text-overflow: ellipsis;
   }
-  .pvc-search-result-price {
+  .pvc-header-search-result-price {
     font-size:   13px;
     font-weight: 700;
     color:       #c9a14a;
     flex-shrink: 0;
   }
-  .pvc-search-empty,
-  .pvc-search-loading {
+  .pvc-header-search-empty,
+  .pvc-header-search-loading {
     padding:    16px;
     text-align: center;
     font-size:  13px;
@@ -649,7 +649,7 @@ if ($catRaw) {
       overflow: visible;
     }
     
-    .pvc-search-fab-icon {
+    .pvc-header-search-fab-icon {
       width: 54px;
       height: 54px;
       background-color: #111111;
@@ -681,7 +681,7 @@ if ($catRaw) {
       margin-top: 32px;
     }
     
-    .pvc-bottom-nav-item.search-fab.active .pvc-search-fab-icon {
+    .pvc-bottom-nav-item.search-fab.active .pvc-header-search-fab-icon {
       background-color: #c9a14a;
       border-color: #111111;
     }
@@ -749,7 +749,7 @@ if ($catRaw) {
       <span>Brands</span>
     </a>
     <a href="search.php" class="pvc-bottom-nav-item search-fab" id="bottom-nav-search" aria-label="Search">
-      <div class="pvc-search-fab-icon">
+      <div class="pvc-header-search-fab-icon">
         <i class="fa-solid fa-search"></i>
       </div>
       <span>Search</span>
@@ -778,11 +778,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const mobileMenu      = document.getElementById('pvc-mobile-menu');
   const mobileClose     = document.getElementById('pvc-mobile-close');
   const overlay         = document.getElementById('pvc-overlay');
-  const searchToggle    = document.querySelector('.pvc-search-btn-toggle');
-  const searchForm      = document.getElementById('pvc-search-form');
-  const searchContainer = document.getElementById('pvc-search-container');
+  const searchToggle    = document.querySelector('.pvc-header-search-btn-toggle');
+  const searchForm      = document.getElementById('pvc-header-search-form');
+  const searchContainer = document.getElementById('pvc-header-search-container');
   const searchInput     = document.getElementById('liveSearchInput');
-  const resultsBox      = document.getElementById('pvc-search-results');
+  const resultsBox      = document.getElementById('pvc-header-search-results');
 
   /* ── Header and Spacer clearance ──────────────────────── */
   function updateHeaderSpacing() {
@@ -945,7 +945,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!items || !items.length) {
       resultsBox.innerHTML =
-        '<div class="pvc-search-empty">No results found for "<strong>' +
+        '<div class="pvc-header-search-empty">No results found for "<strong>' +
         escapeHtml(query) + '</strong>"</div>';
       resultsBox.classList.add('active');
       return;
@@ -958,19 +958,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     ? item.pimage
                     : 'assets/img/logo/logo1.png';
       return `
-<a class="pvc-search-result-item" href="${escapeHtml(item.url)}">
+<a class="pvc-header-search-result-item" href="${escapeHtml(item.url)}">
   <img src="${escapeHtml(img)}"
        alt="${escapeHtml(item.label)}"
        loading="lazy"
        onerror="this.onerror=null;this.src='assets/img/logo/logo1.png';">
-  <div class="pvc-search-result-info">
-    <span class="pvc-search-result-name" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+  <div class="pvc-header-search-result-info">
+    <span class="pvc-header-search-result-name" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
       <span>${highlight(item.label, query)}</span>
       <span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;
                    background:${badge.bg};color:${badge.color};flex-shrink:0;">${badge.text}</span>
     </span>
     ${item.sublabel
-      ? `<span class="pvc-search-result-meta">${escapeHtml(item.sublabel)}</span>`
+      ? `<span class="pvc-header-search-result-meta">${escapeHtml(item.sublabel)}</span>`
       : ''}
   </div>
 </a>`;
@@ -990,7 +990,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (query.length < 1) { closeResults(); return; }
 
-      resultsBox.innerHTML = '<div class="pvc-search-loading">Searching…</div>';
+      resultsBox.innerHTML = '<div class="pvc-header-search-loading">Searching…</div>';
       resultsBox.classList.add('active');
 
       debounceTimer = setTimeout(() => {
@@ -1009,7 +1009,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (err.name !== 'AbortError') {
               console.error('Search error:', err);
               resultsBox.innerHTML =
-                '<div class="pvc-search-empty">Something went wrong. Please try again.</div>';
+                '<div class="pvc-header-search-empty">Something went wrong. Please try again.</div>';
             }
           });
       }, 280);
