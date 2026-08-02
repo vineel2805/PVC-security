@@ -5,12 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search - PVC Global</title>
     <meta name="description" content="Search PVC Security's premium range of CCTV and AIoT surveillance solutions.">
-
-    <link rel="shortcut icon" href="assets/img/logo/Untitled design-3.png" type="image/x-icon">
-    <link rel="stylesheet" href="assets/css/plugins/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/plugins/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/header_styles.css">
+    <?php include 'head.php'; ?>
+    
 
     <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
     <style>
