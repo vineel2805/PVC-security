@@ -612,7 +612,7 @@
         color: #c9a14a;
         box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
         position: absolute;
-        top: -26px;
+        
         left: 50%;
         transform: translateX(-50%);
         transition: all 0.22s ease;
