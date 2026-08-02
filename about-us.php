@@ -16,9 +16,6 @@
 
 <?php include 'header.php'; ?>
 
-
-
-
     <!-- WORKSPACE SECTION -->
     <section class="workspace-section">
         <div class="container">
@@ -26,7 +23,7 @@
                 <h2>Inside PVC Security</h2>
                 <p>A glimpse of our workspace and customer service environment</p>
             </div>
-
+            
             <div class="shop-images-grid">
                 <!-- Image 1 -->
                 <div class="shop-img-card" data-aos="zoom-in" data-aos-delay="100">
