@@ -57,7 +57,7 @@ if (isset($_GET['live_search'])) {
                 'name'  => $row['pname'],
                 'brand' => $row['brandname'],
                 'image' => db_image($row['pimage'] ?? '', $defaultImg),
-                'url'   => 'product-details.php?id=' . urlencode($row['pid']),
+                'url'   => 'all-products.php?pid=' . urlencode($row['pid']),
             ];
         }
     }
