@@ -42,5 +42,7 @@
 <!-- JS Plugins -->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
   <script src="assets/js/plugins/waypoints.js"></script>
+  <script src="assets/js/search.js"></script>
+  <script src="assets/js/global_header.js"></script>
 </head>
 <body>
