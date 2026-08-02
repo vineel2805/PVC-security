@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const searchForm = document.getElementById('pvc-header-search-form');
         const searchContainer = document.getElementById('pvc-header-search-container');
         const searchInput = document.getElementById('liveSearchInput');
-        const resultsBox = document.getElementById('pvc-header-search-results');
+        const resultsBox = document.getElementById('pvc-search-results');
 
         /* ── Header and Spacer clearance ──────────────────────── */
         function updateHeaderSpacing() {
