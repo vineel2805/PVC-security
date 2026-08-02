@@ -515,20 +515,23 @@
 @media (max-width: 991px) {
     .pvc-bottom-nav {
         position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 68px;
-        background-color: #ffffff;
-        border-top: 1px solid #eeeeee;
-        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        width: auto;
+        height: 74px;
+        background: #111111;
+        border-radius: 999px !important;
+
+          border: 1px solid rgba(255,255,255,.08);
+         box-shadow:0 12px 35px rgba(0,0,0,.28);
         border-radius: 18px 18px 0 0;
         display: flex;
         justify-content: space-around;
         align-items: center;
         z-index: 99999;
         padding-bottom: env(safe-area-inset-bottom);
-        box-sizing: content-box;
+        box-sizing: border-box;
     }
 
     /* Navigation Item */
@@ -584,7 +587,6 @@
     .pvc-bottom-nav-item.active::after {
         content: '';
         position: absolute;
-        bottom: 4px;
         left: 50%;
         transform: translateX(-50%);
         width: 16px;
@@ -647,9 +649,7 @@
 
     /* Safe Area */
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
-        .pvc-bottom-nav {
-            height: 68px;
-        }
+        
     }
 
     /* WhatsApp Position */
