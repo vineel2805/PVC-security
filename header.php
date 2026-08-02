@@ -112,7 +112,7 @@ if ($catRaw) {
     </div>
   </header>
 
-  <div id="pvc-header-spacer" style="height:0px;"></div>
+  <div id="pvc-header-spacer"></div>
 
   <!-- Mobile Overlay -->
   <div class="pvc-overlay" id="pvc-overlay"></div>
@@ -149,7 +149,7 @@ if ($catRaw) {
   </div>
 
   <link id="fa-link" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+
 
   
   <?php

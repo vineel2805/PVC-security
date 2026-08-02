@@ -5,10 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Cart - PVC Global</title>
-
+  <?php include 'head.php'; ?>
   <!--=====FAB ICON=======-->
   <link rel="shortcut icon" href="assets/img/logo/Untitled design-3.png" type="image/x-icon">
-
+  
 
   <!--=====  JS SCRIPT LINK =======-->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
