@@ -523,8 +523,8 @@
         background: #111111;
         border-radius: 999px !important;
 
-          border: 1px solid rgba(255,255,255,.08);
-         box-shadow:0 12px 35px rgba(0,0,0,.28);
+        border: 1px solid rgba(255, 255, 255, .08);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, .28);
         border-radius: 18px 18px 0 0;
         display: flex;
         justify-content: space-around;
@@ -584,7 +584,7 @@
         color: #c9a14a;
     }
 
-    .pvc-bottom-nav-item.active::after {
+    /*.pvc-bottom-nav-item.active::after {
         content: '';
         position: absolute;
         left: 50%;
@@ -593,7 +593,7 @@
         height: 3px;
         background-color: #c9a14a;
         border-radius: 2px;
-    }
+    }*/
 
     /* Search FAB */
     .pvc-bottom-nav-item.search-fab {
@@ -614,7 +614,7 @@
         color: #c9a14a;
         box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
         position: absolute;
-        
+
         left: 50%;
         transform: translateX(-50%);
         transition: all 0.22s ease;
@@ -648,9 +648,7 @@
     }
 
     /* Safe Area */
-    @supports (padding-bottom: env(safe-area-inset-bottom)) {
-        
-    }
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {}
 
     /* WhatsApp Position */
     .pvc-floating-whatsapp {
