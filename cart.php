@@ -32,64 +32,7 @@
       <div class="cart-page-row mt-4">
 
         <!-- Left Side: User Details Form -->
-        <div class="cart-form-col">
-          <div class="cart-form-section">
-            <div class="section-title-wrapper">
-              <h3 class="section-title"><i class="fa-solid fa-user-circle"></i> Contact Information</h3>
-              <button id="editContactBtn" class="btn-edit-contact" style="display: none;">
-                <i class="fa-solid fa-pen-to-square"></i> Edit
-              </button>
-            </div>
-
-            <!-- Form Mode -->
-            <div id="contactFormMode">
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="mobileNumber">Registered Mobile Number <span class="required">*</span></label>
-                  <input type="tel" class="form-control" id="mobileNumber" placeholder="Enter your mobile number">
-                </div>
-
-                <div class="form-group">
-                  <label for="customerName">Name <span class="required">*</span></label>
-                  <input type="text" class="form-control" id="customerName" placeholder="Enter your full name">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="cityName">City / Village <span class="required">*</span></label>
-                <input type="text" class="form-control" id="cityName" placeholder="Enter city or village name">
-              </div>
-              <div class="form-actions text-right mt-2">
-                 <button id="saveContactBtn" class="btn-save-contact">Save Details</button>
-              </div>
-            </div>
-
-            <!-- Summary Mode -->
-            <div id="contactSummaryMode" class="contact-summary" style="display: none;">
-              <div class="summary-item">
-                <div class="summary-icon"><i class="fa-solid fa-phone"></i></div>
-                <div class="summary-details">
-                  <label>Mobile Number</label>
-                  <p id="summaryMobile"></p>
-                </div>
-              </div>
-              <div class="summary-item">
-                <div class="summary-icon"><i class="fa-regular fa-user"></i></div>
-                <div class="summary-details">
-                  <label>Name</label>
-                  <p id="summaryName"></p>
-                </div>
-              </div>
-              <div class="summary-item">
-                <div class="summary-icon"><i class="fa-solid fa-location-dot"></i></div>
-                <div class="summary-details">
-                  <label>City / Village</label>
-                  <p id="summaryCity"></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
 
         <!-- Right Side: Cart Summary -->
         <div class="cart-summary-col">
@@ -120,6 +63,121 @@
             <p>Add products to your cart to request a quotation</p>
             <a href="all-products.php" class="btn-continue-shopping">Browse Products</a>
           </div>
+        </div>
+        <div class="cart-form-col">
+
+          <div class="cart-form-section">
+
+            <div class="section-title-wrapper">
+
+              <h3 class="section-title"><i class="fa-solid fa-user-circle"></i> Contact Information</h3>
+
+              <button id="editContactBtn" class="btn-edit-contact" style="display: none;">
+
+                <i class="fa-solid fa-pen-to-square"></i> Edit
+
+              </button>
+
+            </div>
+
+
+
+            <!-- Form Mode -->
+
+            <div id="contactFormMode">
+
+              <div class="form-row">
+
+                <div class="form-group">
+
+                  <label for="mobileNumber">Registered Mobile Number <span class="required">*</span></label>
+
+                  <input type="tel" class="form-control" id="mobileNumber" placeholder="Enter your mobile number">
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                  <label for="customerName">Name <span class="required">*</span></label>
+
+                  <input type="text" class="form-control" id="customerName" placeholder="Enter your full name">
+
+                </div>
+
+              </div>
+
+
+
+              <div class="form-group">
+
+                <label for="cityName">City / Village <span class="required">*</span></label>
+
+                <input type="text" class="form-control" id="cityName" placeholder="Enter city or village name">
+
+              </div>
+
+              <div class="form-actions text-right mt-2">
+
+                 <button id="saveContactBtn" class="btn-save-contact">Save Details</button>
+
+              </div>
+
+            </div>
+
+
+
+            <!-- Summary Mode -->
+
+            <div id="contactSummaryMode" class="contact-summary" style="display: none;">
+
+              <div class="summary-item">
+
+                <div class="summary-icon"><i class="fa-solid fa-phone"></i></div>
+
+                <div class="summary-details">
+
+                  <label>Mobile Number</label>
+
+                  <p id="summaryMobile"></p>
+
+                </div>
+
+              </div>
+
+              <div class="summary-item">
+
+                <div class="summary-icon"><i class="fa-regular fa-user"></i></div>
+
+                <div class="summary-details">
+
+                  <label>Name</label>
+
+                  <p id="summaryName"></p>
+
+                </div>
+
+              </div>
+
+              <div class="summary-item">
+
+                <div class="summary-icon"><i class="fa-solid fa-location-dot"></i></div>
+
+                <div class="summary-details">
+
+                  <label>City / Village</label>
+
+                  <p id="summaryCity"></p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
       </div>
