@@ -525,27 +525,24 @@ function getSelectedShippingMethod() {
 /**
  * Generate and send WhatsApp RFQ
  */
+// ==================== RFQ SUBMISSION WORKFLOW ====================
+
 /**
- * Generate and send WhatsApp RFQ
+ * Handle the click event on the Place Order button
  */
-function placeRFQOnWhatsApp() {
+function handlePlaceOrderClick(event) {
+    if (event) event.preventDefault();
 
-    const mobileNumber = document.getElementById('mobileNumber').value.trim();
-    const customerName = document.getElementById('customerName').value.trim();
-    const cityName = document.getElementById('cityName').value.trim();
+    clearValidationErrors();
 
-    if (!mobileNumber) {
-        alert('Please enter your mobile number');
-        return;
-    }
+    const validation = validateContactForm();
 
-    if (!customerName) {
-        alert('Please enter your name');
-        return;
-    }
-
-    if (!cityName) {
-        alert('Please enter your city or village name');
+    if (!validation.isValid) {
+        showValidationErrors(validation.invalidFields);
+        scrollToContactSection();
+        if (validation.firstInvalidField) {
+            validation.firstInvalidField.focus();
+        }
         return;
     }
 
@@ -556,40 +553,137 @@ function placeRFQOnWhatsApp() {
         return;
     }
 
-    // ===============================
-    // AUTO INCREMENT RFQ NUMBER
-    // ===============================
+    submitRFQ(cart);
+}
+
+/**
+ * Validate the required contact fields
+ * @returns {Object} Validation result
+ */
+function validateContactForm() {
+    const fields = [
+        { id: 'mobileNumber', name: 'Mobile Number' },
+        { id: 'customerName', name: 'Name' },
+        { id: 'cityName', name: 'City / Village' }
+    ];
+
+    let isValid = true;
+    let firstInvalidField = null;
+    const invalidFields = [];
+
+    fields.forEach(field => {
+        const element = document.getElementById(field.id);
+        if (element && element.value.trim() === '') {
+            isValid = false;
+            invalidFields.push(element);
+            if (!firstInvalidField) {
+                firstInvalidField = element;
+            }
+        }
+    });
+
+    return { isValid, firstInvalidField, invalidFields };
+}
+
+/**
+ * Clear existing validation errors and messages
+ */
+function clearValidationErrors() {
+    const inputs = ['mobileNumber', 'customerName', 'cityName'];
+    inputs.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.classList.remove('is-invalid');
+        }
+    });
+
+    const existingMsg = document.getElementById('contactFormErrorMsg');
+    if (existingMsg) {
+        existingMsg.remove();
+    }
+}
+
+/**
+ * Show validation errors for missing fields
+ * @param {Array} invalidFields - Array of invalid input elements
+ */
+function showValidationErrors(invalidFields) {
+    invalidFields.forEach(element => {
+        element.classList.add('is-invalid');
+    });
+
+    const contactFormSection = document.getElementById('contactFormMode');
+    if (contactFormSection && !document.getElementById('contactFormErrorMsg')) {
+        const errorMsg = document.createElement('div');
+        errorMsg.id = 'contactFormErrorMsg';
+        errorMsg.className = 'alert alert-danger mt-3 mb-0';
+        errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Please complete your contact information before placing your order.';
+        contactFormSection.appendChild(errorMsg);
+    }
+}
+
+/**
+ * Smoothly scroll to the Contact Information section
+ */
+function scrollToContactSection() {
+    const contactSection = document.querySelector('.cart-form-section');
+    if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+/**
+ * Submit the RFQ and open WhatsApp
+ * @param {Array} cart - The cart items array
+ */
+function submitRFQ(cart) {
+    const mobileNumber = document.getElementById('mobileNumber').value.trim();
+    const customerName = document.getElementById('customerName').value.trim();
+    const cityName = document.getElementById('cityName').value.trim();
+
+    const encodedMessage = generateWhatsAppMessage(cart, customerName, cityName, mobileNumber);
+
+    const WHATSAPP_NUMBER_1 = "9114456666";
+    const WHATSAPP_NUMBER_2 = "918112456789";
+
+    const whatsappURL1 = `https://wa.me/${WHATSAPP_NUMBER_1}?text=${encodedMessage}`;
+    const whatsappURL2 = `https://wa.me/${WHATSAPP_NUMBER_2}?text=${encodedMessage}`;
+
+    // Open first WhatsApp
+    window.open(whatsappURL1, '_blank');
+
+    // Open second WhatsApp after delay
+    setTimeout(() => {
+        window.open(whatsappURL2, '_blank');
+    }, 1000);
+}
+
+/**
+ * Generate the WhatsApp message exactly as the current implementation does
+ * @param {Array} cart - Cart items
+ * @param {string} customerName - Customer name
+ * @param {string} cityName - City name
+ * @param {string} mobileNumber - Mobile number
+ * @returns {string} Encoded WhatsApp message
+ */
+function generateWhatsAppMessage(cart, customerName, cityName, mobileNumber) {
     let lastRFQ = localStorage.getItem('lastRFQNumber') || 0;
-
     lastRFQ = parseInt(lastRFQ) + 1;
-
     localStorage.setItem('lastRFQNumber', lastRFQ);
-
     const rfqNumber = String(lastRFQ).padStart(3, '0');
 
-    // ===============================
-    // DATE
-    // ===============================
     const currentDate = new Date();
-
     const formattedDate =
         `${String(currentDate.getDate()).padStart(2, '0')}/` +
         `${String(currentDate.getMonth() + 1).padStart(2, '0')}/` +
         `${currentDate.getFullYear()}`;
 
-    // ===============================
-    // PRODUCT LIST
-    // ===============================
     let productList = "";
-
     cart.forEach((item, index) => {
         productList += `${index + 1}. ${item.name} × ${item.quantity}\n`;
     });
 
-    // ===============================
-    // WHATSAPP MESSAGE
-    // ===============================
-    let message =
+    const message =
         `
 ──────────────────────
 * RFQ Number: ${rfqNumber}
@@ -605,34 +699,7 @@ ${productList}
 ──────────────────────
 Total Products : ${cart.length}`;
 
-    const encodedMessage = encodeURIComponent(message);
-
-    // ===============================
-    // WHATSAPP NUMBERS
-    // ===============================
-    const WHATSAPP_NUMBER_1 = "9114456666";
-    const WHATSAPP_NUMBER_2 = "918112456789";
-
-    const whatsappURL1 = `https://wa.me/${WHATSAPP_NUMBER_1}?text=${encodedMessage}`;
-
-    const whatsappURL2 = `https://wa.me/${WHATSAPP_NUMBER_2}?text=${encodedMessage}`;
-
-    // Open first WhatsApp
-    window.open(whatsappURL1, '_blank');
-
-    // Open second WhatsApp after delay
-    setTimeout(() => {
-        window.open(whatsappURL2, '_blank');
-    }, 1000);
-
-    // Optional clear cart after RFQ
-    /*
-    localStorage.removeItem('pvcCart');
-
-    setTimeout(() => {
-        window.location.href = 'products.php';
-    }, 1000);
-    */
+    return encodeURIComponent(message);
 }
 
 // ==================== INITIALIZATION ====================
@@ -655,7 +722,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Bind Place RFQ button
         const placeRFQBtn = document.getElementById('placeRFQBtn');
         if (placeRFQBtn) {
-            placeRFQBtn.addEventListener('click', placeRFQOnWhatsApp);
+            placeRFQBtn.addEventListener('click', handlePlaceOrderClick);
         }
     }
 });
@@ -666,4 +733,5 @@ document.addEventListener('DOMContentLoaded', function () {
 window.addToCart = addToCart;
 window.removeFromCart = removeFromCart;
 window.updateCartItemQuantity = updateCartItemQuantity;
-window.placeRFQOnWhatsApp = placeRFQOnWhatsApp;
+window.handlePlaceOrderClick = handlePlaceOrderClick;
+window.placeRFQOnWhatsApp = handlePlaceOrderClick;

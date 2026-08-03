@@ -16,7 +16,7 @@
 
 <body>
 
-  <?php include 'header.php'; ?>
+  <?php $currentPage = 'cart';  include 'header.php'; ?>
 
 
   <!-- Cart Page Content -->
@@ -140,7 +140,7 @@
             <span id="cartItemCount" class="total-count">0 Items</span>
           </div>
           <div class="sticky-buttons">
-            <button id="placeRFQBtn" class="btn-place-rfq" disabled>
+            <button id="placeRFQBtn" class="btn-place-rfq">
               <i class="fa-brands fa-whatsapp"></i> Place Order
             </button>
             <a href="all-products.php" class="btn-continue-shopping">
@@ -200,10 +200,6 @@
             nameInput.value.trim() !== '' &&
             cityInput.value.trim() !== '';
 
-          if(rfqBtn) {
-              rfqBtn.disabled = !filled;
-              rfqBtn.classList.toggle('is-disabled', !filled);
-          }
           return filled;
         }
 

@@ -30,7 +30,7 @@ button.hik-btn-outline {
 
 /* Cart Page Section */
 .cart-page-section {
-    padding: 80px 0 160px;
+
     /* Leave space for sticky footer */
     background: #f9f9f9;
     min-height: 100vh;
@@ -459,6 +459,7 @@ button.hik-btn-outline {
     position: fixed;
     bottom: 0;
     left: 0;
+    right: 0;
     width: 100%;
     background: #fff;
     box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
@@ -471,27 +472,6 @@ button.hik-btn-outline {
     flex-direction: column;
 }
 
-.cart-shipping-note {
-    background: rgba(212, 175, 55, 0.08);
-    padding: 8px 12px;
-    border-radius: 6px;
-    margin-bottom: 12px;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-}
-
-.cart-shipping-note i {
-    color: var(--pvc-gold-mid);
-    margin-top: 3px;
-}
-
-.cart-shipping-note p {
-    font-size: 12px;
-    color: #666;
-    margin: 0;
-    line-height: 1.4;
-}
 
 .sticky-footer-actions {
     display: flex;
@@ -501,21 +481,20 @@ button.hik-btn-outline {
 }
 
 .sticky-totals {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 }
 
 .sticky-totals .total-label {
     font-size: 12px;
-    color: #666;
-    font-weight: 500;
+    color: #777;
 }
 
 .sticky-totals .total-count {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 700;
-    color: var(--pvc-dark-bg);
+    color: #000;
 }
 
 .sticky-buttons {
@@ -713,128 +692,7 @@ button.hik-btn-outline {
     }
 }
 
-@media (max-width: 767px) {
 
-    /* Ensure page content sits below the fixed header on mobile */
-    .cart-page-section {
-        padding: 90px 0 160px;
-    }
-
-    .cart-page-title {
-        font-size: 32px;
-    }
-
-    .cart-form-section,
-    .cart-summary-section {
-        padding: 15px;
-    }
-
-    .cart-summary-header {
-        padding: 15px;
-    }
-
-    .cart-items-scroll-area {
-        padding: 15px;
-        max-height: 50vh;
-    }
-
-    /* Force horizontal items */
-    .cart-item {
-        flex-direction: row !important;
-        align-items: center;
-        padding: 12px 0;
-        gap: 10px;
-    }
-
-    .cart-item-img {
-        width: 60px;
-        height: 60px;
-    }
-
-    .cart-item-name {
-        font-size: 13px;
-    }
-
-    .cart-item-model {
-        font-size: 11px;
-    }
-
-    .cart-item-price {
-        font-size: 12px;
-    }
-
-    .quantity-control button {
-        width: 24px;
-        height: 24px;
-    }
-
-    .quantity-control span {
-        min-width: 24px;
-    }
-
-    .floating-cart-btn {
-        display: none !important;
-        /* Hide floating view cart on cart page */
-    }
-
-    .shipping-card {
-        padding: 12px;
-    }
-
-    .shipping-icon {
-        font-size: 20px;
-    }
-
-    .shipping-info h4 {
-        font-size: 14px;
-    }
-
-    .cart-form-section .form-row {
-        display: block;
-    }
-
-    .contact-summary {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .summary-item {
-        border-right: none;
-        border-bottom: 1px solid var(--cart-border-color);
-        padding-bottom: 10px;
-    }
-
-    .summary-item:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-
-    .sticky-footer-actions {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 15px;
-    }
-
-    .sticky-totals {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--cart-border-color);
-        padding-bottom: 10px;
-    }
-
-    .sticky-buttons {
-        flex-direction: row;
-        gap: 10px;
-    }
-
-    .btn-place-rfq,
-    .btn-continue-shopping {
-        flex: 1;
-        font-size: 13px;
-        padding: 10px;
-    }
-}
 
 @media (max-width: 575px) {
     .cart-page-title {
@@ -859,9 +717,9 @@ button.hik-btn-outline {
 
 @media (max-width: 991px) {
 
+
     /* Hide summary footer items not needed on mobile */
     .cart-sticky-footer .cart-shipping-note,
-    .cart-sticky-footer .sticky-totals,
     .cart-sticky-footer .btn-continue-shopping {
         display: none !important;
     }
@@ -873,19 +731,16 @@ button.hik-btn-outline {
         border: none !important;
         padding: 0 !important;
         position: fixed !important;
-        bottom: calc(68px + env(safe-area-inset-bottom) + 8px) !important;
-        /* Spaced 8px above bottom nav */
+        bottom: 0 !important;
         left: 16px !important;
         right: 16px !important;
         width: calc(100% - 32px) !important;
         z-index: 99998 !important;
     }
 
-    .cart-sticky-footer .container,
-    .cart-sticky-footer .sticky-footer-content,
-    .cart-sticky-footer .sticky-footer-actions,
-    .cart-sticky-footer .sticky-buttons {
+    .cart-sticky-footer .container {
         padding: 0 !important;
+        bottom: 0;
         margin: 0 !important;
         width: 100% !important;
         display: block !important;
@@ -893,9 +748,35 @@ button.hik-btn-outline {
         background: transparent !important;
     }
 
+    .cart-sticky-footer .sticky-footer-content {
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+    }
+
+    .cart-sticky-footer .sticky-footer-actions {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+
+        background: white;
+    }
+
+    .cart-sticky-footer .sticky-buttons {
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+
+        width: auto !important;
+    }
+
     /* Green WhatsApp button styling */
     .cart-sticky-footer .btn-place-rfq {
-        width: 100% !important;
+
         height: 56px !important;
         border-radius: 12px !important;
         font-size: 16px !important;
@@ -908,6 +789,7 @@ button.hik-btn-outline {
         gap: 10px !important;
         box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3) !important;
         border: none !important;
+        margin-left: auto;
     }
 
     .cart-sticky-footer .btn-place-rfq i {
@@ -943,20 +825,15 @@ button.hik-btn-outline {
         color: #fff;
     }
 
-    /* Prevent sticky CTA overlapping content & set proper header spacing */
-    .cart-page-section {
-        padding-top: 12px !important;
-        padding-bottom: 220px !important;
-    }
-
     /* Position floating items above the sticky CTA button */
     body .pvc-floating-whatsapp {
         bottom: calc(148px + env(safe-area-inset-bottom)) !important;
+        display: none !important;
     }
 
     body .pvc-floating-call {
         bottom: calc(212px + env(safe-area-inset-bottom)) !important;
-        display: flex !important;
+        display: none !important;
     }
 }
 

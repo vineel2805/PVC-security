@@ -170,6 +170,7 @@ if ($catRaw) {
   ?>
 
   <!-- Modern Mobile Bottom Navigation -->
+   <?php if (($currentPage ?? '') !== 'cart.php'): ?>
   <nav class="pvc-bottom-nav" aria-label="Mobile Navigation">
     <a href="index.php" class="pvc-bottom-nav-item" id="bottom-nav-home" aria-label="Home">
       <i class="fa-solid fa-house"></i>
@@ -197,4 +198,5 @@ if ($catRaw) {
       <span>RFQ</span>
     </a>
   </nav>
+  <?php endif; ?>
 <script src="assets/js/global_header.js" defer></script>
