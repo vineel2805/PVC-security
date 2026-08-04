@@ -27,10 +27,11 @@
    <link rel="stylesheet" href="assets/css/plugins/nice-select.css">
 
    <link rel="stylesheet" href="assets/css/main.css">
-   <link rel="stylesheet" href="assets/css/header_styles.css">
    <link rel="stylesheet" href="assets/css/global_header.css">
    <link rel ="stylesheet" href="assets/css/global_footer.css">
-   <link rel="stylesheet" href="assets/css/products_styles.css"> 
+   <link rel="stylesheet" href="assets/css/products_styles.css">
+   <!--link rel="stylesheet" href="assets/css/header_styles.css"> -->
+   
 <!-- JS Plugins -->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
   <script src="assets/js/plugins/waypoints.js"></script>

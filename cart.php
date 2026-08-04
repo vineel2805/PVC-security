@@ -209,7 +209,6 @@
       </div>
     </div>
   </div>
-
   <!--===== GLOBAL FOOTER COMPONENT =======-->
   <script src="assets/js/global_footer.js"></script>
   <!--===== END GLOBAL FOOTER =======-->
@@ -218,5 +217,4 @@
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/plugins/bootstrap.min.js"></script>
 </body>
-
 </html>

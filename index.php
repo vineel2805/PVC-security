@@ -11,26 +11,18 @@ include 'head.php';
 
 <?php include 'header.php'; ?>
 <link rel="stylesheet" href="assets/css/index_styles.css">
-
+<link rel="stylesheet" href="assets/css/index.css">
   <!--=====HEADER END =======-->
 
  
 
-  <!--===== PROGRESS STARTS=======-->
-  <div class="paginacontainer">
-    <div class="progress-wrap">
-      <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
-      </svg>
-    </div>
-  </div>
-  <!--===== PROGRESS ENDS=======-->
+ 
 
 
-  <!--===== HERO AREA STARTS =======-->
+<!--===== HERO AREA STARTS =======-->
  <section id="home" data-aos="zoom-out" data-aos-duration="1500">
 
-  <!-- ================= DESKTOP CAROUSEL ================= -->
+<!-- ================= DESKTOP CAROUSEL ================= -->
   <div class="carousel-area owl-carousel hero-slider-desktop d-none d-md-block">
 
     <!-- Desktop Slide 1 -->
@@ -70,9 +62,7 @@ include 'head.php';
     </div>
 
   </div>
-
-
-  <!-- ================= MOBILE CAROUSEL ================= -->
+<!-- ================= MOBILE CAROUSEL ================= -->
   <div class="carousel-area owl-carousel hero-slider-mobile d-block d-md-none">
 
     <!-- Mobile Slide 1 -->
@@ -113,10 +103,10 @@ include 'head.php';
 
   </div>
 
-</section>
-  <!--===== HERO AREA ENDS =======-->
+ </section>
+<!--===== HERO AREA ENDS =======-->
 
-  <!--===== QUICK LINKS SECTION STARTS =======-->
+<!--===== QUICK LINKS SECTION STARTS =======-->
   <section id="quick-links" class="quick-links-section">
     <div class="container">
       <div class="quick-links-row">
@@ -196,9 +186,8 @@ include 'head.php';
       </div>
     </div>
   </section>
-  <!--===== QUICK LINKS SECTION ENDS =======-->
+<!--===== QUICK LINKS SECTION ENDS =======-->
 
-  <!--===== SHOP BY CATEGORIES SECTION STARTS =======-->
 <!--===== SHOP BY CATEGORIES SECTION STARTS =======-->
 <?php
 include 'connect.php'; 
@@ -265,193 +254,9 @@ $result = mysqli_query($con, $query);
         </div>
     </div>
 </section>
-
-<style>
-  #product-categories.shop-categories-section {
-    padding-top: 25px !important;
-  }
-
-  .pvc-searchbar-wrap {
-    display: flex;
-    justify-content: center;
-    margin: 0 0 35px;
-  }
-
-
-
-
-
-
-
-  /* Relocated Search Container Override in Body */
-  .pvc-searchbar-wrap #pvc-search-container {
-    position: relative !important;
-    width: min(100%, 740px) !important;
-    height: auto !important;
-    display: flex !important;
-    flex-direction: row-reverse !important;
-    align-items: center !important;
-    background: linear-gradient(180deg,#353535 0%,#1d1d1d 55%,#0d0d0d 100%) !important;
-    border: 2px solid #FFD86B !important;
-    border-radius: 999px !important;
-    padding: 0 6px 0 18px !important;
-    box-shadow:
-    0 0 12px rgba(255, 216, 107, 0.18),
-    0 4px 12px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.25) !important;
-    box-sizing: border-box !important;
-    margin: 0 auto !important;
-}
-
-.pvc-searchbar-wrap #pvc-search-form {
-    flex: 1 !important;
-    position: relative !important;
-    top: auto !important;
-    right: auto !important;
-    width: auto !important;
-    max-width: none !important;
-    background: transparent !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    z-index: auto !important;
-}
-
-.pvc-searchbar-wrap #liveSearchInput {
-    width: 100% !important;
-    border: none !important;
-    outline: none !important;
-    background: transparent !important;
-    padding: 14px 10px 14px 0 !important;
-    font-size: 15px !important;
-    color: #FFFFFF !important;
-    box-shadow: none !important;
-}
-
-.pvc-searchbar-wrap #liveSearchInput::placeholder {
-    color: #F2F2F2 !important;
-    opacity: 1 !important;
-}
-
-.pvc-searchbar-wrap .pvc-search-btn-toggle {
-    border: none !important;
-    background: linear-gradient(135deg,#FFE79A,#D4AF37,#9C6D00) !important;
-    color: #fff !important;
-    width: 42px !important;
-    height: 42px !important;
-    min-width: 42px !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    transition: transform .2s ease, background .2s ease !important;
-    box-shadow: 0 0 18px rgba(255,216,107,.50) !important;
-    outline: none !important;
-    font-size: 15px !important;
-}
-
-.pvc-searchbar-wrap .pvc-search-btn-toggle:hover {
-    background: linear-gradient(135deg,#FFE79A,#D4AF37,#9C6D00) !important;
-    filter: brightness(1.1) !important;
-    transform: none !important;
-}
-
-/* Desktop */
-.pvc-searchbar-wrap .pvc-search-results {
-    position: absolute !important;
-    top: calc(100% + 12px) !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    max-width: 100% !important;
-    max-height: 320px !important;
-    overflow-y: auto !important;
-    background: #fff !important;
-    border: 1px solid #ececec !important;
-    border-radius: 10px !important;
-    box-shadow: 0 12px 30px rgba(0,0,0,.14) !important;
-    z-index: 1000 !important;
-    transform: none !important;
-}
-
-@media (max-width:768px){
-
-    .pvc-searchbar-wrap #pvc-search-container{
-        width: min(calc(100% - 20px), 430px) !important;
-        margin: 0 auto !important;
-        padding:0 4px 0 14px !important;
-    }
-
-    .pvc-searchbar-wrap #liveSearchInput{
-        font-size:16px !important;
-        font-weight:500 !important;
-        line-height:1.5 !important;
-        padding:12px 15px !important;
-        color:#FFFFFF !important;
-        caret-color:#FFFFFF !important;
-    }
-
-    .pvc-searchbar-wrap #liveSearchInput::placeholder {
-        color: rgba(255, 255, 255, 0.7) !important;
-        opacity: 1 !important;
-    }
-
-    .pvc-searchbar-wrap .pvc-search-btn-toggle{
-        width:38px !important;
-        height:38px !important;
-        min-width:38px !important;
-    }
-
-    .pvc-searchbar-wrap #pvc-search-form{
-        position:static !important;
-    }
-
-    /* Mobile Search Results */
-    .pvc-searchbar-wrap .pvc-search-results{
-        position:absolute !important;
-        top:calc(100% + 8px) !important;
-
-        left:50% !important;
-        right:auto !important;
-        transform:translateX(-50%) !important;
-
-        width:calc(100% - 20px) !important;
-        max-width:500px !important;
-        max-height:320px !important;
-
-        overflow-y:auto !important;
-        overflow-x:hidden !important;
-
-        background:#fff !important;
-        border:1px solid #ececec !important;
-        border-radius:16px !important;
-        box-shadow:0 12px 30px rgba(0,0,0,.15) !important;
-
-        z-index:99999 !important;
-        box-sizing:border-box !important;
-    }
-
-    .pvc-searchbar-wrap .pvc-search-result-item{
-        display:flex !important;
-        width:100% !important;
-        box-sizing:border-box !important;
-    }
-
-}
-</style>
-
-
-
   <!--===== CLIENTS AREA STARTS =======-->
   <section id="clients" data-aos="fade-up">
-    <div class="counter-section-area"
-      style="background: #ffffff; padding: 60px 0; border-top: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05);">
+    <div class="counter-section-area">
       <div class="container">
         <!-- New Impressive Heading for Ecosystem -->
         <div class="row mb-5 justify-content-center">
@@ -470,77 +275,57 @@ $result = mysqli_query($con, $query);
         <div class="row g-3 g-md-4">
           <!-- Item 1: Clients -->
           <div class="col-6 col-lg-3 col-md-6" data-aos="fade-up">
-            <div class="counter-boxarea text-center"
-              style="padding: 40px 30px; background: #fff; border-radius: 20px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.4s ease; position: relative;"
-              onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='var(--pvc-gold-mid)'; this.style.boxShadow='0 15px 40px rgba(184, 134, 11, 0.15)';"
-              onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(0,0,0,0.05)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.05)';">
+            <div class="counter-boxarea-text-center">
 
-              <div class="icon-box"
-                style="width: 80px; height: 80px; margin: 0 auto 25px; background: linear-gradient(135deg, var(--pvc-gold-dark), var(--pvc-gold-mid)); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(184, 134, 11, 0.25);">
-                <i class="fa-solid fa-users" style="color: #fff; font-size: 32px;"></i>
+              <div class="icon-box">
+                <i class="fa-solid fa-users"></i>
               </div>
 
-              <h2 style="color: #111; font-size: 50px; font-weight: 800; margin-bottom: 5px;"><span
+              <h2 class="counter-value" ><span
                   class="counter">3500</span>+</h2>
-              <p
-                style="color: #555; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin: 0;">
+              <p class="counter-label">
                 Enterprise Clients</p>
             </div>
           </div>
           <!-- Item 2: Nodes -->
           <div class="col-6 col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="counter-boxarea text-center"
-              style="padding: 40px 30px; background: #fff; border-radius: 20px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.4s ease; position: relative;"
-              onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='var(--pvc-gold-mid)'; this.style.boxShadow='0 15px 40px rgba(184, 134, 11, 0.15)';"
-              onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(0,0,0,0.05)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.05)';">
+            <div class="counter-boxarea-text-center">
 
-              <div class="icon-box"
-                style="width: 80px; height: 80px; margin: 0 auto 25px; background: linear-gradient(135deg, var(--pvc-gold-dark), var(--pvc-gold-mid)); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(184, 134, 11, 0.25);">
-                <i class="fa-solid fa-tower-broadcast" style="color: #fff; font-size: 32px;"></i>
+              <div class="icon-box">
+                <i class="fa-solid fa-tower-broadcast"></i>
               </div>
 
-              <h2 style="color: #111; font-size: 50px; font-weight: 800; margin-bottom: 5px;"><span
+              <h2 class="counter-value" ><span
                   class="counter">1.2</span>M+</h2>
-              <p
-                style="color: #555; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin: 0;">
+              <p class="counter-label">
                 AIoT Nodes Deployed</p>
             </div>
           </div>
           <!-- Item 3: Partnerships -->
           <div class="col-6 col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="counter-boxarea text-center"
-              style="padding: 40px 30px; background: #fff; border-radius: 20px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.4s ease; position: relative;"
-              onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='var(--pvc-gold-mid)'; this.style.boxShadow='0 15px 40px rgba(184, 134, 11, 0.15)';"
-              onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(0,0,0,0.05)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.05)';">
+            <div class="counter-boxarea-text-center">
 
-              <div class="icon-box"
-                style="width: 80px; height: 80px; margin: 0 auto 25px; background: linear-gradient(135deg, var(--pvc-gold-dark), var(--pvc-gold-mid)); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(184, 134, 11, 0.25);">
-                <i class="fa-solid fa-handshake" style="color: #fff; font-size: 32px;"></i>
+              <div class="icon-box">
+                <i class="fa-solid fa-handshake"></i>
               </div>
 
-              <h2 style="color: #111; font-size: 50px; font-weight: 800; margin-bottom: 5px;"><span
+              <h2 class="counter-value" ><span
                   class="counter">20</span>+</h2>
-              <p
-                style="color: #555; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin: 0;">
+              <p class="counter-label">
                 Strategic Partners</p>
             </div>
           </div>
           <!-- Item 4: Global Markets -->
           <div class="col-6 col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="counter-boxarea text-center"
-              style="padding: 40px 30px; background: #fff; border-radius: 20px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.4s ease; position: relative;"
-              onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='var(--pvc-gold-mid)'; this.style.boxShadow='0 15px 40px rgba(184, 134, 11, 0.15)';"
-              onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(0,0,0,0.05)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.05)';">
+            <div class="counter-boxarea-text-center">
 
-              <div class="icon-box"
-                style="width: 80px; height: 80px; margin: 0 auto 25px; background: linear-gradient(135deg, var(--pvc-gold-dark), var(--pvc-gold-mid)); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(184, 134, 11, 0.25);">
-                <i class="fa-solid fa-globe" style="color: #fff; font-size: 32px;"></i>
+              <div class="icon-box">
+                <i class="fa-solid fa-globe"></i>
               </div>
 
-              <h2 style="color: #111; font-size: 50px; font-weight: 800; margin-bottom: 5px;"><span
+              <h2 class="counter-value" ><span
                   class="counter">180</span>+</h2>
-              <p
-                style="color: #555; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin: 0;">
+              <p class="counter-label">
                 Global Markets</p>
             </div>
           </div>
@@ -550,208 +335,13 @@ $result = mysqli_query($con, $query);
   </section>
   <!--===== CLIENTS AREA ENDS =======-->
 
-  <!--===== SCALABILITY AREA STARTS =======
-  <section id="scalability" class="sp1" style="background: #ffffff; padding: 100px 0;">
-    <div class="container">
-      <div class="row align-items-center mb-5">
-        <div class="col-lg-6" data-aos="fade-right">
-          <div class="heading6">
-            <span class="section-tag"
-              style="color: var(--pvc-gold-dark); text-transform: uppercase; letter-spacing: 3px; font-weight: 900; font-size: 13px; margin-bottom: 15px; display: block;">Unlimited
-              Versatility</span>
-            <h2 style="font-size: 44px; font-weight: 900; color: #111; line-height: 1.2;">Scalable Intelligence for
-              <span style="color: var(--pvc-gold-dark);">Every Environment.</span>
-            </h2>
-          </div>
-        </div>
-        <div class="col-lg-6" data-aos="fade-left">
-          <p style="font-size: 17px; color: #555; line-height: 1.8; margin: 0;">Our architecture is designed to grow
-            with you. Whether it's a single family home or a complex smart city infrastructure, PVC provides the same
-            uncompromising precision at any scale.</p>
-        </div>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-          <div class="scale-card">
-            <div class="scale-icon-box">
-              <i class="fa-solid fa-house-lock"></i>
-            </div>
-            <h3>Residential Elite</h3>
-            <p>Smart security for modern homes. Protecting your family with AI-driven perimeter alerts, video doorbells,
-              and seamless mobile control from anywhere.</p>
-            <a href="products.php" class="product-view-btn">
-              View Products <i class="fa-solid fa-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-          <div class="scale-card">
-            <div class="scale-icon-box">
-              <i class="fa-solid fa-building-shield"></i>
-            </div>
-            <h3>Commercial Pro</h3>
-            <p>Enterprise-grade security for businesses and retail. Integrated access control, intelligent attendance,
-              and high-fidelity 24/               zzsurveillance for complete operational safety.</p>
-            <a href="products.php" class="product-view-btn">
-              View Products <i class="fa-solid fa-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
-          <div class="scale-card">
-            <div class="scale-icon-box">
-              <i class="fa-solid fa-city"></i>
-            </div>
-            <h3>Enterprise Urban</h3>
-            <p>Mega-scale protection for cities and industrial zones. Advanced LPR, thermal monitoring, and centralized
-              command software for massive data management.</p>
-            <a href="products.php" class="product-view-btn">
-              View Products <i class="fa-solid fa-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  ===== SCALABILITY AREA ENDS =======-->
-
   <!--===== BRAND PARTNERS AREA STARTS =======-->
   <section id="brand-partners">
-    <div class="sp1" style="background: var(--white-secondary);">
+    <div class="sp1">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-12 text-center mb-4" data-aos="fade-down">
-            <style>
-              /* Unified Premium Heading Style */
-              .premium-header-section {
-                padding-bottom: 15px;
-                position: relative;
-                text-align: center;
-              }
-
-              .premium-icon-box {
-                width: 80px;
-                height: 80px;
-                background: linear-gradient(135deg, var(--pvc-gold-dark), var(--pvc-gold-mid));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 0 auto 15px;
-                box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-                animation: premium-pulse 3s infinite ease-in-out;
-              }
-
-              .premium-icon-box i {
-                color: #fff;
-                font-size: 36px;
-              }
-
-              .sp1 {
-                padding: 60px 0 !important;
-              }
-
-              @keyframes premium-pulse {
-
-                0%,
-                100% {
-                  transform: scale(1);
-                  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-                }
-
-                50% {
-                  transform: scale(1.05);
-                  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
-                }
-              }
-
-              .premium-subtitle {
-                display: block;
-                font-size: 14px;
-                font-weight: 700;
-                letter-spacing: 3px;
-                text-transform: uppercase;
-                color: #333;
-                margin-bottom: 12px;
-                font-family: 'Inter', sans-serif;
-              }
-
-              .premium-title {
-                font-size: 48px;
-                font-weight: 800;
-                color: var(--pvc-gold-dark);
-                text-transform: uppercase;
-                letter-spacing: -0.5px;
-                margin-bottom: 20px;
-                line-height: 1.1;
-                font-family: 'Outfit', sans-serif;
-              }
-
-              .premium-divider {
-                width: 100px;
-                height: 4px;
-                background: linear-gradient(to right, transparent, var(--pvc-gold-mid), transparent);
-                margin: 0 auto;
-                border-radius: 2px;
-              }
-
-              /* Responsive Adjustments */
-              @media (max-width: 991px) {
-                .premium-title {
-                  font-size: 40px;
-                }
-
-                .premium-icon-box {
-                  width: 70px;
-                  height: 70px;
-                  margin-bottom: 20px;
-                }
-
-                .premium-icon-box i {
-                  font-size: 30px;
-                }
-              }
-
-              @media (max-width: 767px) {
-                .sp1 {
-                  padding: 30px 0 !important;
-                }
-
-                .premium-header-section {
-                  padding-bottom: 5px;
-                }
-
-                .premium-title {
-                  font-size: 32px;
-                  letter-spacing: 0;
-                  margin-bottom: 10px;
-                }
-
-                .premium-subtitle {
-                  font-size: 12px;
-                  letter-spacing: 2px;
-                  margin-bottom: 8px;
-                }
-
-                .premium-divider {
-                  width: 80px;
-                  height: 3px;
-                }
-
-                .premium-icon-box {
-                  width: 60px;
-                  height: 60px;
-                  margin-bottom: 10px;
-                }
-
-                .premium-icon-box i {
-                  font-size: 24px;
-                }
-              }
-            </style>
+            
             <div class="premium-header-section">
               <div class="premium-icon-box">
                 <i class="fa-solid fa-handshake"></i>
@@ -764,26 +354,7 @@ $result = mysqli_query($con, $query);
         </div>
         <div class="row align-items-center">
           <div class="col-lg-12">
-            <style>
-              .testimonial-slider .img1 {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                height: 180px;
-                padding: 10px 20px;
-              }
-
-              .testimonial-slider .img1 img {
-                max-height: 120px;
-                width: auto;
-                object-fit: contain;
-                transition: all 0.3s ease;
-              }
-
-              .testimonial-slider .img1 img:hover {
-                transform: scale(1.1);
-              }
-            </style>
+            
             <div class="testimonial-slider owl-carousel" id="brandCarousel">
               <div class="img1"><img src="assets/img/brands/hikvision.png" alt="Hikvision" style="max-height: 150px;">
               </div>
@@ -859,130 +430,7 @@ $result = mysqli_query($con, $query);
     <div class="container" style="position: relative; z-index: 2;">
       <div class="row mb-5 pb-4">
         <div class="col-lg-12 text-center">
-          <style>
-            .creative-feedback-title {
-              position: relative;
-              display: inline-block;
-            }
-
-            .creative-feedback-title h2 {
-              font-size: 54px;
-              font-weight: 900;
-              letter-spacing: -2px;
-              color: #111;
-              margin-bottom: 0;
-            }
-
-            .creative-feedback-title .accent-line {
-              position: absolute;
-              bottom: -15px;
-              left: 50%;
-              transform: translateX(-50%);
-              width: 100px;
-              height: 4px;
-              background: linear-gradient(90deg, transparent, var(--pvc-gold-mid), transparent);
-              border-radius: 2px;
-            }
-
-
-            .deep-glass-card {
-              background: rgba(255, 255, 255, 0.9);
-              border: 1px solid rgba(184, 134, 11, 0.1);
-              padding: 50px 40px;
-              border-radius: 24px;
-              position: relative;
-              transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-              overflow: hidden;
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-              min-height: 380px;
-            }
-
-            .deep-glass-card::before {
-              content: '';
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 6px;
-              background: linear-gradient(90deg, var(--pvc-gold-mid), var(--pvc-gold-dark));
-              opacity: 1;
-              /* Solid and bold */
-              transition: all 0.5s ease;
-            }
-
-            .deep-glass-card:hover {
-              transform: translateY(-15px) scale(1.02);
-              box-shadow: 0 30px 60px rgba(184, 134, 11, 0.2);
-              border-color: rgba(184, 134, 11, 0.4);
-            }
-
-            .deep-glass-card:hover::before {
-              height: 10px;
-            }
-
-            .big-quote-bg {
-              position: absolute;
-              top: 20px;
-              right: 30px;
-              font-size: 140px;
-              font-family: serif;
-              color: var(--pvc-gold-mid);
-              opacity: 0.15;
-              line-height: 1;
-              pointer-events: none;
-              transition: all 0.5s ease;
-            }
-
-            .deep-glass-card:hover .big-quote-bg {
-              opacity: 0.3;
-              transform: scale(1.1);
-            }
-
-            .feedback-text {
-              font-size: 19px;
-              line-height: 1.8;
-              color: #444;
-              font-weight: 500;
-              position: relative;
-              z-index: 2;
-            }
-
-            .author-node {
-              display: flex;
-              align-items: center;
-              gap: 15px;
-              margin-top: 35px;
-              padding-top: 25px;
-              border-top: 1px solid rgba(0, 0, 0, 0.05);
-            }
-
-            .node-dot {
-              width: 12px;
-              height: 12px;
-              background: var(--pvc-gold-mid);
-              border-radius: 50%;
-              box-shadow: 0 0 10px var(--pvc-gold-mid);
-            }
-
-            .author-details-wrap span {
-              display: block;
-              font-weight: 800;
-              color: var(--pvc-gold-dark);
-              font-size: 16px;
-              text-transform: uppercase;
-              letter-spacing: 1px;
-            }
-
-            .author-details-wrap p {
-              margin: 0;
-              font-size: 14px;
-              color: #888;
-              font-weight: 600;
-            }
-          </style>
+          
           <div class="premium-header-section">
             <div class="premium-icon-box">
               <i class="fa-solid fa-comments"></i>
@@ -1011,12 +459,12 @@ $result = mysqli_query($con, $query);
         </div>
 
         <!-- Card 2 -->
-        <div class="deep-glass-card" style="background: linear-gradient(135deg, #fff, #fff9f0);">
+        <div class="deep-glass-card">
           <div class="big-quote-bg">“</div>
           <p class="feedback-text">"Solar cable-free cameras are a lifesaver for our remote energy monitoring sites. No
             wiring, just pure high-end intelligence in the wild."</p>
           <div class="author-node">
-            <div class="node-dot" style="background: #222; box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
+            <div class="node-dot"></div>
             <div class="author-details-wrap">
               <span>Project Lead</span>
               <p>Smart Energy Site</p>
@@ -1242,8 +690,6 @@ $result = mysqli_query($con, $query);
   </script>
 
   <!-- Form & Cart Systems -->
-  
-  <script src="assets/js/cart.js"></script>
   <script src="assets/js/form_validation.js"></script>
 
 </body>

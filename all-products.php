@@ -769,7 +769,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 <script src="assets/js/plugins/aos.js"></script>
 <script src="assets/js/plugins/fontawesome.js"></script>
 <script src="assets/js/main.js"></script>
-<script src="assets/js/cart.js"></script>
+
 <script src="assets/js/global_footer.js"></script>
 <script src="assets/js/catalog-search.js"></script>
 
