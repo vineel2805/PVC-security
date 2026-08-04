@@ -1,5 +1,8 @@
-<?php
 
+<?php
+/* ===================================================================
+   shop by brands page 
+   =================================================================== */
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -613,7 +616,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
     <meta name="description"
         content="Explore PVC Security's extensive catalog of high-performance CCTV cameras, NVRs, DVRs, and access control systems from industry leaders like Hikvision and Dahua.">
      <?php include 'head.php'; ?>
-    
+     <link rel="stylesheet" href="assets/css/all-products.css">
 
     <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
 </head>

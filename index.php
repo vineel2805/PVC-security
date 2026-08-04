@@ -10,6 +10,7 @@ include 'head.php';
   <!--=====HEADER START =======-->
 
 <?php include 'header.php'; ?>
+<link rel="stylesheet" href="assets/css/index_styles.css">
 
   <!--=====HEADER END =======-->
 

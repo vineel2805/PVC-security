@@ -30,15 +30,7 @@
    <link rel="stylesheet" href="assets/css/header_styles.css">
    <link rel="stylesheet" href="assets/css/global_header.css">
    <link rel ="stylesheet" href="assets/css/global_footer.css">
-   <link rel="stylesheet" href="assets/css/products_styles.css">
-   <link rel="stylesheet" href="assets/css/index_styles.css">
-    
-     
-    
-    <link rel="stylesheet" href="assets/css/main.css?v=1785408043">
-    <link rel="stylesheet" href="assets/css/header_styles.css?v=1785408043">
-    <link rel="stylesheet" href="assets/css/all-products.css?v=1785408043">
-    <link rel="stylesheet" href="assets/css/cart_styles.css">   
+   <link rel="stylesheet" href="assets/css/products_styles.css"> 
 <!-- JS Plugins -->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
   <script src="assets/js/plugins/waypoints.js"></script>

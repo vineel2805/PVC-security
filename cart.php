@@ -9,7 +9,7 @@
   <!--=====FAB ICON=======-->
   <link rel="shortcut icon" href="assets/img/logo/Untitled design-3.png" type="image/x-icon">
   
-
+  <link rel="stylesheet" href="assets/css/cart_styles.css">
   <!--=====  JS SCRIPT LINK =======-->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
 </head>
