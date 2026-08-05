@@ -177,12 +177,11 @@ if ($catRaw) {
       <i class="fa-solid fa-border-all"></i>
       <span>Categories</span>
     </a>
-    <a href="cart.php" class="pvc-bottom-nav-item" id="bottom-nav-rfq" aria-label="RFQ Cart">
+    <a href="contact-us.php" class="pvc-bottom-nav-item" id="bottom-nav-support" aria-label="Support">
       <div style="position: relative; display: inline-block;">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span class="pvc-bottom-cart-badge" id="pvc-bottom-cart-count" style="display: none;">0</span>
+        <i class="fa-solid fa-headset"></i>
       </div>
-      <span>RFQ</span>
+      <span>Support</span>
     </a>
   </nav>
   <?php endif; ?>

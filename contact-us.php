@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,77 +18,181 @@
 
   <!--=====HEADER END =======-->
 
-  <section class="sp1" style="background: #fafafa;">
+  <section class="contact-hero-section">
     <div class="container">
-      <div class="row text-center mb-5">
-        <div class="col-12" data-aos="fade-up">
-          <h2 class="section-heading-gold">Connect with PVC Security Instantly</h2>
-          <p
-            style="font-size: 14px; color: #555; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px;">
-            CCTV • SURVEILLANCE • INSTALLATION • SUPPORT
-          </p>
-          <p style="color: var(--pvc-gold-dark); font-weight: 700; font-size: 16px;">Serving Andhra Pradesh & Telangana
-          </p>
+      <div class="row align-items-center">
+        <!-- Text Column -->
+        <div class="col-lg-6 hero-text-col" data-aos="fade-right">
+          <!-- Mobile Header (Title + Image side-by-side) -->
+          <div class="d-flex justify-content-between align-items-center align-items-md-start">
+            <div>
+              <h1 class="hero-title">Contact the<br><span class="text-gold">PVC Security</span> Team</h1>
+            </div>
+            <!-- Mobile CCTV Image -->
+            <div class="mobile-hero-img d-lg-none ms-3">
+              <img src="assets/img/contactus-hero.png" alt="PVC Security Camera" class="img-fluid">
+            </div>
+          </div>
+          
+          <p class="hero-desc">Whether you need installation, support, or service – our experts are ready to assist you.</p>
+          
+          <div class="trust-badges-row d-none d-lg-flex">
+             <div class="trust-badge">
+               <div class="tb-icon"><img src="assets/img/icons/fast.svg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23D4AF37\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><polygon points=\'13 2 3 14 12 14 11 22 21 10 12 10 13 2\'></polygon></svg>'" alt="Fast"></div>
+               <div>
+                 <strong>Fast Response</strong>
+                 <span>Within 10 mins</span>
+               </div>
+             </div>
+             <div class="trust-badge">
+               <div class="tb-icon"><img src="assets/img/icons/expert.svg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23D4AF37\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2\'></path><circle cx=\'9\' cy=\'7\' r=\'4\'></circle><polyline points=\'16 11 18 13 22 9\'></polyline></svg>'" alt="Expert"></div>
+               <div>
+                 <strong>Expert Technicians</strong>
+                 <span>Trained & Verified</span>
+               </div>
+             </div>
+             <div class="trust-badge d-none d-md-flex">
+               <div class="tb-icon"><img src="assets/img/icons/trust.svg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23D4AF37\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\'></path></svg>'" alt="Trust"></div>
+               <div>
+                 <strong>Trusted by 1000+</strong>
+                 <span>Homes & Businesses</span>
+               </div>
+             </div>
+          </div>
+        </div>
+        
+        <!-- Desktop CCTV Image -->
+        <div class="col-lg-6 hero-img-col text-center d-none d-lg-block" data-aos="fade-left">
+          <img src="assets/img/contactus-hero.png" alt="PVC Security Camera" class="hero-cctv-img img-fluid">
         </div>
       </div>
-
-      <div class="row g-3 g-md-4">
-        <!-- Card 1: WhatsApp (Green) -->
-        <div class="col-6 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-          <a href="https://wa.me/919114456666" target="_blank" class="contact-action-card whatsapp-card card-green">
-            <div class="card-icon-box">
-              <i class="fa-brands fa-whatsapp"></i>
-            </div>
-            <h3>Chat on WhatsApp</h3>
-            <p>Instant help & quotation</p>
-            <span class="micro-text" style="color: #25D366; font-weight: 700;">Click to Chat Now <i
-                class="fa-solid fa-arrow-right"></i></span>
-          </a>
-        </div>
-
-        <!-- Card 2: Call Now (Gold) -->
-        <div class="col-6 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-          <a href="tel:+919114456666" class="contact-action-card card-gold">
-            <div class="card-icon-box">
-              <i class="fa-solid fa-phone-volume"></i>
-            </div>
-            <h3>Call PVC Security</h3>
-            <p style="font-weight: 700; font-size: 18px; color: #555;">+91 91144 56666</p>
-            <span class="micro-text" style="color: #D4AF37; font-weight: 700;">Tap to Call Now <i
-                class="fa-solid fa-phone"></i></span>
-          </a>
-        </div>
-
-        <!-- Card 3: Register Complaint -->
-        <div class="col-6 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-          <a href="javascript:void(0);" id="register-complaint-card" class="contact-action-card card-red">
-            <div class="card-icon-box">
-              <i class="fa-solid fa-circle-exclamation"></i>
-            </div>
-            <h3>Register Complaint</h3>
-            <p>Report CCTV, DVR,<br>NVR or Camera Issues</p>
-            <span class="micro-text" style="color: #E91E63; font-weight: 700;">Click to Register →</span>
-          </a>
-        </div>
-
-        <!-- Card 4: Email (Black) -->
-        <div class="col-6 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
-          <a href="mailto:pvcsecurity@gmail.com" class="contact-action-card card-black">
-            <div class="card-icon-box">
-              <i class="fa-solid fa-envelope"></i>
-            </div>
-            <h3>Email Us</h3>
-            <p>pvcsecurity@gmail.com</p>
-            <span class="micro-text" style="color: #333; font-weight: 700;">Click to Send Email <i
-                class="fa-solid fa-envelope"></i></span>
-          </a>
-        </div>
-      </div>
-
     </div>
   </section>
-  <!--===== COMPLAINT FORM SECTION =======-->
-  <section id="complaint-section" class="complaint-section">
+
+  <section class="contact-action-section">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Card 1: WhatsApp -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+           <div class="premium-card chat-card">
+             <div class="card-header-flex">
+               <div class="icon-circle bg-whatsapp-light">
+                 <i class="fa-brands fa-whatsapp text-whatsapp"></i>
+               </div>
+               <div class="card-title-group">
+                 <h3 class="card-title">Chat on WhatsApp</h3>
+                 <p class="card-desc">Get instant help and quick replies.</p>
+               </div>
+             </div>
+             <a href="https://wa.me/919114456666" target="_blank" class="btn btn-whatsapp-full w-100">
+               <i class="fa-brands fa-whatsapp me-2"></i> Chat Now on WhatsApp <i class="fa-solid fa-arrow-right ms-2 arrow-icon"></i>
+             </a>
+           </div>
+        </div>
+        
+        <!-- Card 2: Call -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+           <div class="premium-card call-card">
+             <div class="card-header-flex">
+               <div class="icon-circle bg-gold-light">
+                 <i class="fa-solid fa-phone text-gold"></i>
+               </div>
+               <div class="card-title-group">
+                 <h3 class="card-title">Call PVC Security</h3>
+                 <p class="card-desc">Speak directly with our support team.</p>
+               </div>
+             </div>
+             <a href="tel:+919114456666" class="btn btn-gold-full w-100">
+               Call Now
+             </a>
+           </div>
+        </div>
+        
+        <!-- Card 3: Service Request -->
+        <div class="col-lg-4 col-md-12" data-aos="fade-up" data-aos-delay="300">
+           <div class="premium-card service-card">
+             <div class="card-header-flex">
+               <div class="icon-circle bg-dark-light">
+                 <i class="fa-solid fa-clipboard-list text-dark"></i>
+               </div>
+               <div class="card-title-group">
+                 <h3 class="card-title">Raise a Service Request</h3>
+                 <p class="card-desc">Report issues or book a technician visit.</p>
+               </div>
+             </div>
+             <a href="javascript:void(0);" id="register-complaint-card" class="btn btn-dark-full w-100">
+               Create Service Request <i class="fa-solid fa-arrow-right ms-2 arrow-icon"></i>
+             </a>
+           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-info-strip">
+    <div class="container" data-aos="fade-up">
+      <div class="info-strip-card">
+        <div class="row g-4">
+          <div class="col-6 col-md-3 info-item">
+            <i class="fa-regular fa-clock icon-outline"></i>
+            <div>
+              <strong>Business Hours</strong>
+              <span>Mon - Sat<br>9:00 AM - 7:00 PM</span>
+            </div>
+          </div>
+          <div class="col-6 col-md-3 info-item">
+            <i class="fa-regular fa-envelope icon-outline"></i>
+            <div>
+              <strong>Email Us</strong>
+              <span><a href="mailto:pvcsecurity@gmail.com">pvcsecurity@gmail.com</a><br>We'll reply ASAP</span>
+            </div>
+          </div>
+          <div class="col-6 col-md-3 info-item">
+            <i class="fa-solid fa-location-dot icon-outline"></i>
+            <div>
+              <strong>Our Location</strong>
+              <span>Andhra Pradesh &<br>Telangana</span>
+            </div>
+          </div>
+          <div class="col-6 col-md-3 info-item">
+            <i class="fa-solid fa-headset icon-outline"></i>
+            <div>
+              <strong>Emergency Support</strong>
+              <span>For urgent issues<br>we're just a call away</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="why-choose-section pb-5">
+    <div class="container" data-aos="fade-up">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="why-choose-card">
+            <div class="row align-items-center">
+              <div class="col-md-7 position-relative z-1">
+                <h3 class="text-gold mb-4 fw-bold">Why Choose PVC Security?</h3>
+                <ul class="why-list list-unstyled mb-0">
+                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i> Certified & Experienced Technicians</li>
+                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i> Genuine Products with Warranty</li>
+                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i> Affordable AMC Plans</li>
+                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i> End-to-End Support</li>
+                </ul>
+              </div>
+              <div class="col-md-5 d-none d-md-flex justify-content-end align-items-center position-relative">
+                 <i class="fa-solid fa-shield-halved why-icon-bg"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--===== COMPLAINT FORM SECTION (Hidden by default, triggered by Service Request button) =======-->
+  <section id="complaint-section" class="complaint-section" style="display: none; padding-bottom: 80px;">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-12">
@@ -163,7 +267,10 @@
       if (complaintCard && complaintSection) {
         complaintCard.addEventListener('click', function(e) {
           e.preventDefault();
-          complaintSection.scrollIntoView({ behavior: 'smooth' });
+          complaintSection.style.display = 'block'; // Reveal form
+          setTimeout(() => {
+            complaintSection.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
         });
       }
       
