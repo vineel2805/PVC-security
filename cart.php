@@ -214,7 +214,9 @@
   <!--===== END GLOBAL FOOTER =======-->
   <!-- Cart JavaScript -->
   <script src="assets/js/main.js"></script>
-  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/cart-core.js"></script>
+  <script src="assets/js/floating-cart.js"></script>
+  <script src="assets/js/cart-page.js"></script>
   <script src="assets/js/plugins/bootstrap.min.js"></script>
 </body>
 </html>

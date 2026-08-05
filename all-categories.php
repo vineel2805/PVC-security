@@ -522,6 +522,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
         content="Explore PVC Security's extensive catalog of high-performance CCTV cameras, NVRs, DVRs, and access control systems from industry leaders like Hikvision and Dahua.">
     <?php include 'head.php'; ?>
     <link rel="stylesheet" href="assets/css/all-products.css">
+    <script src="assets/js/cart-core.js"></script>
 </head>
 
 <body data-active-catname="<?php echo htmlspecialchars($selectedCatName); ?>">

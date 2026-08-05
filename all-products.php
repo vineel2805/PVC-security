@@ -619,6 +619,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
      <link rel="stylesheet" href="assets/css/all-products.css">
 
     <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
+    <script src="assets/js/cart-core.js"></script>
 </head>
 
 <body data-active-brand="<?php echo htmlspecialchars($resolvedBrandId); ?>">
