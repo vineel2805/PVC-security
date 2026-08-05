@@ -332,72 +332,7 @@
     letter-spacing: 0.5px;
 }
 
-/* Global Floating WhatsApp */
-.pvc-floating-whatsapp {
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    background: #25D366;
-    color: var(--pvc-white) !important;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    z-index: 9999;
-    transition: var(--transition-smooth);
-    text-decoration: none !important;
-}
 
-.pvc-floating-whatsapp:hover {
-    transform: scale(1.1) rotate(15deg);
-    box-shadow: 0 15px 35px rgba(184, 134, 11, 0.5);
-    background: var(--pvc-gradient) !important;
-    color: var(--pvc-black) !important;
-}
-
-/* Global Floating Call Icon (Mobile Only) */
-.pvc-floating-call {
-    position: fixed;
-    bottom: 180px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: var(--pvc-white);
-    border-radius: 50%;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-    z-index: 9999;
-    transition: all 0.3s ease;
-    text-decoration: none !important;
-    animation: pulse-call 2s ease-in-out infinite;
-}
-
-.pvc-floating-call:hover {
-    transform: scale(1.15);
-    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
-    color: var(--pvc-white);
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-}
-
-@keyframes pulse-call {
-
-    0%,
-    100% {
-        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-    }
-
-    50% {
-        box-shadow: 0 10px 35px rgba(102, 126, 234, 0.7), 0 0 0 15px rgba(102, 126, 234, 0.15), 0 0 0 30px rgba(102, 126, 234, 0.05);
-    }
-}
 
 /* Global Mobile Sticky CTA */
 .pvc-mobile-sticky-cta {
@@ -444,15 +379,6 @@
 }
 
 @media (max-width: 768px) {
-    .pvc-floating-call {
-        display: flex;
-        width: 50px;
-        height: 50px;
-        font-size: 24px;
-        bottom: 150px;
-        right: 20px;
-    }
-
     .pvc-global-footer {
         padding: 80px 0 0;
     }
@@ -484,13 +410,7 @@
         font-size: 12px;
     }
 
-    .pvc-floating-whatsapp {
-        bottom: 90px;
-        right: 20px;
-        width: 52px;
-        height: 52px;
-        font-size: 26px;
-    }
+   
 
     .pvc-mobile-sticky-cta {
         display: flex;
@@ -498,21 +418,7 @@
 }
 
 @media (max-width: 575px) {
-    .pvc-floating-call {
-        width: 45px;
-        height: 45px;
-        font-size: 20px;
-        bottom: 150px;
-        right: 16px;
-    }
-
-    .pvc-floating-whatsapp {
-        width: 50px;
-        height: 50px;
-        font-size: 22px;
-        bottom: 60px;
-        right: 16px;
-    }
+   
 }
 
 @media (max-width: 480px) {

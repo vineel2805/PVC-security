@@ -825,18 +825,9 @@ button.hik-btn-outline {
         color: #fff;
     }
 
-    /* Position floating items above the sticky CTA button */
-    body .pvc-floating-whatsapp {
-        bottom: calc(148px + env(safe-area-inset-bottom)) !important;
-        display: none !important;
-    }
 
-    body .pvc-floating-call {
-        bottom: calc(212px + env(safe-area-inset-bottom)) !important;
-        display: none !important;
-    }
 }
 
-floating-cart-btn {
+.floating-cart-btn {
     display: none !important;
 }
