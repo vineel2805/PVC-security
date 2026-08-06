@@ -193,6 +193,7 @@
   <script src="assets/js/plugins/bootstrap.min.js"></script>
   <script src="assets/js/plugins/aos.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/global_search.js"></script>
 
   <!--===== GLOBAL FOOTER COMPONENT =======-->
   <script src="assets/js/global_footer.js"></script>

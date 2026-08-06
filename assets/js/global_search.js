@@ -16,8 +16,22 @@ const $resultsSection = $('#pvcResultsSection');
 const $resultsContainer = $('#pvcResultsContainer');
 const $resultsCount = $('#pvcResultsCount');
 
+const overlay = document.getElementById("globalSearchOverlay");
+
 let debounceTimer = null;
 let currentController = null;
+
+document
+    .getElementById("bottom-nav-search")
+    ?.addEventListener("click", function () {
+        overlay.classList.add("open");
+    });
+
+document
+    .getElementById("desktop-search-btn")
+    ?.addEventListener("click", function () {
+        overlay.classList.add("open");
+    });
 
 function showState(state) {
     $emptyState.addClass('hidden');

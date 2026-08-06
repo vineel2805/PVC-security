@@ -707,20 +707,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                     <div class="products-toolbar">
 
                         <!-- Category Page Search -->
-                        <div class="cat-search-wrap">
-                            <div class="cat-search-box" id="catSearchBox">
-                                <i class="fa-solid fa-magnifying-glass cat-search-icon"></i>
-                                <input type="text"
-                                       id="catSearchInput"
-                                       class="cat-search-input"
-                                       placeholder="Search products or categories..."
-                                       autocomplete="off">
-                                <button type="button" class="cat-search-clear" id="catSearchClear" style="display:none;">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-                            </div>
-                            <div class="cat-search-results" id="catSearchResults"></div>
-                        </div>
+                        
 
                         <!-- Filter / Results / Sort row -->
                         <div class="toolbar-controls-row">
@@ -772,7 +759,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 <script src="assets/js/main.js"></script>
 
 <script src="assets/js/global_footer.js"></script>
-<script src="assets/js/catalog-search.js"></script>
+<script src="assets/js/global_search.js"></script>
 
 <script>
 /* ===================================================================

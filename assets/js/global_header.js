@@ -17,21 +17,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /* ── Header and Spacer clearance ──────────────────────── */
         function updateHeaderSpacing() {
-            const isHomePage = (window.location.pathname.split('/').pop() || 'index.php') === 'index.php';
-            if (window.innerWidth < 992) {
-                if (isHomePage) {
-                    spacer.style.height = '0px';
-                } else {
-                    // Mobile: Set fixed spacing using header height + 20px breathing room
-                    spacer.style.height = (header.offsetHeight + 20) + 'px';
-                }
-                header.classList.add('sticky'); // Keep sticky styling on mobile
-            } else {
-                // Desktop: Reset to default flow, allow sticky scroll listener to manage it
-                header.classList.remove('sticky');
-                spacer.style.height = '0px';
-                applyStickyState();
-            }
+           if (!header || !spacer) return;
+
+          spacer.style.height = header.offsetHeight + "px";
         }
 
         /* ── Sticky header ────────────────────────────────────── */
@@ -43,11 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
             if (shouldStick !== lastIsSticky) {
                 lastIsSticky = shouldStick;
                 if (shouldStick) {
-                    spacer.style.height = header.offsetHeight + 'px';
+                    //spacer.style.height = header.offsetHeight + 'px';
                     header.classList.add('sticky');
                 } else {
                     header.classList.remove('sticky');
-                    spacer.style.height = '0px';
+                   // spacer.style.height = '0px';
                 }
             }
             ticking = false;
@@ -59,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Initial update and resize event registration
         updateHeaderSpacing();
         window.addEventListener('resize', updateHeaderSpacing);
+        window.addEventListener('load', updateHeaderSpacing);
 
         /* ── Mobile menu ──────────────────────────────────────── */
         function openMobileMenu() {

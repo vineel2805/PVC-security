@@ -3,7 +3,13 @@ body {
 background-color: #ffffff;
 color: #111111;
 }
+#globalSearchOverlay {
+    display: none;
+}
 
+#globalSearchOverlay.open {
+    display: block;
+}
 .pvc-search-page {
 padding: 16px 16px 240px 16px;
 font-family: 'Inter', sans-serif;

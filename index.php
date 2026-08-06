@@ -529,6 +529,7 @@ $result = mysqli_query($con, $query);
 
   <!--===== GLOBAL FOOTER COMPONENT =======-->
   <script src="assets/js/global_footer.js"></script>
+  <script src="assets/js/global_search.js"></script>
   <!--===== END GLOBAL FOOTER =======-->
   <!-- Quick Links Auto-Scroll + Manual Swipe (Mobile Only) -->
   <script>
