@@ -225,11 +225,39 @@ button.hik-btn-outline {
     min-height: 100vh;
 }
 
+.cart-header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 6px;
+    margin-bottom: 10px;
+}
+
 .cart-page-title {
     font-size: 42px;
     font-weight: 700;
     color: var(--pvc-dark-bg);
-    margin-bottom: 10px;
+    margin-bottom: 0;
+}
+
+.cart-close-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--pvc-dark-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.cart-close-btn:hover {
+    background: rgba(0, 0, 0, 0.07);
+    color: #000;
 }
 
 .cart-page-subtitle {
@@ -626,7 +654,8 @@ button.hik-btn-outline {
 .cart-item-remove {
     background: none;
     border: none;
-    color: .rgb(113, 116, 120);
+    color: rgb(113, 116, 120);
+    cursor: pointer;
     font-size: 18px;
     padding: 8px;
     transition: all 0.2s ease;
@@ -905,6 +934,12 @@ button.hik-btn-outline {
 @media (max-width: 575px) {
     .cart-page-title {
         font-size: 28px;
+    }
+
+    .cart-close-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
     }
 
     .section-title {

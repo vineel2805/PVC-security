@@ -24,7 +24,12 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h1 class="cart-page-title">Your RFQ Cart</h1>
+          <div class="cart-header-wrapper">
+            <h1 class="cart-page-title">Your RFQ Cart</h1>
+            <a href="javascript:history.back()" class="cart-close-btn" aria-label="Close Cart" title="Exit Cart">
+              <i class="fa-solid fa-xmark"></i>
+            </a>
+          </div>
         </div>
       </div>
 
