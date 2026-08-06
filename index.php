@@ -356,24 +356,20 @@ $result = mysqli_query($con, $query);
           <div class="col-lg-12">
             
             <div class="testimonial-slider owl-carousel" id="brandCarousel">
-              <div class="img1"><img src="assets/img/brands/hikvision.png" alt="Hikvision" style="max-height: 150px;">
-              </div>
-              <div class="img1"><img src="assets/img/brands/dahua.png" alt="Dahua" style="max-height: 150px;">
-              </div>
-              <div class="img1"><img src="assets/img/brands/securus.png" alt="Securus" style="max-height: 140px;"></div>
-              <div class="img1"><img src="assets/img/brands/cpplusworld.png" alt="CP Plus" style="max-height: 120px;"></div>
-              <div class="img1"><img src="assets/img/brands/Secureye.png" alt="Secureye" style="max-height: 150px;">
-              </div>
-              <div class="img1"><img src="assets/img/brands/tplink.png" alt="TP-Link" style="max-height: 150px;">
-              </div>
-              <div class="img1"><img src="assets/img/brands/dlink.png" alt="D-Link" style="max-height: 110px;"></div>
-              <div class="img1"><img src="assets/img/brands/Prama.png" alt="Prama" style="max-height: 150px;"></div>
-              <div class="img1"><img src="assets/img/brands/dada.png" alt="Dada" style="max-height: 150px;"></div>
-              <div class="img1"><img src="assets/img/brands/yadon.png" alt="Yadon" style="max-height: 150px;"></div>
-              <div class="img1"><img src="assets/img/brands/Seagate.png" alt="Seagate" style="max-height: 150px;"></div>
-              <div class="img1"><img src="assets/img/brands/Westerndigital.png" alt="Western Digital" style="max-height: 150px;"></div>
-              <div class="img1"><img src="assets/img/brands/Toshiba.png" alt="Toshiba" style="max-height: 150px;"></div>
-              <div class="img1"><img src="assets/img/brands/erd.png" alt="ERD" style="max-height: 150px;"></div>
+              <div class="img1"><img src="assets/img/brands/hikvision.png" alt="Hikvision"></div>
+              <div class="img1"><img src="assets/img/brands/dahua.png" alt="Dahua"></div>
+              <div class="img1"><img src="assets/img/brands/securus.png" alt="Securus"></div>
+              <div class="img1"><img src="assets/img/brands/cpplusworld.png" alt="CP Plus"></div>
+              <div class="img1"><img src="assets/img/brands/Secureye.png" alt="Secureye"></div>
+              <div class="img1"><img src="assets/img/brands/tplink.png" alt="TP-Link"></div>
+              <div class="img1"><img src="assets/img/brands/dlink.png" alt="D-Link"></div>
+              <div class="img1"><img src="assets/img/brands/Prama.png" alt="Prama"></div>
+              <div class="img1"><img src="assets/img/brands/dada.png" alt="Dada"></div>
+              <div class="img1"><img src="assets/img/brands/yadon.png" alt="Yadon"></div>
+              <div class="img1"><img src="assets/img/brands/Seagate.png" alt="Seagate"></div>
+              <div class="img1"><img src="assets/img/brands/Westerndigital.png" alt="Western Digital"></div>
+              <div class="img1"><img src="assets/img/brands/Toshiba.png" alt="Toshiba"></div>
+              <div class="img1"><img src="assets/img/brands/erd.png" alt="ERD"></div>
             </div>
             <script>
               // Auto-scroll brands carousel when section comes into view
