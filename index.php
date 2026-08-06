@@ -19,87 +19,82 @@ include 'head.php';
  
 
 
+<?php
+// ── Fetch Dynamic Hero Slides ────────────────────────────────────────────────
+include_once 'connect.php';
+$heroSlides = [];
+
+$checkTable = mysqli_query($con, "SHOW TABLES LIKE 'hero_slides'");
+if ($checkTable && mysqli_num_rows($checkTable) > 0) {
+    $heroRes = mysqli_query($con, "SELECT * FROM hero_slides WHERE status = 1 ORDER BY display_order ASC, id ASC");
+    if ($heroRes && mysqli_num_rows($heroRes) > 0) {
+        while ($row = mysqli_fetch_assoc($heroRes)) {
+            $heroSlides[] = $row;
+        }
+    }
+}
+
+// Fallback slides if database table is empty or has no active rows
+if (empty($heroSlides)) {
+    $heroSlides = [
+        [
+            'title' => '',
+            'desktop_image' => 'assets/img/carousel/1.svg',
+            'mobile_image' => 'assets/img/carousel/1.svg'
+        ],
+        [
+            'title' => '',
+            'desktop_image' => 'assets/img/carousel/2 copy.svg',
+            'mobile_image' => 'assets/img/carousel/2.svg'
+        ],
+        [
+            'title' => '',
+            'desktop_image' => 'assets/img/carousel/3 copy.svg',
+            'mobile_image' => 'assets/img/carousel/3 copy 2.svg'
+        ]
+    ];
+}
+?>
+
 <!--===== HERO AREA STARTS =======-->
  <section id="home" data-aos="zoom-out" data-aos-duration="1500">
 
 <!-- ================= DESKTOP CAROUSEL ================= -->
   <div class="carousel-area owl-carousel hero-slider-desktop d-none d-md-block">
 
-    <!-- Desktop Slide 1 -->
+    <?php foreach ($heroSlides as $slide): 
+        $dImg = htmlspecialchars($slide['desktop_image']);
+    ?>
     <div class="hero3-section-area"
-      style="background-image: url('assets/img/carousel/1.svg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+      style="background-image: url('<?php echo $dImg; ?>'); background-size: cover; background-repeat: no-repeat; background-position: center;">
       <div class="container-fluid p-0">
         <div class="row m-0">
           <div class="col-lg-8" style="padding-left: 50px;">
-            <h1 class="banner-title"><strong></strong></h1>
+            <h1 class="banner-title"><strong><?php echo htmlspecialchars($slide['title'] ?? ''); ?></strong></h1>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Desktop Slide 2 -->
-    <div class="hero3-section-area"
-      style="background-image: url('assets/img/carousel/2 copy.svg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
-      <div class="container-fluid p-0">
-        <div class="row m-0">
-          <div class="col-lg-8" style="padding-left: 50px;">
-            <h1 class="banner-title"><strong></strong></h1>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Desktop Slide 3 -->
-    <div class="hero3-section-area"
-      style="background-image: url('assets/img/carousel/3 copy.svg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
-      <div class="container-fluid p-0">
-        <div class="row m-0">
-          <div class="col-lg-8" style="padding-left: 50px;">
-            <h1 class="banner-title"><strong></strong></h1>
-          </div>
-        </div>
-      </div>
-    </div>
+    <?php endforeach; ?>
 
   </div>
 <!-- ================= MOBILE CAROUSEL ================= -->
   <div class="carousel-area owl-carousel hero-slider-mobile d-block d-md-none">
 
-    <!-- Mobile Slide 1 -->
+    <?php foreach ($heroSlides as $slide): 
+        $mImg = htmlspecialchars(!empty($slide['mobile_image']) ? $slide['mobile_image'] : $slide['desktop_image']);
+    ?>
     <div class="hero3-section-area"
-      style="background-image: url('assets/img/carousel/1.svg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+      style="background-image: url('<?php echo $mImg; ?>'); background-size: cover; background-repeat: no-repeat; background-position: center;">
       <div class="container-fluid p-0">
         <div class="row m-0">
           <div class="col-12 text-center">
-            <h1 class="banner-title"><strong></strong></h1>
+            <h1 class="banner-title"><strong><?php echo htmlspecialchars($slide['title'] ?? ''); ?></strong></h1>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Mobile Slide 2 -->
-    <div class="hero3-section-area"
-      style="background-image: url('assets/img/carousel/2.svg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
-      <div class="container-fluid p-0">
-        <div class="row m-0">
-          <div class="col-12 text-center">
-            <h1 class="banner-title"><strong></strong></h1>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mobile Slide 3 -->
-    <div class="hero3-section-area"
-      style="background-image: url('assets/img/carousel/3 copy 2.svg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
-      <div class="container-fluid p-0">
-        <div class="row m-0">
-          <div class="col-12 text-center">
-            <h1 class="banner-title"><strong></strong></h1>
-          </div>
-        </div>
-      </div>
-    </div>
+    <?php endforeach; ?>
 
   </div>
 

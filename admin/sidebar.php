@@ -31,6 +31,13 @@
                 </a>
             </li>
 
+            <li>
+                <a href="slides.php">
+                    <i class="fas fa-sliders-h"></i>
+                    <span class="nav-text">Hero Slider</span>
+                </a>
+            </li>
+
         
 
         </ul>
