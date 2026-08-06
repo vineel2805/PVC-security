@@ -75,13 +75,25 @@ function initPvcFooter() {
                                 <a href="mailto:${PVC_FOOTER_DATA.email}">${PVC_FOOTER_DATA.email}</a>
                             </div>
                         </li>
-                        <li class="pvc-contact-item">
-                            <a href="contact-us.php" class="pvc-contact-icon" aria-label="Our Location"><i class="fa-solid fa-location-dot"></i></a>
-                            <div class="pvc-contact-text">
-                                <span>Our Address</span>
-                                <p>${PVC_FOOTER_DATA.address}</p>
-                            </div>
-                        </li>
+                       <li class="pvc-contact-item">
+    <a href="https://www.google.com/maps/place/PVC+SECURITY+SOLUTIONS+CCTV+CAMERA+SHOP/@16.5447153,81.5259349,16z/data=!3m1!4b1!4m6!3m5!1s0x3a37efe240620edd:0x2e27b608fff2d823!8m2!3d16.5447153!4d81.5259349!16s%2Fg%2F11vf4klr8g?entry=ttu"
+       class="pvc-contact-icon"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Our Location">
+        <i class="fa-solid fa-location-dot"></i>
+    </a>
+
+    <div class="pvc-contact-text">
+        <span>Our Address</span>
+        <a href="https://www.google.com/maps/place/PVC+SECURITY+SOLUTIONS+CCTV+CAMERA+SHOP/@16.5447153,81.5259349,16z/data=!3m1!4b1!4m6!3m5!1s0x3a37efe240620edd:0x2e27b608fff2d823!8m2!3d16.5447153!4d81.5259349!16s%2Fg%2F11vf4klr8g?entry=ttu"
+           target="_blank"
+           rel="noopener noreferrer"
+           style="color: inherit; text-decoration: none;">
+            ${PVC_FOOTER_DATA.address}
+        </a>
+    </div>
+</li>
                     </ul>
                 </div>
 

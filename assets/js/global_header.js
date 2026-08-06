@@ -251,37 +251,5 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (e.key === 'Escape') { closeSearch(); this.blur(); }
             });
         }
-
-        /* ── Bottom Nav active highlight ──────────────────────── */
-        (function () {
-            const currentLoc = window.location.pathname.split('/').pop() || 'index.php';
-            const params = new URLSearchParams(window.location.search);
-            let activeId = '';
-
-            if (currentLoc === 'index.php') {
-                activeId = 'bottom-nav-home';
-            } else if (currentLoc === 'all-products.php') {
-                activeId = 'bottom-nav-brands';
-            } else if (currentLoc === 'all-categories.php') {
-                if (params.has('brand')) {
-                    activeId = 'bottom-nav-brands';
-                } else {
-                    activeId = 'bottom-nav-categories';
-                }
-            } else if (currentLoc === 'cart.php') {
-                activeId = 'bottom-nav-rfq';
-            } else if (currentLoc === 'search.php') {
-                activeId = 'bottom-nav-search';
-            }
-
-            if (activeId) {
-                const activeEl = document.getElementById(activeId);
-                if (activeEl) {
-                    activeEl.classList.add('active');
-                    activeEl.setAttribute('aria-current', 'page');
-                }
-            }
-        })();
-
     })();
 });

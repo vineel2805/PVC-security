@@ -9,9 +9,9 @@ include 'head.php';
 
   <!--=====HEADER START =======-->
 
-<?php include 'header.php'; ?>
 <link rel="stylesheet" href="assets/css/index_styles.css">
 <link rel="stylesheet" href="assets/css/index.css">
+<?php include 'header.php'; ?>
   <!--=====HEADER END =======-->
 
  

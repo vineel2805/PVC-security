@@ -137,14 +137,14 @@
             <i class="fa-regular fa-clock icon-outline"></i>
             <div>
               <strong>Business Hours</strong>
-              <span>Mon - Sat<br>9:00 AM - 7:00 PM</span>
+              <span>Mon - Sat<br>9:00 AM - 9:00 PM</span>
             </div>
           </div>
           <div class="col-6 col-md-3 info-item">
             <i class="fa-regular fa-envelope icon-outline"></i>
             <div>
               <strong>Email Us</strong>
-              <span><a href="mailto:pvcsecurity@gmail.com">pvcsecurity@gmail.com</a><br>We'll reply ASAP</span>
+              <span><a href="mailto:pvcsecurity@gmail.com">pvcsecurity@gmail.com</a></span>
             </div>
           </div>
           <div class="col-6 col-md-3 info-item">
@@ -166,30 +166,7 @@
     </div>
   </section>
 
-  <section class="why-choose-section pb-5">
-    <div class="container" data-aos="fade-up">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="why-choose-card">
-            <div class="row align-items-center">
-              <div class="col-md-7 position-relative z-1">
-                <h3 class="text-gold mb-4 fw-bold">Why Choose PVC Security?</h3>
-                <ul class="why-list list-unstyled mb-0">
-                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i> Certified & Experienced Technicians</li>
-                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i> Genuine Products with Warranty</li>
-                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i> Affordable AMC Plans</li>
-                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i> End-to-End Support</li>
-                </ul>
-              </div>
-              <div class="col-md-5 d-none d-md-flex justify-content-end align-items-center position-relative">
-                 <i class="fa-solid fa-shield-halved why-icon-bg"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <!--===== COMPLAINT FORM SECTION (Hidden by default, triggered by Service Request button) =======-->
   <section id="complaint-section" class="complaint-section" style="display: none; padding-bottom: 80px;">

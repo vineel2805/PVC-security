@@ -511,147 +511,235 @@
 
 /* Mobile Navigation */
 
+/* ══════════════════════════════════════════════════════
+   Cross-Document View Transitions
+   Enables native page transitions without SPA conversion.
+   Supported: Chrome 126+, Edge 126+, Safari 18.2+
+   Fallback:  Normal page navigation (no breakage)
+   ══════════════════════════════════════════════════════ */
+
+@view-transition {
+    navigation: auto;
+}
+
+/* Assign transition names to persistent elements.
+   Elements with a view-transition-name are captured into their
+   own layer and can be independently controlled during transitions. */
+.pvc-global-header {
+    view-transition-name: site-header;
+}
+
+@media (max-width: 991px) {
+    .pvc-bottom-nav {
+        view-transition-name: bottom-nav;
+    }
+}
+
+/* Page content: old page exits, new page enters */
+::view-transition-old(root) {
+    animation: 180ms cubic-bezier(.22, 1, .36, 1) both vt-slide-out;
+}
+
+::view-transition-new(root) {
+    animation: 220ms cubic-bezier(.22, 1, .36, 1) 80ms both vt-slide-in;
+}
+
+/* Persistent elements: NO animation whatsoever.
+   These remain completely static across transitions. */
+::view-transition-old(site-header),
+::view-transition-new(site-header),
+::view-transition-old(bottom-nav),
+::view-transition-new(bottom-nav) {
+    animation: none;
+}
+
+@keyframes vt-slide-out {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes vt-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Bottom Navigation */
 @media (max-width: 991px) {
     .pvc-bottom-nav {
-        position: fixed;
-        bottom: 16px;
-        left: 16px;
-        right: 16px;
-        width: auto;
-        height: 74px;
-        background: #111111;
-        border-radius: 999px !important;
-
-        border: 1px solid rgba(255, 255, 255, .08);
-        box-shadow: 0 12px 35px rgba(0, 0, 0, .28);
-        border-radius: 18px 18px 0 0;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        z-index: 99999;
-        padding-bottom: env(safe-area-inset-bottom);
-        box-sizing: border-box;
+        position: fixed !important;
+        bottom: 24px !important;
+        left: 24px !important;
+        right: 24px !important;
+        width: auto !important;
+        height: 72px !important;
+        background: #fff !important;
+        border-radius: 45px !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4) !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        z-index: 99999 !important;
+        box-sizing: border-box !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        padding: 0 12px !important;
+        /* GPU: backdrop-filter already creates compositor layer.
+           contain:layout prevents children from triggering parent reflow */
+        contain: layout style;
     }
 
-    /* Navigation Item */
+    /* Navigation Item — base state includes transparent border/background
+       so CSS can transition smoothly FROM these values TO the active state */
     .pvc-bottom-nav-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        color: #888888;
-        font-size: 11px;
-        font-weight: 600;
-        position: relative;
-        height: 100%;
-        flex: 1;
-        transition: color 0.22s ease;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        color: #000;
+        font-family: 'Poppins', sans-serif !important;
+        font-size: 10px !important;
+        font-weight: 500 !important;
+        position: relative !important;
+        height: 100% !important;
+        flex: 1 !important;
+        gap: 6px !important;
+        box-sizing: border-box;
+        /* Invisible border/background: gives transitions a starting value */
+        border: 2px solid transparent;
+        border-radius: 999px;
+        background: transparent;
+        margin: auto;
+        padding: 0 12px;
+        /* Property-specific transitions — no 'all', no layout properties */
+        transition:
+            color 0.28s cubic-bezier(.22, 1, .36, 1),
+            background-color 0.28s cubic-bezier(.22, 1, .36, 1),
+            border-color 0.28s cubic-bezier(.22, 1, .36, 1),
+            box-shadow 0.28s cubic-bezier(.22, 1, .36, 1);
     }
 
-    .pvc-bottom-nav-item i {
-        font-size: 20px;
-        margin-bottom: 4px;
-        transition: color 0.22s ease;
+    .pvc-bottom-nav-item svg {
+        stroke: #000;
+        transition: stroke 0.28s cubic-bezier(.22, 1, .36, 1);
     }
 
-    .pvc-bottom-cart-badge {
-        position: absolute !important;
-        top: -6px !important;
-        right: -8px !important;
-        background: #c9a14a !important;
-        color: #111111 !important;
-        font-size: 9px !important;
-        font-weight: 700 !important;
-        min-width: 14px !important;
-        height: 14px !important;
+    .pvc-bottom-nav-item span {
+        transition: color 0.28s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    /* Active State Pill Container — no layout properties change,
+       only color/background/border/shadow animate */
+    .pvc-bottom-nav-item.active:not(.search-fab) {
+        color: #F4C542;
+        background: rgba(244, 197, 66, 0.05);
+        border-color: #F4C542;
+        height: 68px;
+        min-width: 68px;
+        max-width: 100%;
+    }
+
+    .pvc-bottom-nav-item.active:not(.search-fab) svg {
+        stroke: #F4C542;
+    }
+
+    .pvc-bottom-nav-item.active:not(.search-fab) span {
+        color: #F4C542;
+    }
+
+    /* Search FAB specific style */
+    .pvc-bottom-nav-item.search-fab {
+        flex: 1.2 !important;
+        overflow: visible !important;
+        /* Reset pill styles — FAB should not get border/background */
+        border: 2px solid transparent;
+        background: transparent;
+    }
+
+    .pvc-bottom-nav-item.search-fab span {
+        margin-top: 46px !important;
+    }
+
+    .pvc-header-search-fab-icon {
+        width: 52px !important;
+        height: 52px !important;
+        background-color: #111111 !important;
+        border: 2px solid #D4AF37 !important;
         border-radius: 50% !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 0 2px !important;
-        line-height: 1 !important;
-        pointer-events: none !important;
+        color: #D4AF37 !important;
+        box-shadow: none !important;
+        position: absolute !important;
+        left: 50% !important;
+        transform: translateX(-50%) translateZ(0);
+        transition: transform 0.25s cubic-bezier(.22, 1, .36, 1);
     }
 
-    /* Active State */
-    .pvc-bottom-nav-item.active {
-        color: #c9a14a;
+    .pvc-header-search-fab-icon svg {
+        stroke: #D4AF37 !important;
+        width: 26px !important;
+        height: 26px !important;
     }
 
-    .pvc-bottom-nav-item.active i {
-        color: #c9a14a;
-    }
-
-    /*.pvc-bottom-nav-item.active::after {
-        content: '';
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 16px;
-        height: 3px;
-        background-color: #c9a14a;
-        border-radius: 2px;
-    }*/
-
-    /* Search FAB */
-    .pvc-bottom-nav-item.search-fab {
-        flex: 1.2;
-        position: relative;
-        overflow: visible;
-    }
-
-    .pvc-header-search-fab-icon {
-        width: 54px;
-        height: 54px;
-        background-color: #111111;
-        border: 3px solid #c9a14a;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #c9a14a;
-        box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
-        position: absolute;
-
-        left: 50%;
-        transform: translateX(-50%);
-        transition: all 0.22s ease;
-    }
-
-    .pvc-bottom-nav-item.search-fab i {
-        font-size: 20px;
-        color: #c9a14a;
-        margin-bottom: 0;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    .pvc-bottom-nav-item.search-fab span {
-        margin-top: 32px;
-    }
-
+    /* Active search FAB: circle does not fill, borders and icon remain gold */
     .pvc-bottom-nav-item.search-fab.active .pvc-header-search-fab-icon {
-        background-color: #c9a14a;
-        border-color: #111111;
+        background-color: #111111 !important;
+        border-color: #D4AF37 !important;
+        color: #D4AF37 !important;
     }
 
-    .pvc-bottom-nav-item.search-fab.active i {
-        color: #111111;
+    .pvc-bottom-nav-item.search-fab.active svg {
+        stroke: #D4AF37 !important;
     }
 
-    .pvc-bottom-nav-item.search-fab.active::after {
-        display: none;
+    /* Hover effect (desktop browsers matching tablet layouts) */
+    @media (hover: hover) {
+        .pvc-bottom-nav-item:hover {
+            color: #ffffff;
+        }
+
+        .pvc-bottom-nav-item:hover svg {
+            stroke: #ffffff;
+        }
+
+        .pvc-bottom-nav-item.active:hover {
+            color: #D4AF37;
+        }
+
+        .pvc-bottom-nav-item.active:hover svg {
+            stroke: #D4AF37;
+        }
+
+        .pvc-bottom-nav-item.search-fab:hover .pvc-header-search-fab-icon {
+            transform: translateX(-50%) scale(1.05) translateZ(0);
+        }
     }
 
     /* Safe Area */
     @supports (padding-bottom: env(safe-area-inset-bottom)) {}
 
+
     /* WhatsApp Position */
-  
+    .pvc-floating-whatsapp {
+        bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+    }
 
     /* Mobile Header Fix */
 }
