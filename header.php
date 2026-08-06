@@ -182,7 +182,7 @@ if ($catRaw) {
   }
   ?>
 
-  <!-- Modern Mobile Bottom Navigation -->
+<!-- Modern Mobile Bottom Navigation -->
    <?php if (($currentPage ?? '') !== 'cart.php'): ?>
   <nav class="pvc-bottom-nav" aria-label="Mobile Navigation">
     <a href="index.php" class="pvc-bottom-nav-item<?php echo ($activeTab === 'home') ? ' active" aria-current="page' : ''; ?>" id="bottom-nav-home" aria-label="Home">
