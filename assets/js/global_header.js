@@ -57,6 +57,18 @@ document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('resize', updateHeaderSpacing);
         window.addEventListener('load', updateHeaderSpacing);
 
+        /* ── Instant Active Tab Feedback on Bottom Nav Tap (<50ms) ── */
+        document.querySelectorAll('.pvc-bottom-nav-item').forEach(function (item) {
+            item.addEventListener('click', function () {
+                document.querySelectorAll('.pvc-bottom-nav-item').forEach(function (el) {
+                    el.classList.remove('active');
+                    el.removeAttribute('aria-current');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-current', 'page');
+            });
+        });
+
         /* ── Mobile menu ──────────────────────────────────────── */
         function openMobileMenu() {
             mobileMenu.classList.add('active');

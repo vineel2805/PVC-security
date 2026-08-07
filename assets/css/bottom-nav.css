@@ -1,174 +1,195 @@
-/* Bottom Navigation */
+/* =============================================
+   MOBILE BOTTOM NAVIGATION BAR
+   =============================================
+   Material Design 3 / Android-First Soft Luxury Navigation
+   Design 2: Circular Active Indicator Container
+   Branding: Black, White, Luxury Gold (#D4A017)
+   ============================================= */
 
 @media (max-width: 991px) {
     .pvc-bottom-nav {
         view-transition-name: bottom-nav;
     }
 }
+
 @media (max-width: 991px) {
+
+    /* Navigation Container */
     .pvc-bottom-nav {
         position: fixed !important;
-        bottom: 24px !important;
-        left: 24px !important;
-        right: 24px !important;
-        width: auto !important;
-        height: 72px !important;
-        background: #fff !important;
-        border-radius: 45px !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4) !important;
+        bottom: calc(14px + env(safe-area-inset-bottom)) !important;
+        left: 16px !important;
+        right: 16px !important;
+        width: calc(100% - 32px) !important;
+        height: 76px !important;
+        background: #000 !important;
+        border-radius: 999px !important;
+        /*border: 1px solid rgba(212, 160, 23, 0.08) !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;*/
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
         z-index: 99999 !important;
         box-sizing: border-box !important;
-        backdrop-filter: blur(10px) !important;
-        -webkit-backdrop-filter: blur(10px) !important;
-        padding: 0 12px !important;
-        /* GPU: backdrop-filter already creates compositor layer.
-           contain:layout prevents children from triggering parent reflow */
+        padding: 0 6px !important;
         contain: layout style;
     }
 
-    /* Navigation Item — base state includes transparent border/background
-       so CSS can transition smoothly FROM these values TO the active state */
+    /* Navigation Item — 48x48dp minimum touch target with Android CSS Ripple */
     .pvc-bottom-nav-item {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
         text-decoration: none !important;
-        color: #000;
-        font-family: 'Poppins', sans-serif !important;
-        font-size: 10px !important;
+        color: #6B7280 !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+        font-size: 12px !important;
         font-weight: 500 !important;
         position: relative !important;
         height: 100% !important;
         flex: 1 !important;
-        gap: 6px !important;
-        box-sizing: border-box;
-        /* Invisible border/background: gives transitions a starting value */
-        border: 2px solid transparent;
-        border-radius: 999px;
+        padding: 6px 0 2px !important;
+        gap: 2px !important;
+        min-height: 48px !important;
+        box-sizing: border-box !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 16px !important;
+        margin: 0 !important;
+        transition: background-color 150ms ease, color 180ms cubic-bezier(.4, 0, .2, 1) !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+
+    /* Android Ripple Effect on Tap */
+    .pvc-bottom-nav-item:active {
+        background-color: rgba(212, 160, 23, 0.10) !important;
+    }
+
+    /* Icon Container Wrapper */
+    .pvc-nav-icon-wrap {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: transparent;
-        margin: auto;
-        padding: 0 12px;
-        /* Property-specific transitions — no 'all', no layout properties */
-        transition:
-            color 0.28s cubic-bezier(.22, 1, .36, 1),
-            background-color 0.28s cubic-bezier(.22, 1, .36, 1),
-            border-color 0.28s cubic-bezier(.22, 1, .36, 1),
-            box-shadow 0.28s cubic-bezier(.22, 1, .36, 1);
+        transition: width 180ms cubic-bezier(.4, 0, .2, 1),
+            height 180ms cubic-bezier(.4, 0, .2, 1),
+            background 180ms cubic-bezier(.4, 0, .2, 1),
+            box-shadow 180ms cubic-bezier(.4, 0, .2, 1),
+            transform 180ms cubic-bezier(.4, 0, .2, 1);
+        transform: scale(1);
     }
 
-    .pvc-bottom-nav-item svg {
-        stroke: #000;
-        transition: stroke 0.28s cubic-bezier(.22, 1, .36, 1);
+    /* Dual-State SVG Icon Rules */
+    .pvc-bottom-nav-item .icon-outline {
+        display: block !important;
+        width: 24px !important;
+        height: 24px !important;
+        stroke: #fff !important;
+        stroke-width: 2px !important;
+        fill: none !important;
+        transition: stroke 180ms ease, transform 180ms ease !important;
     }
 
+    .pvc-bottom-nav-item .icon-filled {
+        display: none !important;
+        width: 22px !important;
+        height: 22px !important;
+        fill: #FFFFFF !important;
+        stroke: none !important;
+        transition: transform 180ms ease !important;
+    }
+
+    /* Inactive Labels — 12px Inter 500, #6B7280, 0.85 opacity */
     .pvc-bottom-nav-item span {
-        transition: color 0.28s cubic-bezier(.22, 1, .36, 1);
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        color: #fff !important;
+        opacity: 0.85;
+        transition: color 180ms cubic-bezier(.4, 0, .2, 1), opacity 180ms cubic-bezier(.4, 0, .2, 1), font-weight 180ms cubic-bezier(.4, 0, .2, 1) !important;
+        line-height: 1.2 !important;
     }
 
-    /* Active State Pill Container — no layout properties change,
-       only color/background/border/shadow animate */
-    .pvc-bottom-nav-item.active:not(.search-fab) {
-        color: #F4C542;
-        background: rgba(244, 197, 66, 0.05);
-        border-color: #F4C542;
-        height: 68px;
-        min-width: 68px;
-        max-width: 100%;
+    /* Active State Underline Indicator — 28px width, 3px height, 6px distance from label */
+    .pvc-bottom-nav-item::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
+        width: 28px;
+        height: 3px;
+        background-color: #D4A017;
+        border-radius: 999px;
+        transition: transform 180ms cubic-bezier(.4, 0, .2, 1), opacity 180ms cubic-bezier(.4, 0, .2, 1);
+        opacity: 0;
     }
 
-    .pvc-bottom-nav-item.active:not(.search-fab) svg {
-        stroke: #F4C542;
-    }
-
-    .pvc-bottom-nav-item.active:not(.search-fab) span {
-        color: #F4C542;
-    }
-
-    /* Search FAB specific style */
-    .pvc-bottom-nav-item.search-fab {
-        flex: 1.2 !important;
-        overflow: visible !important;
-        /* Reset pill styles — FAB should not get border/background */
-        border: 2px solid transparent;
-        background: transparent;
-    }
-
-    .pvc-bottom-nav-item.search-fab span {
-        margin-top: 46px !important;
-    }
-
-    .pvc-header-search-fab-icon {
-        width: 52px !important;
-        height: 52px !important;
-        background-color: #111111 !important;
-        border: 2px solid #D4AF37 !important;
+    /* ACTIVE CONTAINER (Design 2: Gold Gradient Circle) */
+    .pvc-bottom-nav-item.active .pvc-nav-icon-wrap {
+        width: 44px !important;
+        height: 44px !important;
         border-radius: 50% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        color: #D4AF37 !important;
-        box-shadow: none !important;
-        position: absolute !important;
-        left: 50% !important;
-        transform: translateX(-50%) translateZ(0);
-        transition: transform 0.25s cubic-bezier(.22, 1, .36, 1);
+        background: linear-gradient(180deg, #B8860B 0%, #D4A017 50%, #B8860B 100%) !important;
+        /* box-shadow: 0 6px 18px rgba(212, 160, 23, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.45) !important;*/
+        border: none !important;
+        animation: pvcCirclePop 180ms cubic-bezier(.4, 0, .2, 1) forwards;
     }
 
-    .pvc-header-search-fab-icon svg {
-        stroke: #D4AF37 !important;
-        width: 26px !important;
-        height: 26px !important;
+    @keyframes pvcCirclePop {
+        0% {
+            transform: scale(0.92);
+        }
+
+        100% {
+            transform: scale(1);
+        }
     }
 
-    /* Active search FAB: circle does not fill, borders and icon remain gold */
-    .pvc-bottom-nav-item.search-fab.active .pvc-header-search-fab-icon {
-        background-color: #111111 !important;
-        border-color: #D4AF37 !important;
-        color: #D4AF37 !important;
+    /* Active Icon State — Display Filled Icon */
+    .pvc-bottom-nav-item.active .icon-outline {
+        display: none !important;
     }
 
-    .pvc-bottom-nav-item.search-fab.active svg {
-        stroke: #D4AF37 !important;
+    .pvc-bottom-nav-item.active .icon-filled {
+        display: block !important;
+        fill: #FFFFFF !important;
+        transform: scale(1.05) !important;
     }
 
-    /* Hover effect (desktop browsers matching tablet layouts) */
+    /* Active Label — Inter 600, 12px, #D4A017 */
+    .pvc-bottom-nav-item.active span {
+        color: #D4A017 !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+    }
+
+    /* Active Underline */
+    .pvc-bottom-nav-item.active::after {
+        display: none;
+        transform: translateX(-50%) scaleX(1);
+        opacity: 1;
+    }
+
+    /* Hover effect */
     @media (hover: hover) {
-        .pvc-bottom-nav-item:hover {
-            color: #ffffff;
+        .pvc-bottom-nav-item:hover .pvc-nav-icon-wrap svg {
+            stroke: #D4A017 !important;
         }
 
-        .pvc-bottom-nav-item:hover svg {
-            stroke: #ffffff;
-        }
-
-        .pvc-bottom-nav-item.active:hover {
-            color: #D4AF37;
-        }
-
-        .pvc-bottom-nav-item.active:hover svg {
-            stroke: #D4AF37;
-        }
-
-        .pvc-bottom-nav-item.search-fab:hover .pvc-header-search-fab-icon {
-            transform: translateX(-50%) scale(1.05) translateZ(0);
+        .pvc-bottom-nav-item:hover span {
+            color: #D4A017 !important;
+            opacity: 1 !important;
         }
     }
 
-    /* Safe Area */
-    @supports (padding-bottom: env(safe-area-inset-bottom)) {}
-
-
-    /* WhatsApp Position */
+    /* Floating WhatsApp Position Adjustment */
     .pvc-floating-whatsapp {
-        bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+        bottom: calc(98px + env(safe-area-inset-bottom)) !important;
     }
-
-    /* Mobile Header Fix */
 }
 
 @media (min-width: 992px) {
