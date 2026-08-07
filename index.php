@@ -45,7 +45,7 @@ if (empty($heroSlides)) {
 ?>
 
 <!--===== HERO AREA STARTS =======-->
- <section id="home" data-aos="zoom-out" data-aos-duration="1500">
+<section id="home">
 
 <!-- ================= DESKTOP CAROUSEL ================= -->
   <div class="carousel-area owl-carousel hero-slider-desktop d-none d-md-block">
@@ -53,15 +53,19 @@ if (empty($heroSlides)) {
     <?php foreach ($heroSlides as $slide): 
         $dImg = htmlspecialchars($slide['desktop_image']);
     ?>
-    <div class="hero3-section-area"
-      style="background-image: url('<?php echo $dImg; ?>'); background-size: cover; background-repeat: no-repeat; background-position: center;">
-      <div class="container-fluid p-0">
-        <div class="row m-0">
-          <div class="col-lg-8" style="padding-left: 50px;">
-            <h1 class="banner-title"><strong><?php echo htmlspecialchars($slide['title'] ?? ''); ?></strong></h1>
+    <div class="hero3-section-area">
+      <img src="<?php echo $dImg; ?>" alt="<?php echo htmlspecialchars($slide['title'] ?? 'PVC Security Banner'); ?>" class="hero-banner-img">
+      <?php if (!empty($slide['title'])): ?>
+      <div class="hero-overlay-container">
+        <div class="container-fluid p-0">
+          <div class="row m-0">
+            <div class="col-lg-8" style="padding-left: 50px;">
+              <h1 class="banner-title"><strong><?php echo htmlspecialchars($slide['title']); ?></strong></h1>
+            </div>
           </div>
         </div>
       </div>
+      <?php endif; ?>
     </div>
     <?php endforeach; ?>
 
@@ -72,15 +76,19 @@ if (empty($heroSlides)) {
     <?php foreach ($heroSlides as $slide): 
         $mImg = htmlspecialchars(!empty($slide['mobile_image']) ? $slide['mobile_image'] : $slide['desktop_image']);
     ?>
-    <div class="hero3-section-area"
-      style="background-image: url('<?php echo $mImg; ?>'); background-size: cover; background-repeat: no-repeat; background-position: center;">
-      <div class="container-fluid p-0">
-        <div class="row m-0">
-          <div class="col-12 text-center">
-            <h1 class="banner-title"><strong><?php echo htmlspecialchars($slide['title'] ?? ''); ?></strong></h1>
+    <div class="hero3-section-area">
+      <img src="<?php echo $mImg; ?>" alt="<?php echo htmlspecialchars($slide['title'] ?? 'PVC Security Banner'); ?>" class="hero-banner-img">
+      <?php if (!empty($slide['title'])): ?>
+      <div class="hero-overlay-container">
+        <div class="container-fluid p-0">
+          <div class="row m-0">
+            <div class="col-12 text-center">
+              <h1 class="banner-title"><strong><?php echo htmlspecialchars($slide['title']); ?></strong></h1>
+            </div>
           </div>
         </div>
       </div>
+      <?php endif; ?>
     </div>
     <?php endforeach; ?>
 
@@ -129,6 +137,24 @@ if (empty($heroSlides)) {
           </div>
           <span class="quick-link-text">Contact Us</span>
         </a>
+        <a href="https://www.facebook.com/share/19JHkwRWEw/" target="_blank" rel="noopener noreferrer" class="quick-link-item">
+          <div class="quick-link-icon">
+            <i class="fa-brands fa-facebook-f"></i>
+          </div>
+          <span class="quick-link-text">Facebook</span>
+        </a>
+        <a href="https://youtube.com/@pvcsecuritysolutions-z9p?si=LGLiUB7R0vJXSOIG" target="_blank" rel="noopener noreferrer" class="quick-link-item">
+          <div class="quick-link-icon">
+            <i class="fa-brands fa-youtube"></i>
+          </div>
+          <span class="quick-link-text">YouTube</span>
+        </a>
+        <a href="https://in.linkedin.com/in/pvc-security-solutions-7961733ba" target="_blank" rel="noopener noreferrer" class="quick-link-item">
+          <div class="quick-link-icon">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </div>
+          <span class="quick-link-text">LinkedIn</span>
+        </a>
         <!-- Duplicated items for seamless infinite scroll on mobile -->
         <a href="all-products.php" class="quick-link-item quick-link-duplicate">
           <div class="quick-link-icon">
@@ -165,6 +191,24 @@ if (empty($heroSlides)) {
             <i class="fa-solid fa-envelope"></i>
           </div>
           <span class="quick-link-text">Contact Us</span>
+        </a>
+        <a href="https://www.facebook.com/share/19JHkwRWEw/" target="_blank" rel="noopener noreferrer" class="quick-link-item quick-link-duplicate">
+          <div class="quick-link-icon">
+            <i class="fa-brands fa-facebook-f"></i>
+          </div>
+          <span class="quick-link-text">Facebook</span>
+        </a>
+        <a href="https://youtube.com/@pvcsecuritysolutions-z9p?si=LGLiUB7R0vJXSOIG" target="_blank" rel="noopener noreferrer" class="quick-link-item quick-link-duplicate">
+          <div class="quick-link-icon">
+            <i class="fa-brands fa-youtube"></i>
+          </div>
+          <span class="quick-link-text">YouTube</span>
+        </a>
+        <a href="https://in.linkedin.com/in/pvc-security-solutions-7961733ba" target="_blank" rel="noopener noreferrer" class="quick-link-item quick-link-duplicate">
+          <div class="quick-link-icon">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </div>
+          <span class="quick-link-text">LinkedIn</span>
         </a>
       </div>
     </div>
@@ -451,8 +495,165 @@ $result = mysqli_query($con, $query);
   <script src="assets/js/main.js"></script>
   <!--===== GLOBAL FOOTER COMPONENT =======-->
   <script src="assets/js/global_footer.js"></script>
-  
+  <script src="assets/js/global_search.js"></script>
   <!--===== END GLOBAL FOOTER =======-->
+  <!-- Quick Links Auto-Scroll + Manual Swipe (Mobile Only) -->
+  <script>
+    (function () {
+      const container = document.querySelector('#quick-links .container');
+      const row = document.querySelector('.quick-links-row');
+      if (!container || !row) return;
+
+      let scrollInterval = null;
+      let resumeTimeout = null;
+
+      function checkLoop() {
+        const limit = row.scrollWidth / 2;
+        if (container.scrollLeft >= limit) {
+          container.scrollLeft = 0;
+        }
+      }
+
+      function startScrolling() {
+        if (scrollInterval) return;
+        scrollInterval = setInterval(() => {
+          container.scrollLeft += 1;
+          checkLoop();
+        }, 25);
+      }
+
+      function stopScrolling() {
+        if (scrollInterval) {
+          clearInterval(scrollInterval);
+          scrollInterval = null;
+        }
+      }
+
+      function onTouchStart() {
+        stopScrolling();
+        if (resumeTimeout) {
+          clearTimeout(resumeTimeout);
+          resumeTimeout = null;
+        }
+      }
+
+      function onTouchEnd() {
+        if (resumeTimeout) clearTimeout(resumeTimeout);
+        resumeTimeout = setTimeout(() => {
+          startScrolling();
+        }, 2000);
+      }
+
+      function initMobileAutoScroll() {
+        if (scrollInterval) return;
+
+        // Force duplicates to display on mobile for seamless loop
+        row.querySelectorAll('.quick-link-duplicate').forEach(el => {
+          el.style.setProperty('display', 'flex', 'important');
+        });
+
+        container.scrollLeft = 0;
+
+        container.addEventListener('scroll', checkLoop, { passive: true });
+        container.addEventListener('touchstart', onTouchStart, { passive: true });
+        container.addEventListener('touchend', onTouchEnd, { passive: true });
+        container.addEventListener('touchcancel', onTouchEnd, { passive: true });
+
+        startScrolling();
+      }
+
+      function cleanupMobileAutoScroll() {
+        stopScrolling();
+        if (resumeTimeout) {
+          clearTimeout(resumeTimeout);
+          resumeTimeout = null;
+        }
+
+        // Restore duplicate items display back to desktop CSS default (none)
+        row.querySelectorAll('.quick-link-duplicate').forEach(el => {
+          el.style.removeProperty('display');
+        });
+
+        container.removeEventListener('scroll', checkLoop);
+        container.removeEventListener('touchstart', onTouchStart);
+        container.removeEventListener('touchend', onTouchEnd);
+        container.removeEventListener('touchcancel', onTouchEnd);
+
+        container.scrollLeft = 0;
+      }
+
+      const mobileQuery = window.matchMedia("(max-width: 768px)");
+
+      function handleResize() {
+        if (mobileQuery.matches) {
+          initMobileAutoScroll();
+        } else {
+          cleanupMobileAutoScroll();
+        }
+      }
+
+      if (mobileQuery.addEventListener) {
+        mobileQuery.addEventListener("change", handleResize);
+      } else if (mobileQuery.addListener) {
+        mobileQuery.addListener(handleResize);
+      }
+      handleResize();
+    })();
+  </script>
+
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+
+    // Premium Icon Tilt Interaction
+    const interactiveElements = document.querySelectorAll('.service-icon, .progres-section-area .check, .site-logo img, .social-links a, .service-boxarea .icons, .contact-boxarea .img1, .product-img-box');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        let tiltAmount = 6;
+        if (el.classList.contains('product-img-box')) tiltAmount = 15; // More pronounced for the hardware box
+
+        const rotateX = (y - centerY) / tiltAmount;
+        const rotateY = (centerX - x) / tiltAmount;
+        el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        el.style.transition = 'transform 0.1s ease-out';
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        el.style.transition = 'transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+      });
+    });
+
+    $('.hero-slider-desktop').owlCarousel({
+      items: 1,
+      loop: true,
+      autoplay: true,
+      autoplayTimeout: 1500,
+      autoplayHoverPause: false,
+      nav: false,
+      dots: true
+    });
+
+    $('.hero-slider-mobile').owlCarousel({
+      items: 1,
+      loop: true,
+      autoplay: true,
+      autoplayTimeout: 1500,
+      autoplayHoverPause: false,
+      nav: false,
+      dots: true
+    });
+  </script>
+
+  <!-- Form & Cart Systems -->
+  <script src="assets/js/form_validation.js"></script>
 
 </body>
 

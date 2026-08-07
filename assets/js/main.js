@@ -247,36 +247,34 @@
     }
   });
 
-  // HEADER //
+  // HEADER HERO SLIDER - HIKVISION STYLE CLEAN HORIZONTAL SLIDE //
   $('.carousel-area').owlCarousel({
+    items: 1,
     loop: true,
     margin: 0,
     nav: false,
     dots: true,
-    mouseDrag: false,
-    items: 1,
+    mouseDrag: true,
+    touchDrag: true,
     autoplay: true,
-    navText: ["<i class='fa-solid fa-angle-up'></i>", "<i class='fa-solid fa-angle-down'></i>"],
-    vertical: true,
-    animateOut: 'fadeOut',
-    animateIn: 'fadeIn',
-    active: true,
-    smartSpeed: 800,
     autoplayTimeout: 5000,
-    autoplayHoverPause: false,
+    autoplayHoverPause: true,
+    smartSpeed: 900,
+    animateOut: false,
+    animateIn: false,
     responsiveClass: true,
     responsive: {
       0: {
         items: 1,
-        nav: false,
+        nav: false
       },
       600: {
         items: 1,
-        nav: false,
+        nav: false
       },
       1000: {
         items: 1,
-        nav: false,
+        nav: false
       }
     }
   });
