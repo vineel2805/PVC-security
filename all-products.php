@@ -624,6 +624,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 
 <body data-active-brand="<?php echo htmlspecialchars($resolvedBrandId); ?>">
     <?php include 'header.php'; ?>
+    <?php include 'includes/header.php'; ?>
 
 <!-- Breadcrumb -->
 <section class="all-products-breadcrumb">

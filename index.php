@@ -3,6 +3,7 @@
   <!--=====HEADER START =======-->
 <link rel="stylesheet" href="assets/css/index.css">
 <?php include 'header.php'; ?>
+<?php include 'includes/header.php'; ?>
   <!--=====HEADER END =======-->
 
 

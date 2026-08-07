@@ -29,6 +29,7 @@
 
 <body>
 <?php include 'header.php'; ?>
+<?php include 'includes/header.php'; ?>
 
 
     <!--===== HERO AREA STARTS =======-->

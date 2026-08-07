@@ -28,6 +28,7 @@
 
    <link rel="stylesheet" href="assets/css/main.css">
    <link rel="stylesheet" href="assets/css/global_header.css">
+   <link rel="stylesheet" href="assets/css/bottom-nav.css">
    <link rel ="stylesheet" href="assets/css/global_footer.css">
    <link rel="stylesheet" href="assets/css/products_styles.css">
    <link rel="stylesheet" href="assets/css/global_search.css">

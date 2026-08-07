@@ -13,14 +13,13 @@
   <!-- FontAwesome 6 (if not already fully loaded) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="assets/css/services_pvc.css">
-
   
 </head>
-
 <body>
 
 <?php include 'header.php'; ?>
-
+<?php include 'includes/header.php'; ?>
+0
 
   <!-- HERO SECTION -->
   <section class="shop-categories-section pt-5" style="background:#fff; margin-top:80px;">

@@ -15,7 +15,7 @@
 <body>
 
 <?php include 'header.php'; ?>
-
+<?php include 'includes/header.php'; ?>
     <!-- WORKSPACE SECTION -->
     <section class="workspace-section">
         <div class="container">

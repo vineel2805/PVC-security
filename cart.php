@@ -17,6 +17,7 @@
 <body>
 
   <?php $currentPage = 'cart';  include 'header.php'; ?>
+  <?php include 'includes/header.php'; ?>
 
 
   <!-- Cart Page Content -->

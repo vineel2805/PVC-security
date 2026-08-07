@@ -527,6 +527,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 
 <body data-active-catname="<?php echo htmlspecialchars($selectedCatName); ?>">
  <?php include 'header.php'; ?>
+ <?php include 'includes/header.php'; ?>
 <!-- Breadcrumb -->
 <section class="all-products-breadcrumb">
     <div class="container">
