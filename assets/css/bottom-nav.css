@@ -1,4 +1,10 @@
 /* Bottom Navigation */
+
+@media (max-width: 991px) {
+    .pvc-bottom-nav {
+        view-transition-name: bottom-nav;
+    }
+}
 @media (max-width: 991px) {
     .pvc-bottom-nav {
         position: fixed !important;

@@ -529,11 +529,7 @@
     view-transition-name: site-header;
 }
 
-@media (max-width: 991px) {
-    .pvc-bottom-nav {
-        view-transition-name: bottom-nav;
-    }
-}
+
 
 /* Page content: old page exits, new page enters */
 ::view-transition-old(root) {
