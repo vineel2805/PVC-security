@@ -31,7 +31,6 @@
    <link rel ="stylesheet" href="assets/css/global_footer.css">
    <link rel="stylesheet" href="assets/css/products_styles.css">
    <link rel="stylesheet" href="assets/css/global_search.css">
-   <!--link rel="stylesheet" href="assets/css/header_styles.css"> -->
    
 <!-- JS Plugins -->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>

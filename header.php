@@ -29,6 +29,10 @@ if ($catRaw) {
 ?>
   <header class="pvc-global-header" id="pvc-global-header">
     <div class="pvc-header-container">
+      <!-- Hamburger (mobile only) -->
+        <div class="pvc-mobile-toggle" id="pvc-mobile-toggle">
+          <span></span><span></span><span></span>
+        </div>
       <div class="pvc-header-logo">
         <a href="index.php">
           <img src="assets/img/logo/logo1.png" alt="PVC Security Logo" width="180" height="60" >
@@ -91,7 +95,7 @@ if ($catRaw) {
       </nav>
 
       <div class="pvc-header-utils">
-
+      
 
         <!-- Search -->
         <button
@@ -112,10 +116,7 @@ if ($catRaw) {
           <span class="pvc-cart-badge" id="pvc-cart-count">0</span>
         </a>
 
-        <!-- Hamburger (mobile only) -->
-        <div class="pvc-mobile-toggle" id="pvc-mobile-toggle">
-          <span></span><span></span><span></span>
-        </div>
+        
       </div>
     </div>
   </header>

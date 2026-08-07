@@ -20,7 +20,15 @@ document.addEventListener('DOMContentLoaded', function () {
            if (!header || !spacer) return;
 
           spacer.style.height = header.offsetHeight + "px";
+          document.documentElement.style.setProperty(
+        "--header-height",
+        header.offsetHeight + "px");
+        console.log(
+    window.location.pathname,
+    header.offsetHeight
+);
         }
+        
 
         /* ── Sticky header ────────────────────────────────────── */
         let lastIsSticky = false, ticking = false;
