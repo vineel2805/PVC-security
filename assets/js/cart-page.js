@@ -12,17 +12,21 @@ function loadCartPage() {
     const cartItemsContainer = document.getElementById('cartItemsContainer');
     const emptyCartMessage = document.getElementById('emptyCartMessage');
     const cartSummarySection = document.querySelector('.cart-summary-section');
+    const stepIndicator = document.getElementById('rfqStepIndicator');
 
     if (cart.length === 0) {
-        // Show empty cart message
+        // Show empty cart message, hide step indicator, reset to step 1
         if (cartSummarySection) cartSummarySection.style.display = 'none';
         if (emptyCartMessage) emptyCartMessage.style.display = 'block';
+        if (stepIndicator) stepIndicator.classList.add('hidden');
+        goToStep(1);
         return;
     }
 
-    // Hide empty message, show cart
+    // Hide empty message, show cart and step indicator
     if (cartSummarySection) cartSummarySection.style.display = 'block';
     if (emptyCartMessage) emptyCartMessage.style.display = 'none';
+    if (stepIndicator) stepIndicator.classList.remove('hidden');
 
     if (!cartItemsContainer) {
         return;
@@ -51,7 +55,7 @@ function loadCartPage() {
                 <p class="cart-item-price">${item.price > 0 ? formatCurrency(item.price * item.quantity) : 'Price on Request'}</p>
             </div>
             <button class="cart-item-remove" onclick="removeFromCart('${item.model}')" title="Remove item">
-                <i class="fa-solid fa-trash"></i>
+                <i class="fa-regular fa-trash-can"></i>
             </button>
         </div>
     `).join('');
@@ -256,6 +260,42 @@ function bindCartPageEvents() {
     });
 }
 
+// ==================== 2-STEP CHECKOUT NAVIGATION ====================
+
+/**
+ * Navigate to a specific checkout step
+ * @param {number} step - The step number (1 or 2)
+ */
+function goToStep(step) {
+    var section = document.querySelector('.cart-page-section');
+    if (!section) return;
+
+    section.setAttribute('data-step', step);
+
+    // Update step indicator
+    var steps = document.querySelectorAll('.rfq-step');
+    steps.forEach(function (el) {
+        var num = parseInt(el.getAttribute('data-step-num'), 10);
+        el.classList.remove('active', 'completed');
+        if (num === step) {
+            el.classList.add('active');
+        } else if (num < step) {
+            el.classList.add('completed');
+        }
+    });
+
+    // Toggle step-1-only / step-2-only visibility (including sticky footer)
+    document.querySelectorAll('.step-1-only').forEach(function (el) {
+        el.style.display = (step === 1) ? '' : 'none';
+    });
+    document.querySelectorAll('.step-2-only').forEach(function (el) {
+        el.style.display = (step === 2) ? '' : 'none';
+    });
+
+    // Scroll to top smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function initializeCartPage() {
     if (!isCartPage()) {
         return;
@@ -264,10 +304,40 @@ function initializeCartPage() {
     loadCartPage();
     initializeShippingSelection();
 
+    // Initialize step 1 (hides step-2-only elements in sticky footer)
+    goToStep(1);
+
     // Bind Place RFQ button
-    const placeRFQBtn = document.getElementById('placeRFQBtn');
+    var placeRFQBtn = document.getElementById('placeRFQBtn');
     if (placeRFQBtn) {
         placeRFQBtn.addEventListener('click', handlePlaceOrderClick);
+    }
+
+    // Bind Next step button
+    var btnNext = document.getElementById('btnNextStep');
+    if (btnNext) {
+        btnNext.addEventListener('click', function () {
+            goToStep(2);
+        });
+    }
+
+    // Bind Back step button
+    var btnBack = document.getElementById('btnBackStep');
+    if (btnBack) {
+        btnBack.addEventListener('click', function () {
+            goToStep(1);
+        });
+    }
+
+    // Hide step indicator when cart is empty
+    var cart = getCart();
+    var stepIndicator = document.getElementById('rfqStepIndicator');
+    if (stepIndicator) {
+        if (cart.length === 0) {
+            stepIndicator.classList.add('hidden');
+        } else {
+            stepIndicator.classList.remove('hidden');
+        }
     }
 }
 

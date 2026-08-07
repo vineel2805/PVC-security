@@ -11,6 +11,195 @@
     --cart-bg-light: #f9f9f9;
 }
 
+/* =============================================
+   2-STEP CHECKOUT: Step Visibility
+   ============================================= */
+
+/* Step 1 active: show step-1, hide step-2 */
+.cart-page-section[data-step="1"] .step-2-content,
+.cart-page-section[data-step="1"] .step-2-only,
+.cart-page-section[data-step="1"]~.cart-sticky-footer .step-2-only {
+    display: none !important;
+}
+
+/* Step 2 active: show step-2, hide step-1 */
+.cart-page-section[data-step="2"] .step-1-content,
+.cart-page-section[data-step="2"] .step-1-only,
+.cart-page-section[data-step="2"]~.cart-sticky-footer .step-1-only {
+    display: none !important;
+}
+
+/* Hide step indicator when cart is empty */
+.cart-page-section .rfq-step-indicator.hidden {
+    display: none;
+}
+
+/* =============================================
+   2-STEP CHECKOUT: Step Indicator
+   ============================================= */
+
+.rfq-step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 24px auto 8px;
+    max-width: 320px;
+}
+
+.rfq-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.rfq-step-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e5e5e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rfq-step-number {
+    font-size: 14px;
+    font-weight: 700;
+    color: #999;
+    transition: color 0.3s ease;
+}
+
+.rfq-step-check {
+    display: none;
+    font-size: 14px;
+    color: #fff;
+}
+
+.rfq-step-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #999;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+/* Connector line */
+.rfq-step-line {
+    flex: 1;
+    height: 3px;
+    background: #e5e5e5;
+    margin: 0 12px;
+    margin-bottom: 28px;
+    border-radius: 2px;
+    overflow: hidden;
+    min-width: 60px;
+}
+
+.rfq-step-line-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--pvc-gold-mid);
+    border-radius: 2px;
+    transition: width 0.4s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Active step */
+.rfq-step.active .rfq-step-circle {
+    background: var(--pvc-gold-mid);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.rfq-step.active .rfq-step-number {
+    color: #fff;
+}
+
+.rfq-step.active .rfq-step-label {
+    color: var(--pvc-dark-bg);
+}
+
+/* Completed step */
+.rfq-step.completed .rfq-step-circle {
+    background: var(--pvc-gold-mid);
+}
+
+.rfq-step.completed .rfq-step-number {
+    display: none;
+}
+
+.rfq-step.completed .rfq-step-check {
+    display: flex;
+}
+
+.rfq-step.completed .rfq-step-label {
+    color: var(--pvc-gold-mid);
+}
+
+/* Line fill when step 2 is active */
+.cart-page-section[data-step="2"] .rfq-step-line-fill {
+    width: 100%;
+}
+
+/* =============================================
+   2-STEP CHECKOUT: Next / Back Buttons
+   ============================================= */
+
+.btn-next-step {
+    height: 52px;
+    padding: 0 32px;
+    width: 100%;
+    min-width: 180px;
+    max-width: 250px;
+    background: var(--pvc-gold-mid);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-sizing: border-box;
+    margin-left: auto;
+}
+
+.btn-next-step:hover {
+    background: var(--pvc-gold-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+}
+
+.btn-back-step {
+    height: 56px;
+    padding: 0 20px;
+    background: #ffffff;
+    color: var(--pvc-dark-bg);
+    border: 1px solid var(--cart-border-color);
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+.btn-back-step:hover {
+    border-color: var(--pvc-dark-bg);
+    background: #f5f5f5;
+}
+
 /* Add to Cart Button Styling */
 .hik-btn-outline {
     cursor: pointer;
@@ -36,11 +225,39 @@ button.hik-btn-outline {
     min-height: 100vh;
 }
 
+.cart-header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 6px;
+    margin-bottom: 10px;
+}
+
 .cart-page-title {
     font-size: 42px;
     font-weight: 700;
     color: var(--pvc-dark-bg);
-    margin-bottom: 10px;
+    margin-bottom: 0;
+}
+
+.cart-close-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--pvc-dark-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.cart-close-btn:hover {
+    background: rgba(0, 0, 0, 0.07);
+    color: #000;
 }
 
 .cart-page-subtitle {
@@ -299,8 +516,6 @@ button.hik-btn-outline {
 
 /* Scrollable Cart Items Area */
 .cart-items-scroll-area {
-    max-height: 48vh;
-    overflow-y: auto;
     padding: 20px 30px;
 }
 
@@ -439,7 +654,7 @@ button.hik-btn-outline {
 .cart-item-remove {
     background: none;
     border: none;
-    color: #ff4d4f;
+    color: rgb(113, 116, 120);
     cursor: pointer;
     font-size: 18px;
     padding: 8px;
@@ -475,15 +690,27 @@ button.hik-btn-outline {
 
 .sticky-footer-actions {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
 }
 
 .sticky-totals {
     flex: 1;
+}
+
+.sticky-buttons {
+    flex: 0 0 auto;
     display: flex;
-    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.btn-next-step {
+    width: 180px;
+    height: 50px;
+    padding: 0 28px;
+    flex: 0 0 auto;
 }
 
 .sticky-totals .total-label {
@@ -498,32 +725,42 @@ button.hik-btn-outline {
 }
 
 .sticky-buttons {
+    flex: 0 0 60%;
+    max-width: 60%;
     display: flex;
-    gap: 10px;
-    flex: 1;
+    align-items: center;
     justify-content: flex-end;
 }
 
+/* Continue Shopping as its own row above totals+next */
+.sticky-continue-row {
+    margin-bottom: 12px;
+}
+
 .btn-place-rfq {
-    padding: 12px 24px;
-    background: #25D366;
-    color: #fff;
+    height: 56px;
+    padding: 0 24px;
+    background-color: #25D366;
+    color: #ffffff;
     border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+    box-sizing: border-box;
+    white-space: nowrap;
 }
 
 .btn-place-rfq:hover:not(:disabled) {
-    background: #1fb855;
+    background-color: #1fb855;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
 }
 
 .btn-place-rfq:disabled,
@@ -699,12 +936,18 @@ button.hik-btn-outline {
         font-size: 28px;
     }
 
+    .cart-close-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
     .section-title {
         font-size: 18px;
     }
 
     .sticky-buttons {
-        flex-direction: column;
+        flex-direction: row;
     }
 }
 
@@ -759,37 +1002,71 @@ button.hik-btn-outline {
         justify-content: space-between !important;
         align-items: center !important;
 
-        padding: 0 !important;
+        padding: 12px 16px !important;
         margin: 0 !important;
         width: 100% !important;
 
         background: white;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
     }
 
-    .cart-sticky-footer .sticky-buttons {
+    .cart-sticky-footer .sticky-totals {
+        flex: 0 0 40% !important;
+        max-width: 40% !important;
+    }
+
+    /* Step 2 Sticky Footer Buttons layout */
+    .cart-page-section[data-step="2"]~.cart-sticky-footer .sticky-buttons {
+        flex: 1 1 100% !important;
+        max-width: 100% !important;
+        width: 100% !important;
         display: flex !important;
-        justify-content: flex-end !important;
+        gap: 12px !important;
         align-items: center !important;
-
-        width: auto !important;
+        justify-content: space-between !important;
     }
 
-    /* Green WhatsApp button styling */
-    .cart-sticky-footer .btn-place-rfq {
-
+    /* Secondary CTA: Back button (34% width, 56px height, 16px 600 weight) */
+    .cart-sticky-footer .btn-back-step {
         height: 56px !important;
+        flex: 0 0 calc(34% - 6px) !important;
+        width: calc(34% - 6px) !important;
         border-radius: 12px !important;
         font-size: 16px !important;
         font-weight: 600 !important;
+        background: #ffffff !important;
+        color: var(--pvc-dark-bg) !important;
+        border: 1px solid var(--cart-border-color) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        padding: 0 8px !important;
+        box-sizing: border-box !important;
+        white-space: nowrap !important;
+    }
+
+    /* Primary CTA: Place Order button (66% width, 56px height, 16px 700 weight) */
+    .cart-sticky-footer .btn-place-rfq {
+        height: 56px !important;
+        flex: 0 0 calc(44% - 6px) !important;
+        width: calc(34% - 6px) !important;
+        border-radius: 12px !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
         background-color: #25D366 !important;
         color: #ffffff !important;
-        display: flex !important;
+        display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         gap: 10px !important;
         box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3) !important;
         border: none !important;
-        margin-left: auto;
+        margin-left: 0 !important;
+        padding: 0 12px !important;
+        box-sizing: border-box !important;
+        white-space: nowrap !important;
     }
 
     .cart-sticky-footer .btn-place-rfq i {
@@ -825,6 +1102,22 @@ button.hik-btn-outline {
         color: #fff;
     }
 
+    /* Mobile step 1 button */
+    .cart-sticky-footer .btn-next-step {
+        height: 52px;
+        width: 100%;
+        max-width: 160px;
+        min-width: 140px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 0 20px;
+    }
+
+    /* On step 2, hide the sticky totals on mobile for cleaner layout */
+    .cart-page-section[data-step="2"]~.cart-sticky-footer .sticky-totals {
+        display: none;
+    }
 
 }
 
