@@ -42,6 +42,39 @@ if (empty($heroSlides)) {
         ]
     ];
 }
+
+// ── Fetch Dynamic Strategic Partners ─────────────────────────────────────────
+$strategicPartners = [];
+
+$checkPartnerTable = mysqli_query($con, "SHOW TABLES LIKE 'strategic_partners'");
+if ($checkPartnerTable && mysqli_num_rows($checkPartnerTable) > 0) {
+    $partnerRes = mysqli_query($con, "SELECT * FROM strategic_partners WHERE is_active = 1 ORDER BY display_order ASC, id ASC");
+    if ($partnerRes && mysqli_num_rows($partnerRes) > 0) {
+        while ($row = mysqli_fetch_assoc($partnerRes)) {
+            $strategicPartners[] = $row;
+        }
+    }
+}
+
+// Fallback partners if database table is empty or has no active rows
+if (empty($strategicPartners)) {
+    $strategicPartners = [
+        ['partner_name' => 'Hikvision', 'image' => 'assets/img/brands/hikvision.png'],
+        ['partner_name' => 'Dahua', 'image' => 'assets/img/brands/dahua.png'],
+        ['partner_name' => 'Securus', 'image' => 'assets/img/brands/securus.png'],
+        ['partner_name' => 'CP Plus', 'image' => 'assets/img/brands/cpplusworld.png'],
+        ['partner_name' => 'Secureye', 'image' => 'assets/img/brands/Secureye.png'],
+        ['partner_name' => 'TP-Link', 'image' => 'assets/img/brands/tplink.png'],
+        ['partner_name' => 'D-Link', 'image' => 'assets/img/brands/dlink.png'],
+        ['partner_name' => 'Prama', 'image' => 'assets/img/brands/Prama.png'],
+        ['partner_name' => 'Dada', 'image' => 'assets/img/brands/dada.png'],
+        ['partner_name' => 'Yadon', 'image' => 'assets/img/brands/yadon.png'],
+        ['partner_name' => 'Seagate', 'image' => 'assets/img/brands/Seagate.png'],
+        ['partner_name' => 'Western Digital', 'image' => 'assets/img/brands/Westerndigital.png'],
+        ['partner_name' => 'Toshiba', 'image' => 'assets/img/brands/Toshiba.png'],
+        ['partner_name' => 'ERD', 'image' => 'assets/img/brands/erd.png'],
+    ];
+}
 ?>
 
 <!--===== HERO AREA STARTS =======-->
@@ -372,20 +405,11 @@ $result = mysqli_query($con, $query);
           <div class="col-lg-12">
             
             <div class="testimonial-slider owl-carousel" id="brandCarousel">
-              <div class="img1"><img src="assets/img/brands/hikvision.png" alt="Hikvision"></div>
-              <div class="img1"><img src="assets/img/brands/dahua.png" alt="Dahua"></div>
-              <div class="img1"><img src="assets/img/brands/securus.png" alt="Securus"></div>
-              <div class="img1"><img src="assets/img/brands/cpplusworld.png" alt="CP Plus"></div>
-              <div class="img1"><img src="assets/img/brands/Secureye.png" alt="Secureye"></div>
-              <div class="img1"><img src="assets/img/brands/tplink.png" alt="TP-Link"></div>
-              <div class="img1"><img src="assets/img/brands/dlink.png" alt="D-Link"></div>
-              <div class="img1"><img src="assets/img/brands/Prama.png" alt="Prama"></div>
-              <div class="img1"><img src="assets/img/brands/dada.png" alt="Dada"></div>
-              <div class="img1"><img src="assets/img/brands/yadon.png" alt="Yadon"></div>
-              <div class="img1"><img src="assets/img/brands/Seagate.png" alt="Seagate"></div>
-              <div class="img1"><img src="assets/img/brands/Westerndigital.png" alt="Western Digital"></div>
-              <div class="img1"><img src="assets/img/brands/Toshiba.png" alt="Toshiba"></div>
-              <div class="img1"><img src="assets/img/brands/erd.png" alt="ERD"></div>
+              <?php foreach ($strategicPartners as $partner): ?>
+                <div class="img1">
+                  <img src="<?php echo htmlspecialchars($partner['image']); ?>" alt="<?php echo htmlspecialchars($partner['partner_name']); ?>">
+                </div>
+              <?php endforeach; ?>
             </div>
             
           </div>

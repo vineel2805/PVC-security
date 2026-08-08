@@ -38,6 +38,13 @@
                 </a>
             </li>
 
+            <li>
+                <a href="partners.php">
+                    <i class="fas fa-handshake"></i>
+                    <span class="nav-text">Strategic Partners</span>
+                </a>
+            </li>
+
         
 
         </ul>
