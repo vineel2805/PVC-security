@@ -91,6 +91,8 @@
         stroke: #fff !important;
         stroke-width: 2px !important;
         fill: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
         transition: stroke 180ms ease, transform 180ms ease !important;
     }
 
@@ -100,6 +102,8 @@
         height: 22px !important;
         fill: #FFFFFF !important;
         stroke: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
         transition: transform 180ms ease !important;
     }
 

@@ -261,9 +261,15 @@ button.hik-btn-outline {
 }
 
 .cart-page-title {
-    font-size: 42px;
-    font-weight: 700;
-    color: var(--pvc-dark-bg);
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--pvc-gold-dark);
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     margin-bottom: 0;
 }
 
@@ -304,9 +310,14 @@ button.hik-btn-outline {
 }
 
 .section-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--pvc-dark-bg);
+    letter-spacing: -0.3px;
+    line-height: 1.25;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
@@ -833,9 +844,14 @@ button.hik-btn-outline {
 }
 
 .empty-cart-message h3 {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--pvc-dark-bg);
+    letter-spacing: -0.3px;
+    line-height: 1.25;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     margin-bottom: 10px;
 }
 
@@ -932,11 +948,16 @@ button.hik-btn-outline {
     }
 
     .cart-page-title {
-        font-size: 32px !important;
-        font-weight: 700 !important;
-        color: var(--pvc-dark-bg) !important;
-        margin-bottom: 0 !important;
+        font-family: var(--font-heading, 'Outfit', sans-serif) !important;
+        font-size: 48px !important;
+        font-weight: 800 !important;
+        color: var(--pvc-gold-dark) !important;
+        text-transform: uppercase !important;
         letter-spacing: -0.5px !important;
+        line-height: 1.1 !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        margin-bottom: 0 !important;
     }
 
     .cart-close-btn {
@@ -999,8 +1020,13 @@ button.hik-btn-outline {
     }
 
     .cart-form-section .section-title {
+        font-family: var(--font-heading, 'Outfit', sans-serif) !important;
         font-size: 20px !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.3px !important;
+        line-height: 1.25 !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
         color: var(--pvc-dark-bg) !important;
     }
 
@@ -1084,8 +1110,13 @@ button.hik-btn-outline {
     }
 
     .cart-summary-header .section-title {
+        font-family: var(--font-heading, 'Outfit', sans-serif) !important;
         font-size: 20px !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.3px !important;
+        line-height: 1.25 !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
         color: var(--pvc-dark-bg) !important;
     }
 
@@ -1364,6 +1395,10 @@ button.hik-btn-outline {
    ============================================= */
 
 @media (max-width: 991px) {
+    .cart-page-title {
+        font-size: 40px !important;
+    }
+
     .cart-summary-section {
         position: relative;
         top: 0;
@@ -1383,7 +1418,8 @@ button.hik-btn-outline {
 
 @media (max-width: 575px) {
     .cart-page-title {
-        font-size: 28px;
+        font-size: 32px !important;
+        letter-spacing: 0 !important;
     }
 
     .cart-close-btn {
@@ -1394,6 +1430,8 @@ button.hik-btn-outline {
 
     .section-title {
         font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
     }
 
     .sticky-buttons {

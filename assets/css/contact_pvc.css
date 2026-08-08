@@ -64,16 +64,20 @@ body {
 }
 
 .hero-title {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
   font-size: 48px;
   font-weight: 800;
   color: var(--contact-text-main);
-  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   margin-bottom: 24px;
-  letter-spacing: -1px;
 }
 
 .text-gold {
-  color: #B8860B !important;
+  color: var(--pvc-gold-dark) !important;
 }
 
 .hero-desc {
@@ -205,9 +209,14 @@ body {
 }
 
 .card-title {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
   font-size: 20px;
   font-weight: 700;
   color: var(--contact-text-main);
+  letter-spacing: -0.3px;
+  line-height: 1.25;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   margin-bottom: 6px;
 }
 
@@ -304,7 +313,7 @@ body {
   text-align: left;
 }
 
-.icon-outline {
+.info-item .icon-outline {
   font-size: 24px;
   color: #B8860B;
   margin-bottom: 16px;
@@ -523,8 +532,8 @@ textarea.form-control {
   }
 
   .hero-title {
-    font-size: 28px;
-    letter-spacing: -0.5px;
+    font-size: 32px;
+    letter-spacing: 0;
   }
 
   .hero-subtitle {
@@ -687,11 +696,15 @@ textarea.form-control {
 }
 
 .pvc-complaint-title {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
   font-size: 22px;
   font-weight: 700;
   color: #111827;
-  margin: 0 0 2px 0;
   letter-spacing: -0.3px;
+  line-height: 1.25;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 0 2px 0;
 }
 
 .pvc-complaint-subtitle {
