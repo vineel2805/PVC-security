@@ -1,9 +1,17 @@
 <header class="pvc-global-header" id="pvc-global-header">
     <div class="pvc-header-container">
       <!-- Hamburger (mobile only) -->
-        <div class="pvc-mobile-toggle" id="pvc-mobile-toggle">
-          <span></span><span></span><span></span>
-        </div>
+        <button
+            type="button"
+            class="pvc-mobile-toggle"
+            id="pvc-mobile-toggle"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="pvc-mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
       <div class="pvc-header-logo">
         <a href="index.php">
           <img src="assets/img/logo/logo1.png" alt="PVC Security Logo" width="180" height="60" >

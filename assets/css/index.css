@@ -356,70 +356,7 @@ QUICK LINKS SECTION - LG Style Open Layout
 /* Desktop */
 
 
-@media (max-width:768px) {
 
-    .pvc-searchbar-wrap #pvc-search-container {
-        width: min(calc(100% - 20px), 430px) !important;
-        margin: 0 auto !important;
-        padding: 0 4px 0 14px !important;
-    }
-
-    .pvc-searchbar-wrap #liveSearchInput {
-        font-size: 16px !important;
-        font-weight: 500 !important;
-        line-height: 1.5 !important;
-        padding: 12px 15px !important;
-        color: #FFFFFF !important;
-        caret-color: #FFFFFF !important;
-    }
-
-    .pvc-searchbar-wrap #liveSearchInput::placeholder {
-        color: rgba(255, 255, 255, 0.7) !important;
-        opacity: 1 !important;
-    }
-
-    .pvc-searchbar-wrap .pvc-search-btn-toggle {
-        width: 38px !important;
-        height: 38px !important;
-        min-width: 38px !important;
-    }
-
-    .pvc-searchbar-wrap #pvc-search-form {
-        position: static !important;
-    }
-
-    /* Mobile Search Results */
-    .pvc-searchbar-wrap .pvc-search-results {
-        position: absolute !important;
-        top: calc(100% + 8px) !important;
-
-        left: 50% !important;
-        right: auto !important;
-        transform: translateX(-50%) !important;
-
-        width: calc(100% - 20px) !important;
-        max-width: 500px !important;
-        max-height: 320px !important;
-
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-
-        background: #fff !important;
-        border: 1px solid #ececec !important;
-        border-radius: 16px !important;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, .15) !important;
-
-        z-index: 99999 !important;
-        box-sizing: border-box !important;
-    }
-
-    .pvc-searchbar-wrap .pvc-search-result-item {
-        display: flex !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-    }
-
-}
 
 /* ==========================================================================
    HOMEPAGE BRAND SHOWCASE GRID STYLES (OPTION B IMPLEMENTATION)

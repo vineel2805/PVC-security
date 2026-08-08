@@ -225,19 +225,8 @@ $result = mysqli_query($con, $query);
 <!--===== SHOP BY CATEGORIES SECTION =======-->
 <section id="product-categories" class="shop-categories-section">
     <div class="container">
-        <div class="pvc-searchbar-wrap">
-          <!-- Search -->
-          <div class="pvc-search-container" id="pvc-search-container">
-            <button type="button" class="pvc-icon-btn pvc-search-btn-toggle" aria-label="Search">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-            <form action="all-products.php" method="get" class="pvc-search-form" id="pvc-search-form" role="search">
-              <input type="text" name="q" id="liveSearchInput" class="pvc-search-input"
-                     placeholder="Search for security cameras, brands, or accessories..." autocomplete="off">
-            </form>
-            <div class="pvc-search-results" id="pvc-search-results"></div>
-          </div>
-        </div>
+        
+        
 
         <div class="row">
             <div class="col-12">
@@ -653,7 +642,7 @@ $result = mysqli_query($con, $query);
   </script>
 
   <!-- Form & Cart Systems -->
-  <script src="assets/js/form_validation.js"></script>
+
 
 </body>
 
