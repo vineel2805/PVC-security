@@ -20,74 +20,8 @@ function db_image($path, $defaultImg) {
     return $path;
 }
 
-/* ===================================================================
-   LIVE SEARCH — separate from the category ajax branch below.
-   Searches products by name, and category names, returns JSON.
-   =================================================================== */
-if (isset($_GET['live_search'])) {
-    header('Content-Type: application/json');
 
-    $term = trim($_GET['live_search'] ?? '');
-    if ($term === '' || mb_strlen($term) < 2) {
-        echo json_encode(['products' => [], 'categories' => []]);
-        exit;
-    }
 
-    $termEscaped = mysqli_real_escape_string($con, $term);
-    $like        = "%{$termEscaped}%";
-    $likeEscaped = mysqli_real_escape_string($con, $like);
-
-    // Matching products
-    $products = [];
-    $pRes = mysqli_query($con, "
-        SELECT p.pid, p.pname, p.pimage, b.brandname
-        FROM   products p
-        JOIN   brands   b ON b.brandid = p.brandid
-        WHERE  p.pname LIKE '$likeEscaped'
-          AND  p.display_status = 1
-          AND  b.status = 'Active'
-          AND  b.display_status = 1
-        ORDER BY p.pname ASC
-        LIMIT 6
-    ");
-    if ($pRes) {
-        while ($row = mysqli_fetch_assoc($pRes)) {
-            $products[] = [
-                'id'    => $row['pid'],
-                'name'  => $row['pname'],
-                'brand' => $row['brandname'],
-                'image' => db_image($row['pimage'] ?? '', $defaultImg),
-                'url'   => 'all-products.php?pid=' . urlencode($row['pid']),
-            ];
-        }
-    }
-
-    // Matching categories
-    $categories = [];
-    $cRes = mysqli_query($con, "
-        SELECT DISTINCT TRIM(cat.cname) AS cname
-        FROM   category cat
-        WHERE  cat.cname LIKE '$likeEscaped'
-          AND  cat.display_status = 1
-          AND  EXISTS (
-                SELECT 1 FROM products p
-                WHERE p.pcat = cat.cid AND p.display_status = 1
-              )
-        ORDER BY cat.cname ASC
-        LIMIT 5
-    ");
-    if ($cRes) {
-        while ($row = mysqli_fetch_assoc($cRes)) {
-            $categories[] = [
-                'name' => $row['cname'],
-                'url'  => 'all-categories.php?catname=' . urlencode($row['cname']),
-            ];
-        }
-    }
-
-    echo json_encode(['products' => $products, 'categories' => $categories]);
-    exit;
-}
 
 /* ===================================================================
    DATA LOADING — identical logic to your original file, minus the
@@ -599,7 +533,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                     <!-- Top Bar -->
                     <div class="products-toolbar">
 
-                        <!-- Category Page Search -->
+                       
                         
 
                         <!-- Filter / Results / Sort row -->

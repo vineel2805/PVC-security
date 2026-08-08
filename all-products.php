@@ -9,76 +9,7 @@ error_reporting(E_ALL);
 include 'connect.php';
 include 'product-helpers.php';
 
-/* ===================================================================
-   LIVE SEARCH AUTOCOMPLETE API ENDPOINT
-   =================================================================== */
-if (isset($_GET['live_search'])) {
-    header('Content-Type: application/json');
 
-    $term = trim($_GET['live_search'] ?? '');
-    if ($term === '' || mb_strlen($term) < 2) {
-        echo json_encode(['products' => [], 'categories' => []]);
-        exit;
-    }
-
-    $termEscaped = mysqli_real_escape_string($con, $term);
-    $like        = "%{$termEscaped}%";
-
-    // Matching products
-    $products = [];
-    $pRes = mysqli_query($con, "
-        SELECT p.pid, p.pname, p.pimage, b.brandname
-        FROM   products p
-        JOIN   brands   b ON b.brandid = p.brandid
-        WHERE  (p.pname LIKE '$like' OR p.pid LIKE '$like')
-          AND  p.display_status = 1
-          AND  b.status = 'Active'
-          AND  b.display_status = 1
-        ORDER BY p.pname ASC
-        LIMIT 6
-    ");
-    if ($pRes) {
-        while ($row = mysqli_fetch_assoc($pRes)) {
-            $img = trim((string)$row['pimage']);
-            if ($img !== '' && strpos($img, '../uploads/') === 0) {
-                $img = substr($img, 3);
-            }
-            $products[] = [
-                'id'    => $row['pid'],
-                'name'  => $row['pname'],
-                'brand' => $row['brandname'],
-                'image' => $img !== '' ? $img : get_default_placeholder_img(),
-                'url'   => 'all-products.php?pid=' . urlencode($row['pid']),
-            ];
-        }
-    }
-
-    // Matching categories
-    $categories = [];
-    $cRes = mysqli_query($con, "
-        SELECT DISTINCT TRIM(cat.cname) AS cname
-        FROM   category cat
-        WHERE  cat.cname LIKE '$like'
-          AND  cat.display_status = 1
-          AND  EXISTS (
-                SELECT 1 FROM products p
-                WHERE p.pcat = cat.cid AND p.display_status = 1
-              )
-        ORDER BY cat.cname ASC
-        LIMIT 5
-    ");
-    if ($cRes) {
-        while ($row = mysqli_fetch_assoc($cRes)) {
-            $categories[] = [
-                'name' => $row['cname'],
-                'url'  => 'all-categories.php?catname=' . urlencode($row['cname']),
-            ];
-        }
-    }
-
-    echo json_encode(['products' => $products, 'categories' => $categories]);
-    exit;
-}
 
 $defaultImg = get_default_placeholder_img();
 

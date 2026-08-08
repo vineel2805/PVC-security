@@ -16,6 +16,7 @@ color: #111111;
     display: none;
 
     z-index: 10000;
+    padding: 20px;
 }
 
 #globalSearchOverlay.open {

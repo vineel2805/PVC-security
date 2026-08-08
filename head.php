@@ -36,6 +36,7 @@
 <!-- JS Plugins -->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
   <script src="assets/js/plugins/waypoints.js"></script>
+  <script src="assets/js/global_search.js"></script>
    <style>@view-transition { navigation: auto; }</style>
 </head>
 <body>
