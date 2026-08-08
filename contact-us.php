@@ -27,7 +27,7 @@
           <!-- Mobile Header (Title + Image side-by-side) -->
           <div class="d-flex justify-content-between align-items-center align-items-md-start">
             <div>
-              <h1 class="hero-title">Contact the<br><span class="text-gold">PVC Security</span> Team</h1>
+              <h1 class="hero-title">Contact the<br><span class="text-gold">PVC Security</span>  Team</h1>
             </div>
             <!-- Mobile CCTV Image -->
             <div class="mobile-hero-img d-lg-none ms-3">
@@ -72,158 +72,132 @@
 
   <section class="contact-action-section">
     <div class="container">
-      <div class="row g-4">
-        <!-- Card 1: WhatsApp -->
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-           <div class="premium-card chat-card">
-             <div class="card-header-flex">
-               <div class="icon-circle bg-whatsapp-light">
-                 <i class="fa-brands fa-whatsapp text-whatsapp"></i>
-               </div>
-               <div class="card-title-group">
-                 <h3 class="card-title">Chat on WhatsApp</h3>
-                 <p class="card-desc">Get instant help and quick replies.</p>
-               </div>
-             </div>
-             <a href="https://wa.me/919114456666" target="_blank" class="btn btn-whatsapp-full w-100">
-               <i class="fa-brands fa-whatsapp me-2"></i> Chat Now on WhatsApp <i class="fa-solid fa-arrow-right ms-2 arrow-icon"></i>
-             </a>
-           </div>
-        </div>
-        
-        <!-- Card 2: Call -->
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-           <div class="premium-card call-card">
-             <div class="card-header-flex">
-               <div class="icon-circle bg-gold-light">
-                 <i class="fa-solid fa-phone text-gold"></i>
-               </div>
-               <div class="card-title-group">
-                 <h3 class="card-title">Call PVC Security</h3>
-                 <p class="card-desc">Speak directly with our support team.</p>
-               </div>
-             </div>
-             <a href="tel:+919114456666" class="btn btn-gold-full w-100">
-               Call Now
-             </a>
-           </div>
-        </div>
-        
-        <!-- Card 3: Service Request -->
-        <div class="col-lg-4 col-md-12" data-aos="fade-up" data-aos-delay="300">
-           <div class="premium-card service-card">
-             <div class="card-header-flex">
-               <div class="icon-circle bg-dark-light">
-                 <i class="fa-solid fa-clipboard-list text-dark"></i>
-               </div>
-               <div class="card-title-group">
-                 <h3 class="card-title">Raise a Service Request</h3>
-                 <p class="card-desc">Report issues or book a technician visit.</p>
-               </div>
-             </div>
-             <a href="javascript:void(0);" id="register-complaint-card" class="btn btn-dark-full w-100">
-               Create Service Request <i class="fa-solid fa-arrow-right ms-2 arrow-icon"></i>
-             </a>
-           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="contact-info-strip">
-    <div class="container" data-aos="fade-up">
-      <div class="info-strip-card">
-        <div class="row g-4">
-          <div class="col-6 col-md-3 info-item">
-            <i class="fa-regular fa-clock icon-outline"></i>
-            <div>
-              <strong>Business Hours</strong>
-              <span>Mon - Sat<br>9:00 AM - 9:00 PM</span>
-            </div>
-          </div>
-          <div class="col-6 col-md-3 info-item">
-            <i class="fa-regular fa-envelope icon-outline"></i>
-            <div>
-              <strong>Email Us</strong>
-              <span><a href="mailto:pvcsecurity@gmail.com">pvcsecurity@gmail.com</a></span>
-            </div>
-          </div>
-          <div class="col-6 col-md-3 info-item">
-            <i class="fa-solid fa-location-dot icon-outline"></i>
-            <div>
-              <strong>Our Location</strong>
-              <span>Andhra Pradesh &<br>Telangana</span>
-            </div>
-          </div>
-          <div class="col-6 col-md-3 info-item">
-            <i class="fa-solid fa-headset icon-outline"></i>
-            <div>
-              <strong>Emergency Support</strong>
-              <span>For urgent issues<br>we're just a call away</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-
-  <!--===== COMPLAINT FORM SECTION (Hidden by default, triggered by Service Request button) =======-->
-  <section id="complaint-section" class="complaint-section" style="display: none; padding-bottom: 80px;">
-    <div class="container">
       <div class="row justify-content-center">
-        <div class="col-12">
-          <div class="complaint-form-container" data-aos="fade-up">
+        <div class="col-lg-8 col-xl-7" data-aos="fade-up">
+          <div class="pvc-complaint-card">
             
-            <div class="text-center mb-4">
-              <h2 class="section-heading-gold" style="font-size: 28px !important; margin-bottom: 10px;">Register Your Complaint</h2>
-              <p style="color: #666; font-size: 15px; font-weight: 500; margin-bottom: 30px; line-height: 1.6;">
-                Facing an issue with your CCTV or security system?<br>Fill out the form below
-              </p>
+            <!-- Card Header -->
+            <div class="pvc-complaint-header">
+              <div class="pvc-complaint-icon-wrap">
+                <i class="fa-solid fa-clipboard-list"></i>
+              </div>
+              <div class="pvc-complaint-header-text">
+                <h2 class="pvc-complaint-title">Complaint Form</h2>
+                <p class="pvc-complaint-subtitle">Share your issue and our support team will get back to you shortly.</p>
+              </div>
             </div>
-            
-            <form id="complaint-form" novalidate>
-              <!-- Customer Name -->
-              <div class="complaint-form-group">
-                <label for="complaint-name">Customer Name <span>*</span></label>
-                <input type="text" id="complaint-name" class="form-control" placeholder="Enter your full name" required>
-                <div class="invalid-feedback" id="complaint-name-error">Customer name is required.</div>
+
+            <!-- Form Body -->
+            <form id="pvc-complaint-form" novalidate>
+              <div class="row g-3">
+                <!-- 1. Full Name & 2. Mobile Number (One row on desktop) -->
+                <div class="col-md-6">
+                  <div class="pvc-form-group">
+                    <label for="complaint-fullname">Full Name <span class="req">*</span></label>
+                    <input type="text" id="complaint-fullname" class="form-control pvc-input" placeholder="Enter your full name" required>
+                    <div class="invalid-feedback" id="err-fullname">Full name is required.</div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="pvc-form-group">
+                    <label for="complaint-mobile">Mobile Number <span class="req">*</span></label>
+                    <input type="tel" id="complaint-mobile" class="form-control pvc-input" placeholder="Enter 10-digit mobile number" required>
+                    <div class="invalid-feedback" id="err-mobile">Valid mobile number is required.</div>
+                  </div>
+                </div>
+
+                <!-- 3. Email Address (Optional) -->
+                <!-- <div class="col-12">
+                  <div class="pvc-form-group">
+                    <label for="complaint-email">Email Address <span class="opt">(Optional)</span></label>
+                    <input type="email" id="complaint-email" class="form-control pvc-input" placeholder="name@example.com">
+                  </div>
+                </div> -->
+
+                <!-- 4. Complaint Type -->
+                <div class="col-12">
+                  <!-- <div class="pvc-form-group">
+                    <label for="complaint-type">Complaint Type <span class="req">*</span></label>
+                    <select id="complaint-type" class="form-select pvc-select" required>
+                      <option value="" disabled selected>Select issue type...</option>
+                      <option value="Installation Issue">Installation Issue</option>
+                      <option value="Product Issue">Product Issue</option>
+                      <option value="Service Request">Service Request</option>
+                      <option value="Warranty Claim">Warranty Claim</option>
+                      <option value="AMC Support">AMC Support</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    <div class="invalid-feedback" id="err-type">Please select a complaint type.</div>
+                  </div>
+                </div> -->
+
+                <!-- 5. Installation Address -->
+                <div class="col-12">
+                  <div class="pvc-form-group">
+                    <label for="complaint-address">Address <span class="req">*</span></label>
+                    <input type="text" id="complaint-address" class="form-control pvc-input" placeholder="Street address, building, city" required>
+                    <div class="invalid-feedback" id="err-address">Address is required.</div>
+                  </div>
+                </div>
+
+                <!-- 6. Issue Description -->
+                <div class="col-12">
+                  <div class="pvc-form-group">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <label for="complaint-desc" class="mb-0">Complaint Reason <span class="req">*</span></label>
+                      <span class="char-count" id="desc-char-count">0 / 500</span>
+                    </div>
+                    <textarea id="complaint-desc" class="form-control pvc-textarea" rows="3" maxlength="500" placeholder="Describe your issue..." required></textarea>
+                    <div class="invalid-feedback" id="err-desc">Complaint reason is required.</div>
+                  </div>
+                </div>
+
+
+
+                <!-- 7. Preferred Service Time -->
+               <!-- <div class="col-12">
+                  <div class="pvc-form-group">
+                    <label for="complaint-time">Preferred Service Time</label>
+                    <select id="complaint-time" class="form-select pvc-select">
+                      <option value="Morning">Morning (9:00 AM - 12:00 PM)</option>
+                      <option value="Afternoon">Afternoon (12:00 PM - 4:00 PM)</option>
+                      <option value="Evening">Evening (4:00 PM - 8:00 PM)</option>
+                    </select>
+                  </div>
+                </div> -->
+
+                <!-- 8. Upload Photos / Videos (Optional) -->
+                <!-- <div class="col-12">
+                  <div class="pvc-form-group">
+                    <label>Upload Photos / Videos <span class="opt">(Optional)</span></label>
+                    <div class="pvc-upload-box" id="pvc-upload-box">
+                      <i class="fa-solid fa-paperclip upload-icon"></i>
+                      <p class="upload-text">Upload JPG, PNG or MP4</p>
+                      <span class="upload-subtext">Maximum 10 MB</span>
+                      <span class="file-name-display" id="file-name-display"></span>
+                      <input type="file" id="complaint-file" class="d-none" accept="image/jpeg,image/png,video/mp4">
+                    </div>
+                  </div>
+                </div> -->
+
+                <!-- Submit Button & Security Note -->
+                <div class="col-12 mt-4">
+                  <button type="submit" id="btnSubmitComplaint" class="pvc-btn-gold-submit">
+                    Submit Complaint
+                  </button>
+                  <div class="pvc-secure-note">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Your information is secure and will only be used to resolve your complaint.</span>
+                  </div>
+                </div>
               </div>
-              
-              <!-- Mobile Number -->
-              <div class="complaint-form-group">
-                <label for="complaint-mobile">Mobile Number <span>*</span></label>
-                <input type="tel" id="complaint-mobile" class="form-control" placeholder="Enter your mobile number" required>
-                <div class="invalid-feedback" id="complaint-mobile-error">Mobile number is required.</div>
-              </div>
-              
-              <!-- Address -->
-              <div class="complaint-form-group">
-                <label for="complaint-address">Address <span>*</span></label>
-                <input type="text" id="complaint-address" class="form-control" placeholder="Enter your address" required>
-                <div class="invalid-feedback" id="complaint-address-error">Address is required.</div>
-              </div>
-              
-              <!-- Complaint Reason -->
-              <div class="complaint-form-group">
-                <label for="complaint-reason">Complaint Reason <span>*</span></label>
-                <textarea id="complaint-reason" class="form-control" placeholder="Describe your issue..." required></textarea>
-                <div class="invalid-feedback" id="complaint-reason-error">Complaint description is required.</div>
-              </div>
-              
-              <!-- Submit Button -->
-              <button type="submit" id="registerComplaintBtn" class="btn-register-complaint">
-                <i class="fab fa-whatsapp"></i> Register Complaint
-              </button>
             </form>
-            
+
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!--===== END COMPLAINT FORM SECTION =======-->
 
 
 
@@ -237,43 +211,72 @@
         <!--===== END GLOBAL FOOTER =======-->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const complaintCard = document.getElementById('register-complaint-card');
-      const complaintSection = document.getElementById('complaint-section');
-      const complaintForm = document.getElementById('complaint-form');
-      
-      // Smooth Scrolling Behaviour
-      if (complaintCard && complaintSection) {
-        complaintCard.addEventListener('click', function(e) {
-          e.preventDefault();
-          complaintSection.style.display = 'block'; // Reveal form
-          setTimeout(() => {
-            complaintSection.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
+      const complaintForm = document.getElementById('pvc-complaint-form');
+      const descInput = document.getElementById('complaint-desc');
+      const charCount = document.getElementById('desc-char-count');
+      const uploadBox = document.getElementById('pvc-upload-box');
+      const fileInput = document.getElementById('complaint-file');
+      const fileNameDisplay = document.getElementById('file-name-display');
+
+      // Character counter for Issue Description
+      if (descInput && charCount) {
+        descInput.addEventListener('input', function() {
+          const len = descInput.value.length;
+          charCount.textContent = `${len} / 500`;
         });
       }
-      
-      // Form Input Validation Setup
+
+      // Upload Box Click & File Display
+      if (uploadBox && fileInput) {
+        uploadBox.addEventListener('click', function() {
+          fileInput.click();
+        });
+
+        fileInput.addEventListener('change', function() {
+          if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            if (file.size > 10 * 1024 * 1024) {
+              alert('File size exceeds 10 MB limit.');
+              fileInput.value = '';
+              fileNameDisplay.textContent = '';
+              return;
+            }
+            fileNameDisplay.textContent = `Attached: ${file.name}`;
+          } else {
+            fileNameDisplay.textContent = '';
+          }
+        });
+      }
+
+      // Fields for validation
       const fields = [
-        { id: 'complaint-name', errorId: 'complaint-name-error', name: 'Customer name' },
-        { id: 'complaint-mobile', errorId: 'complaint-mobile-error', name: 'Mobile number' },
-        { id: 'complaint-address', errorId: 'complaint-address-error', name: 'Address' },
-        { id: 'complaint-reason', errorId: 'complaint-reason-error', name: 'Complaint description' }
+        { id: 'complaint-fullname', errId: 'err-fullname' },
+        { id: 'complaint-mobile', errId: 'err-mobile' },
+        { id: 'complaint-type', errId: 'err-type' },
+        { id: 'complaint-desc', errId: 'err-desc' },
+        { id: 'complaint-address', errId: 'err-address' }
       ];
-      
+
       fields.forEach(field => {
-        const inputEl = document.getElementById(field.id);
-        if (inputEl) {
-          inputEl.addEventListener('input', function() {
-            if (inputEl.value.trim() !== '') {
-              inputEl.classList.remove('is-invalid');
-              const errorEl = document.getElementById(field.errorId);
-              if (errorEl) errorEl.style.display = 'none';
+        const el = document.getElementById(field.id);
+        if (el) {
+          el.addEventListener('input', function() {
+            if (el.value.trim() !== '') {
+              el.classList.remove('is-invalid');
+              const errEl = document.getElementById(field.errId);
+              if (errEl) errEl.style.display = 'none';
+            }
+          });
+          el.addEventListener('change', function() {
+            if (el.value.trim() !== '') {
+              el.classList.remove('is-invalid');
+              const errEl = document.getElementById(field.errId);
+              if (errEl) errEl.style.display = 'none';
             }
           });
         }
       });
-      
-      // Helper function to generate unique YYYYMMDD-XXX token
+
       function generateComplaintToken() {
         const date = new Date();
         const yyyy = date.getFullYear();
@@ -282,50 +285,52 @@
         const xxx = String(Math.floor(Math.random() * 900) + 100);
         return `PVC-${yyyy}${mm}${dd}-${xxx}`;
       }
-      
-      // Submit Handler
+
       if (complaintForm) {
         complaintForm.addEventListener('submit', function(e) {
           e.preventDefault();
           let formIsValid = true;
-          
+
           fields.forEach(field => {
-            const inputEl = document.getElementById(field.id);
-            const errorEl = document.getElementById(field.errorId);
-            
-            if (!inputEl.value.trim()) {
+            const el = document.getElementById(field.id);
+            const errEl = document.getElementById(field.errId);
+            if (!el.value.trim()) {
               formIsValid = false;
-              inputEl.classList.add('is-invalid');
-              if (errorEl) {
-                errorEl.textContent = `${field.name} is required.`;
-                errorEl.style.display = 'block';
-              }
+              el.classList.add('is-invalid');
+              if (errEl) errEl.style.display = 'block';
             } else {
-              inputEl.classList.remove('is-invalid');
-              if (errorEl) errorEl.style.display = 'none';
+              el.classList.remove('is-invalid');
+              if (errEl) errEl.style.display = 'none';
             }
           });
-          
+
           if (formIsValid) {
-            const name = document.getElementById('complaint-name').value.trim();
+            const name = document.getElementById('complaint-fullname').value.trim();
             const mobile = document.getElementById('complaint-mobile').value.trim();
+            const email = document.getElementById('complaint-email').value.trim() || 'N/A';
+            const type = document.getElementById('complaint-type').value;
+            const desc = document.getElementById('complaint-desc').value.trim();
             const address = document.getElementById('complaint-address').value.trim();
-            const reason = document.getElementById('complaint-reason').value.trim();
-            
+            const time = document.getElementById('complaint-time').value;
+            const fileAttachment = fileInput && fileInput.files[0] ? fileInput.files[0].name : 'None';
+
             const token = generateComplaintToken();
-            
-            // Build the WhatsApp message matching required layout
-            const message = `*PVC Security - Complaint Registration*\n\n` +
-                            `Complaint Token: ${token}\n\n` +
-                            `Customer Name: ${name}\n` +
-                            `Mobile: ${mobile}\n` +
-                            `Address: ${address}\n\n` +
-                            `Complaint Reason:\n${reason}`;
-            
+
+            const message = `*PVC Security - Support Complaint*\n\n` +
+                            `*Token:* ${token}\n` +
+                            `*Full Name:* ${name}\n` +
+                            `*Mobile:* ${mobile}\n` +
+                            `*Email:* ${email}\n` +
+                            `*Issue Type:* ${type}\n` +
+                            `*Address:* ${address}\n` +
+                            `*Preferred Time:* ${time}\n` +
+                            `*Attachment:* ${fileAttachment}\n\n` +
+                            `*Issue Description:*\n${desc}`;
+
             const encodedText = encodeURIComponent(message);
             const whatsappNumber = '919114456666';
             const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedText}`;
-            
+
             window.open(whatsappUrl, '_blank');
           }
         });

@@ -272,6 +272,14 @@ function goToStep(step) {
 
     section.setAttribute('data-step', step);
 
+    // On Desktop (>=992px), both columns display side-by-side natively via CSS
+    if (window.innerWidth >= 992) {
+        document.querySelectorAll('.step-1-only, .step-2-only').forEach(function (el) {
+            el.style.display = '';
+        });
+        return;
+    }
+
     // Update step indicator
     var steps = document.querySelectorAll('.rfq-step');
     steps.forEach(function (el) {
@@ -284,7 +292,7 @@ function goToStep(step) {
         }
     });
 
-    // Toggle step-1-only / step-2-only visibility (including sticky footer)
+    // Toggle step-1-only / step-2-only visibility for mobile
     document.querySelectorAll('.step-1-only').forEach(function (el) {
         el.style.display = (step === 1) ? '' : 'none';
     });
