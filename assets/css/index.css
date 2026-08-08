@@ -347,6 +347,12 @@ QUICK LINKS SECTION - LG Style Open Layout
 }
 
 
+@media (max-width: 991px) {
+    .pvc-searchbar-wrap {
+        display: none !important;
+    }
+}
+
 
 /* Relocated Search Container Override in Body */
 
