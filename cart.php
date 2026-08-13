@@ -1,5 +1,4 @@
 <?php include 'connect.php'; ?>
-<?php include 'includes/search-overlay.php'; ?>
 <?php
 
 // ── Bottom Nav: active tab + cart count (same logic as every other page) ────
@@ -32,6 +31,8 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
 </head>
 
 <body>
+
+  <?php include 'includes/search-overlay.php'; ?>
 
   <!-- NOTE: this page was loading TWO header includes back to back —
        'header.php' AND 'includes/header.php'. That doubles every CSS/JS/

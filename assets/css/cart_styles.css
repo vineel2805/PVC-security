@@ -258,11 +258,14 @@ button.hik-btn-outline {
 }
 
 /* Cart Page Section */
+/* NOTE: intentionally no min-height:100vh here — that forced the
+   section to fill the full viewport even when content (one product,
+   a short form) was tiny, which pushed .cart-sticky-footer far below
+   the content and left a large empty gap. Content now sizes to
+   itself; the footer sits right after it. */
 .cart-page-section {
-
-    /* Leave space for sticky footer */
     background: #f9f9f9;
-    min-height: 100vh;
+    padding-bottom: 32px;
 }
 
 /* =============================================
