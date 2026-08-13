@@ -181,11 +181,6 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
   <div class="cart-sticky-footer">
     <div class="container">
       <div class="sticky-footer-content">
-        <div class="cart-shipping-note">
-          <i class="fa-solid fa-circle-info"></i>
-          <p>Shipping cost will be calculated and added to your final quotation</p>
-        </div>
-
         <!-- Mobile Step 1 Continue Shopping -->
         <a href="all-products.php" class="btn-continue-shopping step-1-only sticky-continue-row">
           <i class="fa-solid fa-arrow-left"></i> Continue Shopping
