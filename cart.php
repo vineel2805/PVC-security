@@ -58,7 +58,7 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
         </div>
       </div>
 
-      <!-- Step Indicator -->
+      <!-- Step Indicator (Mobile Only) -->
       <div class="rfq-step-indicator" id="rfqStepIndicator">
         <div class="rfq-step active" data-step-num="1">
           <div class="rfq-step-circle">
@@ -141,10 +141,6 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
               <div class="form-group">
                 <label for="cityName">City / Village <span class="required">*</span></label>
                 <input type="text" class="form-control" id="cityName" placeholder="Enter city or village name">
-              </div>
-
-              <div class="form-actions text-right mt-2">
-                 <button id="saveContactBtn" class="btn-save-contact">Save Details</button>
               </div>
             </div>
 

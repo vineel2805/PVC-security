@@ -38,27 +38,31 @@ body,
 }
 
 /* =============================================
-   2-STEP CHECKOUT: Step Visibility (Mobile Only)
+   2-STEP CHECKOUT: Step Visibility (All Screens)
    ============================================= */
-@media (max-width: 991px) {
-    /* Step 1 active: show step-1, hide step-2 */
-    .cart-page-section[data-step="1"] .step-2-content,
-    .cart-page-section[data-step="1"] .step-2-only,
-    .cart-page-section[data-step="1"]~.cart-sticky-footer .step-2-only {
-        display: none !important;
-    }
-
-    /* Step 2 active: show step-2, hide step-1 */
-    .cart-page-section[data-step="2"] .step-1-content,
-    .cart-page-section[data-step="2"] .step-1-only,
-    .cart-page-section[data-step="2"]~.cart-sticky-footer .step-1-only {
-        display: none !important;
-    }
+/* Step 1 active: show step-1, hide step-2 */
+.cart-page-section[data-step="1"] .step-2-content,
+.cart-page-section[data-step="1"] .step-2-only,
+.cart-page-section[data-step="1"]~.cart-sticky-footer .step-2-only {
+    display: none !important;
 }
 
-/* Hide step indicator when cart is empty */
+/* Step 2 active: show step-2, hide step-1 */
+.cart-page-section[data-step="2"] .step-1-content,
+.cart-page-section[data-step="2"] .step-1-only,
+.cart-page-section[data-step="2"]~.cart-sticky-footer .step-1-only {
+    display: none !important;
+}
+
+/* Hide step indicator when cart is empty or on desktop */
 .cart-page-section .rfq-step-indicator.hidden {
     display: none;
+}
+
+@media (min-width: 992px) {
+    .rfq-step-indicator {
+        display: none !important;
+    }
 }
 
 /* =============================================
@@ -930,10 +934,10 @@ button.hik-btn-outline {
 }
 
 @media (min-width: 992px) {
-    /* Max width container 1400px centered */
+    /* Max width container centered */
     .cart-page-section .container,
     .cart-sticky-footer .container {
-        max-width: 1400px !important;
+        max-width: 800px !important;
         margin: 0 auto !important;
         padding: 0 32px !important;
     }
@@ -979,39 +983,21 @@ button.hik-btn-outline {
         color: #111827 !important;
     }
 
-    /* Hide Step Indicator on Desktop */
-    .rfq-step-indicator {
-        display: none !important;
-    }
-
-    /* Show both columns side-by-side on desktop */
-    .cart-page-section .step-1-content,
-    .cart-page-section .step-2-content,
-    .cart-form-col,
-    .cart-summary-col {
+    /* DESKTOP: 2-STEP FLOW (like mobile, not side-by-side) */
+    .cart-page-row {
         display: block !important;
     }
 
-    .cart-page-row {
-        display: flex !important;
-        align-items: flex-start !important;
-        gap: 32px !important;
-    }
-
-    /* Products on left (42%), Contact Form on right (58%) - using order and flex properties */
-    .cart-summary-col {
-        flex: 0 0 calc(42% - 16px) !important;
-        max-width: calc(42% - 16px) !important;
-        order: -1 !important;
-    }
-
+    .cart-summary-col,
     .cart-form-col {
-        flex: 0 0 58% !important;
-        max-width: 58% !important;
-        order: 1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: none !important;
+        order: unset !important;
+        margin-bottom: 0 !important;
     }
 
-    /* Left Card: Contact Information */
+    /* Form Section */
     .cart-form-section {
         background: #FFFFFF !important;
         border-radius: 16px !important;
@@ -1021,20 +1007,8 @@ button.hik-btn-outline {
     }
 
     .cart-form-section .section-title {
-        font-family: var(--font-heading, 'Outfit', sans-serif) !important;
         font-size: 20px !important;
         font-weight: 700 !important;
-        letter-spacing: -0.3px !important;
-        line-height: 1.25 !important;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
-        color: var(--pvc-dark-bg) !important;
-    }
-
-    .cart-form-section .section-title i {
-        color: var(--pvc-gold-mid) !important;
-        font-size: 22px !important;
-        margin-right: 8px !important;
     }
 
     .cart-form-section .form-row {
@@ -1046,79 +1020,18 @@ button.hik-btn-outline {
         flex: 1 !important;
     }
 
-    .cart-form-section .form-group {
-        margin-bottom: 20px !important;
-    }
-
-    .cart-form-section .form-group label {
-        font-size: 14px !important;
-        font-weight: 600 !important;
-        color: #374151 !important;
-        margin-bottom: 8px !important;
-        display: block !important;
-    }
-
-    .cart-form-section .form-group .required {
-        color: var(--pvc-gold-mid) !important;
-    }
-
     .cart-form-section .form-control {
         height: 52px !important;
-        border-radius: 10px !important;
-        border: 1px solid #E5E5E5 !important;
-        padding: 0 16px !important;
         font-size: 15px !important;
-        color: #111827 !important;
-        background-color: #FFFFFF !important;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
     }
 
-    .cart-form-section .form-control:focus {
-        border-color: var(--pvc-gold-mid) !important;
-        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15) !important;
-        outline: none !important;
-    }
-
-    .btn-save-contact {
-        background: var(--pvc-gold-mid) !important;
-        color: #FFFFFF !important;
-        width: auto !important;
-        height: 48px !important;
-        padding: 0 28px !important;
-        border-radius: 10px !important;
-        font-size: 15px !important;
-        font-weight: 600 !important;
-        border: none !important;
-        cursor: pointer !important;
-        transition: all 0.2s ease !important;
-    }
-
-    .btn-save-contact:hover {
-        background: var(--pvc-gold-dark) !important;
-        box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3) !important;
-    }
-
-    /* Right Card: Products in RFQ */
+    /* Products Section */
     .cart-summary-section {
         background: #FFFFFF !important;
         border-radius: 16px !important;
         border: 1px solid #E5E5E5 !important;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
         padding: 32px !important;
-        position: relative !important;
-        top: 0 !important;
-        margin-top: 0 !important;
-    }
-
-    .cart-summary-header .section-title {
-        font-family: var(--font-heading, 'Outfit', sans-serif) !important;
-        font-size: 20px !important;
-        font-weight: 700 !important;
-        letter-spacing: -0.3px !important;
-        line-height: 1.25 !important;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
-        color: var(--pvc-dark-bg) !important;
     }
 
     .cart-items-scroll-area {
@@ -1128,119 +1041,13 @@ button.hik-btn-outline {
         margin-top: 16px !important;
     }
 
-    .cart-items-scroll-area::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .cart-items-scroll-area::-webkit-scrollbar-thumb {
-        background: #D1D5DB;
-        border-radius: 4px;
-    }
-
     .cart-item {
         padding: 16px 0 !important;
-        border-bottom: 1px solid #F3F4F6 !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 16px !important;
-    }
-
-    .cart-item:last-child {
-        border-bottom: none !important;
     }
 
     .cart-item-img {
         width: 72px !important;
         height: 72px !important;
-        border-radius: 10px !important;
-        border: 1px solid #F3F4F6 !important;
-        padding: 4px !important;
-        flex-shrink: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        background: #FFFFFF !important;
-    }
-
-    .cart-item-img img {
-        max-width: 100% !important;
-        max-height: 100% !important;
-        object-fit: contain !important;
-    }
-
-    .cart-item-details {
-        flex: 1 !important;
-    }
-
-    .cart-item-name {
-        font-size: 15px !important;
-        font-weight: 600 !important;
-        color: #111827 !important;
-        margin-bottom: 4px !important;
-    }
-
-    .cart-item-model {
-        font-size: 13px !important;
-        color: #6B7280 !important;
-        margin-bottom: 8px !important;
-    }
-
-    .cart-item-controls .quantity-control {
-        display: inline-flex !important;
-        align-items: center !important;
-        border: 1px solid #E5E7EB !important;
-        border-radius: 8px !important;
-        overflow: hidden !important;
-        background: #FAFAFA !important;
-    }
-
-    .cart-item-controls .quantity-control button {
-        width: 32px !important;
-        height: 32px !important;
-        border: none !important;
-        background: transparent !important;
-        color: #374151 !important;
-        cursor: pointer !important;
-        font-size: 12px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        transition: background 0.2s ease !important;
-    }
-
-    .cart-item-controls .quantity-control button:hover {
-        background: #E5E7EB !important;
-    }
-
-    .cart-item-controls .quantity-control span {
-        padding: 0 12px !important;
-        font-size: 14px !important;
-        font-weight: 600 !important;
-        color: #111827 !important;
-    }
-
-    .cart-item-price {
-        font-size: 15px !important;
-        font-weight: 700 !important;
-        color: #111827 !important;
-        margin-top: 6px !important;
-        margin-bottom: 0 !important;
-    }
-
-    .cart-item-remove {
-        background: transparent !important;
-        border: none !important;
-        color: #9CA3AF !important;
-        font-size: 18px !important;
-        cursor: pointer !important;
-        padding: 8px !important;
-        border-radius: 6px !important;
-        transition: all 0.2s ease !important;
-    }
-
-    .cart-item-remove:hover {
-        color: #EF4444 !important;
-        background: #FEF2F2 !important;
     }
 
     /* Sticky Footer Desktop Redesign */
@@ -1447,6 +1254,167 @@ button.hik-btn-outline {
     display: none;
 }
 
+/* =============================================
+   MOBILE RESPONSIVENESS (<768px)
+   ============================================= */
+@media (max-width: 767px) {
+    .cart-page-section .container {
+        padding: 0 16px !important;
+    }
+
+    .cart-header-wrapper {
+        margin-top: 12px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .rfq-step-indicator {
+        margin: 16px auto 12px !important;
+        max-width: 100% !important;
+    }
+
+    .rfq-step-circle {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .rfq-step-number,
+    .rfq-step-check {
+        font-size: 12px !important;
+    }
+
+    .rfq-step-label {
+        font-size: 11px !important;
+    }
+
+    .rfq-step-line {
+        min-width: 40px !important;
+        margin: 0 8px !important;
+    }
+
+    /* Form styling for mobile */
+    .cart-form-section {
+        padding: 20px !important;
+        border-radius: 10px !important;
+    }
+
+    .section-title {
+        font-size: 16px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .section-title i {
+        font-size: 18px !important;
+    }
+
+    .form-group {
+        margin-bottom: 14px !important;
+    }
+
+    .form-group label {
+        font-size: 13px !important;
+        margin-bottom: 6px !important;
+    }
+
+    .form-group .form-control {
+        padding: 10px 12px !important;
+        font-size: 14px !important;
+        height: auto !important;
+        min-height: 44px !important;
+    }
+
+    /* Cart items styling for mobile */
+    .cart-summary-section {
+        padding: 20px !important;
+        border-radius: 10px !important;
+    }
+
+    .cart-summary-header {
+        padding: 0 !important;
+        border-bottom: none !important;
+        background: transparent !important;
+    }
+
+    #headerItemCount {
+        font-size: 14px !important;
+    }
+
+    .cart-items-scroll-area {
+        padding: 12px 0 !important;
+    }
+
+    .cart-item {
+        padding: 12px 0 !important;
+        gap: 12px !important;
+    }
+
+    .cart-item-img {
+        width: 60px !important;
+        height: 60px !important;
+        border-radius: 6px !important;
+    }
+
+    .cart-item-name {
+        font-size: 13px !important;
+        margin-bottom: 2px !important;
+    }
+
+    .cart-item-model {
+        font-size: 11px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .cart-item-price {
+        font-size: 12px !important;
+    }
+
+    .cart-item-remove {
+        font-size: 16px !important;
+        padding: 6px !important;
+    }
+
+    .quantity-control {
+        border-radius: 4px !important;
+        padding: 1px !important;
+    }
+
+    .quantity-control button {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 11px !important;
+    }
+
+    .quantity-control span {
+        min-width: 24px !important;
+        font-size: 12px !important;
+    }
+
+    /* Mobile-specific buttons */
+    .btn-continue-shopping-outline {
+        font-size: 14px !important;
+        padding: 10px 16px !important;
+        margin-top: 16px !important;
+    }
+
+    .empty-cart-message {
+        padding: 30px 20px !important;
+    }
+
+    .empty-cart-message i {
+        font-size: 48px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .empty-cart-message h3 {
+        font-size: 18px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .empty-cart-message p {
+        font-size: 12px !important;
+        margin-bottom: 16px !important;
+    }
+}
+
 @media (max-width: 991px) {
 
 
@@ -1501,8 +1469,16 @@ button.hik-btn-outline {
     }
 
     .cart-sticky-footer .sticky-totals {
-        flex: 0 0 40% !important;
-        max-width: 40% !important;
+        flex: 0 0 auto !important;
+        max-width: none !important;
+    }
+
+    .cart-sticky-footer .total-label {
+        font-size: 11px !important;
+    }
+
+    .cart-sticky-footer .total-count {
+        font-size: 16px !important;
     }
 
     /* Step 2 Sticky Footer Buttons layout */
@@ -1511,18 +1487,18 @@ button.hik-btn-outline {
         max-width: 100% !important;
         width: 100% !important;
         display: flex !important;
-        gap: 12px !important;
+        gap: 10px !important;
         align-items: center !important;
         justify-content: space-between !important;
     }
 
-    /* Secondary CTA: Back button (34% width, 56px height, 16px 600 weight) */
+    /* Secondary CTA: Back button */
     .cart-sticky-footer .btn-back-step {
         height: 56px !important;
         flex: 0 0 calc(34% - 6px) !important;
         width: calc(34% - 6px) !important;
-        border-radius: 12px !important;
-        font-size: 16px !important;
+        border-radius: 10px !important;
+        font-size: 14px !important;
         font-weight: 600 !important;
         background: #ffffff !important;
         color: var(--pvc-dark-bg) !important;
@@ -1530,26 +1506,26 @@ button.hik-btn-outline {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 8px !important;
+        gap: 6px !important;
         padding: 0 8px !important;
         box-sizing: border-box !important;
         white-space: nowrap !important;
     }
 
-    /* Primary CTA: Place Order button (66% width, 56px height, 16px 700 weight) */
+    /* Primary CTA: Place Order button */
     .cart-sticky-footer .btn-place-rfq {
         height: 56px !important;
         flex: 0 0 calc(44% - 6px) !important;
-        width: calc(34% - 6px) !important;
-        border-radius: 12px !important;
-        font-size: 16px !important;
+        width: calc(44% - 6px) !important;
+        border-radius: 10px !important;
+        font-size: 14px !important;
         font-weight: 700 !important;
         background-color: #25D366 !important;
         color: #ffffff !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 10px !important;
+        gap: 8px !important;
         box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3) !important;
         border: none !important;
         margin-left: 0 !important;
@@ -1593,14 +1569,17 @@ button.hik-btn-outline {
 
     /* Mobile step 1 button */
     .cart-sticky-footer .btn-next-step {
-        height: 52px;
-        width: 100%;
-        max-width: 160px;
-        min-width: 140px;
-        border-radius: 10px;
-        font-size: 15px;
-        font-weight: 600;
-        padding: 0 20px;
+        height: 52px !important;
+        width: 100% !important;
+        max-width: none !important;
+        min-width: auto !important;
+        border-radius: 10px !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        padding: 0 20px !important;
+        background: var(--pvc-gold-mid) !important;
+        color: #fff !important;
+        border: none !important;
     }
 
     /* On step 2, hide the sticky totals on mobile for cleaner layout */
