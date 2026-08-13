@@ -270,6 +270,32 @@ body {
   overflow-wrap: break-word;
 }
 
+.cu-address-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cu-address-list li {
+  position: relative;
+  padding-left: 13px;
+  font-size: 15px;
+  color: var(--contact-text-muted);
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+.cu-address-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--contact-gold);
+}
+
 /* Call Us / Email Us cards list two contact links each, so they're a
    plain div (can't nest an <a> inside another <a>) with the links
    styled individually below the title. */

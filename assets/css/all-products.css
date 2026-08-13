@@ -1073,6 +1073,46 @@
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 10px;
     }
+
+    .products-grid .product-image {
+        padding: 10px;
+    }
+
+    .products-grid .product-info {
+        padding: 8px 10px 6px;
+        gap: 3px;
+    }
+
+    .products-grid .product-title {
+        font-size: 12px;
+    }
+
+    .products-grid .product-description {
+        font-size: 11px;
+    }
+
+    .products-grid .product-status-badge {
+        font-size: 10px;
+        padding: 2px 8px;
+    }
+
+    .products-grid .product-card-controls {
+        padding: 0 10px 10px;
+    }
+
+    .products-grid .card-cart-add,
+    .products-grid .card-qty {
+        min-height: 34px;
+    }
+
+    .products-grid .card-cart-add {
+        font-size: 11px;
+    }
+
+    .products-grid .card-qty button {
+        width: 26px;
+        height: 26px;
+    }
 }
 
 @media (max-width: 380px) {
@@ -1087,10 +1127,17 @@
     transition: opacity 0.15s ease;
 }
 
+/* padding: 0 is deliberate — .product-card (base rule further up this
+   file) sets 24px/8px/6px padding of its own for an older card design.
+   .product-image / .product-info below carry their own internal
+   padding, so without this reset the two designs stacked their
+   padding on top of each other, which is what made every card read
+   as unnecessarily tall. */
 .products-grid .product-card {
     background: #ffffff;
     border: 1px solid #ececec;
-    border-radius: 8px;
+    border-radius: 10px;
+    padding: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -1114,11 +1161,11 @@
 .products-grid .product-image {
     background: #ffffff;
     width: 100%;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 14px;
+    padding: 12px;
     box-sizing: border-box;
     border-bottom: 1px solid #f2f2f2;
 }
@@ -1196,6 +1243,26 @@
 
 .products-grid .product-card-controls {
     margin-top: auto;
+    padding: 0 12px 12px;
+}
+
+/* Shrinks the CTA button/qty-stepper — the base .card-cart-add /
+   .card-qty rules further up this file size them for the old,
+   spacious card (52px tall), which was another contributor to the
+   excess card height here. */
+.products-grid .card-cart-add,
+.products-grid .card-qty {
+    min-height: 38px;
+}
+
+.products-grid .card-cart-add {
+    font-size: 12px;
+    border-radius: 6px;
+}
+
+.products-grid .card-qty button {
+    width: 30px;
+    height: 30px;
 }
 
 .products-grid.tiles-view .product-card {

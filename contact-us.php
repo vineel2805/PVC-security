@@ -73,7 +73,12 @@
               <div class="cu-quick-icon cu-icon-visit"><i class="fa-solid fa-location-dot"></i></div>
               <div class="cu-quick-body">
                 <strong>Visit Store</strong>
-                <span>NEAR KLM SHOPPING MALL, MAVULLAMMA TEMPLE ROAD, Bhimavaram Town - 1, Pincode - 534201</span>
+                <ul class="cu-address-list">
+                  <li>Near KLM Shopping mall</li>
+                  <li>Mavullamma Temple Road</li>
+                  <li>Bhimavaram Town - 1</li>
+                  <li>Pincode - 534201</li>
+                </ul>
               </div>
             </a>
           </div>

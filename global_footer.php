@@ -19,7 +19,12 @@ $pvcFooterData = [
     'phone2Clean'     => '+919114467777',
     'email1'          => 'Service@pvcsecuritysolutions.com',
     'email2'          => 'Support@pvcsecuritysolutions.com',
-    'address'         => 'NEAR KLM SHOPPING MALL, MAVULLAMMA TEMPLE ROAD, Bhimavaram Town - 1, Pincode - 534201',
+    'address'         => [
+        'Near KLM Shopping mall',
+        'Mavullamma Temple Road',
+        'Bhimavaram Town - 1',
+        'Pincode - 534201',
+    ],
     'serviceArea'     => 'Andhra Pradesh & Telangana',
     'workingHours'    => 'Mon - Sat: 9:00 AM - 9:00 PM',
     // WhatsApp floating button settings
@@ -166,7 +171,11 @@ if (!defined('PVC_FOOTER_ASSETS_LOADED')) {
                                target="_blank"
                                rel="noopener noreferrer"
                                style="color: inherit; text-decoration: none;">
-                                <?= htmlspecialchars($pvcFooterData['address']) ?>
+                                <ul class="pvc-address-list">
+                                    <?php foreach ($pvcFooterData['address'] as $addressLine): ?>
+                                    <li><?= htmlspecialchars($addressLine) ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
                             </a>
                         </div>
                     </li>
@@ -181,7 +190,7 @@ if (!defined('PVC_FOOTER_ASSETS_LOADED')) {
     </div>
 
     <div class="pvc-footer-bottom-bar" style="background-color: #000000; text-align: center; padding: 20px 0; width: 100%; position: relative; z-index: 10;">
-        <p style="background: var(--pvc-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 15px; letter-spacing: 1.5px; margin-bottom: 5px; text-transform: uppercase; font-family: 'Outfit', sans-serif;">WEB DEVELOPMENT TEAM</p>
+        <p style="background: var(--pvc-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 15px; letter-spacing: 1.5px; margin-bottom: 5px; text-transform: uppercase; font-family: 'Outfit', sans-serif;">WEBSITE DESIGNED BY</p>
         <p style="color: #ffffff; font-size: 14px; margin: 0; font-family: 'Inter', sans-serif;">
             &copy; <?= date('Y') ?> | All Rights Reserved | <a href="https://bhimavaramdigitals.com/" target="_blank" style="color: #2196F3; text-decoration: none; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#64B5F6'" onmouseout="this.style.color='#2196F3'">Bhimavaram Digitals.</a>
         </p>
