@@ -286,6 +286,8 @@ button.hik-btn-outline {
    (assets/css/index.css), copied here since index.css
    isn't loaded on cart.php.
    ============================================= */
+/* Base = desktop size (≥992px); scaled down in steps below for
+   tablet/mobile (≤991px) and small phones (≤767px) */
 .cart-page-heading {
     padding-top: 8px;
     padding-bottom: 15px;
@@ -294,21 +296,21 @@ button.hik-btn-outline {
 }
 
 .premium-icon-box {
-    width: 80px;
-    height: 80px;
+    width: 74px;
+    height: 74px;
     background: linear-gradient(135deg, var(--pvc-gold-dark), var(--pvc-gold-mid));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 15px;
+    margin: 0 auto 16px;
     box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
     animation: cart-heading-pulse 3s infinite ease-in-out;
 }
 
 .premium-icon-box i {
     color: #fff;
-    font-size: 36px;
+    font-size: 34px;
 }
 
 @keyframes cart-heading-pulse {
@@ -337,7 +339,7 @@ button.hik-btn-outline {
 }
 
 .premium-title {
-    font-size: 32px;
+    font-size: 40px;
     font-weight: 800;
     color: var(--pvc-gold-dark);
     text-transform: uppercase;
@@ -355,15 +357,17 @@ button.hik-btn-outline {
     border-radius: 2px;
 }
 
+/* Tablet / mobile */
 @media (max-width: 991px) {
     .premium-title {
-        font-size: 32px;
+        font-size: 28px;
+        margin-bottom: 14px;
     }
 
     .premium-icon-box {
-        width: 60px;
-        height: 60px;
-        margin-bottom: 10px;
+        width: 64px;
+        height: 64px;
+        margin-bottom: 12px;
     }
 
     .premium-icon-box i {
@@ -372,18 +376,53 @@ button.hik-btn-outline {
 
     .cart-page-heading {
         padding-top: 4px;
-        padding-bottom: 5px;
+        padding-bottom: 8px;
     }
 
     .premium-subtitle {
-        font-size: 11px;
+        font-size: 12px;
         letter-spacing: 2px;
+        margin-bottom: 8px;
+    }
+
+    .premium-divider {
+        width: 80px;
+        height: 3px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 767px) {
+    .premium-title {
+        font-size: 22px;
+        margin-bottom: 10px;
+        letter-spacing: 0;
+    }
+
+    .premium-icon-box {
+        width: 52px;
+        height: 52px;
+        margin-bottom: 8px;
+    }
+
+    .premium-icon-box i {
+        font-size: 20px;
+    }
+
+    .cart-page-heading {
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+
+    .premium-subtitle {
+        font-size: 10px;
+        letter-spacing: 1.5px;
         margin-bottom: 6px;
     }
 
     .premium-divider {
-        width: 70px;
-        height: 3px;
+        width: 56px;
+        height: 2px;
     }
 }
 
