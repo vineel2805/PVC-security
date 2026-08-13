@@ -177,6 +177,9 @@ if (!defined('PVC_FOOTER_ASSETS_LOADED')) {
                                     <?php endforeach; ?>
                                 </ul>
                             </a>
+                            <span class="pvc-service-area">
+                                <i class="fa-solid fa-map-location-dot"></i><?= htmlspecialchars($pvcFooterData['serviceArea']) ?>
+                            </span>
                         </div>
                     </li>
                 </ul>
