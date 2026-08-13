@@ -48,17 +48,8 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
   <!-- Cart Page Content -->
   <section class="cart-page-section" data-step="1">
     <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div class="cart-header-wrapper">
-            <a href="javascript:history.back()" class="cart-close-btn d-none d-lg-block" aria-label="Close Cart" title="Exit Cart">
-              <i class="fa-solid fa-xmark"></i>
-            </a>
-          </div>
-        </div>
-      </div>
 
-      <!-- Step Indicator (Mobile Only) -->
+      <!-- Step Indicator -->
       <div class="rfq-step-indicator" id="rfqStepIndicator">
         <div class="rfq-step active" data-step-num="1">
           <div class="rfq-step-circle">

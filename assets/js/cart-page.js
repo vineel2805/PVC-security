@@ -41,25 +41,25 @@ function loadCartPage() {
             <div class="cart-item-img">
                 <img src="${item.image}" alt="${item.name}">
             </div>
-            <div class="cart-item-details">
+            <div class="cart-item-info">
                 <h4 class="cart-item-name">${item.name}</h4>
                 <p class="cart-item-model">Model: ${item.model}</p>
-                <div class="cart-item-controls">
-                    <div class="quantity-control">
-                        <button onclick="updateCartItemQuantity('${item.model}', ${item.quantity - 1})">
-                            <i class="fa-solid fa-minus"></i>
-                        </button>
-                        <span>${item.quantity}</span>
-                        <button onclick="updateCartItemQuantity('${item.model}', ${item.quantity + 1})">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
                 <p class="cart-item-price">${item.price > 0 ? formatCurrency(item.price * item.quantity) : 'Price on Request'}</p>
             </div>
-            <button class="cart-item-remove" onclick="removeFromCart('${item.model}')" title="Remove item">
-                <i class="fa-regular fa-trash-can"></i>
-            </button>
+            <div class="cart-item-actions">
+                <div class="quantity-control">
+                    <button onclick="updateCartItemQuantity('${item.model}', ${item.quantity - 1})">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <span>${item.quantity}</span>
+                    <button onclick="updateCartItemQuantity('${item.model}', ${item.quantity + 1})">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+                <button class="cart-item-remove" onclick="removeFromCart('${item.model}')" title="Remove item">
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
+            </div>
         </div>
     `).join('');
 

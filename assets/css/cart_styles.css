@@ -283,14 +283,6 @@ button.hik-btn-outline {
     }
 }
 
-.cart-header-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 6px;
-    margin-bottom: 10px;
-}
-
 .cart-page-title {
     font-family: var(--font-heading, 'Outfit', sans-serif);
     font-size: 48px;
@@ -302,26 +294,6 @@ button.hik-btn-outline {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin-bottom: 0;
-}
-
-.cart-close-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: transparent;
-    color: var(--pvc-dark-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    text-decoration: none;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-    flex-shrink: 0;
-}
-
-.cart-close-btn:hover {
-    background: rgba(0, 0, 0, 0.07);
-    color: #000;
 }
 
 .cart-page-subtitle {
@@ -614,8 +586,8 @@ button.hik-btn-outline {
 .cart-item {
     display: flex;
     flex-direction: row;
-    gap: 15px;
-    padding: 15px 0;
+    gap: 18px;
+    padding: 20px 0;
     border-bottom: 1px solid var(--cart-border-color);
     background: #ffffff;
     align-items: center;
@@ -626,12 +598,13 @@ button.hik-btn-outline {
 }
 
 .cart-item-img {
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
+    width: 96px;
+    height: 96px;
+    border-radius: 10px;
     overflow: hidden;
     flex-shrink: 0;
     background: var(--cart-bg-light);
+    border: 1px solid var(--cart-border-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -641,20 +614,24 @@ button.hik-btn-outline {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    padding: 8px;
 }
 
-.cart-item-details {
+/* Name / model / price — grows to fill the row */
+.cart-item-info {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 4px;
 }
 
 .cart-item-name {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--pvc-dark-bg);
-    margin: 0 0 4px 0;
+    margin: 0;
     display: -webkit-box;
     -line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -662,28 +639,24 @@ button.hik-btn-outline {
 }
 
 .cart-item-model {
-    font-size: 12px;
-    color: #666;
-    margin: 0 0 6px 0;
-}
-
-.cart-item-price {
     font-size: 13px;
-    font-weight: 700;
-    color: var(--pvc-gold-mid);
+    color: #666;
     margin: 0;
 }
 
-.cart-item-controls-wrap {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-shrink: 0;
+.cart-item-price {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--pvc-gold-mid);
+    margin: 2px 0 0 0;
 }
 
-.cart-item-controls {
+/* Quantity control + remove — grouped on the right, no dead gap */
+.cart-item-actions {
     display: flex;
     align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
 }
 
 .quantity-control {
@@ -691,13 +664,13 @@ button.hik-btn-outline {
     align-items: center;
     background: #fff;
     border: 1px solid var(--cart-border-color);
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 2px;
 }
 
 .quantity-control button {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border: none;
     background: transparent;
     color: var(--pvc-dark-bg);
@@ -714,7 +687,7 @@ button.hik-btn-outline {
 }
 
 .quantity-control span {
-    min-width: 30px;
+    min-width: 32px;
     text-align: center;
     font-size: 14px;
     font-weight: 600;
@@ -964,18 +937,15 @@ button.hik-btn-outline {
     /* Max width container centered */
     .cart-page-section .container,
     .cart-sticky-footer .container {
-        max-width: 800px !important;
+        max-width: 960px !important;
         margin: 0 auto !important;
         padding: 0 32px !important;
     }
 
-    /* Page Header Spacing */
-    .cart-header-wrapper {
-        margin-top: 24px !important;
-        margin-bottom: 28px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
+    /* Step indicator is desktop-hidden, so give the row its own
+       top spacing below the fixed header */
+    .cart-page-row {
+        margin-top: 40px !important;
     }
 
     .cart-page-title {
@@ -989,25 +959,6 @@ button.hik-btn-outline {
         -webkit-font-smoothing: antialiased !important;
         -moz-osx-font-smoothing: grayscale !important;
         margin-bottom: 0 !important;
-    }
-
-    .cart-close-btn {
-        width: 40px !important;
-        height: 40px !important;
-        border-radius: 50% !important;
-        background: #F3F4F6 !important;
-        color: #6B7280 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-size: 18px !important;
-        text-decoration: none !important;
-        transition: all 0.2s ease !important;
-    }
-
-    .cart-close-btn:hover {
-        background: #E5E7EB !important;
-        color: #111827 !important;
     }
 
     /* DESKTOP: 2-STEP FLOW (like mobile, not side-by-side) */
@@ -1071,19 +1022,10 @@ button.hik-btn-outline {
     }
 
     .cart-items-scroll-area {
-        max-height: 460px !important;
+        max-height: 520px !important;
         overflow-y: auto !important;
         padding-right: 8px !important;
         margin-top: 16px !important;
-    }
-
-    .cart-item {
-        padding: 16px 0 !important;
-    }
-
-    .cart-item-img {
-        width: 72px !important;
-        height: 72px !important;
     }
 
     /* Sticky Footer Desktop Redesign */
@@ -1194,8 +1136,11 @@ button.hik-btn-outline {
     }
 
     /* Primary CTA: Place Order Button (WhatsApp Green) */
+    /* NOTE: no `display` here on purpose — visibility is controlled by
+       the step-based .step-2-only rules; forcing display here with an
+       ID selector would out-specificity those and show the button on
+       every step. */
     .cart-sticky-footer #placeRFQBtn.btn-place-rfq {
-        display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         gap: 10px !important;
@@ -1226,11 +1171,18 @@ button.hik-btn-outline {
         font-size: 20px !important;
     }
 
-    /* Hide Mobile Buttons on Desktop */
-    .btn-next-step,
-    .btn-back-step,
+    /* Next/Back stay step-driven on desktop too (see step-visibility rules
+       at top of file) — only the mobile-style outlined "Continue Shopping"
+       row is desktop-hidden, since .btn-continue-shopping-desktop covers it */
     .cart-sticky-footer .btn-continue-shopping.step-1-only {
         display: none !important;
+    }
+
+    .btn-next-step {
+        width: auto !important;
+        min-width: 200px !important;
+        max-width: none !important;
+        margin-left: 0 !important;
     }
 }
 
@@ -1266,12 +1218,6 @@ button.hik-btn-outline {
         letter-spacing: 0 !important;
     }
 
-    .cart-close-btn {
-        width: 38px;
-        height: 38px;
-        font-size: 18px;
-    }
-
     .section-title {
         font-size: 18px;
         font-weight: 700;
@@ -1296,12 +1242,6 @@ button.hik-btn-outline {
 @media (max-width: 767px) {
     .cart-page-section .container {
         padding: 0 12px !important;
-    }
-
-    .cart-header-wrapper {
-        margin-top: 8px !important;
-        margin-bottom: 8px !important;
-        padding: 0 !important;
     }
 
     /* FIX STEP INDICATOR CUTOFF */
@@ -1411,25 +1351,33 @@ button.hik-btn-outline {
     }
 
     .cart-item-img {
-        width: 50px !important;
-        height: 50px !important;
-        border-radius: 5px !important;
+        width: 64px !important;
+        height: 64px !important;
+        border-radius: 6px !important;
+    }
+
+    .cart-item-info {
+        gap: 2px !important;
     }
 
     .cart-item-name {
-        font-size: 12px !important;
-        margin-bottom: 2px !important;
+        font-size: 13px !important;
         font-weight: 600 !important;
     }
 
     .cart-item-model {
-        font-size: 10px !important;
-        margin-bottom: 3px !important;
+        font-size: 11px !important;
     }
 
     .cart-item-price {
-        font-size: 11px !important;
+        font-size: 12px !important;
         font-weight: 700 !important;
+    }
+
+    .cart-item-actions {
+        flex-direction: column !important;
+        gap: 8px !important;
+        align-items: flex-end !important;
     }
 
     .cart-item-remove {
