@@ -32,34 +32,22 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
 
 <body>
 
-  <?php include 'includes/search-overlay.php'; ?>
-
-  <!-- NOTE: this page was loading TWO header includes back to back —
-       'header.php' AND 'includes/header.php'. That doubles every CSS/JS/
-       font/query pulled in by whichever header does the real work, which
-       is a likely contributor to slow loads. I've commented out 'header.php'
-       and kept 'includes/header.php' since it matches the includes/ pattern
-       used elsewhere on your site (includes/bottom-nav.php, includes/search-overlay.php).
-       If 'includes/header.php' turns out to be the wrong one / a stub,
-       swap which line is commented. -->
-  <?php $currentPage = 'cart'; /* include 'header.php'; -- commented out, see note above */ ?>
+  <?php
+  // header.php fetches $brandResult / $mergedCats (used by includes/header.php
+  // to render the "Shop By Brand" / "Shop By Categories" dropdowns) and also
+  // includes includes/search-overlay.php itself — matching the same pattern
+  // every other page on the site uses (see all-products.php, index.php).
+  // This page used to skip it, which is why those dropdowns showed
+  // "No brands available": the variables they read were never set.
+  $currentPage = 'cart';
+  include 'header.php';
+  ?>
   <?php include 'includes/header.php'; ?>
 
 
   <!-- Cart Page Content -->
   <section class="cart-page-section" data-step="1">
     <div class="container">
-
-      <!-- Page Heading -->
-      <div class="premium-header-section cart-page-heading">
-        <div class="premium-icon-box">
-          <i class="fa-solid fa-cart-shopping"></i>
-        </div>
-        <span class="premium-subtitle">Request For Quotation</span>
-        <h1 class="premium-title">Your Cart</h1>
-        <div class="premium-divider"></div>
-      </div>
-
       <!-- Step Indicator -->
       <div class="rfq-step-indicator" id="rfqStepIndicator">
         <div class="rfq-step active" data-step-num="1">
@@ -88,7 +76,7 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
         <div class="cart-summary-col step-1-content order-first order-lg-1">
           <div class="cart-summary-section">
             <div class="cart-summary-header">
-               <h3 class="section-title"><i class="fa-solid fa-shopping-cart"></i> Products in RFQ <span id="headerItemCount">(0 Items)</span></h3>
+               <h3 class="section-title"><i class="fa-solid fa-shopping-cart"></i> Products in CART <span id="headerItemCount">(0 Items)</span></h3>
             </div>
 
             <!-- Scrollable Cart Items Area -->
