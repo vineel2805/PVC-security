@@ -23,7 +23,7 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
   <!--=====FAB ICON=======-->
   <link rel="shortcut icon" href="assets/img/logo/Untitled design-3.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="assets/css/cart_styles.css">
+  <link rel="stylesheet" href="assets/css/cart_styles.css?v=<?php echo filemtime('assets/css/cart_styles.css'); ?>">
   <link rel="stylesheet" href="assets/css/bottom-nav.css">
   <link rel="stylesheet" href="assets/css/search-overlay-visibility.css">
   <link rel="stylesheet" href="assets/css/cart-nav-footer-fix.css">
@@ -253,7 +253,7 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
   <script src="assets/js/main.js"></script>
   <script src="assets/js/cart-core.js"></script>
   <script src="assets/js/floating-cart.js"></script>
-  <script src="assets/js/cart-page.js"></script>
+  <script src="assets/js/cart-page.js?v=<?php echo filemtime('assets/js/cart-page.js'); ?>"></script>
   <script src="assets/js/plugins/bootstrap.min.js"></script>
   <script src="assets/js/search-overlay-toggle.js"></script>
 </body>

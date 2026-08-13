@@ -275,14 +275,6 @@ function goToStep(step) {
 
     section.setAttribute('data-step', step);
 
-    // On Desktop (>=992px), both columns display side-by-side natively via CSS
-    if (window.innerWidth >= 992) {
-        document.querySelectorAll('.step-1-only, .step-2-only').forEach(function (el) {
-            el.style.display = '';
-        });
-        return;
-    }
-
     // Update step indicator
     var steps = document.querySelectorAll('.rfq-step');
     steps.forEach(function (el) {
