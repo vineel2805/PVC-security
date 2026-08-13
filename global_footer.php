@@ -19,12 +19,7 @@ $pvcFooterData = [
     'phone2Clean'     => '+919114467777',
     'email1'          => 'Service@pvcsecuritysolutions.com',
     'email2'          => 'Support@pvcsecuritysolutions.com',
-    'address'         => [
-        'Near KLM Shopping mall',
-        'Mavullamma Temple Road',
-        'Bhimavaram Town - 1',
-        'Pincode - 534201',
-    ],
+    'address'         => 'NEAR KLM SHOPPING MALL, MAVULLAMMA TEMPLE ROAD, Bhimavaram Town - 1, Pincode - 534201',
     'serviceArea'     => 'Andhra Pradesh & Telangana',
     'workingHours'    => 'Mon - Sat: 9:00 AM - 9:00 PM',
     // WhatsApp floating button settings
@@ -171,15 +166,8 @@ if (!defined('PVC_FOOTER_ASSETS_LOADED')) {
                                target="_blank"
                                rel="noopener noreferrer"
                                style="color: inherit; text-decoration: none;">
-                                <ul class="pvc-address-list">
-                                    <?php foreach ($pvcFooterData['address'] as $addressLine): ?>
-                                    <li><?= htmlspecialchars($addressLine) ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
+                                <?= htmlspecialchars($pvcFooterData['address']) ?>
                             </a>
-                            <span class="pvc-service-area">
-                                <i class="fa-solid fa-map-location-dot"></i><?= htmlspecialchars($pvcFooterData['serviceArea']) ?>
-                            </span>
                         </div>
                     </li>
                 </ul>

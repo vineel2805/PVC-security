@@ -332,65 +332,11 @@
     overflow-wrap: break-word;
 }
 
-.pvc-address-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-/* Explicit size/weight/color rather than relying on inheriting them
-   from the wrapping <a> (.pvc-contact-text a) — these are nested
-   block-level <li> boxes, and depending on inheritance through them
-   made the address read noticeably smaller than the phone/email
-   lines next to it. */
-.pvc-address-list li {
-    position: relative;
-    padding-left: 13px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--pvc-white);
-    line-height: 1.65;
-}
-
-.pvc-address-list li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--pvc-gold);
-}
-
-.pvc-service-area {
-    display: block;
-    margin: 10px 0 0;
-    font-size: 12px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.55);
-}
-
-.pvc-service-area i {
-    color: var(--pvc-gold);
-    margin-right: 5px;
-    font-size: 11px;
-}
-
 .pvc-contact-text a:hover {
     background: var(--pvc-gradient);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-}
-
-/* The gradient text-clip above only paints text belonging directly to
-   the <a> — .pvc-address-list li are nested block boxes, so without
-   this override they'd inherit -webkit-text-fill-color: transparent
-   from the hovered <a> and become invisible instead of gold. */
-.pvc-contact-text a:hover .pvc-address-list li {
-    -webkit-text-fill-color: var(--pvc-gold);
-    color: var(--pvc-gold);
 }
 
 /* Support & Connect */
@@ -657,11 +603,6 @@
         line-height: 1.4;
     }
 
-    .pvc-address-list li {
-        font-size: 14px;
-        line-height: 1.6;
-    }
-
     .pvc-action-btns {
         flex-direction: row;
         gap: 10px;
@@ -715,10 +656,6 @@
 
     .pvc-contact-text a,
     .pvc-contact-text p {
-        font-size: 13px;
-    }
-
-    .pvc-address-list li {
         font-size: 13px;
     }
 }
