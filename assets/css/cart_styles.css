@@ -998,16 +998,17 @@ button.hik-btn-outline {
         gap: 32px !important;
     }
 
+    /* Products on left (42%), Contact Form on right (58%) - using order and flex properties */
+    .cart-summary-col {
+        flex: 0 0 calc(42% - 16px) !important;
+        max-width: calc(42% - 16px) !important;
+        order: -1 !important;
+    }
+
     .cart-form-col {
         flex: 0 0 58% !important;
         max-width: 58% !important;
         order: 1 !important;
-    }
-
-    .cart-summary-col {
-        flex: 0 0 calc(42% - 32px) !important;
-        max-width: calc(42% - 32px) !important;
-        order: 2 !important;
     }
 
     /* Left Card: Contact Information */

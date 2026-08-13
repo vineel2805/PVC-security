@@ -51,7 +51,7 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
       <div class="row">
         <div class="col-12">
           <div class="cart-header-wrapper">
-            <a href="javascript:history.back()" class="cart-close-btn" aria-label="Close Cart" title="Exit Cart">
+            <a href="javascript:history.back()" class="cart-close-btn d-none d-lg-block" aria-label="Close Cart" title="Exit Cart">
               <i class="fa-solid fa-xmark"></i>
             </a>
           </div>
@@ -82,8 +82,39 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
       <!-- Main Cart Page Row: Side-by-side on Desktop, 2-Step on Mobile -->
       <div class="cart-page-row mt-4">
 
-        <!-- LEFT COLUMN: Contact Information -->
-        <div class="cart-form-col step-2-content">
+        <!-- LEFT COLUMN: Products in RFQ (Step 1) -->
+        <div class="cart-summary-col step-1-content order-first order-lg-1">
+          <div class="cart-summary-section">
+            <div class="cart-summary-header">
+               <h3 class="section-title"><i class="fa-solid fa-shopping-cart"></i> Products in RFQ <span id="headerItemCount">(0 Items)</span></h3>
+            </div>
+
+            <!-- Scrollable Cart Items Area -->
+            <div class="cart-items-scroll-area">
+              <div id="cartItemsContainer" class="cart-items-list">
+                <!-- Cart items will be dynamically inserted here -->
+              </div>
+            </div>
+
+            <!-- Mobile-only Continue Shopping (Outlined Secondary Button) -->
+            <div class="mobile-continue-shopping-wrapper">
+              <a href="all-products.php" class="btn-continue-shopping-outline">
+                <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+              </a>
+            </div>
+          </div>
+
+          <!-- Empty Cart Message -->
+          <div id="emptyCartMessage" class="empty-cart-message" style="display: none;">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <h3>Your cart is empty</h3>
+            <p>Add products to your cart to request a quotation</p>
+            <a href="all-products.php" class="btn-continue-shopping">Browse Products</a>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Contact Information (Step 2) -->
+        <div class="cart-form-col step-2-content order-last order-lg-2">
           <div class="cart-form-section">
 
             <div class="section-title-wrapper">
@@ -142,37 +173,6 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
               </div>
             </div>
 
-          </div>
-        </div>
-
-        <!-- RIGHT COLUMN: Products in RFQ -->
-        <div class="cart-summary-col step-1-content">
-          <div class="cart-summary-section">
-            <div class="cart-summary-header">
-               <h3 class="section-title"><i class="fa-solid fa-shopping-cart"></i> Products in RFQ <span id="headerItemCount">(0 Items)</span></h3>
-            </div>
-
-            <!-- Scrollable Cart Items Area -->
-            <div class="cart-items-scroll-area">
-              <div id="cartItemsContainer" class="cart-items-list">
-                <!-- Cart items will be dynamically inserted here -->
-              </div>
-            </div>
-
-            <!-- Mobile-only Continue Shopping (Outlined Secondary Button) -->
-            <div class="mobile-continue-shopping-wrapper">
-              <a href="all-products.php" class="btn-continue-shopping-outline">
-                <i class="fa-solid fa-arrow-left"></i> Continue Shopping
-              </a>
-            </div>
-          </div>
-
-          <!-- Empty Cart Message -->
-          <div id="emptyCartMessage" class="empty-cart-message" style="display: none;">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <h3>Your cart is empty</h3>
-            <p>Add products to your cart to request a quotation</p>
-            <a href="all-products.php" class="btn-continue-shopping">Browse Products</a>
           </div>
         </div>
 
