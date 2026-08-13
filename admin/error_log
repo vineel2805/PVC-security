@@ -1,0 +1,7 @@
+[10-Aug-2026 09:07:33 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'profile_image' in 'SELECT' in /home/pmgch5ax81n8/public_html/bvrm_digitals/pvc/admin/index.php:16
+Stack trace:
+#0 /home/pmgch5ax81n8/public_html/bvrm_digitals/pvc/admin/index.php(16): PDO->prepare('SELECT id, pass...')
+#1 {main}
+  thrown in /home/pmgch5ax81n8/public_html/bvrm_digitals/pvc/admin/index.php on line 16
+[10-Aug-2026 09:13:23 UTC] Strategic partners schema setup error: SQLSTATE[42000]: Syntax error or access violation: 1142 CREATE command denied to user 'pvc2'@'localhost' for table `pvc2`.`strategic_partners`
+[10-Aug-2026 09:13:29 UTC] Strategic partners schema setup error: SQLSTATE[42000]: Syntax error or access violation: 1142 CREATE command denied to user 'pvc2'@'localhost' for table `pvc2`.`strategic_partners`

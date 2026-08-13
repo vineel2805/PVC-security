@@ -1,560 +1,575 @@
-        :root {
-            --pvc-black: #000000;
-            --pvc-gold: #B8860B;
-            --pvc-gold-light: #D4AF37;
-            --pvc-white: #FFFFFF;
-            --pvc-off-white: #F8F8F8;
-            --pvc-text-dark: #1a1a1a;
-            --pvc-text-gray: #444444;
-            --pvc-gold-dark: #b8860b;
-            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body {
-            background-color: var(--pvc-white);
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
-            color: var(--pvc-text-dark);
-        }
-
-        /* =========================================
-       HERO SECTION
-       ========================================= */
-        .about-page-hero {
-            background-color: var(--pvc-black);
-            height: 60vh;
-            min-height: 450px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            margin-top: 70px;
-            /* Header offset */
-            overflow: hidden;
-        }
-
-        .about-page-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(184, 134, 11, 0.1) 0%, rgba(0, 0, 0, 0) 60%);
-            pointer-events: none;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            padding: 0 20px;
-        }
-
-        .hero-title {
-            color: var(--pvc-white);
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-        }
-
-        .hero-subtitle {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.25rem;
-            font-weight: 300;
-            margin-bottom: 30px;
-            letter-spacing: 0.5px;
-        }
-
-        .gold-divider {
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--pvc-gold), var(--pvc-gold-light));
-            margin: 0 auto;
-            border-radius: 2px;
-            animation: expandLine 1.5s ease-out forwards;
-        }
-
-        @keyframes expandLine {
-            from {
-                width: 0;
-                opacity: 0;
-            }
-
-            to {
-                width: 80px;
-                opacity: 1;
-            }
-        }
-
-        /* =========================================
-       WHO WE ARE
-       ========================================= */
-        .who-we-are {
-            padding: 40px 0 20px;
-            background: var(--pvc-white);
-        }
-
-        .text-content h2 {
-            font-size: 43px;
-            font-weight: 700;
-            color: var(--pvc-gold-dark);
-            margin-bottom: 30px;
-            letter-spacing: -0.5px;
-            line-height: 1.25;
-            text-transform: uppercase;
-        }
-
-        .text-content p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--pvc-text-gray);
-            margin-bottom: 20px;
-        }
-
-        .gold-highlight {
-            color: var(--pvc-gold);
-            font-weight: 600;
-        }
-
-        /* =========================================
-       WORKSPACE SECTION (IMAGES)
-       ========================================= */
-        .workspace-section {
-            padding: 100px 0 60px;
-            background: var(--pvc-off-white);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-header h2 {
-            font-size: 43px;
-            font-weight: 700;
-            color: var(--pvc-gold-dark);
-            margin-bottom: 15px;
-            letter-spacing: -0.5px;
-            text-transform: uppercase;
-        }
-
-        .section-header p {
-            color: var(--pvc-text-gray);
-            font-size: 1.1rem;
-        }
-
-        .shop-images-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        @media (max-width: 767px) {
-            .shop-images-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 5px;
-            }
-
-            .shop-img-card {
-                aspect-ratio: 1 / 1;
-            }
-
-            .shop-img-card img {
-                height: 100%;
-            }
-        }
-
-        .shop-img-card {
-            background: #fff;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            transition: var(--transition-smooth);
-            position: relative;
-            border: 1px solid transparent;
-            cursor: pointer;
-        }
-
-        .shop-img-card img {
-            width: 100%;
-            height: 350px;
-            object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-            display: block;
-        }
-
-        .shop-img-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(184, 134, 11, 0.15);
-            border-color: rgba(184, 134, 11, 0.5);
-        }
-
-        .shop-img-card:hover img {
-            transform: scale(1.05);
-        }
-
-        .img-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-            padding: 30px 20px 20px;
-            color: #fff;
-            text-align: center;
-            font-size: 0.95rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: var(--transition-smooth);
-        }
-
-        .shop-img-card:hover .img-caption {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-
-        /* =========================================
-       MISSION & VISION
-       ========================================= */
-        .mission-vision-section {
-            padding: 20px 0 100px;
-            background: var(--pvc-white);
-        }
-
-        .mv-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-        }
-
-        @media (max-width: 767px) {
-            .mv-grid {
-                grid-template-columns: 1fr 1fr;
-                /* Explicitly keep 2-grid */
-                gap: 15px;
-            }
-
-            .mv-card {
-                padding: 15px 10px;
-                aspect-ratio: 1 / 1;
-                /* Force square proportions on mobile */
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .mv-card h3 {
-                font-size: 0.9rem;
-                margin-bottom: 5px;
-                text-align: center;
-            }
-
-            .mv-card>p {
-                font-size: 0.75rem;
-                line-height: 1.2;
-                text-align: center;
-                display: -webkit-box;
-                -webkit-line-clamp: 3;
-                line-clamp: 3;
-                /* Standard property */
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-            }
-
-            .mv-icon {
-                width: 45px;
-                height: 45px;
-                font-size: 18px;
-                margin-bottom: 10px;
-            }
-        }
-
-
-        .mv-card {
-            text-align: center;
-            padding: 40px;
-            background: #fff;
-            border: 1px solid #f0f0f0;
-            border-radius: 20px;
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .mv-card:hover {
-            z-index: 10;
-            transform: translateY(-5px);
-            border-color: var(--pvc-gold);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Hover Matter Popup style */
-        .matter-popup {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #BF953F, #B38728, #AA771C);
-            color: #fff !important;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 20px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: scale(0.8) translateY(10px);
-            z-index: 5;
-            box-shadow: 0 15px 35px rgba(184, 134, 11, 0.4);
-        }
-
-        @media (max-width: 767px) {
-            .mv-card:hover .matter-popup {
-                opacity: 1;
-                visibility: visible;
-                transform: scale(1.05) translateY(0);
-            }
-        }
-
-        .matter-popup p {
-            color: #fff !important;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin: 0;
-            font-weight: 500;
-        }
-
-        @media (max-width: 767px) {
-            .matter-popup {
-                padding: 15px;
-            }
-
-            .matter-popup p {
-                font-size: 0.75rem;
-                line-height: 1.3;
-            }
-        }
-
-
-        .mv-icon {
-            width: 80px;
-            height: 80px;
-            background: rgba(184, 134, 11, 0.1);
-            color: var(--pvc-gold);
-            font-size: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
-            transition: var(--transition-smooth);
-        }
-
-        .mv-card:hover .mv-icon {
-            background: var(--pvc-gold);
-            color: #fff;
-            transform: rotateY(180deg);
-        }
-
-        .mv-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--pvc-gold-dark);
-            text-transform: uppercase;
-        }
-
-        /* =========================================
-       WHY CHOOSE US GRID
-       ========================================= */
-        .why-us-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 60px;
-        }
-
-        .reason-card {
-            flex: 0 0 calc(33.333% - 20px);
-            text-align: center;
-            padding: 20px;
-            background: var(--pvc-off-white);
-            border-radius: 12px;
-            transition: var(--transition-smooth);
-        }
-
-        @media (max-width: 991px) {
-            .reason-card {
-                flex: 0 0 calc(50% - 20px);
-            }
-        }
-
-        @media (max-width: 767px) {
-            .reason-card {
-                flex: 0 0 calc(33.333% - 10px);
-                aspect-ratio: 1 / 1;
-                /* Square proportions */
-                padding: 5px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .reason-card h4 {
-                font-size: 0.65rem;
-                line-height: 1.1;
-            }
-
-            .reason-icon {
-                font-size: 18px;
-                margin-bottom: 5px;
-            }
-        }
-
-
-        .reason-card:hover {
-            background: #fff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            transform: translateY(-5px);
-        }
-
-        .reason-icon {
-            font-size: 30px;
-            color: var(--pvc-gold);
-            margin-bottom: 15px;
-        }
-
-        .reason-card h4 {
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin: 0;
-            color: var(--pvc-text-dark);
-        }
-
-        /* =========================================
-       SERVICE AREA & CTA
-       ========================================= */
-        .service-area-strip {
-            background: var(--pvc-black);
-            padding: 50px 0;
-            text-align: center;
-        }
-
-        .service-area-strip h3 {
-            color: #fff;
-            font-size: 1.5rem;
-            font-weight: 300;
-            margin: 0;
-        }
-
-        .service-area-strip span {
-            color: var(--pvc-gold);
-            font-weight: 700;
-            display: block;
-            font-size: 2rem;
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .final-cta {
-            background: var(--pvc-black);
-            padding: 100px 0;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .final-cta h2 {
-            font-size: 43px;
-            font-weight: 700;
-            color: var(--pvc-gold-dark);
-            margin-bottom: 40px;
-            text-transform: uppercase;
-        }
-
-        .gold-grad-text {
-            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .btn-group-custom {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .btn-gold {
-            padding: 18px 40px;
-            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-            background-size: 200% auto;
-            color: #000;
-            font-weight: 800;
-            text-transform: uppercase;
-            border-radius: 50px;
-            transition: all 0.4s ease;
-            text-decoration: none;
-            border: none;
-            box-shadow: 0 10px 20px rgba(184, 134, 11, 0.3);
-        }
-
-        .btn-gold:hover {
-            background-position: right center;
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(184, 134, 11, 0.4);
-            color: #000;
-            border: none;
-        }
-
-        .btn-outline-gold {
-            padding: 18px 40px;
-            background: transparent;
-            color: var(--pvc-gold);
-            font-weight: 800;
-            text-transform: uppercase;
-            border-radius: 50px;
-            transition: var(--transition-smooth);
-            text-decoration: none;
-            border: 2px solid var(--pvc-gold);
-        }
-
-        .btn-outline-gold:hover {
-            background: var(--pvc-gold);
-            color: #000;
-            box-shadow: 0 0 30px rgba(184, 134, 11, 0.3);
-        }
-
-
-        /* =========================================
-       RESPONSIVE
-       ========================================= */
-        /* Responsive Headings */
-        @media (max-width: 991px) {
-
-            .text-content h2,
-            .section-header h2,
-            .final-cta h2 {
-                font-size: 36px;
-            }
-        }
-
-        @media (max-width: 767px) {
-
-            .text-content h2,
-            .section-header h2,
-            .final-cta h2 {
-                font-size: 28px;
-            }
-        }
+/* =========================================================================
+   PVC SECURITY SOLUTIONS — ABOUT US
+   Fluid responsive stylesheet.
+
+   Sizing approach: type, icons, spacing and images all scale with the
+   viewport using clamp(min, preferred, max) instead of jumping between
+   fixed values at breakpoints. Each clamp reads as:
+       clamp(MOBILE_SIZE, FLUID_MIDDLE, DESKTOP_SIZE)
+   Breakpoints are only used where the LAYOUT itself has to change
+   (column counts, hover-vs-touch behaviour).
+   ========================================================================= */
+
+:root {
+    --pvc-black: #000000;
+    --pvc-gold: #B8860B;
+    --pvc-gold-light: #D4AF37;
+    --pvc-white: #FFFFFF;
+    --pvc-off-white: #F8F8F8;
+    --pvc-text-dark: #1a1a1a;
+    --pvc-text-gray: #444444;
+    --pvc-gold-dark: #b8860b;
+    --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Fluid type scale — headings reduced across every screen size.
+       Change these two lines to retune all headings at once. */
+    --fs-h2: clamp(1.35rem, 0.98rem + 1.65vw, 2.1rem);   /* ~22px → ~34px */
+    --fs-h3: clamp(0.95rem, 0.83rem + 0.55vw, 1.25rem);  /* ~15px → ~20px */
+    --fs-body: clamp(0.92rem, 0.88rem + 0.22vw, 1.05rem);
+    --fs-lead: clamp(0.96rem, 0.9rem + 0.3vw, 1.12rem);
+    --fs-small: clamp(0.8rem, 0.76rem + 0.2vw, 0.92rem);
+
+    /* Fluid section rhythm */
+    --section-pad: clamp(48px, 8vw, 100px);
+    --gap-grid: clamp(14px, 2.5vw, 30px);
+    --why-gap: clamp(10px, 1.8vw, 20px);
+}
+
+body {
+    background-color: var(--pvc-white);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    color: var(--pvc-text-dark);
+}
+
+/* Safety net: no image on this page can ever overflow its column */
+img {
+    max-width: 100%;
+}
+
+/* =========================================
+   HERO SECTION
+   ========================================= */
+.about-page-hero {
+    background-color: var(--pvc-black);
+    min-height: clamp(300px, 50vh, 480px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    /* Uses the live header height set on <html> by the header script,
+       falling back to 70px if that variable isn't present. Was a hard
+       70px, which left a gap on mobile where the header is 56px. */
+    margin-top: var(--header-height, 70px);
+    padding: clamp(40px, 8vw, 80px) 0;
+    overflow: hidden;
+}
+
+.about-page-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(184, 134, 11, 0.1) 0%, rgba(0, 0, 0, 0) 60%);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.hero-title {
+    color: var(--pvc-white);
+    font-size: clamp(1.6rem, 1.05rem + 2.6vw, 2.75rem);
+    font-weight: 700;
+    margin-bottom: clamp(12px, 2vw, 20px);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--fs-body);
+    font-weight: 300;
+    margin-bottom: clamp(20px, 3vw, 30px);
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+}
+
+.gold-divider {
+    width: clamp(56px, 12vw, 80px);
+    height: 4px;
+    background: linear-gradient(90deg, var(--pvc-gold), var(--pvc-gold-light));
+    margin: 0 auto;
+    border-radius: 2px;
+    animation: expandLine 1.5s ease-out forwards;
+}
+
+@keyframes expandLine {
+    from {
+        transform: scaleX(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+/* =========================================
+   WHO WE ARE
+   ========================================= */
+.who-we-are {
+    padding: clamp(28px, 5vw, 40px) 0 clamp(16px, 3vw, 20px);
+    background: var(--pvc-white);
+}
+
+.text-content h2 {
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    color: var(--pvc-gold-dark);
+    margin-bottom: clamp(14px, 2.5vw, 26px);
+    letter-spacing: -0.3px;
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+
+.text-content p {
+    font-size: var(--fs-body);
+    line-height: 1.8;
+    color: var(--pvc-text-gray);
+    margin-bottom: clamp(14px, 2vw, 20px);
+}
+
+.text-content p.lead {
+    font-size: var(--fs-lead);
+    line-height: 1.7;
+}
+
+.gold-highlight {
+    color: var(--pvc-gold);
+    font-weight: 600;
+}
+
+/* =========================================
+   WORKSPACE SECTION (IMAGES)
+   ========================================= */
+.workspace-section {
+    padding: var(--section-pad) 0 clamp(32px, 6vw, 60px);
+    background: var(--pvc-off-white);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: clamp(28px, 5vw, 60px);
+}
+
+.section-header h2 {
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    color: var(--pvc-gold-dark);
+    margin-bottom: clamp(8px, 1.5vw, 15px);
+    letter-spacing: -0.3px;
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+
+.section-header p {
+    color: var(--pvc-text-gray);
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 620px;
+}
+
+/* --- IMAGE GRID -----------------------------------------------------------
+   Was locked to 3 columns at every width, which squeezed each photo down to
+   roughly 120px on a phone — the reason the pictures were barely visible.
+   auto-fit + minmax lets the browser choose the column count from the space
+   available: 1 column on phones, 2 on large phones/small tablets, 3 from
+   tablet up. Because there are only 3 cards, it never exceeds 3 columns.
+   -------------------------------------------------------------------------- */
+.shop-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+    gap: var(--gap-grid);
+    justify-content: center;
+}
+
+.shop-img-card {
+    background: #fff;
+    border-radius: clamp(10px, 1.5vw, 16px);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: var(--transition-smooth);
+    position: relative;
+    border: 1px solid transparent;
+    cursor: pointer;
+    /* Card drives the shape; the image simply fills it. Keeps every photo
+       the same proportion no matter how many columns are showing. */
+    aspect-ratio: 4 / 3;
+}
+
+.shop-img-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: block;
+}
+
+.shop-img-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(184, 134, 11, 0.15);
+    border-color: rgba(184, 134, 11, 0.5);
+}
+
+.shop-img-card:hover img {
+    transform: scale(1.05);
+}
+
+.img-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+    padding: clamp(22px, 4vw, 30px) clamp(12px, 2vw, 20px) clamp(12px, 2vw, 20px);
+    color: #fff;
+    text-align: center;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: var(--transition-smooth);
+}
+
+.shop-img-card:hover .img-caption {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Touch devices have no hover, so the captions could never be read there.
+   Show them permanently on any device that can't hover. */
+@media (hover: none) {
+    .img-caption {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   MISSION & VISION
+   ========================================= */
+.mission-vision-section {
+    padding: clamp(16px, 3vw, 20px) 0 var(--section-pad);
+    background: var(--pvc-white);
+}
+
+.mv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(14px, 3vw, 50px);
+    align-items: stretch;
+}
+
+.mv-card {
+    text-align: center;
+    padding: clamp(18px, 3.5vw, 40px) clamp(14px, 3vw, 40px);
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: clamp(14px, 2vw, 20px);
+    transition: var(--transition-smooth);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.mv-card:hover {
+    z-index: 10;
+    transform: translateY(-5px);
+    border-color: var(--pvc-gold);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+}
+
+.mv-icon {
+    width: clamp(46px, 11vw, 76px);
+    height: clamp(46px, 11vw, 76px);
+    background: rgba(184, 134, 11, 0.1);
+    color: var(--pvc-gold);
+    font-size: clamp(18px, 4.5vw, 30px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto clamp(10px, 2.5vw, 22px);
+    transition: var(--transition-smooth);
+    flex-shrink: 0;
+}
+
+.mv-card:hover .mv-icon {
+    background: var(--pvc-gold);
+    color: #fff;
+    transform: rotateY(180deg);
+}
+
+.mv-card h3 {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    margin-bottom: clamp(8px, 1.5vw, 16px);
+    color: var(--pvc-gold-dark);
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+/* --- FULL MISSION / VISION TEXT -------------------------------------------
+   The <p> sitting directly in .mv-card is truncated in the HTML itself
+   ("...affordable securit..."), and the complete sentence only exists inside
+   .matter-popup — which was hidden until hover, so the full text was never
+   readable on touch devices and was cut off everywhere else.
+
+   Fix without touching the HTML: hide the truncated teaser and promote the
+   popup into normal document flow, styled as ordinary card text. The full
+   sentence now shows on every screen size, no hover required.
+   -------------------------------------------------------------------------- */
+.mv-card>p {
+    display: none;
+}
+
+.matter-popup {
+    position: static;
+    width: 100%;
+    height: auto;
+    display: block;
+    padding: 0;
+    margin: 0;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+    color: var(--pvc-text-gray) !important;
+}
+
+.matter-popup p {
+    color: var(--pvc-text-gray) !important;
+    font-size: var(--fs-small);
+    line-height: 1.65;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* =========================================
+   WHY CHOOSE US GRID  (services / trust icons)
+   Flex + justify-content:center so a partly-filled last row sits centred
+   instead of being pushed to the left edge (5 cards = 3 + 2 centred).
+   ========================================= */
+.why-us-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: var(--why-gap);
+    margin-top: clamp(28px, 5vw, 60px);
+}
+
+.reason-card {
+    flex: 0 0 calc((100% - (var(--why-gap) * 2)) / 3);
+    max-width: calc((100% - (var(--why-gap) * 2)) / 3);
+    text-align: center;
+    padding: clamp(12px, 2vw, 20px) clamp(8px, 1.5vw, 18px);
+    background: var(--pvc-off-white);
+    border-radius: 12px;
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(6px, 1.2vw, 14px);
+}
+
+.reason-card:hover {
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transform: translateY(-5px);
+}
+
+.reason-icon {
+    font-size: clamp(20px, 5vw, 28px);
+    color: var(--pvc-gold);
+    margin: 0;
+    line-height: 1;
+}
+
+.reason-card h4 {
+    font-size: clamp(0.7rem, 0.62rem + 0.42vw, 0.9rem);
+    font-weight: 700;
+    margin: 0;
+    color: var(--pvc-text-dark);
+    line-height: 1.3;
+}
+
+/* =========================================
+   SERVICE AREA & CTA
+   ========================================= */
+.service-area-strip {
+    background: var(--pvc-black);
+    padding: clamp(32px, 6vw, 50px) 0;
+    text-align: center;
+}
+
+.service-area-strip h3 {
+    color: #fff;
+    font-size: var(--fs-h3);
+    font-weight: 300;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.service-area-strip span {
+    color: var(--pvc-gold);
+    font-weight: 700;
+    display: block;
+    font-size: clamp(1.15rem, 0.88rem + 1.35vw, 1.75rem);
+    margin-top: clamp(6px, 1.2vw, 10px);
+    text-transform: uppercase;
+    letter-spacing: clamp(1px, 0.3vw, 2px);
+    line-height: 1.3;
+}
+
+.final-cta {
+    background: var(--pvc-black);
+    padding: var(--section-pad) 0;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.final-cta h2 {
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    color: var(--pvc-gold-dark);
+    margin-bottom: clamp(24px, 4vw, 40px);
+    text-transform: uppercase;
+    line-height: 1.25;
+}
+
+.gold-grad-text {
+    background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn-group-custom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: clamp(12px, 2vw, 20px);
+}
+
+.btn-gold,
+.btn-outline-gold {
+    padding: clamp(13px, 2vw, 17px) clamp(26px, 4vw, 38px);
+    font-size: clamp(0.76rem, 0.7rem + 0.28vw, 0.92rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 50px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn-gold {
+    background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+    background-size: 200% auto;
+    color: #000;
+    transition: all 0.4s ease;
+    border: none;
+    box-shadow: 0 10px 20px rgba(184, 134, 11, 0.3);
+}
+
+.btn-gold:hover {
+    background-position: right center;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(184, 134, 11, 0.4);
+    color: #000;
+    border: none;
+}
+
+.btn-outline-gold {
+    background: transparent;
+    color: var(--pvc-gold);
+    transition: var(--transition-smooth);
+    border: 2px solid var(--pvc-gold);
+}
+
+.btn-outline-gold:hover {
+    background: var(--pvc-gold);
+    color: #000;
+    box-shadow: 0 0 30px rgba(184, 134, 11, 0.3);
+}
+
+/* =========================================================================
+   LAYOUT-ONLY BREAKPOINTS
+   Sizes are handled by the clamps above; these blocks only change how
+   things are arranged.
+   ========================================================================= */
+
+/* Tablet — tighten the mission/vision gap */
+@media (max-width: 991px) {
+    .mv-grid {
+        gap: clamp(14px, 2.5vw, 30px);
+    }
+}
+
+/* Phones — mission & vision stack so the full text has room to breathe */
+@media (max-width: 575px) {
+    .mv-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Small phones — 2 services per row, CTA buttons stacked full width */
+@media (max-width: 420px) {
+    .reason-card {
+        flex: 0 0 calc((100% - var(--why-gap)) / 2);
+        max-width: calc((100% - var(--why-gap)) / 2);
+    }
+
+    .btn-group-custom {
+        flex-direction: column;
+    }
+
+    .btn-gold,
+    .btn-outline-gold {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+
+    .gold-divider,
+    .shop-img-card,
+    .shop-img-card img,
+    .mv-card,
+    .mv-icon,
+    .reason-card {
+        animation: none !important;
+        transition: none !important;
+    }
+}

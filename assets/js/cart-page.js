@@ -13,12 +13,14 @@ function loadCartPage() {
     const emptyCartMessage = document.getElementById('emptyCartMessage');
     const cartSummarySection = document.querySelector('.cart-summary-section');
     const stepIndicator = document.getElementById('rfqStepIndicator');
+    const stickyFooter = document.querySelector('.cart-sticky-footer');
 
     if (cart.length === 0) {
         // Show empty cart message, hide step indicator, reset to step 1
         if (cartSummarySection) cartSummarySection.style.display = 'none';
         if (emptyCartMessage) emptyCartMessage.style.display = 'block';
         if (stepIndicator) stepIndicator.classList.add('hidden');
+        if (stickyFooter) stickyFooter.style.display = 'none';
         goToStep(1);
         return;
     }
@@ -27,6 +29,7 @@ function loadCartPage() {
     if (cartSummarySection) cartSummarySection.style.display = 'block';
     if (emptyCartMessage) emptyCartMessage.style.display = 'none';
     if (stepIndicator) stepIndicator.classList.remove('hidden');
+    if (stickyFooter) stickyFooter.style.display = '';
 
     if (!cartItemsContainer) {
         return;

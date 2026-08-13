@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - PVC Global Security | Leading AIoT Surveillance</title>
+    <title>About Us - PVC Security Solutions | Leading AIoT Surveillance</title>
     <meta name="description"
-        content="Learn about PVC Security's mission to lead the future of AIoT through innovative surveillance technology and reliable security infrastructure in Andhra Pradesh & Telangana.">
+        content="Learn about PVC Security Solutions' mission to lead the future of AIoT through innovative surveillance technology and reliable security infrastructure in Andhra Pradesh & Telangana.">
     <?php include 'head.php'; ?>
     <link rel="stylesheet" href="assets/css/about-us.css">
     <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
@@ -20,15 +20,15 @@
     <section class="workspace-section">
         <div class="container">
             <div class="section-header" data-aos="fade-up">
-                <h2>Inside PVC Security</h2>
+                <h2>PVC Security Solutions</h2>
                 <p>A glimpse of our workspace and customer service environment</p>
             </div>
-            
+
             <div class="shop-images-grid">
                 <!-- Image 1 -->
                 <div class="shop-img-card" data-aos="zoom-in" data-aos-delay="100">
                     <img src="assets/img/grouppic.jpg" alt="Office Display">
-                    <div class="img-caption">PVC Security – Office & Display Area</div>
+                    <div class="img-caption">PVC Security Solutions – Office &amp; Display Area</div>
                 </div>
 
                 <!-- Image 2 -->
@@ -41,22 +41,23 @@
                 <!-- Image 3 -->
                 <div class="shop-img-card" data-aos="zoom-in" data-aos-delay="300">
                     <img src="assets/img/shopin.jpeg" alt="Consultation Desk">
-                    <div class="img-caption">Customer Support & Consultation Desk</div>
+                    <div class="img-caption">Customer Support &amp; Consultation Desk</div>
                 </div>
             </div>
         </div>
     </section>
+
     <!-- WHO WE ARE -->
     <section class="who-we-are">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10 text-content">
                     <div class="row">
-                        <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
-                            <h2>Your Partner for a<br><span class="gold-grad-text">Safer Future</span></h2>
+                        <div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-right">
+                            <h2>About us</h2>
                         </div>
-                        <div class="col-lg-6" data-aos="fade-left">
-                            <p class="lead" style="font-weight: 500; color: #000;">PVC Security is a professional
+                        <div class="col-lg-8" data-aos="fade-left">
+                            <p class="lead" style="font-weight: 500; color: #000;">PVC Security Solutions is a professional
                                 security solutions provider offering CCTV cameras, surveillance systems, and complete
                                 safety solutions for homes and businesses.</p>
                             <p>We are not just a seller; we are a dedicated service provider focused on <span
@@ -69,41 +70,11 @@
             </div>
         </div>
     </section>
+
     <!-- MISSION & VISION -->
     <section class="mission-vision-section">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="mv-grid">
-                        <!-- Mission -->
-                        <div class="mv-card" data-aos="fade-up">
-                            <div class="mv-icon">
-                                <i class="fa-solid fa-bullseye"></i>
-                            </div>
-                            <h3>Our Mission</h3>
-                            <p>To deliver reliable, high-quality, and affordable securit...</p>
-                            <!-- MATTER POPUP -->
-                            <div class="matter-popup">
-                                <p>To deliver reliable, high-quality, and affordable security solutions that protect
-                                    people, property, and assets effectively.</p>
-                            </div>
-                        </div>
-                        <!-- Vision -->
-                        <div class="mv-card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="mv-icon">
-                                <i class="fa-solid fa-eye"></i>
-                            </div>
-                            <h3>Our Vision</h3>
-                            <p>To become the most trusted and preferred security...</p>
-                            <!-- MATTER POPUP -->
-                            <div class="matter-popup">
-                                <p>To become the most trusted and preferred security partner across Andhra Pradesh and
-                                    Telangana for all safety needs.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
 
             <!-- TRUST ICONS -->
             <div class="why-us-grid">
@@ -131,6 +102,7 @@
         </div>
     </section>
 
+    <?php include 'global_footer.php'; ?>
 
 
     <!-- Scripts -->

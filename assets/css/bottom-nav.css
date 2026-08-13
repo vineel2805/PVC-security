@@ -4,6 +4,10 @@
    Material Design 3 / Android-First Soft Luxury Navigation
    Design 2: Circular Active Indicator Container
    Branding: Black, White, Luxury Gold (#D4A017)
+
+   UPDATED: full-width bar flush with the bottom edge of the
+   viewport (no floating margins/pill shape), reduced height,
+   and smaller icons/labels.
    ============================================= */
 
 @media (max-width: 991px) {
@@ -14,28 +18,49 @@
 
 @media (max-width: 991px) {
 
-    /* Navigation Container */
+    /* Navigation Container — edge-to-edge, flush with bottom, with room to breathe */
     .pvc-bottom-nav {
         position: fixed !important;
-        bottom: calc(14px + env(safe-area-inset-bottom)) !important;
-        left: 16px !important;
-        right: 16px !important;
-        width: calc(100% - 32px) !important;
-        height: 76px !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: calc(68px + env(safe-area-inset-bottom)) !important;
+        padding-bottom: env(safe-area-inset-bottom) !important;
         background: #000 !important;
-        border-radius: 999px !important;
-        /*border: 1px solid rgba(212, 160, 23, 0.08) !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;*/
+        border-radius: 0 !important;
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
         z-index: 99999 !important;
         box-sizing: border-box !important;
-        padding: 0 6px !important;
+        padding-left: 4px !important;
+        padding-right: 4px !important;
         contain: layout style;
     }
 
-    /* Navigation Item — 48x48dp minimum touch target with Android CSS Ripple */
+    .pvc-bottom-cart-badge {
+        position: absolute;
+        top: -2px;
+        right: -4px;
+        min-width: 15px;
+        height: 15px;
+        padding: 0 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        border-radius: 999px;
+        background: #D4A017;
+        color: #000;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        font-size: 9px;
+        font-weight: 800;
+        line-height: 1;
+        z-index: 5;
+    }
+
+    /* Navigation Item — reduced touch target, still tappable */
     .pvc-bottom-nav-item {
         display: flex !important;
         flex-direction: column !important;
@@ -44,18 +69,18 @@
         text-decoration: none !important;
         color: #6B7280 !important;
         font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-        font-size: 12px !important;
+        font-size: 10px !important;
         font-weight: 500 !important;
         position: relative !important;
         height: 100% !important;
         flex: 1 !important;
-        padding: 6px 0 2px !important;
-        gap: 2px !important;
+        padding: 8px 0 12px !important;
+        gap: 3px !important;
         min-height: 48px !important;
         box-sizing: border-box !important;
         background: transparent !important;
         border: none !important;
-        border-radius: 16px !important;
+        border-radius: 12px !important;
         margin: 0 !important;
         transition: background-color 150ms ease, color 180ms cubic-bezier(.4, 0, .2, 1) !important;
         -webkit-tap-highlight-color: transparent !important;
@@ -66,10 +91,13 @@
         background-color: rgba(212, 160, 23, 0.10) !important;
     }
 
-    /* Icon Container Wrapper */
+    /* Icon Container Wrapper — smaller, protected from flex squish */
     .pvc-nav-icon-wrap {
-        width: 36px;
-        height: 36px;
+        position: relative;
+        width: 28px;
+        height: 28px;
+        aspect-ratio: 1 / 1;
+        flex-shrink: 0;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -83,11 +111,11 @@
         transform: scale(1);
     }
 
-    /* Dual-State SVG Icon Rules */
+    /* Dual-State SVG Icon Rules — smaller icons */
     .pvc-bottom-nav-item .icon-outline {
         display: block !important;
-        width: 24px !important;
-        height: 24px !important;
+        width: 19px !important;
+        height: 19px !important;
         stroke: #fff !important;
         stroke-width: 2px !important;
         fill: none !important;
@@ -98,8 +126,8 @@
 
     .pvc-bottom-nav-item .icon-filled {
         display: none !important;
-        width: 22px !important;
-        height: 22px !important;
+        width: 17px !important;
+        height: 17px !important;
         fill: #FFFFFF !important;
         stroke: none !important;
         margin: 0 !important;
@@ -107,38 +135,37 @@
         transition: transform 180ms ease !important;
     }
 
-    /* Inactive Labels — 12px Inter 500, #6B7280, 0.85 opacity */
+    /* Inactive Labels — smaller */
     .pvc-bottom-nav-item span {
-        font-size: 12px !important;
+        font-size: 10px !important;
         font-weight: 500 !important;
         color: #fff !important;
         opacity: 0.85;
         transition: color 180ms cubic-bezier(.4, 0, .2, 1), opacity 180ms cubic-bezier(.4, 0, .2, 1), font-weight 180ms cubic-bezier(.4, 0, .2, 1) !important;
-        line-height: 1.2 !important;
+        line-height: 1.1 !important;
     }
 
-    /* Active State Underline Indicator — 28px width, 3px height, 6px distance from label */
+    /* Active State Underline Indicator */
     .pvc-bottom-nav-item::after {
         content: '';
         position: absolute;
-        bottom: 2px;
+        bottom: 3px;
         left: 50%;
         transform: translateX(-50%) scaleX(0);
-        width: 28px;
-        height: 3px;
+        width: 22px;
+        height: 2px;
         background-color: #D4A017;
         border-radius: 999px;
         transition: transform 180ms cubic-bezier(.4, 0, .2, 1), opacity 180ms cubic-bezier(.4, 0, .2, 1);
         opacity: 0;
     }
 
-    /* ACTIVE CONTAINER (Design 2: Gold Gradient Circle) */
+    /* ACTIVE CONTAINER (Design 2: Gold Gradient Circle) — smaller */
     .pvc-bottom-nav-item.active .pvc-nav-icon-wrap {
-        width: 44px !important;
-        height: 44px !important;
+        width: 34px !important;
+        height: 34px !important;
         border-radius: 50% !important;
         background: linear-gradient(180deg, #B8860B 0%, #D4A017 50%, #B8860B 100%) !important;
-        /* box-shadow: 0 6px 18px rgba(212, 160, 23, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.45) !important;*/
         border: none !important;
         animation: pvcCirclePop 180ms cubic-bezier(.4, 0, .2, 1) forwards;
     }
@@ -164,7 +191,7 @@
         transform: scale(1.05) !important;
     }
 
-    /* Active Label — Inter 600, 12px, #D4A017 */
+    /* Active Label */
     .pvc-bottom-nav-item.active span {
         color: #D4A017 !important;
         font-weight: 600 !important;
@@ -190,10 +217,60 @@
         }
     }
 
-    /* Floating WhatsApp Position Adjustment */
-    .pvc-floating-whatsapp {
-        bottom: calc(98px + env(safe-area-inset-bottom)) !important;
+    /* =============================================
+       CENTER SEARCH BUTTON
+       Permanently raised gold circle — resized to match
+       the shorter bar height
+       ============================================= */
+    .pvc-bottom-nav-item.pvc-nav-search-center {
+        position: relative;
+        z-index: 2;
+        flex: 0.9 !important;
+        /* Reset native <button> UA styling that was squashing the circle */
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        outline: none !important;
+        cursor: pointer !important;
+        font: inherit !important;
+        line-height: normal !important;
     }
+
+    .pvc-bottom-nav-item.pvc-nav-search-center .pvc-nav-icon-wrap {
+        width: 42px;
+        height: 42px;
+        aspect-ratio: 1 / 1;
+        flex-shrink: 0;
+        background: linear-gradient(180deg, #B8860B 0%, #D4A017 50%, #B8860B 100%);
+        border: 2px solid #000;
+        box-shadow: 0 5px 14px rgba(212, 160, 23, 0.4);
+        transform: translateY(-12px);
+    }
+
+    .pvc-bottom-nav-item.pvc-nav-search-center .pvc-nav-icon-wrap svg {
+        stroke: #000 !important;
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .pvc-bottom-nav-item.pvc-nav-search-center span {
+        transform: translateY(-9px);
+        color: #D4A017 !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+    }
+
+    /* Keep the raised look even when marked active — just scale up slightly */
+    .pvc-bottom-nav-item.pvc-nav-search-center.active .pvc-nav-icon-wrap {
+        width: 42px !important;
+        height: 42px !important;
+        transform: translateY(-12px) scale(1.05);
+        animation: none;
+    }
+
+    .pvc-bottom-nav-item.pvc-nav-search-center::after {
+        display: none !important;
+    }
+
 }
 
 @media (min-width: 992px) {

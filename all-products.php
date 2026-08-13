@@ -1,15 +1,13 @@
-
 <?php
 /* ===================================================================
-   shop by brands page 
+   shop by brands page
    =================================================================== */
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
 include 'connect.php';
 include 'product-helpers.php';
-
-
 
 $defaultImg = get_default_placeholder_img();
 
@@ -24,16 +22,14 @@ function db_image($path, $defaultImg) {
     return $path;
 }
 
-
 function normalizeCategoryNameForDedup($name) {
     $name = preg_replace('/\s+/u', ' ', trim((string)$name));
     return mb_strtolower($name, 'UTF-8');
 }
 
 /* ===================================================================
-   DATA LOADING — identical to your original logic, unchanged
+   DATA LOADING
    =================================================================== */
-
 $selectedSearch    = isset($_GET['q'])       ? trim($_GET['q'])       : '';
 $selectedBrand     = isset($_GET['brand'])   ? trim($_GET['brand'])   : '';
 $selectedCat       = isset($_GET['cat'])     ? trim($_GET['cat'])     : '';
@@ -148,15 +144,8 @@ if (!empty($selectedSearchEscaped)) {
     $viewMode = 'products';
 } elseif (!empty($selectedCatNameEscaped)) {
     // CROSS-BRAND CATEGORY VIEW: a merged "All Brands" tile was clicked.
-    // Mirrors all-categories.php's "products_named" branch — gather
-    // every category id, across every brand, whose normalized name
-    // matches (same TRIM/REPLACE/UPPER whitespace-collapse + case-fold
-    // comparison used there), then list products from all of them
-    // together instead of just one brand's copy of the category.
     $viewMode = 'products';
-
     $brandClause = $brandRow ? "AND c.brandid = '{$brandRow['brandid']}'" : '';
-
     $cidRes = mysqli_query($con, "
         SELECT c.cid
         FROM   category c
@@ -176,18 +165,40 @@ if (!empty($selectedSearchEscaped)) {
     // Default view: Show brand banners
     $viewMode = 'brands';
 } elseif (empty($selectedProductIdEscaped) && $brandRow && !$catRow) {
+    /* ---------------------------------------------------------------
+       EMPTY-CATEGORY FIX
+       Only build tiles for categories that actually hold at least one
+       visible product. The HAVING clause drops "0 Products" categories
+       at the database level so they never reach the grid, and the
+       count itself only tallies products whose brand + category are
+       both still displayed, so the number on the tile matches what the
+       user sees after clicking it.
+       --------------------------------------------------------------- */
     $tr = mysqli_query($con, "
-        SELECT c.*, 
-               (SELECT COUNT(p.pid) FROM products p WHERE p.pcat = c.cid AND p.display_status = 1) AS product_count
+        SELECT c.*,
+               (
+                   SELECT COUNT(p.pid)
+                   FROM   products p
+                   JOIN   brands   pb ON pb.brandid = p.brandid
+                   WHERE  p.pcat = c.cid
+                     AND  p.display_status  = 1
+                     AND  pb.display_status = 1
+               ) AS product_count
         FROM   category c
         WHERE  c.brandid = '{$brandRow['brandid']}'
           AND  c.display_status = 1
+        HAVING product_count > 0
         ORDER  BY c.cname ASC
     ");
     if ($tr && mysqli_num_rows($tr) > 0) {
         while ($tile = mysqli_fetch_assoc($tr)) {
             $brandCategoryTiles[] = $tile;
         }
+    }
+    // If every category for this brand came back empty, fall through to
+    // the flat product list for the brand instead of rendering an empty
+    // tile grid with a misleading "0 Categories Found".
+    if (!empty($brandCategoryTiles)) {
         $viewMode = 'tiles';
     }
 }
@@ -201,7 +212,6 @@ if ($viewMode === 'products') {
     if (!empty($selectedProductIdEscaped)) {
         $whereClauses[] = "p.pid = '{$selectedProductIdEscaped}'";
     }
-
     if (!empty($selectedSearchEscaped)) {
         $whereClauses[] = "(
             LOWER(p.pname)        LIKE '%{$selectedSearchEscaped}%'
@@ -211,7 +221,6 @@ if ($viewMode === 'products') {
          OR LOWER(c.cname)        LIKE '%{$selectedSearchEscaped}%'
         )";
     }
-
     if ($brandRow && $catRow) {
         $whereClauses[] = "p.pcat = '{$catRow['cid']}'";
     } elseif (!empty($selectedCatNameEscaped)) {
@@ -221,8 +230,6 @@ if ($viewMode === 'products') {
             }, $namedCatIds)) . "'";
             $whereClauses[] = "p.pcat IN ($inList)";
         } else {
-            // No category anywhere matched this name — force zero rows
-            // instead of silently falling through to "all products".
             $whereClauses[] = "1=0";
         }
     } elseif ($brandRow) {
@@ -245,10 +252,10 @@ if ($viewMode === 'products') {
     $conditions[] = "p.display_status = 1";
     $conditions[] = "b.display_status = 1";
     $conditions[] = "c.display_status = 1";
+
     $query .= " WHERE " . implode(' AND ', $conditions) . " ORDER BY p.pname ASC";
 
     $res = mysqli_query($con, $query);
-
     if ($res) {
         $totalRows = mysqli_num_rows($res);
         while ($row = mysqli_fetch_assoc($res)) {
@@ -271,19 +278,18 @@ $pageTitle .= " - PVC Security Systems";
 /* ===================================================================
    RENDER HELPERS — shared by the full page and the AJAX partial
    =================================================================== */
-
 function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products, $totalRows, $catRow, $selectedSearch, $selectedCatName, $defaultImg) {
     global $brands;
     ob_start();
     ?>
     <?php if ($viewMode === 'brands'): ?>
+
     <div class="products-grid brands-view" id="productsGrid">
         <?php foreach ($brands as $b): ?>
         <a href="all-products.php?brand=<?php echo urlencode($b['brandid']); ?>"
            class="brand-card js-product-nav"
            style="text-decoration:none; color:inherit;"
-           data-name="<?php echo htmlspecialchars($b['brandname']); ?>"
-           data-aos="fade-up">
+           data-name="<?php echo htmlspecialchars($b['brandname']); ?>">
             <div class="brand-image">
                 <img src="<?php echo htmlspecialchars(db_image($b['imagelink'] ?? '', $defaultImg)); ?>"
                      alt="<?php echo htmlspecialchars($b['brandname']); ?>"
@@ -293,29 +299,12 @@ function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products
         </a>
         <?php endforeach; ?>
     </div>
-    
+
     <?php elseif ($viewMode === 'tiles'): ?>
-    
-    <?php if ($brandRow && !$catRow && empty($selectedCatName)): ?>
-        <div class="brand-banner-section" data-aos="fade-up">
-            <div class="brand-banner-content">
-                <img src="<?php echo htmlspecialchars(db_image($brandRow['imagelink'] ?? '', $defaultImg)); ?>"
-                     alt="<?php echo htmlspecialchars($brandRow['brandname']); ?>"
-                     loading="lazy"
-                     class="brand-banner-image"
-                     onerror="this.onerror=null; this.src='<?php echo $defaultImg; ?>';">
-                <div class="brand-banner-meta">
-                    <h2 class="brand-banner-title"><?php echo htmlspecialchars($brandRow['brandname']); ?></h2>
-                    <span class="brand-banner-count"><?php echo count($brandCategoryTiles); ?> Categor<?php echo count($brandCategoryTiles) !== 1 ? 'ies' : 'y'; ?></span>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
 
     <div class="products-grid tiles-view" id="productsGrid">
         <?php foreach ($brandCategoryTiles as $tile):
             $tileImg = htmlspecialchars(db_image($tile['cimage'] ?? '', $defaultImg));
-
             // A tile with a 'cids' array is a MERGED "All Brands" tile
             if (isset($tile['cids'])) {
                 $tileHref = 'all-products.php?catname=' . urlencode($tile['cname']);
@@ -327,16 +316,13 @@ function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products
         <a href="<?php echo $tileHref; ?>"
            class="product-card js-product-nav"
            style="text-decoration:none; color:inherit;"
-           data-name="<?php echo htmlspecialchars($tile['cname']); ?>"
-           data-aos="fade-up">
-
+           data-name="<?php echo htmlspecialchars($tile['cname']); ?>">
             <div class="product-image">
                 <img src="<?php echo $tileImg; ?>"
                      alt="<?php echo htmlspecialchars($tile['cname']); ?>"
                      loading="lazy"
                      onerror="this.onerror=null; this.src='<?php echo $defaultImg; ?>';">
             </div>
-
             <div class="product-info">
                 <p class="product-title">
                     <?php echo htmlspecialchars($tile['cname']); ?>
@@ -345,12 +331,12 @@ function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products
                     <span class="product-count-text"><?php echo (int)$tile['product_count']; ?> Product<?php echo (int)$tile['product_count'] !== 1 ? 's' : ''; ?></span>
                 <?php endif; ?>
             </div>
-
         </a>
         <?php endforeach; ?>
     </div>
 
     <?php else: ?>
+
     <div class="products-grid" id="productsGrid">
         <?php if ($totalRows > 0): ?>
             <?php foreach ($products as $product):
@@ -364,54 +350,43 @@ function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products
                  data-product-id="<?php echo htmlspecialchars($product['pid']); ?>"
                  data-model="<?php echo htmlspecialchars($product['pid']); ?>"
                  data-price="<?php echo htmlspecialchars($priceVal); ?>"
-                 data-image="<?php echo $imgSrc; ?>"
-                 data-aos="fade-up">
-
+                 data-stock="<?php echo $isOutOfStock ? 'out' : 'in'; ?>"
+                 data-image="<?php echo $imgSrc; ?>">
                 <div class="product-image">
                     <img src="<?php echo $imgSrc; ?>"
                          alt="<?php echo htmlspecialchars($product['pname']); ?>"
                          loading="lazy"
                          onerror="this.onerror=null; this.src='<?php echo $defaultImg; ?>';">
                 </div>
-
                 <div class="product-info">
                     <p class="product-title">
                         <?php echo htmlspecialchars($product['pname']); ?>
                     </p>
-
                     <?php if ($isOutOfStock): ?>
                         <span class="product-status-badge out-of-stock">OUT OF STOCK</span>
                     <?php else: ?>
                         <span class="product-status-badge in-stock">IN-STOCK</span>
                     <?php endif; ?>
-
                     <?php if (!empty($product['pdescription'])): ?>
                         <p class="product-description">
                             <?php echo htmlspecialchars($product['pdescription']); ?>
                         </p>
                     <?php endif; ?>
                 </div>
-
                 <div class="product-card-controls">
-                    <?php if ($isOutOfStock): ?>
-                        <button class="btn out-of-stock-label" disabled>Out of Stock</button>
-                    <?php else: ?>
-                        <button class="card-cart-add"
-                                data-id="<?php echo htmlspecialchars($product['pid']); ?>"
-                                aria-label="Add to cart">
-                            Add to Cart
-                        </button>
-
-                        <div class="card-qty"
-                             data-id="<?php echo htmlspecialchars($product['pid']); ?>"
-                             style="display:none;">
-                            <button class="qty-decrease"><i class="fa-solid fa-minus"></i></button>
-                            <span class="qty-value">1</span>
-                            <button class="qty-increase"><i class="fa-solid fa-plus"></i></button>
-                        </div>
-                    <?php endif; ?>
+                    <button class="card-cart-add"
+                            data-id="<?php echo htmlspecialchars($product['pid']); ?>"
+                            aria-label="Add to cart">
+                        Add to Cart
+                    </button>
+                    <div class="card-qty"
+                         data-id="<?php echo htmlspecialchars($product['pid']); ?>"
+                         style="display:none;">
+                        <button class="qty-decrease"><i class="fa-solid fa-minus"></i></button>
+                        <span class="qty-value">1</span>
+                        <button class="qty-increase"><i class="fa-solid fa-plus"></i></button>
+                    </div>
                 </div>
-
             </div>
             <?php endforeach; ?>
         <?php else: ?>
@@ -454,8 +429,6 @@ function renderBackButton($brandRow, $catRow, $selectedCatName) {
     }
 
     if (!$brandRow && !empty($selectedCatName)) {
-        // Came from a merged "All Brands" tile via ?catname=... — go
-        // back to the tile grid, same as the brand-scoped case above.
         ob_start();
         ?>
         <div style="margin-bottom:16px;">
@@ -520,26 +493,31 @@ function renderResultsCount($viewMode, $brandCategoryTiles, $totalRows) {
 /* ===================================================================
    AJAX BRANCH — returns JSON only, no header/footer, no full page
    =================================================================== */
-
 if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
+    while (ob_get_level() > 0) {
+        ob_end_clean();
+    }
     header('Content-Type: application/json');
+    // Never let a proxy or the browser serve a stale filter payload —
+    // a cached response is one of the ways the grid appears "stuck".
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Pragma: no-cache');
+
     echo json_encode([
         'gridHtml'        => renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products, $totalRows, $catRow, $selectedSearch, $selectedCatName, $defaultImg),
         'backButtonHtml'  => renderBackButton($brandRow, $catRow, $selectedCatName),
         'breadcrumbHtml'  => renderBreadcrumb($brandRow, $catRow, $selectedCatName),
         'resultsCountHtml'=> renderResultsCount($viewMode, $brandCategoryTiles, $totalRows),
         'showSort'        => $viewMode === 'products',
+        'viewMode'        => $viewMode,
         'pageTitle'       => $pageTitle,
         'activeBrand'     => $resolvedBrandId,
     ]);
     exit;
 }
-
-;
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -547,12 +525,32 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
     <meta name="description"
         content="Explore PVC Security's extensive catalog of high-performance CCTV cameras, NVRs, DVRs, and access control systems from industry leaders like Hikvision and Dahua.">
      <?php include 'head.php'; ?>
-     <link rel="stylesheet" href="assets/css/all-products.css">
-
+     <link rel="stylesheet" href="assets/css/all-products.css?v=<?php echo filemtime(__DIR__ . '/assets/css/all-products.css'); ?>">
     <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
     <script src="assets/js/cart-core.js"></script>
-</head>
 
+<style>
+/* ===================================================================
+   AJAX LOADING STATE — dim only, never collapse height (avoids the
+   layout jump that used to throw the viewport down to the footer).
+   =================================================================== */
+#productsGridWrap{
+    overflow-anchor: none;   /* stop Chrome scroll-anchoring from yanking the page */
+    min-height: 200px;
+}
+#productsGridWrap.is-loading{
+    opacity: .45;
+    pointer-events: none;
+    transition: opacity .15s ease;
+}
+
+/* Keep the sidebar's own scrolling contained so centering the active
+   brand can never bubble up into a window scroll. */
+#brandFilters{
+    overscroll-behavior: contain;
+}
+</style>
+</head>
 <body data-active-brand="<?php echo htmlspecialchars($resolvedBrandId); ?>">
     <?php include 'header.php'; ?>
     <?php include 'includes/header.php'; ?>
@@ -569,14 +567,13 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 </section>
 
 <!-- Main Products Section -->
-<section class="all-products-section">
+<section class="all-products-section" id="allProductsSection">
     <div class="container-fluid">
         <div class="row">
 
             <!-- Left Sidebar -->
             <div class="col-lg-3 col-md-4">
                 <div class="product-sidebar-wrapper">
-
                     <div class="product-sidebar" id="productSidebar">
                         <div class="product-sidebar-header d-md-none">
                             <h4>Filters</h4>
@@ -585,18 +582,11 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                             </button>
                         </div>
 
-                        <div class="filter-widget">
-                            <label class="filter-checkbox-label">
-                                <input type="checkbox" id="inStockFilter">
-                                <span class="checkmark"></span>
-                                Display In-stock Product
-                            </label>
-                        </div>
+                    
 
                         <div class="filter-widget">
                             <h4>Shop by Brand</h4>
                             <div class="filter-options" id="brandFilters">
-
                                 <label class="filter-checkbox-label <?php echo empty($selectedBrand) ? 'is-checked' : ''; ?>"
                                        data-url="all-products.php">
                                     <input type="checkbox" name="brand" value=""
@@ -605,7 +595,6 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                                     <span class="checkmark"></span>
                                     ALL BRANDS
                                 </label>
-
                                 <?php foreach ($brands as $b):
                                     $isActive = ($selectedBrand === (string)$b['brandid']);
                                 ?>
@@ -619,14 +608,12 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                                     <?php echo htmlspecialchars(strtoupper($b['brandname'])); ?>
                                 </label>
                                 <?php endforeach; ?>
-
                             </div>
                         </div>
 
                         <button class="clear-filters-btn" id="clearFilters">
                             <i class="fa-solid fa-xmark"></i> Clear All Filters
                         </button>
-
                     </div>
                 </div>
             </div>
@@ -636,24 +623,16 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                 <div class="products-content-area">
 
                     <!-- Top Bar -->
-                    <div class="products-toolbar">
-
-                        <!-- Category Page Search -->
-                        
-
-                        <!-- Filter / Results / Sort row -->
+                    <div class="products-toolbar" id="productsToolbar">
                         <div class="toolbar-controls-row">
-
                             <button class="mobile-filter-toggle d-md-none" id="mobileFilterToggle">
                                 <i class="fa-solid fa-sliders"></i>
                                 <span>Filter</span>
                             </button>
-
                             <div class="results-count" id="resultsCount">
                                 <?php echo renderResultsCount($viewMode, $brandCategoryTiles, $totalRows); ?>
                             </div>
-
-                            <div class="sort-wrapper" id="sortWrapper">
+                            <div class="sort-wrapper" id="sortWrapper"<?php echo $viewMode === 'products' ? '' : ' style="display:none;"'; ?>>
                                 <i class="fa-solid fa-arrow-up-short-wide sort-icon"></i>
                                 <label class="d-none d-md-inline">Sort By</label>
                                 <select id="sortSelect" class="sort-select">
@@ -663,7 +642,6 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                                 </select>
                                 <i class="fa-solid fa-chevron-down sort-chevron d-md-none"></i>
                             </div>
-
                         </div>
                     </div>
 
@@ -674,65 +652,132 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                     <div id="backButtonWrap"><?php echo renderBackButton($brandRow, $catRow, $selectedCatName); ?></div>
 
                     <!-- Grid (this is the only part AJAX swaps) -->
-                    <div id="productsGridWrap">
+                    <div id="productsGridWrap" data-view-mode="<?php echo htmlspecialchars($viewMode); ?>">
                         <?php echo renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products, $totalRows, $catRow, $selectedSearch, $selectedCatName, $defaultImg); ?>
                     </div>
 
                 </div>
             </div>
-
         </div>
     </div>
 </section>
+
+    <?php include 'global_footer.php'; ?>
 
 <script src="assets/js/plugins/bootstrap.min.js"></script>
 <script src="assets/js/plugins/aos.js"></script>
 <script src="assets/js/plugins/fontawesome.js"></script>
 <script src="assets/js/main.js"></script>
-
 <script src="assets/js/global_footer.js"></script>
 <script src="assets/js/global_search.js"></script>
 
 <script>
 /* ===================================================================
-   AJAX product loading — replaces the old window.location.href reload
+   Browser owns scroll restoration on back/forward otherwise, and it
+   restores AFTER our AJAX swap has changed the page height — which is
+   how the viewport used to end up parked on the footer.
    =================================================================== */
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
 
-async function loadProducts(url, pushState = true) {
+/* ===================================================================
+   AJAX product loading
+   ---------------------------------------------------------------
+   STUCK-FILTER FIX, three parts:
+     1. requestSeq  — every call takes a ticket; a response whose
+                      ticket is no longer the newest is dropped, so a
+                      slow first request can never overwrite a fast
+                      second one.
+     2. AbortController — the in-flight request is actually cancelled
+                      when a new filter is clicked, instead of being
+                      left to land later.
+     3. no-store    — the browser can't hand back a cached JSON body
+                      for a URL you already visited this session.
+   The old code had none of these, so clicking brand A then brand B
+   quickly could leave the grid showing A, or leave `is-loading`
+   stuck on forever with a dimmed, click-through-disabled grid.
+   =================================================================== */
+let productsRequestSeq  = 0;
+let productsAbortCtl    = null;
+let lastResultsCountHtml = document.getElementById('resultsCount').innerHTML;
+
+async function loadProducts(url, pushState = true, keepScroll = false) {
     if (!url) url = 'all-products.php';
 
     const gridWrap = document.getElementById('productsGridWrap');
-    gridWrap.classList.add('is-loading');   // CSS below just dims it, no height change
+    if (!gridWrap) return;
+
+    const myTicket = ++productsRequestSeq;
+
+    // Cancel whatever is still in flight from the previous click.
+    if (productsAbortCtl) {
+        try { productsAbortCtl.abort(); } catch (e) {}
+    }
+    productsAbortCtl = ('AbortController' in window) ? new AbortController() : null;
+
+    gridWrap.classList.add('is-loading');
 
     let data;
     try {
         const sep = url.includes('?') ? '&' : '?';
-        const res = await fetch(url + sep + 'ajax=1');
-        data = await res.json();
+        const opts = {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            cache: 'no-store',
+            credentials: 'same-origin'
+        };
+        if (productsAbortCtl) opts.signal = productsAbortCtl.signal;
+
+        const res = await fetch(url + sep + 'ajax=1', opts);
+        const raw = await res.text();
+
+        try {
+            data = JSON.parse(raw);
+        } catch (parseErr) {
+            console.error('Products response was not valid JSON. Raw response:', raw);
+            if (myTicket === productsRequestSeq) gridWrap.classList.remove('is-loading');
+            return;
+        }
     } catch (err) {
+        // An aborted request is expected — the newer request owns the
+        // loading state now, so leave it alone and bail quietly.
+        if (err && err.name === 'AbortError') return;
         console.error('Failed to load products:', err);
-        gridWrap.classList.remove('is-loading');
+        if (myTicket === productsRequestSeq) gridWrap.classList.remove('is-loading');
         return;
     }
 
-    document.getElementById('productsGridWrap').innerHTML = data.gridHtml;
-    document.getElementById('resultsCount').innerHTML     = data.resultsCountHtml;
-    document.getElementById('backButtonWrap').innerHTML   = data.backButtonHtml;
-    document.getElementById('breadcrumbNav').innerHTML    = data.breadcrumbHtml;
-    document.getElementById('sortWrapper').style.display  = data.showSort ? '' : 'none';
+    // A newer click already superseded this response — discard it.
+    if (myTicket !== productsRequestSeq) return;
+
+    gridWrap.innerHTML = data.gridHtml;
+    gridWrap.dataset.viewMode = data.viewMode || 'products';
+
+    // Images injected via innerHTML with loading="lazy" can get stuck:
+    // Chrome computes viewport intersection at insertion time and,
+    // because an innerHTML swap fires no scroll/resize, sometimes never
+    // recomputes. This content is always what the user is looking at,
+    // so load it eagerly.
+    gridWrap.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
+        img.loading = 'eager';
+    });
+
+    lastResultsCountHtml = data.resultsCountHtml;
+    document.getElementById('resultsCount').innerHTML   = data.resultsCountHtml;
+    document.getElementById('backButtonWrap').innerHTML = data.backButtonHtml;
+    document.getElementById('breadcrumbNav').innerHTML  = data.breadcrumbHtml;
+    document.getElementById('sortWrapper').style.display = data.showSort ? '' : 'none';
     document.title = data.pageTitle;
     document.body.dataset.activeBrand = data.activeBrand || '';
 
-    // NAME-ORDER: keep the sort dropdown pinned to "Default" (which is
-    // now equivalent to Name: A to Z) on every fresh AJAX load, then
-    // re-apply it to the new grid so a freshly-loaded category/brand
-    // always renders in naming order regardless of what was picked
-    // before navigating.
+    // Always land back in naming order on a fresh view.
     const sortSelect = document.getElementById('sortSelect');
     if (sortSelect) {
         sortSelect.value = 'default';
         applySort('default');
     }
+
+    applyStockFilter();
 
     if (pushState) {
         history.pushState({ ajaxUrl: url }, '', url);
@@ -740,76 +785,162 @@ async function loadProducts(url, pushState = true) {
 
     gridWrap.classList.remove('is-loading');
     syncBrandFilterState();
-    rebindProductNavLinks();
-    if (typeof AOS !== 'undefined') AOS.refreshHard();
+
+    if (typeof AOS !== 'undefined' && AOS.refreshHard) AOS.refreshHard();
+
+    if (!keepScroll) scrollToResultsTop();
 }
 
-function rebindProductNavLinks() {
-    // Category tiles and the "Back to X Categories" link are rendered
-    // server-side inside the AJAX payload, so re-bind them each time.
-    document.querySelectorAll('.js-product-nav').forEach(function(link) {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            loadProducts(this.getAttribute('href'));
-        });
-    });
+/* ===================================================================
+   SCROLL FIX
+   Instead of letting the browser decide where to sit after the grid
+   height changes, park the viewport at the top of the results area —
+   but only when the user is currently below it, so a click near the
+   top of the page doesn't cause a pointless jump.
+   =================================================================== */
+function scrollToResultsTop() {
+    const anchor = document.getElementById('productsToolbar')
+                || document.getElementById('allProductsSection');
+    if (!anchor) return;
+
+    const headerOffset = 100; // clears the sticky site header
+    const targetTop = anchor.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+
+    if (window.pageYOffset > targetTop + 4) {
+        window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+    }
 }
 
-document.querySelectorAll('#brandFilters .filter-checkbox-label').forEach(function(label) {
-    label.addEventListener('click', function(e) {
+/* ===================================================================
+   EVENT DELEGATION
+   The old code re-ran rebindProductNavLinks() after every swap, which
+   re-registered click handlers on any surviving link. Delegating from
+   `document` binds exactly once for the life of the page, so a link
+   can never fire loadProducts() two or three times in a row (another
+   source of the "stuck / not loading" behaviour).
+   =================================================================== */
+document.addEventListener('click', function (e) {
+
+    // Category tiles, brand cards, breadcrumb links, back button
+    const navLink = e.target.closest('.js-product-nav');
+    if (navLink) {
         e.preventDefault();
-        loadProducts(this.getAttribute('data-url'));
-    });
+        loadProducts(navLink.getAttribute('href'));
+        return;
+    }
+
+    // Brand filter checkboxes in the sidebar
+    const filterLabel = e.target.closest('#brandFilters .filter-checkbox-label');
+    if (filterLabel) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeMobileSidebar();
+        loadProducts(filterLabel.getAttribute('data-url'));
+        return;
+    }
+
+}, false);
+
+window.addEventListener('popstate', function () {
+    loadProducts(window.location.pathname + window.location.search, false, true);
 });
 
-window.addEventListener('popstate', function(e) {
-    loadProducts(window.location.href.replace(window.location.origin, ''), false);
-});
-
+/* ===================================================================
+   Brand filter highlight + centering
+   =================================================================== */
 function syncBrandFilterState() {
-    const activeBrand = new URLSearchParams(window.location.search).get('brand') || document.body.dataset.activeBrand || '';
+    const activeBrand = new URLSearchParams(window.location.search).get('brand')
+                     || document.body.dataset.activeBrand
+                     || '';
     const filterContainer = document.getElementById('brandFilters');
     let activeLabel = null;
 
-    document.querySelectorAll('#brandFilters .filter-checkbox-label').forEach(function(label) {
+    document.querySelectorAll('#brandFilters .filter-checkbox-label').forEach(function (label) {
         const input = label.querySelector('input[type="checkbox"]');
         if (!input) return;
-
         const isActive = input.value === activeBrand;
         input.checked = isActive;
         label.classList.toggle('is-checked', isActive);
-
-        if (isActive) {
-            activeLabel = label;
-        }
+        if (isActive) activeLabel = label;
     });
 
-    if (filterContainer && activeLabel) {
-        requestAnimationFrame(function() {
+    // Only touch scrollTop when the list genuinely overflows — otherwise
+    // the assignment is a no-op that some browsers still treat as a
+    // scroll request and bubble upward.
+    if (filterContainer && activeLabel &&
+        filterContainer.scrollHeight > filterContainer.clientHeight + 1) {
+        requestAnimationFrame(function () {
             const containerHeight = filterContainer.clientHeight;
-            const labelTop    = activeLabel.offsetTop;
-            const labelHeight = activeLabel.offsetHeight;
+            const labelTop        = activeLabel.offsetTop;
+            const labelHeight     = activeLabel.offsetHeight;
             const targetScrollTop = labelTop - (containerHeight / 2) + (labelHeight / 2);
             filterContainer.scrollTop = Math.max(0, targetScrollTop);
         });
     }
 }
 
-syncBrandFilterState();
-rebindProductNavLinks();
+/* ===================================================================
+   IN-STOCK FILTER
+   Out-of-stock products are shown by default and rendered at full
+   opacity. This checkbox is the opt-in way to hide them.
+   =================================================================== */
+function applyStockFilter() {
+    const box  = document.getElementById('inStockFilter');
+    const grid = document.getElementById('productsGrid');
+    if (!grid) return;
 
-document.getElementById('clearFilters').addEventListener('click', function(e) {
+    const onlyInStock = !!(box && box.checked);
+    const cards = grid.querySelectorAll('.product-card[data-stock]');
+
+    if (!cards.length) return; // brands / tiles view — nothing to filter
+
+    let visible = 0;
+    cards.forEach(function (card) {
+        const hide = onlyInStock && card.dataset.stock === 'out';
+        card.style.display = hide ? 'none' : '';
+        if (!hide) visible++;
+    });
+
+    const countEl = document.getElementById('resultsCount');
+    if (!countEl) return;
+    if (onlyInStock) {
+        countEl.innerHTML = '<span>' + visible + '</span> Product' + (visible !== 1 ? 's' : '') + ' Found';
+    } else {
+        countEl.innerHTML = lastResultsCountHtml;
+    }
+}
+
+document.addEventListener('change', function (e) {
+    if (e.target && e.target.id === 'inStockFilter') {
+        applyStockFilter();
+    }
+});
+
+/* ===================================================================
+   Clear all filters
+   =================================================================== */
+document.getElementById('clearFilters').addEventListener('click', function (e) {
     e.preventDefault();
+    const box = document.getElementById('inStockFilter');
+    if (box) box.checked = false;
+    closeMobileSidebar();
     loadProducts('all-products.php');
 });
 
-const mobileToggle  = document.getElementById('mobileFilterToggle');
-const sidebar       = document.getElementById('productSidebar');
-const sidebarClose  = document.getElementById('sidebarCloseBtn');
+/* ===================================================================
+   Mobile sidebar
+   Locking <body> overflow used to drop the page back to scroll
+   position 0/bottom on close. Save and restore it explicitly.
+   =================================================================== */
+const mobileToggle    = document.getElementById('mobileFilterToggle');
+const sidebar         = document.getElementById('productSidebar');
+const sidebarClose    = document.getElementById('sidebarCloseBtn');
 const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+let   savedScrollY    = 0;
 
 function openMobileSidebar() {
     if (!sidebar) return;
+    savedScrollY = window.pageYOffset;
     sidebar.classList.add('active');
     if (sidebarBackdrop) sidebarBackdrop.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -817,49 +948,55 @@ function openMobileSidebar() {
 
 function closeMobileSidebar() {
     if (!sidebar) return;
+    const wasOpen = sidebar.classList.contains('active');
     sidebar.classList.remove('active');
     if (sidebarBackdrop) sidebarBackdrop.classList.remove('active');
     document.body.style.overflow = '';
+    if (wasOpen) {
+        window.scrollTo(0, savedScrollY);
+    }
 }
 
-if (mobileToggle && sidebar) {
-    mobileToggle.addEventListener('click', openMobileSidebar);
-}
-if (sidebarClose) {
-    sidebarClose.addEventListener('click', closeMobileSidebar);
-}
-if (sidebarBackdrop) {
-    sidebarBackdrop.addEventListener('click', closeMobileSidebar);
-}
-// Selecting a brand filter on mobile should close the sidebar too
-document.querySelectorAll('#brandFilters .filter-checkbox-label').forEach(function(label) {
-    label.addEventListener('click', closeMobileSidebar);
-});
+if (mobileToggle && sidebar) mobileToggle.addEventListener('click', openMobileSidebar);
+if (sidebarClose)            sidebarClose.addEventListener('click', closeMobileSidebar);
+if (sidebarBackdrop)         sidebarBackdrop.addEventListener('click', closeMobileSidebar);
 
-// NAME-ORDER: "default" now behaves the same as "name-asc" instead of
-// being a no-op, so the grid is always in naming order unless the
-// user explicitly chooses "Name: Z to A". Pulled out into its own
-// function (applySort) so loadProducts() above can re-apply it after
-// every AJAX swap too.
+/* ===================================================================
+   Sorting — "default" behaves as Name A→Z
+   =================================================================== */
 function applySort(sortValue) {
     const productsGrid = document.getElementById('productsGrid');
     if (!productsGrid) return;
+
     const cards = Array.from(productsGrid.querySelectorAll('.product-card'));
-    cards.sort((a, b) => {
-        if (sortValue === 'name-desc') return b.dataset.name.localeCompare(a.dataset.name);
-        // 'default' and 'name-asc' both sort ascending by name
-        return a.dataset.name.localeCompare(b.dataset.name);
+    if (!cards.length) return;
+
+    cards.sort(function (a, b) {
+        const an = a.dataset.name || '';
+        const bn = b.dataset.name || '';
+        if (sortValue === 'name-desc') return bn.localeCompare(an);
+        return an.localeCompare(bn);
     });
-    productsGrid.innerHTML = '';
-    cards.forEach(c => productsGrid.appendChild(c));
+
+    // Reorder in place with a fragment instead of wiping innerHTML —
+    // wiping destroyed any "no products found" block and forced a full
+    // relayout that contributed to the scroll jump.
+    const frag = document.createDocumentFragment();
+    cards.forEach(function (c) { frag.appendChild(c); });
+    productsGrid.appendChild(frag);
 }
 
-document.addEventListener('change', function(e) {
-    if (e.target.id !== 'sortSelect') return;
-    applySort(e.target.value);
+document.addEventListener('change', function (e) {
+    if (e.target && e.target.id === 'sortSelect') {
+        applySort(e.target.value);
+        applyStockFilter();
+    }
 });
 
-document.addEventListener('click', function(e) {
+/* ===================================================================
+   Cart controls
+   =================================================================== */
+document.addEventListener('click', function (e) {
 
     if (e.target.closest('.card-cart-add')) {
         const btn     = e.target.closest('.card-cart-add');
@@ -893,7 +1030,7 @@ document.addEventListener('click', function(e) {
             removeFromCart(card.dataset.model);
             qtyWrap.style.cssText = 'display:none;';
             card.querySelector('.card-cart-add').style.display = '';
-            span.textContent = '1';
+            span.textContent = '1'; 
         }
         return;
     }
@@ -908,13 +1045,14 @@ document.addEventListener('click', function(e) {
         updateCartItemQuantity(card.dataset.model, qty);
         return;
     }
-
 });
 
+/* ===================================================================
+   Init
+   =================================================================== */
+syncBrandFilterState();
+applyStockFilter();
 if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
 </script>
-
-
-
 </body>
 </html>

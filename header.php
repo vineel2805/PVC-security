@@ -46,19 +46,7 @@ if ($catRaw) {
       $activeTab = 'search';
   }
 
-  if (in_array($currentPage, ['index.php', 'all-products.php', 'all-categories.php'])) {
-      echo '<style>
-      @media (max-width: 991px) {
-          .pvc-floating-whatsapp {
-              bottom: calc(84px + env(safe-area-inset-bottom)) !important;
-          }
-          .pvc-floating-call {
-              bottom: calc(148px + env(safe-area-inset-bottom)) !important;
-              display: flex !important;
-          }
-      }
-      </style>';
-  }
+  
   ?>
    <?php if (($currentPage ?? '') !== 'cart.php'): ?>
     <?php include 'includes/bottom-nav.php'; ?>

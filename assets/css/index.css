@@ -63,7 +63,7 @@
     }
 }
 
-/* Mobile & Tablet setup */
+/* Mobile & Tablet setup - Banners sized to 1200x800 (3:2) source ratio, no forced min-height crop */
 @media (max-width: 991px) {
 
     #home,
@@ -76,6 +76,9 @@
         height: auto !important;
         min-height: 0 !important;
         max-height: none !important;
+        aspect-ratio: 3 / 2 !important;
+        position: relative !important;
+        overflow: hidden !important;
     }
 
     #home .hero3-section-area .hero-banner-img,
@@ -83,8 +86,49 @@
         display: block !important;
         width: 100% !important;
         max-width: 100% !important;
-        height: auto !important;
-        object-fit: contain !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        aspect-ratio: 3 / 2 !important;
+        object-fit: cover !important;
+        object-position: top center !important;
+    }
+}
+
+/* Small mobile (phones) - same 3:2 ratio, no separate min-height override needed */
+@media (max-width: 480px) {
+
+    #home,
+    #home .carousel-area,
+    #home .hero3-section-area,
+    #home .carousel-area .owl-stage-outer,
+    #home .carousel-area .owl-stage,
+    #home .carousel-area .owl-item,
+    #home .carousel-area .carousel-item {
+        aspect-ratio: 3 / 2 !important;
+    }
+
+    #home .hero3-section-area .hero-banner-img,
+    #home .carousel-area img {
+        aspect-ratio: 3 / 2 !important;
+    }
+}
+
+/* Extra small mobile (narrow phones) - same 3:2 ratio */
+@media (max-width: 375px) {
+
+    #home,
+    #home .carousel-area,
+    #home .hero3-section-area,
+    #home .carousel-area .owl-stage-outer,
+    #home .carousel-area .owl-stage,
+    #home .carousel-area .owl-item,
+    #home .carousel-area .carousel-item {
+        aspect-ratio: 3 / 2 !important;
+    }
+
+    #home .hero3-section-area .hero-banner-img,
+    #home .carousel-area img {
+        aspect-ratio: 3 / 2 !important;
     }
 }
 
@@ -188,34 +232,48 @@ QUICK LINKS SECTION - LG Style Open Layout
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    border: 2px solid #b8860b;
+    /*border: 2px solid #b8860b;*/
     background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+.quick-link-item.facebook .quick-link-icon i {
+    color: #1877F2;
+    font-size: 48px;
+    transition: all 0.3s ease;
+}
+
+.quick-link-item.youtube .quick-link-icon i {
+    color: #FF0000;
+    font-size: 48px;
+    transition: all 0.3s ease;
+}
+
+.quick-link-item.linkedIn .quick-link-icon i {
+    color: #0077B5;
+    font-size: 48px;
+    transition: all 0.3s ease;
+}
+
+.quick-link-item.instagram .quick-link-icon i {
+    color: #E1306C;
+    font-size: 48px;
     transition: all 0.3s ease;
 }
 
 .quick-link-icon i {
-    font-size: 24px;
+    font-size: 48px;
     color: #b8860b;
     transition: all 0.3s ease;
-}
-
-.quick-link-item:hover .quick-link-icon {
-    background: #b8860b;
-}
-
-.quick-link-item:hover .quick-link-icon i {
-    color: #ffffff;
 }
 
 .quick-link-text {
     font-family: 'Poppins', sans-serif;
     font-size: 13px;
     font-weight: 500;
-    color: #333333;
+    color: #111111;
     text-align: center;
     max-width: 100px;
     line-height: 1.3;
@@ -248,62 +306,69 @@ QUICK LINKS SECTION - LG Style Open Layout
 
 /* Quick Links - Mobile Auto-Scroll + Manual Swipe */
 @media (max-width: 768px) {
+
     .quick-links-section {
-        padding: 20px 0;
-        margin-bottom: 25px;
-        overflow: visible;
+        padding: 18px 0 20px;
+        margin: 0;
+        overflow: hidden;
     }
 
     .quick-links-section .container {
         width: 100% !important;
         max-width: 100% !important;
         padding: 0 !important;
-        margin: 0 auto !important;
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-        scroll-behavior: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        scrollbar-width: none !important;
-        -ms-overflow-style: none !important;
-    }
-
-    .quick-links-section .container::-webkit-scrollbar {
-        display: none !important;
-    }
-
-    /* Hide duplicate items - not needed with JS scroll */
-    .quick-link-duplicate {
-        display: none !important;
+        margin: 0 !important;
+        overflow: hidden !important;
     }
 
     .quick-links-row {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        gap: 35px !important;
-        justify-content: flex-start !important;
-        width: max-content !important;
-        padding: 5px 20px !important;
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr);
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 0 !important;
+        justify-content: normal !important;
+        align-items: start;
     }
 
     .quick-link-item {
-        flex: 0 0 auto !important;
-        min-width: auto !important;
-        padding: 0 5px !important;
-        touch-action: pan-x !important;
+        width: 100%;
+        min-width: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+
+        text-align: center;
     }
 
     .quick-link-icon {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
+        margin: 0 auto 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .quick-link-icon i {
-        font-size: 18px;
+    .quick-link-item.facebook .quick-link-icon i,
+    .quick-link-item.youtube .quick-link-icon i,
+    .quick-link-item.linkedIn .quick-link-icon i,
+    .quick-link-item.instagram .quick-link-icon i {
+        font-size: 22px;
     }
 
     .quick-link-text {
-        font-size: 11px;
-        max-width: 70px;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        text-align: center;
+        font-size: 10px;
+        line-height: 1.2;
         white-space: nowrap;
     }
 }
@@ -383,25 +448,23 @@ QUICK LINKS SECTION - LG Style Open Layout
     width: 100%;
     aspect-ratio: 16 / 9;
     background-color: #ffffff;
-    /*border: 1.5px solid rgba(201, 161, 74, 0.25);*/
     border-radius: 8px;
-    padding: 25px;
+    padding: 0;
     box-sizing: border-box;
     overflow: hidden;
-    transition: all 0.35s ease;
 }
 
 .brand-free-img {
     display: block;
+    width: 100%;
+    height: 100%;
     max-width: 100% !important;
     max-height: 100% !important;
-    width: auto;
-    height: auto;
     object-fit: contain;
+    object-position: center;
     filter: grayscale(15%);
     transition: filter 0.35s ease, transform 0.35s ease;
 }
-
 .brand-free-name {
     font-size: 16px;
     color: #111;

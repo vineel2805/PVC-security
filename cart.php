@@ -1,3 +1,17 @@
+<?php include 'connect.php'; ?>
+<?php include 'includes/search-overlay.php'; ?>
+<?php
+
+// ── Bottom Nav: active tab + cart count (same logic as every other page) ────
+$currentPage = 'cart.php';
+$activeTab   = 'cart';
+
+$cartCount = 0;
+if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+    $cartCount = array_sum(array_column($_SESSION['cart'], 'qty'));
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,15 +22,26 @@
   <?php include 'head.php'; ?>
   <!--=====FAB ICON=======-->
   <link rel="shortcut icon" href="assets/img/logo/Untitled design-3.png" type="image/x-icon">
-  
+
   <link rel="stylesheet" href="assets/css/cart_styles.css">
+  <link rel="stylesheet" href="assets/css/bottom-nav.css">
+  <link rel="stylesheet" href="assets/css/search-overlay-visibility.css">
+  <link rel="stylesheet" href="assets/css/cart-nav-footer-fix.css">
   <!--=====  JS SCRIPT LINK =======-->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
 </head>
 
 <body>
 
-  <?php $currentPage = 'cart';  include 'header.php'; ?>
+  <!-- NOTE: this page was loading TWO header includes back to back —
+       'header.php' AND 'includes/header.php'. That doubles every CSS/JS/
+       font/query pulled in by whichever header does the real work, which
+       is a likely contributor to slow loads. I've commented out 'header.php'
+       and kept 'includes/header.php' since it matches the includes/ pattern
+       used elsewhere on your site (includes/bottom-nav.php, includes/search-overlay.php).
+       If 'includes/header.php' turns out to be the wrong one / a stub,
+       swap which line is commented. -->
+  <?php $currentPage = 'cart'; /* include 'header.php'; -- commented out, see note above */ ?>
   <?php include 'includes/header.php'; ?>
 
 
@@ -26,7 +51,6 @@
       <div class="row">
         <div class="col-12">
           <div class="cart-header-wrapper">
-            <h1 class="cart-page-title">Your RFQ Cart</h1>
             <a href="javascript:history.back()" class="cart-close-btn" aria-label="Close Cart" title="Exit Cart">
               <i class="fa-solid fa-xmark"></i>
             </a>
@@ -57,7 +81,7 @@
 
       <!-- Main Cart Page Row: Side-by-side on Desktop, 2-Step on Mobile -->
       <div class="cart-page-row mt-4">
-        
+
         <!-- LEFT COLUMN: Contact Information -->
         <div class="cart-form-col step-2-content">
           <div class="cart-form-section">
@@ -184,7 +208,7 @@
 
             <!-- Step 1: Next only (Mobile) -->
             <button id="btnNextStep" class="btn-next-step step-1-only">
-              Next 
+              Next
             </button>
 
             <!-- Step 2: Back + Place Order (Mobile) / Place Order (Desktop) -->
@@ -199,6 +223,38 @@
       </div>
     </div>
   </div>
+    <?php include 'global_footer.php'; ?>
+
+ <style>/* =============================================================
+   CART PAGE — STICKY FOOTER + BOTTOM NAV COEXISTENCE FIX
+   Only needed on cart.php, since it has its own fixed-position
+   "Total Products / Next" bar that would otherwise sit on top of,
+   or be covered by, the bottom nav.
+
+   I don't have your cart_styles.css, so this assumes
+   .cart-sticky-footer is currently `position: fixed; bottom: 0;`
+   spanning full width. Adjust the values below if your actual
+   rule differs.
+   ============================================================= */
+
+@media (max-width: 991px) {
+
+    .cart-sticky-footer {
+        position: fixed !important;
+        left: 0;
+        right: 0;
+        bottom: 0 !important;
+        z-index: 99998 !important; /* one below the bottom nav's 99999 */
+        /* Lift the footer's own inner padding so its content isn't
+           hidden behind the nav bar (now 56px tall, flush with the
+           bottom edge, plus safe-area inset) */
+        padding-bottom: calc(76px + env(safe-area-inset-bottom)) !important;
+    }
+
+}</style>
+  <?php $activeTab = 'cart'; ?>
+  <?php include 'includes/bottom-nav.php'; ?>
+
   <!--===== GLOBAL FOOTER COMPONENT =======-->
   <script src="assets/js/global_footer.js"></script>
   <!--===== END GLOBAL FOOTER =======-->
@@ -208,5 +264,6 @@
   <script src="assets/js/floating-cart.js"></script>
   <script src="assets/js/cart-page.js"></script>
   <script src="assets/js/plugins/bootstrap.min.js"></script>
+  <script src="assets/js/search-overlay-toggle.js"></script>
 </body>
 </html>

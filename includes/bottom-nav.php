@@ -18,6 +18,13 @@
     </div>
     <span>Brands</span>
   </a>
+  <!-- CENTER SEARCH BUTTON — opens the inline #globalSearchOverlay (from includes/search-overlay.php) via JS. Not a link, since there is no standalone search.php page. -->
+  <button type="button" class="pvc-bottom-nav-item pvc-nav-search-center" id="bottom-nav-search" aria-label="Search" aria-haspopup="dialog" aria-controls="globalSearchOverlay">
+    <div class="pvc-nav-icon-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
+    <span>Search</span>
+  </button>
   <a href="all-categories.php" class="pvc-bottom-nav-item<?php echo ($activeTab === 'categories') ? ' active" aria-current="page' : ''; ?>" id="bottom-nav-categories" aria-label="Categories">
     <div class="pvc-nav-icon-wrap">
       <!-- Inactive Outline Icon -->
@@ -27,13 +34,14 @@
     </div>
     <span>Categories</span>
   </a>
-  <a href="contact-us.php" class="pvc-bottom-nav-item<?php echo ($activeTab === 'support') ? ' active" aria-current="page' : ''; ?>" id="bottom-nav-rfq" aria-label="Contact Us">
+  <a href="cart.php" class="pvc-bottom-nav-item<?php echo ($activeTab === 'cart') ? ' active" aria-current="page' : ''; ?>" id="bottom-nav-cart" aria-label="Cart">
     <div class="pvc-nav-icon-wrap">
+      <span class="pvc-bottom-cart-badge" id="pvc-bottom-cart-count">0</span>
       <!-- Inactive Outline Icon -->
-      <svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
       <!-- Active Filled Icon -->
-      <svg class="icon-filled" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.02l-2.2 2.19z"/></svg>
+      <svg class="icon-filled" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M7 22a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm10 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM2 2h2.2l.68 2H21a1 1 0 0 1 .96 1.28l-2.5 8.5A2 2 0 0 1 17.55 15H8.1l-.3 1.5H19v2H7a1.5 1.5 0 0 1-1.47-1.8l.62-3.1L3.8 4H2V2z"/></svg>
     </div>
-    <span>Support</span>
+    <span>Cart</span>
   </a>
 </nav>

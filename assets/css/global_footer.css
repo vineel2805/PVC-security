@@ -1,7 +1,3 @@
-/* ==========================================================================
-   PVC SECURITY - PREMIUM GLOBAL FOOTER STYLES
-   ========================================================================== */
-
 :root {
     --pvc-gold: #D4AF37;
     --pvc-gold-light: #F2D482;
@@ -13,12 +9,20 @@
     --font-body: 'Inter', sans-serif;
     --transition-smooth: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     --pvc-gradient: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+
+    /* ------------------------------------------------------------------
+       LOGO TRIM — the logo PNG has transparent padding baked into the file,
+       which is what leaves the dead gap between the mark and the company
+       name. This value pulls the name back up toward the logo.
+       Increase it if a gap remains, decrease it if they overlap.
+       ------------------------------------------------------------------ */
+    --logo-trim-y: 26px;
 }
 
 .pvc-global-footer {
     background: var(--pvc-black);
     color: var(--pvc-white);
-    padding: 100px 0 0;
+    padding: 50px 0 0;
     font-family: var(--font-body);
     border-top: 2px solid var(--pvc-gold-dark);
     position: relative;
@@ -47,8 +51,8 @@
 .pvc-footer-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 50px;
-    margin-bottom: 30px;
+    gap: 40px;
+    margin-bottom: 25px;
 }
 
 .pvc-footer-col {
@@ -56,23 +60,75 @@
     min-width: 250px;
 }
 
-/* Section 1: Brand */
+/* ==========================================================================
+   Section 1: Brand
+   The block is inline-flex so it shrinks to the width of the company name,
+   and align-items:center then centres the logo mark over that text —
+   the block as a whole still sits left-aligned in the column.
+   The logo asset carries its own transparent padding, so --logo-trim-y
+   removes the resulting vertical gap.
+   ========================================================================== */
+.pvc-footer-logo {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;    /* logo centred over the company name */
+    gap: 0;                 /* spacing handled by the trim offset below */
+    margin-bottom: 20px;
+    line-height: 0;         /* kills the inline-image descender gap */
+}
+
+/* Near-square mark (~1:1): fixed width AND height so it can never stretch.
+   !important guards the size against any later site-wide "img {...}" rule. */
 .pvc-footer-logo img {
-    height: 70px;
-    margin-bottom: 30px;
+    height: 200px !important;
+    width: 200px !important;
+    max-width: none !important;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    margin-bottom: calc(var(--logo-trim-y) * -1);
     filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2));
-    transition: var(--transition-smooth);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .pvc-footer-logo img:hover {
     transform: scale(1.05);
 }
 
+/* Company name sits under the logo */
+.pvc-footer-brand-name {
+    margin: 0;
+    line-height: 1.15;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.pvc-brand-top {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--pvc-white);
+    line-height: 1.2;
+}
+
+.pvc-brand-bottom {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--pvc-white);
+    line-height: 1.2;
+}
+
 .pvc-footer-desc {
     color: rgba(255, 255, 255, 0.6);
-    line-height: 1.8;
-    font-size: 15px;
-    margin-bottom: 30px;
+    line-height: 1.7;
+    font-size: 14px;
+    margin-bottom: 24px;
+    word-break: break-word;
 }
 
 .pvc-trust-icons {
@@ -97,15 +153,49 @@
     color: var(--pvc-gold);
 }
 
+/* Working hours pill (Address & Hours column) */
+.pvc-working-hours-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    padding: 9px 16px;
+    max-width: 100%;
+    border-radius: 50px;
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    color: var(--pvc-white);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: var(--transition-smooth);
+}
+
+.pvc-working-hours-badge i {
+    color: var(--pvc-gold);
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.pvc-working-hours-badge span {
+    word-break: break-word;
+}
+
+.pvc-working-hours-badge:hover {
+    background: rgba(212, 175, 55, 0.15);
+    border-color: var(--pvc-gold);
+    transform: translateY(-2px);
+}
+
 /* Section Titles */
 .pvc-footer-title {
     color: var(--pvc-white);
     font-family: var(--font-heading);
-    font-size: 22px;
+    font-size: 19px;
     font-weight: 700;
-    margin-bottom: 40px;
+    margin-bottom: 28px;
     position: relative;
-    padding-bottom: 15px;
+    padding-bottom: 13px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -132,23 +222,20 @@
     margin-bottom: 15px;
 }
 
-/* --- FIXED: hover/active now animate via transform instead of padding-left/left,
-   which were forcing layout reflow every frame and causing the jerky/flicker
-   effect seen in the video. --- */
-
+/* Hover/active animate via transform + color only (no padding/left changes),
+   so nothing reflows mid-animation. */
 .pvc-footer-links a {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
                 color 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    font-size: 16px;
+    font-size: 15px;
     display: inline-block;
     position: relative;
 }
 
 .pvc-footer-links a:hover,
 .pvc-footer-links a.active {
-  
     background: var(--pvc-gradient);
     -webkit-background-clip: text;
     background-clip: text;
@@ -158,7 +245,6 @@
 
 .pvc-footer-links a.active {
     font-weight: 800;
-    /* Slightly bolder for active */
 }
 
 .pvc-footer-links a::before {
@@ -175,7 +261,6 @@
 
 .pvc-footer-links a:hover::before,
 .pvc-footer-links a.active::before {
-    
     opacity: 1;
 }
 
@@ -188,8 +273,9 @@
 
 .pvc-contact-item {
     display: flex;
-    gap: 20px;
-    margin-bottom: 25px;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
     transition: var(--transition-smooth);
 }
 
@@ -198,8 +284,8 @@
 }
 
 .pvc-contact-icon {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: rgba(212, 175, 55, 0.1);
     border: 1px solid rgba(212, 175, 55, 0.2);
@@ -207,7 +293,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     flex-shrink: 0;
     transition: var(--transition-smooth);
 }
@@ -218,23 +304,32 @@
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
+/* Lets the text column shrink below its content's natural width inside the
+   flex row instead of overflowing. Long emails/addresses wrap instead. */
+.pvc-contact-text {
+    min-width: 0;
+    flex: 1;
+}
+
 .pvc-contact-text span {
     display: block;
-    font-size: 12px;
+    font-size: 11px;
     color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 .pvc-contact-text a,
 .pvc-contact-text p {
     color: var(--pvc-white);
     text-decoration: none;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 600;
     margin: 0;
     transition: var(--transition-smooth);
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .pvc-contact-text a:hover {
@@ -330,9 +425,8 @@
     font-size: 14px;
     margin: 0;
     letter-spacing: 0.5px;
+    word-break: break-word;
 }
-
-
 
 /* Global Mobile Sticky CTA */
 .pvc-mobile-sticky-cta {
@@ -371,57 +465,177 @@
     box-shadow: 0 4px 10px rgba(184, 134, 11, 0.3);
 }
 
-/* Mobile Responsive */
+/* ==========================================================================
+   Tablet: 2-column layout (768–991px)
+   ========================================================================== */
 @media (max-width: 991px) {
     .pvc-footer-col {
         flex: 0 0 45%;
     }
+
+    .pvc-footer-logo img {
+        height: 160px !important;
+        width: 160px !important;
+    }
+
+    .pvc-brand-top,
+    .pvc-brand-bottom {
+        font-size: 18px;
+    }
 }
 
-@media (max-width: 768px) {
+/* ==========================================================================
+   Mobile (≤767px) — original left-aligned layout
+   Single consolidated breakpoint (the original file had overlapping 768px
+   and 767px blocks fighting over the same properties, e.g. .pvc-contact-text a
+   was 22px in one and 15px in the other).
+   ========================================================================== */
+@media (max-width: 767px) {
+
+    /* Smaller trim on mobile since the logo itself is smaller */
+    .pvc-footer-logo img {
+        --logo-trim-y: 18px;
+    }
+
     .pvc-global-footer {
-        padding: 80px 0 0;
+        display: block !important;
+        background: var(--pvc-black) !important;
+        color: var(--pvc-white);
+        padding: 45px 0 100px !important;
+        margin: 0 !important;
+        border-top: 2px solid var(--pvc-gold-dark) !important;
+    }
+
+    .pvc-global-footer::before {
+        display: block;
     }
 
     .pvc-footer-container {
-        padding: 0 25px;
+        display: block !important;
+        padding: 0 20px !important;
+    }
+
+    .pvc-footer-row {
+        display: flex;
+        flex-direction: column;
+        gap: 35px;
+        margin-bottom: 25px;
     }
 
     .pvc-footer-col {
         flex: 0 0 100%;
+        min-width: 0;
+    }
+
+    .pvc-footer-logo {
+        margin-bottom: 16px;
+    }
+
+    .pvc-footer-logo img {
+        height: 180px !important;
+        width: 180px !important;
+    }
+
+    .pvc-brand-top,
+    .pvc-brand-bottom {
+        font-size: 17px;
+        letter-spacing: 0.5px;
+    }
+
+    .pvc-footer-desc {
+        font-size: 14px;
+        line-height: 1.7;
+        margin-bottom: 20px;
+    }
+
+    .pvc-trust-icons {
+        gap: 10px;
+    }
+
+    .pvc-trust-item {
+        font-size: 12px;
+    }
+
+    .pvc-working-hours-badge {
+        margin-top: 16px;
+        padding: 9px 14px;
+        font-size: 12px;
     }
 
     .pvc-footer-title {
-        margin-bottom: 25px;
-        font-size: 20px;
+        font-size: 18px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
     }
 
-    .pvc-contact-text a {
-        font-size: 22px;
+    .pvc-footer-title::after {
+        width: 40px;
+        height: 2px;
+    }
+
+    .pvc-footer-links li {
+        margin-bottom: 12px;
+    }
+
+    .pvc-footer-links a {
+        font-size: 14px;
+    }
+
+    .pvc-contact-item {
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .pvc-contact-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .pvc-contact-text span {
+        font-size: 10px;
+        margin-bottom: 3px;
+    }
+
+    .pvc-contact-text a,
+    .pvc-contact-text p {
+        font-size: 14px;
+        line-height: 1.4;
     }
 
     .pvc-action-btns {
         flex-direction: row;
+        gap: 10px;
     }
 
     .pvc-footer-btn {
         flex: 1;
-        padding: 14px 15px;
-        font-size: 12px;
+        padding: 12px 10px;
+        font-size: 11px;
     }
 
-   
+    .pvc-footer-social {
+        gap: 10px;
+    }
+
+    .pvc-social-link {
+        width: 38px;
+        height: 38px;
+        font-size: 15px;
+    }
+
+    .pvc-footer-bottom-bar {
+        display: block !important;
+    }
 
     .pvc-mobile-sticky-cta {
         display: flex;
     }
 }
 
-@media (max-width: 575px) {
-   
-}
-
-@media (max-width: 480px) {
+/* Extra-small phones: single Action button (WhatsApp) reads better
+   stacked full-width than squeezed into a row. */
+@media (max-width: 400px) {
     .pvc-action-btns {
         flex-direction: column;
     }
@@ -429,23 +643,19 @@
     .pvc-footer-btn {
         width: 100%;
     }
-}
 
-/* Hide entire footer content on mobile devices strictly (< 768px) */
-@media (max-width: 767px) {
-    .pvc-global-footer {
-        padding: 0 !important;
-        margin: 0 !important;
-        border: none !important;
-        background: transparent !important;
+    .pvc-footer-logo img {
+        height: 125px !important;
+        width: 125px !important;
     }
 
-    .pvc-global-footer::before {
-        display: none !important;
+    .pvc-brand-top,
+    .pvc-brand-bottom {
+        font-size: 15px;
     }
 
-    .pvc-footer-container,
-    .pvc-footer-bottom-bar {
-        display: none !important;
+    .pvc-contact-text a,
+    .pvc-contact-text p {
+        font-size: 13px;
     }
 }

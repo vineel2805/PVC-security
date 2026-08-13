@@ -30,11 +30,30 @@ function db_image($path, $defaultImg) {
 
 $selectedBrand   = isset($_GET['brand'])   ? trim($_GET['brand'])   : '';
 $selectedCat     = isset($_GET['cat'])     ? trim($_GET['cat'])     : '';
-$selectedCatName = isset($_GET['catname']) ? trim($_GET['catname']) : '';
 
-$selectedBrandEscaped   = mysqli_real_escape_string($con, $selectedBrand);
-$selectedCatEscaped     = mysqli_real_escape_string($con, $selectedCat);
-$selectedCatNameEscaped = mysqli_real_escape_string($con, $selectedCatName);
+// catname now supports multiple values: ?catname[]=A&catname[]=B
+// (still accepts a single ?catname=A for backward compatibility)
+$selectedCatNames = [];
+if (isset($_GET['catname'])) {
+    $raw = is_array($_GET['catname']) ? $_GET['catname'] : [$_GET['catname']];
+    foreach ($raw as $name) {
+        $name = trim((string)$name);
+        if ($name !== '') $selectedCatNames[] = $name;
+    }
+    // de-dupe while preserving order
+    $selectedCatNames = array_values(array_unique($selectedCatNames));
+}
+
+// Comma-joined display string, used anywhere the code previously treated
+// catname as a single string (titles, breadcrumbs, data attributes, etc.)
+$selectedCatName = implode(', ', $selectedCatNames);
+
+$selectedBrandEscaped = mysqli_real_escape_string($con, $selectedBrand);
+$selectedCatEscaped   = mysqli_real_escape_string($con, $selectedCat);
+
+$selectedCatNamesEscaped = array_map(function($name) use ($con) {
+    return mysqli_real_escape_string($con, $name);
+}, $selectedCatNames);
 
 // ── 1. Fetch all merged categories for sidebar ──────────────────────
 $sidebarCats = [];
@@ -88,17 +107,23 @@ $totalRows          = 0;
 $namedCatIds        = [];
 
 // ── 4a. Cross-brand category name view ───────────────────────────────
-if (!empty($selectedCatNameEscaped)) {
+if (!empty($selectedCatNamesEscaped)) {
     $viewMode = 'products_named';
 
     $brandClause = $brandRow ? "AND c.brandid = '{$brandRow['brandid']}'" : '';
+
+    // Build one normalized-name comparison per selected category, OR'd together
+    $nameClauses = array_map(function($nameEscaped) {
+        return "TRIM(REPLACE(REPLACE(REPLACE(UPPER(c.cname), '  ', ' '), '  ', ' '), '  ', ' '))
+               = TRIM(REPLACE(REPLACE(REPLACE(UPPER('$nameEscaped'), '  ', ' '), '  ', ' '), '  ', ' '))";
+    }, $selectedCatNamesEscaped);
+    $namesWhere = '(' . implode(' OR ', $nameClauses) . ')';
 
     $cidRes = mysqli_query($con, "
         SELECT c.cid, c.cname, b.brandname
         FROM   category c
         JOIN   brands   b ON b.brandid = c.brandid
-        WHERE  TRIM(REPLACE(REPLACE(REPLACE(UPPER(c.cname), '  ', ' '), '  ', ' '), '  ', ' '))
-               = TRIM(REPLACE(REPLACE(REPLACE(UPPER('$selectedCatNameEscaped'), '  ', ' '), '  ', ' '), '  ', ' '))
+        WHERE  $namesWhere
           AND  c.display_status = 1
           AND  b.display_status = 1
           $brandClause
@@ -306,23 +331,19 @@ function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products
                 </div>
 
                 <div class="product-card-controls">
-                    <?php if ($isOutOfStock): ?>
-                        <button class="btn out-of-stock-label" disabled>Out of Stock</button>
-                    <?php else: ?>
-                        <button class="card-cart-add"
-                                data-id="<?php echo htmlspecialchars($product['pid']); ?>"
-                                aria-label="Add to cart">
-                            Add to Cart
-                        </button>
+                    <button class="card-cart-add"
+                            data-id="<?php echo htmlspecialchars($product['pid']); ?>"
+                            aria-label="Add to cart">
+                        Add to Cart
+                    </button>
 
-                        <div class="card-qty"
-                             data-id="<?php echo htmlspecialchars($product['pid']); ?>"
-                             style="display:none;">
-                            <button class="qty-decrease"><i class="fa-solid fa-minus"></i></button>
-                            <span class="qty-value">1</span>
-                            <button class="qty-increase"><i class="fa-solid fa-plus"></i></button>
-                        </div>
-                    <?php endif; ?>
+                    <div class="card-qty"
+                         data-id="<?php echo htmlspecialchars($product['pid']); ?>"
+                         style="display:none;">
+                        <button class="qty-decrease"><i class="fa-solid fa-minus"></i></button>
+                        <span class="qty-value">1</span>
+                        <button class="qty-increase"><i class="fa-solid fa-plus"></i></button>
+                    </div>
                 </div>
 
             </div>
@@ -455,7 +476,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
     <meta name="description"
         content="Explore PVC Security's extensive catalog of high-performance CCTV cameras, NVRs, DVRs, and access control systems from industry leaders like Hikvision and Dahua.">
     <?php include 'head.php'; ?>
-    <link rel="stylesheet" href="assets/css/all-products.css">
+    <link rel="stylesheet" href="assets/css/all-products.css?v=<?php echo filemtime(__DIR__ . '/assets/css/all-products.css'); ?>">
     <script src="assets/js/cart-core.js"></script>
 </head>
 
@@ -494,22 +515,24 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                             <h4>Shop by Category</h4>
                             <div class="filter-options" id="categoryFilters">
 
-                                <label class="filter-checkbox-label <?php echo empty($selectedCatName) ? 'is-checked' : ''; ?>"
+                                <label class="filter-checkbox-label filter-all-categories <?php echo empty($selectedCatNames) ? 'is-checked' : ''; ?>"
                                        data-url="all-categories.php">
-                                    <input type="checkbox" name="catname" value=""
-                                           <?php echo empty($selectedCatName) ? 'checked' : ''; ?> readonly>
+                                    <input type="checkbox" id="catAllCheckbox" value=""
+                                           <?php echo empty($selectedCatNames) ? 'checked' : ''; ?>>
                                     <span class="checkmark"></span>
                                     ALL CATEGORIES
                                 </label>
 
                                 <?php foreach ($sidebarCats as $sc):
-                                    $isActive = (strtoupper(trim($selectedCatName)) === strtoupper(trim($sc['cname'])));
+                                    $isActive = in_array(strtoupper(trim($sc['cname'])), array_map(function($n) {
+                                        return strtoupper(trim($n));
+                                    }, $selectedCatNames));
                                 ?>
-                                <label class="filter-checkbox-label <?php echo $isActive ? 'is-checked' : ''; ?>"
-                                       data-url="all-categories.php?catname=<?php echo urlencode($sc['cname']); ?>">
+                                <label class="filter-checkbox-label <?php echo $isActive ? 'is-checked' : ''; ?>">
                                     <input type="checkbox" name="catname"
+                                           class="cat-filter-checkbox"
                                            value="<?php echo htmlspecialchars($sc['cname']); ?>"
-                                           <?php echo $isActive ? 'checked' : ''; ?> readonly>
+                                           <?php echo $isActive ? 'checked' : ''; ?>>
                                     <span class="checkmark"></span>
                                     <?php echo htmlspecialchars(strtoupper($sc['cname'])); ?>
                                 </label>
@@ -581,6 +604,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
         </div>
     </div>
 </section>
+    <?php include 'global_footer.php'; ?>
 
 <script src="assets/js/plugins/bootstrap.min.js"></script>
 <script src="assets/js/plugins/aos.js"></script>
@@ -638,10 +662,46 @@ function rebindCatNavLinks() {
     });
 }
 
-document.querySelectorAll('#categoryFilters .filter-checkbox-label').forEach(function(label) {
-    label.addEventListener('click', function(e) {
-        e.preventDefault();
-        loadCategoryView(this.getAttribute('data-url'));
+function buildCategoryFilterUrl() {
+    const checked = Array.from(document.querySelectorAll('#categoryFilters .cat-filter-checkbox:checked'))
+        .map(function(cb) { return cb.value; });
+
+    if (checked.length === 0) return 'all-categories.php';
+
+    const params = new URLSearchParams();
+    checked.forEach(function(name) { params.append('catname[]', name); });
+    return 'all-categories.php?' + params.toString();
+}
+
+function uncheckIndividualCategories() {
+    document.querySelectorAll('#categoryFilters .cat-filter-checkbox').forEach(function(cb) {
+        cb.checked = false;
+        const label = cb.closest('.filter-checkbox-label');
+        if (label) label.classList.remove('is-checked');
+    });
+}
+
+// "ALL CATEGORIES" clears every individual selection
+const allCategoriesCheckbox = document.getElementById('catAllCheckbox');
+if (allCategoriesCheckbox) {
+    allCategoriesCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            uncheckIndividualCategories();
+            loadCategoryView('all-categories.php');
+        }
+    });
+}
+
+// Individual category checkboxes accumulate selections, and picking one
+// automatically drops "ALL CATEGORIES" since it's no longer accurate
+document.querySelectorAll('#categoryFilters .cat-filter-checkbox').forEach(function(cb) {
+    cb.addEventListener('change', function() {
+        if (allCategoriesCheckbox && allCategoriesCheckbox.checked) {
+            allCategoriesCheckbox.checked = false;
+            const allLabel = allCategoriesCheckbox.closest('.filter-checkbox-label');
+            if (allLabel) allLabel.classList.remove('is-checked');
+        }
+        loadCategoryView(buildCategoryFilterUrl());
     });
 });
 
@@ -650,26 +710,38 @@ window.addEventListener('popstate', function() {
 });
 
 function syncCategoryFilterState() {
-    const activeCatName = (new URLSearchParams(window.location.search).get('catname') || document.body.dataset.activeCatname || '').toUpperCase().trim();
+    const params = new URLSearchParams(window.location.search);
+    let activeNames = params.getAll('catname[]').concat(params.getAll('catname'));
+
+    if (activeNames.length === 0 && document.body.dataset.activeCatname) {
+        // Fallback for the server-rendered comma-joined value (initial page load)
+        activeNames = document.body.dataset.activeCatname.split(',').map(function(s) { return s.trim(); });
+    }
+    activeNames = activeNames.map(function(n) { return n.toUpperCase().trim(); }).filter(Boolean);
+
     const filterContainer = document.getElementById('categoryFilters');
-    let activeLabel = null;
+    let firstActiveLabel = null;
+    const noneActive = activeNames.length === 0;
 
-    document.querySelectorAll('#categoryFilters .filter-checkbox-label').forEach(function(label) {
-        const input = label.querySelector('input[type="checkbox"]');
-        if (!input) return;
-
-        const isActive = input.value.toUpperCase().trim() === activeCatName;
+    document.querySelectorAll('#categoryFilters .cat-filter-checkbox').forEach(function(input) {
+        const label = input.closest('.filter-checkbox-label');
+        const isActive = activeNames.includes(input.value.toUpperCase().trim());
         input.checked = isActive;
-        label.classList.toggle('is-checked', isActive);
-
-        if (isActive) activeLabel = label;
+        if (label) label.classList.toggle('is-checked', isActive);
+        if (isActive && !firstActiveLabel) firstActiveLabel = label;
     });
 
-    if (filterContainer && activeLabel) {
+    if (allCategoriesCheckbox) {
+        allCategoriesCheckbox.checked = noneActive;
+        const allLabel = allCategoriesCheckbox.closest('.filter-checkbox-label');
+        if (allLabel) allLabel.classList.toggle('is-checked', noneActive);
+    }
+
+    if (filterContainer && firstActiveLabel) {
         requestAnimationFrame(function() {
             const containerHeight = filterContainer.clientHeight;
-            const labelTop    = activeLabel.offsetTop;
-            const labelHeight = activeLabel.offsetHeight;
+            const labelTop    = firstActiveLabel.offsetTop;
+            const labelHeight = firstActiveLabel.offsetHeight;
             const targetScrollTop = labelTop - (containerHeight / 2) + (labelHeight / 2);
             filterContainer.scrollTop = Math.max(0, targetScrollTop);
         });
@@ -712,10 +784,12 @@ if (sidebarClose) {
 if (sidebarBackdrop) {
     sidebarBackdrop.addEventListener('click', closeMobileSidebar);
 }
-// Selecting a category filter on mobile should close the sidebar too
-document.querySelectorAll('#categoryFilters .filter-checkbox-label').forEach(function(label) {
-    label.addEventListener('click', closeMobileSidebar);
-});
+// Choosing "ALL CATEGORIES" clears the filter, so it's fine to close the
+// sidebar then. Individual category checkboxes stay open so users can
+// check several categories in a row without the sidebar closing each time.
+if (allCategoriesCheckbox) {
+    allCategoriesCheckbox.addEventListener('change', closeMobileSidebar);
+}
 
 document.addEventListener('change', function(e) {
     if (e.target.id !== 'sortSelect') return;

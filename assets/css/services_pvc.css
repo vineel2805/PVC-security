@@ -1,9 +1,9 @@
-    :root {
+:root {
       --pvc-black: #000000;
       --pvc-gold: #B8860B;
       --pvc-gold-light: #D4AF37;
       --pvc-white: #FFFFFF;
-      --pvc-off-white: #F8F8F8;
+      --pvc-off-white: #Ffffff;
       --pvc-text-dark: #1a1a1a;
       --pvc-text-gray: #444444;
       --pvc-gold-dark: #b8860b;
@@ -88,11 +88,23 @@
       }
     }
 
+    /* No margin-top here: a spacer element right after <header> already
+       reserves its exact height in normal flow, so this section needs
+       no extra offset to clear the fixed header. padding-top:0 trims
+       the shared .shop-categories-section's own 60px top padding and
+       padding-bottom trims its 80px bottom padding — both of which,
+       stacked with the grid section's own top padding, were the bulk
+       of the gap around the "Our Services" heading. */
+    .services-page-hero {
+      padding-top: 0;
+      padding-bottom: 20px;
+    }
+
     /* =========================================
        SERVICES GRID SECTION
        ========================================= */
     .services-grid-section {
-      padding: 100px 0;
+      padding: 40px 0 100px;
       background-color: var(--pvc-off-white);
     }
 
@@ -193,7 +205,7 @@
     }
 
     .shop-cat-title {
-      font-size: 43px;
+      font-size: 32px;
       font-weight: 700;
       color: var(--pvc-gold-dark);
       margin-bottom: 10px;
@@ -211,14 +223,14 @@
     .section-header,
     .shop-cat-header {
       text-align: center;
-      margin-bottom: 60px;
+      margin-bottom: 20px;
     }
 
     .section-header h2 {
-      font-size: 43px;
+      font-size: 32px;
       font-weight: 700;
       color: var(--pvc-gold-dark);
-      margin-bottom: 20px;
+      margin-bottom: 12px;
       font-family: 'Poppins', sans-serif;
       letter-spacing: -0.5px;
       line-height: 1.25;
@@ -409,15 +421,40 @@
       .section-header h2,
       .final-cta-content h2,
       .shop-cat-title {
-        font-size: 36px;
+        font-size: 26px;
       }
 
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr);
+      /* Cards were still 4-per-row down to 767px, cramming into thin
+         columns on tablets. Match the 2-per-row layout mobile already
+         gets so there's no awkward squeeze in between. */
+      .service-card {
+        flex: 0 0 calc(50% - 30px);
       }
 
       .hero-title {
         font-size: 2.5rem;
+      }
+
+      .services-page-hero {
+        padding-bottom: 14px;
+      }
+
+      .services-grid-section {
+        padding: 20px 0 60px;
+      }
+
+      .why-us-section,
+      .process-section {
+        padding: 60px 0;
+      }
+
+      .section-header,
+      .shop-cat-header {
+        margin-bottom: 18px;
+      }
+
+      .process-timeline {
+        margin-top: 40px;
       }
     }
 
@@ -426,7 +463,11 @@
       .section-header h2,
       .final-cta-content h2,
       .shop-cat-title {
-        font-size: 28px;
+        font-size: 20px;
+      }
+
+      .services-page-hero {
+        padding-bottom: 10px;
       }
 
       .services-grid {
@@ -471,10 +512,29 @@
         font-size: 2rem;
       }
 
+      .services-page-hero {
+        margin-top: 56px;
+      }
+
+      .services-grid-section {
+        padding: 14px 0 40px;
+      }
+
+      .why-us-section,
+      .process-section {
+        padding: 40px 0;
+      }
+
+      .section-header,
+      .shop-cat-header {
+        margin-bottom: 14px;
+      }
+
       .process-timeline {
         flex-direction: column;
-        gap: 40px;
+        gap: 25px;
         align-items: center;
+        margin-top: 25px;
       }
 
       .process-timeline::before {

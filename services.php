@@ -1,33 +1,34 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Security Services - PVC Global Security</title>
+  <title>Premium Security Services - PVC Security Solutions</title>
   <meta name="description"
-    content="Expert CCTV installation, security planning, and maintenance services. PVC Security provides professional surveillance support across Andhra Pradesh and Telangana.">
+    content="Expert CCTV installation, security planning, and maintenance services. PVC Security Solutions provides professional surveillance support across Andhra Pradesh and Telangana.">
     <?php include 'head.php'; ?>
+    
   <!-- JS Plugins -->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
   <!-- FontAwesome 6 (if not already fully loaded) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/services_pvc.css">
+  <link rel="stylesheet" href="assets/css/services_pvc.css?v=<?php echo filemtime(__DIR__ . '/assets/css/services_pvc.css'); ?>">
   
 </head>
 <body>
 
 <?php include 'header.php'; ?>
 <?php include 'includes/header.php'; ?>
-0
+
 
   <!-- HERO SECTION -->
-  <section class="shop-categories-section pt-5" style="background:#fff; margin-top:80px;">
+  <section class="shop-categories-section services-page-hero" style="background:#fff;">
     <div class="container">
       <div class="shop-cat-header" data-aos="fade-up">
-        <h2 class="shop-cat-title">Professional Security Services</h2>
+        <h2 class="shop-cat-title">Our Services</h2>
         <div class="eco-header-divider"></div>
-        <p class="shop-cat-tagline">Complete CCTV & Surveillance Solutions by PVC Security</p>
+        <p class="shop-cat-tagline">Complete CCTV & Surveillance Solutions by PVC Security Solutions</p>
       </div>
     </div>
   </section>
@@ -42,7 +43,7 @@
             <i class="fa-solid fa-video"></i>
           </div>
           <h3>CCTV Installation</h3>
-          <p>Professional installation of HD & IP camera systems for clear, uninterrupted surveillance coverage.</p>
+          <p>Professional HD & IP camera installation.</p>
         </div>
 
         <!-- Service 2 -->
@@ -51,7 +52,7 @@
             <i class="fa-solid fa-shield-halved"></i>
           </div>
           <h3>Security Planning</h3>
-          <p>Strategic positioning and system design to eliminate blind spots and maximize security efficiency.</p>
+          <p>Strategic design that eliminates blind spots.</p>
         </div>
 
         <!-- Service 3 -->
@@ -60,7 +61,7 @@
             <i class="fa-solid fa-house-lock"></i>
           </div>
           <h3>Home Security</h3>
-          <p>Smart security solutions protecting your family with 24/7 monitoring and mobile access control.</p>
+          <p>24/7 monitoring & mobile access for your family.</p>
         </div>
 
         <!-- Service 4 -->
@@ -69,7 +70,7 @@
             <i class="fa-solid fa-city"></i>
           </div>
           <h3>Office & Industrial</h3>
-          <p>Robust surveillance for commercial spaces, factories, and warehouses ensuring asset protection.</p>
+          <p>Robust surveillance for offices, factories & warehouses.</p>
         </div>
 
 
@@ -80,7 +81,7 @@
             <i class="fa-solid fa-headset"></i>
           </div>
           <h3>Maintenance</h3>
-          <p>Regular system health checks, firmware updates, and comprehensive support to keep your security active.</p>
+          <p>Regular health checks & firmware updates.</p>
         </div>
 
         <!-- Service 6 -->
@@ -89,7 +90,7 @@
             <i class="fa-solid fa-cloud"></i>
           </div>
           <h3>Remote Access</h3>
-          <p>Secure cloud backup and mobile integration for real-time alerts and remote viewing from anywhere.</p>
+          <p>Cloud backup with real-time alerts, anywhere.</p>
         </div>
 
         <!-- Service 7 -->
@@ -98,7 +99,7 @@
             <i class="fa-solid fa-screwdriver-wrench"></i>
           </div>
           <h3>AMC & Maintenance</h3>
-          <p>Annual Maintenance Contracts to keep your security systems running at peak performance.</p>
+          <p>Annual contracts for peak system performance.</p>
         </div>
 
         <!-- Service 8 -->
@@ -107,16 +108,10 @@
             <i class="fa-solid fa-arrow-up-right-dots"></i>
           </div>
           <h3>System Upgrade</h3>
-          <p>Modernize your existing analog systems to high-definition IP solutions with minimal disruption.</p>
+          <p>Upgrade analog systems to HD IP, hassle-free.</p>
         </div>
         <!-- Service 9 -->
-        <div class="service-card" data-aos="fade-up" data-aos-delay="500">
-          <div class="service-icon-wrapper">
-            <i class="fa-solid fa-headset"></i>
-          </div>
-          <h3>Repair & Support</h3>
-          <p>Quick response technical support and on-site repair services for all major security brands.</p>
-        </div>
+    
       </div>
     </div>
   </section>
@@ -125,8 +120,7 @@
   <section class="why-us-section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <h2>Why Choose PVC Security?</h2>
-        <div class="gold-divider"></div>
+        <h2>Why Choose PVC Security Solutions?</h2>
       </div>
       <div class="trust-grid">
         <div class="trust-item" data-aos="fade-up" data-aos-delay="100">
@@ -186,6 +180,7 @@
     </div>
   </section>
 
+    <?php include 'global_footer.php'; ?>
 
 
   <!-- SCRIPTS -->

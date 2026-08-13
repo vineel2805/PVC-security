@@ -1,16 +1,20 @@
 <?php
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root');       // your MySQL username
-define('DB_PASS', '');           // your MySQL password
-define('DB_NAME', 'pvc');
-
-$pdo = new PDO(
-    "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
-    DB_USER,
-    DB_PASS,
-    [
-        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES   => false,
-    ]
-);
+define('DB_USER', 'root');       
+define('DB_PASS', '');
+define('DB_NAME', 'pvc');       
+try {
+    $pdo = new PDO(
+        "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
+        DB_USER,
+        DB_PASS,
+        [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ]
+    );
+} catch (PDOException $e) {
+    error_log('DB connection failed: ' . $e->getMessage());
+    die('Database connection failed. Please contact the site administrator.');
+}

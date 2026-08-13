@@ -24,6 +24,78 @@
     --pvc-gold-primary: #c9a14a;
 }
 
+
+
+ /* ============================================================
+     Floating WhatsApp button - fixed bottom-right, with pulsing
+     wave rings (same technique as the Call Us icon above).
+  ============================================================ */
+  .pvc-float-whatsapp {
+    position: fixed;
+    right: 20px;
+    bottom: 70px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #25D366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    z-index: 999;
+    text-decoration: none;
+  }
+  .pvc-float-whatsapp i {
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 28px;
+  }
+  .pvc-float-whatsapp:hover {
+    background-color: #1DA851;
+  }
+  .pvc-float-whatsapp::before,
+  .pvc-float-whatsapp::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #25D366;
+    opacity: 0.45;
+    z-index: 1;
+    animation: pvcCallWave 2s ease-out infinite;
+    pointer-events: none;
+  }
+  .pvc-float-whatsapp::after {
+    animation-delay: 1s;
+  }
+  @media (max-width: 768px) {
+    .pvc-float-whatsapp {
+      right: 14px;
+      bottom: 150px;
+      width: 68px;
+      height: 68px;
+    }
+    .pvc-float-whatsapp i {
+      font-size: 24px;
+    }
+  }
+
+  @keyframes pvcCallWave {
+    0% {
+        transform: scale(1);
+        opacity: 0.45;
+    }
+
+    100% {
+        transform: scale(1.7);
+        opacity: 0;
+    }
+}
+
 /* ==========================================================================
    2. GLOBAL HEADER BASE (DESKTOP)
    ========================================================================== */
@@ -40,7 +112,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 0;
     box-shadow: none;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0,1.0);
     backdrop-filter: blur(5px);
     transform: none;
     transition: var(--transition-smooth);
