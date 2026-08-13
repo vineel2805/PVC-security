@@ -14,6 +14,17 @@
     .pvc-bottom-nav {
         view-transition-name: bottom-nav;
     }
+
+    /* The nav is `position: fixed`, so it's removed from normal
+       document flow and reserves no space of its own — nothing
+       pushes the rest of the page up to clear it. Without this, the
+       last ~68-76px of every page's content (usually the footer's
+       Quick Links column) renders underneath the fixed bar instead
+       of above it. This is global (bottom-nav.css loads on every
+       page via head.php) since every page has the same nav. */
+    body {
+        padding-bottom: calc(68px + env(safe-area-inset-bottom)) !important;
+    }
 }
 
 @media (max-width: 991px) {
