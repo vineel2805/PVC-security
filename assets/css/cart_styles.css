@@ -31,7 +31,6 @@ body,
     font-family: var(--font-body, 'Inter', sans-serif);
 }
 
-.cart-page-title,
 .cart-form-section .section-title,
 .cart-summary-header .section-title {
     font-family: var(--font-heading, 'Outfit', sans-serif);
@@ -63,15 +62,10 @@ body,
     order: unset !important;
 }
 
-/* Hide step indicator when cart is empty or on desktop */
+/* Hide step indicator only when the cart is empty — shown on both
+   mobile and desktop otherwise */
 .cart-page-section .rfq-step-indicator.hidden {
     display: none;
-}
-
-@media (min-width: 992px) {
-    .rfq-step-indicator {
-        display: none !important;
-    }
 }
 
 /* =============================================
@@ -286,17 +280,111 @@ button.hik-btn-outline {
     }
 }
 
-.cart-page-title {
-    font-family: var(--font-heading, 'Outfit', sans-serif);
+/* =============================================
+   PAGE HEADING ("Your Cart") — same premium-header
+   pattern used for "Shop By Brand" etc. on the homepage
+   (assets/css/index.css), copied here since index.css
+   isn't loaded on cart.php.
+   ============================================= */
+.cart-page-heading {
+    padding-top: 8px;
+    padding-bottom: 15px;
+    position: relative;
+    text-align: center;
+}
+
+.premium-icon-box {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--pvc-gold-dark), var(--pvc-gold-mid));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    animation: cart-heading-pulse 3s infinite ease-in-out;
+}
+
+.premium-icon-box i {
+    color: #fff;
+    font-size: 36px;
+}
+
+@keyframes cart-heading-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
+    }
+}
+
+.premium-subtitle {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #333;
+    margin-bottom: 12px;
+    font-family: 'Inter', sans-serif;
+}
+
+.premium-title {
     font-size: 48px;
     font-weight: 800;
     color: var(--pvc-gold-dark);
     text-transform: uppercase;
     letter-spacing: -0.5px;
+    margin-bottom: 20px;
     line-height: 1.1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    margin-bottom: 0;
+    font-family: 'Outfit', sans-serif;
+}
+
+.premium-divider {
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(to right, transparent, var(--pvc-gold-mid), transparent);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+@media (max-width: 991px) {
+    .premium-title {
+        font-size: 32px;
+    }
+
+    .premium-icon-box {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 10px;
+    }
+
+    .premium-icon-box i {
+        font-size: 26px;
+    }
+
+    .cart-page-heading {
+        padding-top: 4px;
+        padding-bottom: 5px;
+    }
+
+    .premium-subtitle {
+        font-size: 11px;
+        letter-spacing: 2px;
+        margin-bottom: 6px;
+    }
+
+    .premium-divider {
+        width: 70px;
+        height: 3px;
+    }
 }
 
 .cart-page-subtitle {
@@ -945,23 +1033,27 @@ button.hik-btn-outline {
         padding: 0 32px !important;
     }
 
-    /* Step indicator is desktop-hidden, so give the row its own
-       top spacing below the fixed header */
-    .cart-page-row {
-        margin-top: 40px !important;
+    .cart-page-heading {
+        padding-top: 24px;
     }
 
-    .cart-page-title {
-        font-family: var(--font-heading, 'Outfit', sans-serif) !important;
-        font-size: 48px !important;
-        font-weight: 800 !important;
-        color: var(--pvc-gold-dark) !important;
-        text-transform: uppercase !important;
-        letter-spacing: -0.5px !important;
-        line-height: 1.1 !important;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
-        margin-bottom: 0 !important;
+    .rfq-step-indicator {
+        margin: 8px auto 32px;
+        max-width: 360px;
+    }
+
+    .rfq-step-circle {
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+    .rfq-step-number,
+    .rfq-step-check {
+        font-size: 16px !important;
+    }
+
+    .rfq-step-label {
+        font-size: 15px !important;
     }
 
     /* DESKTOP: 2-STEP FLOW (like mobile, not side-by-side) */
@@ -1194,10 +1286,6 @@ button.hik-btn-outline {
    ============================================= */
 
 @media (max-width: 991px) {
-    .cart-page-title {
-        font-size: 40px !important;
-    }
-
     .cart-summary-section {
         position: relative;
         top: 0;
@@ -1216,11 +1304,6 @@ button.hik-btn-outline {
 
 
 @media (max-width: 575px) {
-    .cart-page-title {
-        font-size: 32px !important;
-        letter-spacing: 0 !important;
-    }
-
     .section-title {
         font-size: 18px;
         font-weight: 700;

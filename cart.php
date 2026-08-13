@@ -50,6 +50,16 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
   <section class="cart-page-section" data-step="1">
     <div class="container">
 
+      <!-- Page Heading -->
+      <div class="premium-header-section cart-page-heading">
+        <div class="premium-icon-box">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+        <span class="premium-subtitle">Request For Quotation</span>
+        <h1 class="premium-title">Your Cart</h1>
+        <div class="premium-divider"></div>
+      </div>
+
       <!-- Step Indicator -->
       <div class="rfq-step-indicator" id="rfqStepIndicator">
         <div class="rfq-step active" data-step-num="1">
