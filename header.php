@@ -51,4 +51,4 @@ if ($catRaw) {
    <?php if (($currentPage ?? '') !== 'cart.php'): ?>
     <?php include 'includes/bottom-nav.php'; ?>
 <?php endif; ?>
-<script src="assets/js/global_header.js" defer></script>
+<script src="assets/js/global_header.js?v=<?php echo filemtime(__DIR__ . '/assets/js/global_header.js'); ?>" defer></script>

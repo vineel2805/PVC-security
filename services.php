@@ -23,7 +23,7 @@
 
 
   <!-- HERO SECTION -->
-  <section class="shop-categories-section services-page-hero" style="background:#fff;">
+  <section class="shop-categories-section services-page-hero" style="background:#fffFF;">
     <div class="container">
       <div class="shop-cat-header" data-aos="fade-up">
         <h2 class="shop-cat-title">Our Services</h2>
@@ -98,7 +98,7 @@
           <div class="service-icon-wrapper">
             <i class="fa-solid fa-screwdriver-wrench"></i>
           </div>
-          <h3>AMC & Maintenance</h3>
+          <h3>AMC</h3>
           <p>Annual contracts for peak system performance.</p>
         </div>
 
@@ -111,41 +111,55 @@
           <p>Upgrade analog systems to HD IP, hassle-free.</p>
         </div>
         <!-- Service 9 -->
-    
+        <div class="service-card" data-aos="fade-up" data-aos-delay="500">
+          <div class="service-icon-wrapper">
+            <i class="fa-solid fa-phone-volume"></i>
+          </div>
+          <h3>Intercom Services</h3>
+          <p>Audio & video intercom systems for secure entry.</p>
+        </div>
+
+        <!-- Service 10 -->
+        <div class="service-card" data-aos="fade-up" data-aos-delay="550">
+          <div class="service-icon-wrapper">
+            <i class="fa-solid fa-door-open"></i>
+          </div>
+          <h3>Video Door Phone</h3>
+          <p>See & speak to visitors before opening the door.</p>
+        </div>
+
+        <!-- Service 11 -->
+        <div class="service-card" data-aos="fade-up" data-aos-delay="600">
+          <div class="service-icon-wrapper">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <h3>Home Automation</h3>
+          <p>Smart control for lights, locks & appliances.</p>
+        </div>
+
+        <!-- Service 12 -->
+        <div class="service-card" data-aos="fade-up" data-aos-delay="650">
+          <div class="service-icon-wrapper">
+            <i class="fa-solid fa-fingerprint"></i>
+          </div>
+          <h3>Biometrics</h3>
+          <p>Fingerprint & face access control for staff and premises.</p>
+        </div>
+
+        <!-- Service 13 -->
+        <div class="service-card" data-aos="fade-up" data-aos-delay="700">
+          <div class="service-icon-wrapper">
+            <i class="fa-solid fa-network-wired"></i>
+          </div>
+          <h3>Fiber Networking</h3>
+          <p>Structured fiber cabling for fast, reliable networks.</p>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- WHY CHOOSE US -->
-  <section class="why-us-section">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <h2>Why Choose PVC Security Solutions?</h2>
-      </div>
-      <div class="trust-grid">
-        <div class="trust-item" data-aos="fade-up" data-aos-delay="100">
-          <i class="fa-solid fa-user-gear"></i>
-          <h4>Expert Technicians</h4>
-        </div>
-        <div class="trust-item" data-aos="fade-up" data-aos-delay="200">
-          <i class="fa-solid fa-certificate"></i>
-          <h4>Genuine Products</h4>
-        </div>
-        <div class="trust-item" data-aos="fade-up" data-aos-delay="300">
-          <i class="fa-solid fa-comments"></i>
-          <h4>After-Sales Support</h4>
-        </div>
-        <div class="trust-item" data-aos="fade-up" data-aos-delay="400">
-          <i class="fa-solid fa-handshake"></i>
-          <h4>Trusted Distributor</h4>
-        </div>
-        <div class="trust-item" data-aos="fade-up" data-aos-delay="500">
-          <i class="fa-solid fa-bolt"></i>
-          <h4>Quick Installation</h4>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <!-- PROCESS SECTION -->
   <section class="process-section">

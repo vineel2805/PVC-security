@@ -19,7 +19,7 @@
     #home .carousel-area .carousel-item {
         height: auto !important;
         min-height: 0 !important;
-        max-height: 420px !important;
+        max-height: 560px !important;
         position: relative !important;
         overflow: hidden !important;
         background: transparent !important;
@@ -31,7 +31,7 @@
         width: 100% !important;
         max-width: 100% !important;
         height: 100% !important;
-        max-height: 420px !important;
+        max-height: 560px !important;
         object-fit: cover !important;
         object-position: top center !important;
         margin: 0 !important;
@@ -48,7 +48,7 @@
     #home .carousel-area .owl-stage-outer,
     #home .hero3-section-area .hero-banner-img,
     #home .carousel-area img {
-        max-height: 380px !important;
+        max-height: 500px !important;
     }
 }
 
@@ -59,7 +59,7 @@
     #home .carousel-area .owl-stage-outer,
     #home .hero3-section-area .hero-banner-img,
     #home .carousel-area img {
-        max-height: 350px !important;
+        max-height: 440px !important;
     }
 }
 
@@ -76,7 +76,7 @@
         height: auto !important;
         min-height: 0 !important;
         max-height: none !important;
-        aspect-ratio: 3 / 2 !important;
+        aspect-ratio: 4 / 3 !important;
         position: relative !important;
         overflow: hidden !important;
     }
@@ -88,7 +88,7 @@
         max-width: 100% !important;
         height: 100% !important;
         min-height: 0 !important;
-        aspect-ratio: 3 / 2 !important;
+        aspect-ratio: 4 / 3 !important;
         object-fit: cover !important;
         object-position: top center !important;
     }
@@ -104,12 +104,12 @@
     #home .carousel-area .owl-stage,
     #home .carousel-area .owl-item,
     #home .carousel-area .carousel-item {
-        aspect-ratio: 3 / 2 !important;
+        aspect-ratio: 4 / 3 !important;
     }
 
     #home .hero3-section-area .hero-banner-img,
     #home .carousel-area img {
-        aspect-ratio: 3 / 2 !important;
+        aspect-ratio: 4 / 3 !important;
     }
 }
 
@@ -123,12 +123,12 @@
     #home .carousel-area .owl-stage,
     #home .carousel-area .owl-item,
     #home .carousel-area .carousel-item {
-        aspect-ratio: 3 / 2 !important;
+        aspect-ratio: 4 / 3 !important;
     }
 
     #home .hero3-section-area .hero-banner-img,
     #home .carousel-area img {
-        aspect-ratio: 3 / 2 !important;
+        aspect-ratio: 4 / 3 !important;
     }
 }
 
@@ -190,9 +190,6 @@
 #home {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
-
-
-
 
 /*==========================================================================
 QUICK LINKS SECTION - LG Style Open Layout

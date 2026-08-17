@@ -169,22 +169,3 @@ if ($stmtC = mysqli_prepare($con, $sqlC)) {
 }
 
 echo json_encode($items, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
-// ============================================================
-//  REQUIRED ONE-TIME DB CHANGES — run these once in phpMyAdmin
-//  (SQL tab) or your MySQL console. These do NOT run automatically
-//  from this PHP file — copy/paste them yourself, once:
-//
-//  ALTER TABLE products ADD INDEX idx_search_pname (display_status, pname);
-//  ALTER TABLE products ADD INDEX idx_search_brandid (brandid);
-//  ALTER TABLE products ADD INDEX idx_search_pcat (pcat);
-//  ALTER TABLE brands   ADD INDEX idx_search_brandname (display_status, brandname);
-//  ALTER TABLE category ADD INDEX idx_search_cname (display_status, cname);
-//
-//  These speed up the JOIN and the display_status filter significantly.
-//  They do NOT fix the '%term%' wildcard scan itself — that part will
-//  always require scanning matching rows. If your products table grows
-//  past a few thousand rows and it's still slow after adding these
-//  indexes, the real fix is a MySQL FULLTEXT index on pname (and a
-//  MATCH...AGAINST query instead of LIKE), which I can set up next.
-// ============================================================

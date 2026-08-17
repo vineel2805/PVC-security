@@ -80,21 +80,24 @@ body {
 .cu-breadcrumb {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: clamp(6px, 1.5vw, 12px);
+  font-size: clamp(0.8rem, 0.75rem + 0.3vw, 0.95rem);
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.55);
-  margin-bottom: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: clamp(16px, 3vw, 24px);
+  flex-wrap: wrap;
 }
 
 .cu-breadcrumb a {
-  color: rgba(255, 255, 255, 0.55);
+  color: #D4AF37;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.3s ease;
+  font-weight: 500;
 }
 
 .cu-breadcrumb a:hover {
-  color: var(--pvc-gold-mid, #d4af37);
+  color: #FFD700;
+  text-decoration: underline;
 }
 
 .cu-breadcrumb i {
@@ -154,6 +157,75 @@ body {
   font-size: 14px;
 }
 
+.cu-hero-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cu-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.cu-stat-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(212, 175, 55, 0.4);
+  transform: translateX(8px);
+}
+
+.cu-stat-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  color: #d4af37;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.cu-stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cu-stat-number {
+  font-size: 18px;
+  font-weight: 700;
+  color: #d4af37;
+  line-height: 1.2;
+}
+
+.cu-stat-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.4;
+}
+
+@media (max-width: 1024px) {
+  .cu-hero-stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .cu-stat-card {
+    flex: 0 0 calc(50% - 6px);
+    padding: 16px;
+  }
+}
+
 @media (max-width: 767px) {
   .cu-hero {
     padding: 36px 0 40px;
@@ -171,6 +243,32 @@ body {
   .cu-stat-row {
     flex-direction: column;
     gap: 10px;
+  }
+
+  .cu-hero-stats {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .cu-stat-card {
+    flex: 1;
+    padding: 12px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cu-stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .cu-stat-number {
+    font-size: 16px;
+  }
+
+  .cu-stat-label {
+    font-size: 12px;
   }
 }
 
@@ -278,7 +376,7 @@ body {
 
 .cu-address-list li {
   position: relative;
-  padding-left: 13px;
+  padding-left: 0;
   font-size: 15px;
   color: var(--contact-text-muted);
   line-height: 1.6;
@@ -287,13 +385,7 @@ body {
 
 .cu-address-list li::before {
   content: '';
-  position: absolute;
-  left: 0;
-  top: 8px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--contact-gold);
+  display: none;
 }
 
 /* Call Us / Email Us cards list two contact links each, so they're a

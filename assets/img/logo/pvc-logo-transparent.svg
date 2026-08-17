@@ -1,0 +1,21 @@
+<svg viewBox="0 0 500 240" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .pvc-text { font-family: 'Outfit', 'Arial', sans-serif; font-weight: 800; fill: #FFFFFF; }
+      .security-text { font-family: 'Outfit', 'Arial', sans-serif; font-weight: 600; fill: #C9A14A; }
+    </style>
+  </defs>
+
+  <!-- PVC Text (White - Bold) -->
+  <text class="pvc-text" x="250" y="130" font-size="110" text-anchor="middle" letter-spacing="12">
+    PVC
+  </text>
+
+  <!-- SECURITY SOLUTIONS Text (Gold) -->
+  <text class="security-text" x="250" y="195" font-size="36" text-anchor="middle" letter-spacing="6">
+    SECURITY SOLUTIONS
+  </text>
+
+  <!-- Gold accent line -->
+  <line x1="100" y1="210" x2="400" y2="210" stroke="#C9A14A" stroke-width="2" opacity="0.6"/>
+</svg>

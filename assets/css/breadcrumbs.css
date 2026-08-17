@@ -1,0 +1,51 @@
+/* ==========================================================================
+   BREADCRUMB NAVIGATION - GLOBAL STYLES
+   ========================================================================== */
+
+.pvc-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1.5vw, 12px);
+    font-size: clamp(0.8rem, 0.75rem + 0.3vw, 0.95rem);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: clamp(16px, 3vw, 24px);
+    flex-wrap: wrap;
+}
+
+.pvc-breadcrumb a {
+    color: #D4AF37;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.pvc-breadcrumb a:hover {
+    color: #FFD700;
+    text-decoration: underline;
+}
+
+.pvc-breadcrumb i {
+    color: rgba(212, 175, 55, 0.5);
+    font-size: 0.7em;
+    margin: 0 2px;
+}
+
+.pvc-breadcrumb span:last-child {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+}
+
+/* Mobile optimization - reduce gap */
+@media (max-width: 767px) {
+    .pvc-breadcrumb {
+        gap: 4px;
+        font-size: 0.75rem;
+        margin-bottom: 12px;
+    }
+
+    .pvc-breadcrumb i {
+        font-size: 0.6em;
+        margin: 0 1px;
+    }
+}

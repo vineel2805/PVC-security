@@ -15,7 +15,7 @@
     --pvc-gold: #B8860B;
     --pvc-gold-light: #D4AF37;
     --pvc-white: #FFFFFF;
-    --pvc-off-white: #F8F8F8;
+    --pvc-off-white: #ffffff;
     --pvc-text-dark: #1a1a1a;
     --pvc-text-gray: #444444;
     --pvc-gold-dark: #b8860b;
@@ -132,12 +132,25 @@ img {
 }
 
 .text-content h2 {
-    font-size: var(--fs-h2);
+    font-size: clamp(1.5rem, 0.9rem + 1.8vw, 2.4rem);
     font-weight: 700;
-    color: var(--pvc-gold-dark);
-    margin-bottom: clamp(14px, 2.5vw, 26px);
-    letter-spacing: -0.3px;
-    line-height: 1.25;
+    color: #b8860b;
+    margin-bottom: clamp(12px, 2vw, 22px);
+    letter-spacing: 0px;
+    line-height: 1.2;
+    text-transform: capitalize;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+}
+
+.text-content h2::before {
+    content: 'WHO WE ARE';
+    display: block;
+    font-size: clamp(0.65rem, 0.55rem + 0.35vw, 0.8rem);
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: #000000;
+    margin-bottom: clamp(8px, 1.5vw, 12px);
     text-transform: uppercase;
 }
 
@@ -168,17 +181,30 @@ img {
 
 .section-header {
     text-align: center;
-    margin-bottom: clamp(28px, 5vw, 60px);
+    margin-bottom: clamp(48px, 5vw, 80px);
+    position: relative;
+}
+
+.section-header::before {
+    content: 'WHAT WE BUILD';
+    display: block;
+    font-size: clamp(0.7rem, 0.6rem + 0.4vw, 0.85rem);
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: #000000;
+    margin-bottom: clamp(10px, 1.8vw, 16px);
+    text-transform: uppercase;
 }
 
 .section-header h2 {
-    font-size: var(--fs-h2);
+    font-size: clamp(1.3rem, 0.85rem + 1.8vw, 2.4rem);
     font-weight: 700;
-    color: var(--pvc-gold-dark);
-    margin-bottom: clamp(8px, 1.5vw, 15px);
-    letter-spacing: -0.3px;
-    line-height: 1.25;
-    text-transform: uppercase;
+    color: #b8860b;
+    margin-bottom: clamp(12px, 1.6vw, 18px);
+    letter-spacing: 0px;
+    line-height: 1.1;
+    text-transform: none;
+    font-family: 'Poppins', sans-serif;
 }
 
 .section-header p {
@@ -205,7 +231,7 @@ img {
 
 .shop-img-card {
     background: #fff;
-    border-radius: clamp(10px, 1.5vw, 16px);
+    border-radius: 0;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     transition: var(--transition-smooth);

@@ -651,6 +651,11 @@ async function loadCategoryView(url, pushState = true) {
     syncCategoryFilterState();
     rebindCatNavLinks();
     if (typeof AOS !== 'undefined') AOS.refreshHard();
+
+    // Land at the very top of the page instead of wherever the browser
+    // happens to leave the viewport once the (shorter/taller) new grid
+    // has replaced the old one.
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function rebindCatNavLinks() {

@@ -1191,10 +1191,12 @@
 }
 
 .products-grid .product-title {
-    color: #1a1a1a !important;
-    font-size: 13.5px;
+    color: #333333 !important;
+    font-size: 13px;
     font-weight: 500;
-    line-height: 1.35;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1.4;
     margin: 0;
     text-align: left;
     display: -webkit-box;
@@ -1218,13 +1220,21 @@
 }
 
 .products-grid .product-status-badge {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     width: fit-content;
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 10px;
+    font-weight: 600;
     letter-spacing: 0.02em;
-    padding: 3px 10px;
+    padding: 2px 9px;
     border-radius: 999px;
+}
+
+.products-grid .product-status-badge::before {
+    width: 5px;
+    height: 5px;
+    animation: none;
 }
 
 .products-grid .product-status-badge.in-stock {
@@ -1252,12 +1262,19 @@
    excess card height here. */
 .products-grid .card-cart-add,
 .products-grid .card-qty {
-    min-height: 38px;
+    min-height: 32px;
 }
 
 .products-grid .card-cart-add {
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
     border-radius: 6px;
+    box-shadow: none;
+}
+
+.products-grid .card-cart-add:hover {
+    box-shadow: 0 2px 8px rgba(192, 152, 83, 0.25);
 }
 
 .products-grid .card-qty button {
@@ -1559,10 +1576,12 @@
 }
 
 
-/* Make the toolbar sticky globally so it stays visible while scrolling the grid */
+/* Make the toolbar sticky globally so it stays visible while scrolling the grid.
+   top uses the live fixed-header height (set on <html> by global_header.js) so it
+   sticks right below the header instead of under it, at every breakpoint. */
 .products-toolbar {
     position: sticky;
-    top: 50;
+    top: var(--header-height, 80px);
     z-index: 100;
     background: #fff;
     padding-top: 15px;

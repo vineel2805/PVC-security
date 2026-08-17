@@ -22,7 +22,7 @@
 .pvc-global-footer {
     background: var(--pvc-black);
     color: var(--pvc-white);
-    padding: 50px 0 0;
+    padding: 40px 0 0;
     font-family: var(--font-body);
     border-top: 2px solid var(--pvc-gold-dark);
     position: relative;
@@ -52,12 +52,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: 40px;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 .pvc-footer-col {
     flex: 1;
     min-width: 250px;
+}
+
+.pvc-footer-col:first-child {
+    margin-top: -50px;
 }
 
 /* ==========================================================================
@@ -129,6 +133,7 @@
     font-size: 14px;
     margin-bottom: 24px;
     word-break: break-word;
+    max-width: 280px;
 }
 
 .pvc-trust-icons {
@@ -339,6 +344,34 @@
     -webkit-text-fill-color: transparent;
 }
 
+/* Address Lines Styling */
+.pvc-address-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.pvc-address-line {
+    color: var(--pvc-white);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Location Map Container */
+.pvc-map-container {
+    margin-top: 24px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
+}
+
+.pvc-location-map {
+    border-radius: 8px;
+    display: block;
+}
+
 /* Support & Connect */
 .pvc-action-btns {
     display: flex;
@@ -473,6 +506,10 @@
         flex: 0 0 45%;
     }
 
+    .pvc-footer-col:first-child {
+        margin-top: -30px;
+    }
+
     .pvc-footer-logo img {
         height: 160px !important;
         width: 160px !important;
@@ -481,6 +518,10 @@
     .pvc-brand-top,
     .pvc-brand-bottom {
         font-size: 18px;
+    }
+
+    .pvc-location-map {
+        height: 160px !important;
     }
 }
 
@@ -501,7 +542,7 @@
         display: block !important;
         background: var(--pvc-black) !important;
         color: var(--pvc-white);
-        padding: 45px 0 100px !important;
+        padding: 40px 0 80px !important;
         margin: 0 !important;
         border-top: 2px solid var(--pvc-gold-dark) !important;
     }
@@ -518,8 +559,8 @@
     .pvc-footer-row {
         display: flex;
         flex-direction: column;
-        gap: 35px;
-        margin-bottom: 25px;
+        gap: 28px;
+        margin-bottom: 15px;
     }
 
     .pvc-footer-col {
@@ -527,25 +568,30 @@
         min-width: 0;
     }
 
+    .pvc-footer-col:first-child {
+        margin-top: -20px;
+    }
+
     .pvc-footer-logo {
-        margin-bottom: 16px;
+        margin-bottom: 18px;
     }
 
     .pvc-footer-logo img {
-        height: 180px !important;
-        width: 180px !important;
+        height: 170px !important;
+        width: 170px !important;
     }
 
     .pvc-brand-top,
     .pvc-brand-bottom {
-        font-size: 17px;
+        font-size: 18px;
         letter-spacing: 0.5px;
     }
 
     .pvc-footer-desc {
         font-size: 14px;
         line-height: 1.7;
-        margin-bottom: 20px;
+        margin-bottom: 22px;
+        max-width: 100%;
     }
 
     .pvc-trust-icons {
@@ -603,6 +649,18 @@
         line-height: 1.4;
     }
 
+    .pvc-address-line {
+        font-size: 14px;
+    }
+
+    .pvc-map-container {
+        margin-top: 20px;
+    }
+
+    .pvc-location-map {
+        height: 150px !important;
+    }
+
     .pvc-action-btns {
         flex-direction: row;
         gap: 10px;
@@ -644,18 +702,34 @@
         width: 100%;
     }
 
+    .pvc-footer-col:first-child {
+        margin-top: -15px;
+    }
+
     .pvc-footer-logo img {
-        height: 125px !important;
-        width: 125px !important;
+        height: 150px !important;
+        width: 150px !important;
     }
 
     .pvc-brand-top,
     .pvc-brand-bottom {
-        font-size: 15px;
+        font-size: 16px;
+    }
+
+    .pvc-footer-desc {
+        font-size: 13px;
     }
 
     .pvc-contact-text a,
     .pvc-contact-text p {
         font-size: 13px;
+    }
+
+    .pvc-address-line {
+        font-size: 13px;
+    }
+
+    .pvc-location-map {
+        height: 130px !important;
     }
 }

@@ -1,0 +1,13 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs
+error_log
+*.log
+
+# Server/FTP metadata
+.ftpquota
+
+# Backups — do not commit large backup archives to the repo
+*.zip

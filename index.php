@@ -1,7 +1,7 @@
 <!--this is index file in PVC SECURITY website-->
 <?php include 'head.php'; ?>
   <!--=====HEADER START =======-->
-<link rel="stylesheet" href="assets/css/index.css">
+<link rel="stylesheet" href="assets/css/index.css?v=<?php echo filemtime(__DIR__ . '/assets/css/index.css'); ?>">
 <?php include 'header.php'; ?>
 <?php include 'includes/header.php'; ?>
 
@@ -726,51 +726,6 @@ $result = mysqli_query($con, $query);
       }
       handleResize();
     })();
-  </script>
-  <script>
-    AOS.init({
-      duration: 1000,
-      once: true
-    });
-    // Premium Icon Tilt Interaction
-    const interactiveElements = document.querySelectorAll('.service-icon, .progres-section-area .check, .site-logo img, .social-links a, .service-boxarea .icons, .contact-boxarea .img1, .product-img-box');
-    interactiveElements.forEach(el => {
-      el.addEventListener('mousemove', e => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        let tiltAmount = 6;
-        if (el.classList.contains('product-img-box')) tiltAmount = 15; // More pronounced for the hardware box
-        const rotateX = (y - centerY) / tiltAmount;
-        const rotateY = (centerX - x) / tiltAmount;
-        el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-        el.style.transition = 'transform 0.1s ease-out';
-      });
-      el.addEventListener('mouseleave', () => {
-        el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-        el.style.transition = 'transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-      });
-    });
-    $('.hero-slider-desktop').owlCarousel({
-      items: 1,
-      loop: true,
-      autoplay: true,
-      autoplayTimeout: 1500,
-      autoplayHoverPause: false,
-      nav: false,
-      dots: true
-    });
-    $('.hero-slider-mobile').owlCarousel({
-      items: 1,
-      loop: true,
-      autoplay: true,
-      autoplayTimeout: 1500,
-      autoplayHoverPause: false,
-      nav: false,
-      dots: true
-    });
   </script>
   <!-- Form & Cart Systems -->
 </body>

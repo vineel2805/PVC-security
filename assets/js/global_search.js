@@ -49,12 +49,13 @@ function showState(state) {
 
 $input.on('input', function() {
     const query = $(this).val().trim();
-    
+
     if (query.length > 0) {
         $clearBtn.show();
     } else {
         $clearBtn.hide();
         showState('empty');
+        clearTimeout(debounceTimer);
         if (currentController) currentController.abort();
         return;
     }
@@ -62,9 +63,16 @@ $input.on('input', function() {
     clearTimeout(debounceTimer);
     showState('loading');
 
-    debounceTimer = setTimeout(() => {
+    // First letter fires immediately so results feel instant; fast
+    // subsequent keystrokes get a very short debounce to avoid
+    // hammering the server on rapid typing.
+    if (query.length === 1) {
         performSearch(query);
-    }, 300);
+    } else {
+        debounceTimer = setTimeout(() => {
+            performSearch(query);
+        }, 120);
+    }
 });
 
 $clearBtn.on('click', function() {

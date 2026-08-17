@@ -23,17 +23,44 @@
   <section class="cu-hero">
     <div class="cu-hero-glow"></div>
     <div class="container">
-      <div class="cu-hero-inner" data-aos="fade-up">
-        <nav class="cu-breadcrumb" aria-label="breadcrumb">
-          <a href="index.php">Home</a>
-          <i class="fa-solid fa-chevron-right"></i>
-          <span>Contact Us</span>
-        </nav>
-        <span class="cu-eyebrow">Get In Touch</span>
-        <h1 class="cu-hero-title">We're Here To <span class="text-gold">Help You</span></h1>
-        <p class="cu-hero-desc">Installation, service, warranty or sales — reach the PVC Security team any way that works for you.</p>
-
-       
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="cu-hero-inner" data-aos="fade-up">
+            <nav class="cu-breadcrumb" aria-label="breadcrumb">
+              <a href="index.php">Home</a>
+              <i class="fa-solid fa-chevron-right"></i>
+              <span>Contact Us</span>
+            </nav>
+            <span class="cu-eyebrow">Get In Touch</span>
+            <h1 class="cu-hero-title">We're Here To <span class="text-gold">Help You</span></h1>
+            <p class="cu-hero-desc">Installation, service, warranty or sales — reach the PVC Security team any way that works for you.</p>
+          </div>
+        </div>
+        <div class="col-lg-6" data-aos="fade-left">
+          <div class="cu-hero-stats">
+            <div class="cu-stat-card">
+              <div class="cu-stat-icon"><i class="fa-solid fa-headset"></i></div>
+              <div class="cu-stat-content">
+                <div class="cu-stat-number">24/7</div>
+                <div class="cu-stat-label">Support Available</div>
+              </div>
+            </div>
+            <div class="cu-stat-card">
+              <div class="cu-stat-icon"><i class="fa-solid fa-bolt"></i></div>
+              <div class="cu-stat-content">
+                <div class="cu-stat-number">Fast</div>
+                <div class="cu-stat-label">Response Time</div>
+              </div>
+            </div>
+            <div class="cu-stat-card">
+              <div class="cu-stat-icon"><i class="fa-solid fa-handshake"></i></div>
+              <div class="cu-stat-content">
+                <div class="cu-stat-number">Expert</div>
+                <div class="cu-stat-label">Team Support</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

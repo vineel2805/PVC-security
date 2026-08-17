@@ -90,13 +90,11 @@
 
     /* No margin-top here: a spacer element right after <header> already
        reserves its exact height in normal flow, so this section needs
-       no extra offset to clear the fixed header. padding-top:0 trims
-       the shared .shop-categories-section's own 60px top padding and
-       padding-bottom trims its 80px bottom padding — both of which,
-       stacked with the grid section's own top padding, were the bulk
-       of the gap around the "Our Services" heading. */
+       no extra offset to clear the fixed header. A small padding-top is
+       kept intentionally so the "Our Services" heading isn't flush
+       against the header. */
     .services-page-hero {
-      padding-top: 0;
+      padding-top: 24px;
       padding-bottom: 20px;
     }
 
@@ -205,10 +203,27 @@
     }
 
     .shop-cat-title {
-      font-size: 32px;
+      font-size: clamp(1.3rem, 0.85rem + 1.8vw, 2.4rem);
       font-weight: 700;
-      color: var(--pvc-gold-dark);
-      margin-bottom: 10px;
+      color: #b8860b;
+      margin-bottom: clamp(12px, 1.6vw, 18px);
+      margin-top: 0;
+      text-transform: none;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 0px;
+      line-height: 1.1;
+      position: relative;
+      padding-top: 0;
+    }
+
+    .shop-cat-title::before {
+      content: 'WE PROVIDE';
+      display: block;
+      font-size: clamp(0.7rem, 0.6rem + 0.4vw, 0.85rem);
+      font-weight: 500;
+      letter-spacing: 3px;
+      color: #000000;
+      margin-bottom: clamp(10px, 1.8vw, 16px);
       text-transform: uppercase;
     }
 
@@ -227,14 +242,14 @@
     }
 
     .section-header h2 {
-      font-size: 32px;
+      font-size: clamp(1.3rem, 0.85rem + 1.8vw, 2.4rem);
       font-weight: 700;
-      color: var(--pvc-gold-dark);
-      margin-bottom: 12px;
+      color: #b8860b;
+      margin-bottom: clamp(12px, 1.6vw, 18px);
       font-family: 'Poppins', sans-serif;
-      letter-spacing: -0.5px;
-      line-height: 1.25;
-      text-transform: uppercase;
+      letter-spacing: 0px;
+      line-height: 1.1;
+      text-transform: none;
     }
 
     .trust-grid {
@@ -418,9 +433,7 @@
        ========================================= */
     @media (max-width: 991px) {
 
-      .section-header h2,
-      .final-cta-content h2,
-      .shop-cat-title {
+      .final-cta-content h2 {
         font-size: 26px;
       }
 
@@ -460,9 +473,7 @@
 
     @media (max-width: 767px) {
 
-      .section-header h2,
-      .final-cta-content h2,
-      .shop-cat-title {
+      .final-cta-content h2 {
         font-size: 20px;
       }
 

@@ -354,13 +354,13 @@ function renderProductsGrid($viewMode, $brandCategoryTiles, $brandRow, $products
                  data-image="<?php echo $imgSrc; ?>">
                 <div class="product-image">
                     <img src="<?php echo $imgSrc; ?>"
-                         alt="<?php echo htmlspecialchars($product['pname']); ?>"
+                         alt="<?php echo htmlspecialchars(pvc_display_title($product['pname'])); ?>"
                          loading="lazy"
                          onerror="this.onerror=null; this.src='<?php echo $defaultImg; ?>';">
                 </div>
                 <div class="product-info">
                     <p class="product-title">
-                        <?php echo htmlspecialchars($product['pname']); ?>
+                        <?php echo htmlspecialchars(pvc_display_title($product['pname'])); ?>
                     </p>
                     <?php if ($isOutOfStock): ?>
                         <span class="product-status-badge out-of-stock">OUT OF STOCK</span>
@@ -794,21 +794,12 @@ async function loadProducts(url, pushState = true, keepScroll = false) {
 /* ===================================================================
    SCROLL FIX
    Instead of letting the browser decide where to sit after the grid
-   height changes, park the viewport at the top of the results area —
-   but only when the user is currently below it, so a click near the
-   top of the page doesn't cause a pointless jump.
+   height changes, always park the viewport at the very top of the
+   page after a category/brand click, rather than leaving it stranded
+   wherever the old (taller/shorter) grid used to put it.
    =================================================================== */
 function scrollToResultsTop() {
-    const anchor = document.getElementById('productsToolbar')
-                || document.getElementById('allProductsSection');
-    if (!anchor) return;
-
-    const headerOffset = 100; // clears the sticky site header
-    const targetTop = anchor.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-
-    if (window.pageYOffset > targetTop + 4) {
-        window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 /* ===================================================================

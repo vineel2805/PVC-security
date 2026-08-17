@@ -170,10 +170,39 @@ function showAddToCartNotification(productName) {
  * @param {string} mobileNumber - Mobile number
  * @returns {string} Encoded WhatsApp message
  */
+/**
+ * Validate Indian mobile number
+
+ * @param {string|number} mobileNumber
+ * @returns {boolean}
+ */
+function isValidIndianMobileNumber(mobileNumber) {
+    if (!mobileNumber) return false;
+
+    return /^[6-9][0-9]{9}$/.test(String(mobileNumber).trim());
+}
+
+/**
+ * Generate the WhatsApp message
+ *
+ * @param {Array} cart - Cart items
+ * @param {string} customerName - Customer name
+ * @param {string} cityName - City name
+ * @param {string} mobileNumber - Mobile number
+ * @returns {string|null} Encoded WhatsApp message or null if invalid
+ */
 function generateWhatsAppMessage(cart, customerName, cityName, mobileNumber) {
+
+    // Validate mobile number BEFORE generating RFQ number
+    if (!isValidIndianMobileNumber(mobileNumber)) {
+        alert('Please enter a valid 10-digit Indian mobile number.');
+        return null;
+    }
+
     let lastRFQ = localStorage.getItem('lastRFQNumber') || 0;
     lastRFQ = parseInt(lastRFQ) + 1;
     localStorage.setItem('lastRFQNumber', lastRFQ);
+
     const rfqNumber = String(lastRFQ).padStart(3, '0');
 
     const currentDate = new Date();
@@ -183,6 +212,7 @@ function generateWhatsAppMessage(cart, customerName, cityName, mobileNumber) {
         `${currentDate.getFullYear()}`;
 
     let productList = "";
+
     cart.forEach((item, index) => {
         productList += `${index + 1}. ${item.name} × ${item.quantity}\n`;
     });

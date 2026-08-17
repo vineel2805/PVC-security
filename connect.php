@@ -8,7 +8,7 @@
 $DB_HOST = 'localhost';
 $DB_USER = 'root';   // <-- change to your MySQL username
 $DB_PASS = '';       // <-- change to your MySQL password
-$DB_NAME = 'pvc';   // matches "-- Database: `pvc1`" in pvc.sql
+$DB_NAME = 'pvc2';   // matches "-- Database: `pvc1`" in pvc.sql
 
 $con = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 

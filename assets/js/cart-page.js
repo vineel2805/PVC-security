@@ -324,8 +324,8 @@ function initializeCartPage() {
         });
     }
 
-    // Bind Back step button
-    var btnBack = document.getElementById('btnBackStep');
+    // Bind Back step button for step 2
+    var btnBack = document.getElementById('btnBackStep2');
     if (btnBack) {
         btnBack.addEventListener('click', function () {
             goToStep(1);

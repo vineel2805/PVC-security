@@ -52,23 +52,32 @@
 
     .pvc-bottom-cart-badge {
         position: absolute;
-        top: -2px;
-        right: -4px;
-        min-width: 15px;
-        height: 15px;
-        padding: 0 3px;
+        top: -4px;
+        right: -6px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 4px;
         display: flex;
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
         border-radius: 999px;
-        background: #D4A017;
-        color: #000;
+        background: #D4AF37;
+        color: #000 !important;
         font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        font-size: 9px;
-        font-weight: 800;
+        font-size: 10px;
+        font-weight: 900;
         line-height: 1;
         z-index: 5;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    /* .pvc-bottom-nav-item.active span (below) colors every span inside
+       the active tab gold for its text label — it unintentionally also
+       matches this badge, which needs to stay black-on-gold. The ID
+       selector's specificity guarantees this wins regardless. */
+    #pvc-bottom-cart-count {
+        color: #000 !important;
     }
 
     /* Navigation Item — reduced touch target, still tappable */

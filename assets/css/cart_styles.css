@@ -843,15 +843,29 @@ button.hik-btn-outline {
 
 /* Sticky Footer Styling */
 .cart-sticky-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
+    position: static;
     background: #fff;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
-    z-index: 999;
-    padding: 15px 0;
+    box-shadow: none;
+    z-index: auto;
+    padding: 8px 0 24px 0;
+    margin-top: 6px;
+}
+
+/* Hide Continue Shopping buttons */
+.btn-continue-shopping,
+.btn-continue-shopping-desktop,
+.btn-continue-shopping-outline,
+.sticky-continue-row,
+.cart-sticky-footer .btn-continue-shopping,
+.cart-sticky-footer .btn-continue-shopping-desktop,
+.mobile-continue-shopping-wrapper,
+a[href="all-products.php"].btn-continue-shopping {
+    display: none !important;
+}
+
+/* Hide Total Products */
+.sticky-totals {
+    display: none !important;
 }
 
 .sticky-footer-content {
@@ -862,10 +876,14 @@ button.hik-btn-outline {
 
 .sticky-footer-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    gap: 16px;
-    padding: 16px 20px;
+    gap: 12px;
+    padding: 24px 20px;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
 }
 
 .sticky-totals {
@@ -875,7 +893,53 @@ button.hik-btn-outline {
 .sticky-buttons {
     flex: 0 0 auto;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+}
+
+.sticky-buttons .btn-back-step {
+    display: flex !important;
+    flex: 1 !important;
+    width: auto !important;
+    padding: 0 24px !important;
+    height: 54px !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    border: 2px solid #d4af37 !important;
+    color: #d4af37 !important;
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+.sticky-buttons .btn-back-step:hover {
+    background: #d4af37 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3) !important;
+}
+
+.sticky-buttons .btn-next-step {
+    flex: 1 !important;
+    width: auto !important;
+    height: 54px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+    background: #d4af37 !important;
+    color: #ffffff !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3) !important;
+}
+
+.sticky-buttons .btn-next-step:hover {
+    background: #b8860b !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4) !important;
 }
 
 .btn-next-step {
@@ -1164,15 +1228,12 @@ button.hik-btn-outline {
 
     /* Sticky Footer Desktop Redesign */
     .cart-sticky-footer {
-        position: sticky !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
+        position: static !important;
         background: #FFFFFF !important;
-        border-top: 1px solid #E5E7EB !important;
-        box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.05) !important;
-        padding: 20px 0 !important;
-        z-index: 9999 !important;
+        border-top: none !important;
+        box-shadow: none !important;
+        padding: 10px 0 24px 0 !important;
+        z-index: auto !important;
     }
 
     .cart-sticky-footer .cart-shipping-note {
@@ -1599,13 +1660,11 @@ button.hik-btn-outline {
         background: transparent !important;
         box-shadow: none !important;
         border: none !important;
-        padding: 0 !important;
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 16px !important;
-        right: 16px !important;
-        width: calc(100% - 32px) !important;
-        z-index: 99998 !important;
+        padding: 12px 0 0 0 !important;
+        position: static !important;
+        width: 100% !important;
+        z-index: auto !important;
+        margin-top: 8px !important;
     }
 
     .cart-sticky-footer .container {
@@ -1629,13 +1688,13 @@ button.hik-btn-outline {
         justify-content: space-between !important;
         align-items: center !important;
 
-        padding: 12px 16px !important;
+        padding: 0 !important;
         margin: 0 !important;
         width: 100% !important;
 
-        background: white;
-        border-radius: 16px !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+        background: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
     }
 
     .cart-sticky-footer .sticky-totals {
@@ -1765,6 +1824,85 @@ button.hik-btn-outline {
         display: none;
     }
 
+    /* Center the Back/Next (and Back/Place Order) pair as a group instead
+       of stretching them edge-to-edge across the footer bar. */
+    .cart-sticky-footer .sticky-footer-actions {
+        justify-content: center !important;
+    }
+
+    .cart-sticky-footer .sticky-buttons,
+    .cart-page-section[data-step="2"]~.cart-sticky-footer .sticky-buttons {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        max-width: 100% !important;
+        justify-content: center !important;
+        gap: 12px !important;
+    }
+
+    .cart-sticky-footer .btn-back-step {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        min-width: 130px !important;
+    }
+
+    .cart-sticky-footer .btn-next-step {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        min-width: 160px !important;
+    }
+
+    .cart-sticky-footer .btn-place-rfq {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        min-width: 170px !important;
+    }
+
+    /* Explicit white cards on the cart page, regardless of step */
+    .cart-summary-section,
+    .cart-form-section,
+    .cart-item {
+        background: #ffffff !important;
+    }
+
+    /* Drop the leftover card-style border behind the Back/Next row and
+       pull the row closer to the card above it, while keeping a small
+       gap below before the site footer starts. */
+    .cart-sticky-footer {
+        margin-top: 2px !important;
+        padding-top: 6px !important;
+        padding-bottom: 10px !important;
+    }
+
+    .cart-sticky-footer .sticky-footer-actions {
+        border: none !important;
+    }
+
+    /* Pin Back/Next (and Back/Place Order) above the bottom nav bar so
+       they stay reachable while the page content scrolls underneath,
+       instead of scrolling away with the rest of the page. */
+    .cart-sticky-footer {
+        position: fixed !important;
+        bottom: calc(68px + env(safe-area-inset-bottom)) !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 99998 !important;
+        background: #ffffff !important;
+        box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    /* Reserve space at the end of the page content so the last card
+       isn't hidden behind the now-fixed button bar. */
+    .cart-page-section {
+        padding-bottom: 72px !important;
+    }
+
+    /* The floating WhatsApp button's default position (global_footer.php)
+       now overlaps the fixed Back/Next bar above the bottom nav — raise
+       it just enough to clear the bar. */
+    .pvc-whatsapp-float {
+        bottom: 145px !important;
+    }
 }
 
 .floating-cart-btn {

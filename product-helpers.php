@@ -1,103 +1,5 @@
 <?php
 
-if (!defined('CATEGORY_IMG_DIR')) {
-    define('CATEGORY_IMG_DIR', 'uploads/products/img/');
-}
-
-if (!function_exists('clean_img_path')) {
-    function clean_img_path($path) {
-        $path = trim((string)$path);
-        if ($path === '') {
-            return '';
-        }
-        $path = str_replace('../', '', $path);
-        $path = ltrim($path, '/');
-        return $path;
-    }
-}
-
-if (!function_exists('is_valid_db_image')) {
-    function is_valid_db_image($path) {
-        $clean = clean_img_path($path);
-        return $clean !== '' && strpos($clean, 'uploads/') === 0;
-    }
-}
-
-if (!function_exists('normalize_cat_name')) {
-    function normalize_cat_name($name) {
-        $name = (string)$name;
-        $name = strtoupper(trim($name));
-        $name = preg_replace('/\s+/', ' ', $name);
-        return $name;
-    }
-}
-
-if (!function_exists('get_category_image_map')) {
-    function get_category_image_map() {
-        static $map = null;
-        if ($map !== null) {
-            return $map;
-        }
-
-        $map = [];
-        $dir = CATEGORY_IMG_DIR;
-
-        if (is_dir($dir)) {
-            $files = glob(rtrim($dir, '/') . '/*.{png,PNG,jpg,JPG,jpeg,JPEG,webp,WEBP}', GLOB_BRACE);
-            if ($files) {
-                foreach ($files as $file) {
-                    $baseName = pathinfo($file, PATHINFO_FILENAME);
-                    $key = normalize_cat_name($baseName);
-                    if ($key !== '') {
-                        $map[$key] = $file;
-                    }
-                }
-            }
-        }
-
-        return $map;
-    }
-}
-
-if (!function_exists('find_category_image')) {
-    function find_category_image($catName) {
-        $map = get_category_image_map();
-        if (empty($map)) {
-            return '';
-        }
-
-        $target = normalize_cat_name($catName);
-        if ($target === '') {
-            return '';
-        }
-
-        if (isset($map[$target])) {
-            return $map[$target];
-        }
-
-        $best = '';
-        $bestLen = 0;
-        foreach ($map as $key => $path) {
-            if ($key !== '' && strpos($target, $key) === 0 && strlen($key) > $bestLen) {
-                $best = $path;
-                $bestLen = strlen($key);
-            }
-        }
-        if ($best !== '') {
-            return $best;
-        }
-
-        foreach ($map as $key => $path) {
-            if (strpos($key, $target) === 0 && strlen($target) > $bestLen) {
-                $best = $path;
-                $bestLen = strlen($target);
-            }
-        }
-
-        return $best;
-    }
-}
-
 if (!function_exists('get_default_placeholder_img')) {
     function get_default_placeholder_img() {
         static $img = null;
@@ -120,16 +22,32 @@ if (!function_exists('get_default_placeholder_img')) {
     }
 }
 
-if (!function_exists('resolve_product_image')) {
-    function resolve_product_image($product) {
-        $catImg = find_category_image($product['cat_display'] ?? '');
-        if ($catImg !== '') {
-            return $catImg;
+if (!function_exists('pvc_display_title')) {
+    /**
+     * Converts an ALL-CAPS product name into a readable mixed-case title
+     * for display, while preserving model codes / sizes (any token with a
+     * digit, e.g. "4G", "180MTR") and short acronyms (<=4 letters, e.g.
+     * "COFE", "CCA") exactly as stored. Purely cosmetic — does not touch
+     * the underlying data, so search/cart matching is unaffected.
+     */
+    function pvc_display_title($name) {
+        $name = trim((string)$name);
+        if ($name === '') {
+            return '';
         }
-        if (!empty($product['pimage']) && is_valid_db_image($product['pimage'])) {
-            return clean_img_path($product['pimage']);
+        $words = preg_split('/\s+/', $name);
+        $out = [];
+        foreach ($words as $w) {
+            $hasDigit = (bool) preg_match('/\d/', $w);
+            $isShortAcronym = (mb_strlen($w, 'UTF-8') <= 4) && ($w === mb_strtoupper($w, 'UTF-8'));
+            if ($hasDigit || $isShortAcronym) {
+                $out[] = $w;
+            } else {
+                $lower = mb_strtolower($w, 'UTF-8');
+                $out[] = mb_convert_case($lower, MB_CASE_TITLE, 'UTF-8');
+            }
         }
-        return '';
+        return implode(' ', $out);
     }
 }
 

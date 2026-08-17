@@ -1,6 +1,0 @@
-[10-Aug-2026 05:35:09 UTC] PHP Warning:  trim() expects parameter 1 to be string, array given in /home/pmgch5ax81n8/public_html/bvrm_digitals/pvc/demo/all-products.php on line 38
-[11-Aug-2026 22:31:27 UTC] PHP Notice:  Undefined index: brandNameTop in /home/pmgch5ax81n8/public_html/bvrm_digitals/pvc/global_footer.php on line 87
-[11-Aug-2026 22:40:56 UTC] PHP Notice:  Undefined index: brandNameTop in /home/pmgch5ax81n8/public_html/bvrm_digitals/pvc/global_footer.php on line 87
-[11-Aug-2026 22:42:56 UTC] PHP Notice:  Undefined index: brandNameTop in /home/pmgch5ax81n8/public_html/bvrm_digitals/pvc/global_footer.php on line 87
-[11-Aug-2026 22:49:29 UTC] PHP Notice:  Undefined index: brandNameTop in /home/pmgch5ax81n8/public_html/bvrm_digitals/pvc/global_footer.php on line 87
-[11-Aug-2026 23:02:17 UTC] PHP Notice:  Undefined index: brandNameTop in /home/pmgch5ax81n8/public_html/bvrm_digitals/pvc/global_footer.php on line 87

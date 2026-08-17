@@ -17,9 +17,18 @@ $pvcFooterData = [
     'phone1Clean'     => '+919114456666',
     'phone2'          => '+91 91144 67777',
     'phone2Clean'     => '+919114467777',
+    'phone3'          => '+91 91144 78888',
+    'phone3Clean'     => '+919114478888',
     'email1'          => 'Service@pvcsecuritysolutions.com',
     'email2'          => 'Support@pvcsecuritysolutions.com',
-    'address'         => 'NEAR KLM SHOPPING MALL, MAVULLAMMA TEMPLE ROAD, Bhimavaram Town - 1, Pincode - 534201',
+    'addressLines'    => [
+        'Near KLM Shopping Mall',
+        'mavullamma Temple Road',
+        'Bhimavaram Town',
+        'Andhra Pradesh',
+        'Pincode - 534201'
+    ],
+    'mapEmbedUrl'     => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.856783893453!2d81.5259349!3d16.5447153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a37efe240620edd%3A0x2e27b608fff2d823!2sPVC%20SECURITY%20SOLUTIONS%20CCTV%20CAMERA%20SHOP!5e0!3m2!1sen!2sin!4v1234567890',
     'serviceArea'     => 'Andhra Pradesh & Telangana',
     'workingHours'    => 'Mon - Sat: 9:00 AM - 9:00 PM',
     // WhatsApp floating button settings
@@ -120,15 +129,22 @@ if (!defined('PVC_FOOTER_ASSETS_LOADED')) {
                     <li class="pvc-contact-item">
                         <a href="tel:<?= htmlspecialchars($pvcFooterData['phone1Clean']) ?>" class="pvc-contact-icon" aria-label="Call Primary"><i class="fa-solid fa-phone"></i></a>
                         <div class="pvc-contact-text">
-                            <span>Call Primary</span>
+                            <span>Mobile Number 1</span>
                             <a href="tel:<?= htmlspecialchars($pvcFooterData['phone1Clean']) ?>"><?= htmlspecialchars($pvcFooterData['phone1']) ?></a>
                         </div>
                     </li>
                     <li class="pvc-contact-item">
                         <a href="tel:<?= htmlspecialchars($pvcFooterData['phone2Clean']) ?>" class="pvc-contact-icon" aria-label="Call Secondary"><i class="fa-solid fa-phone"></i></a>
                         <div class="pvc-contact-text">
-                            <span>Call Secondary</span>
+                            <span>Mobile Number 2</span>
                             <a href="tel:<?= htmlspecialchars($pvcFooterData['phone2Clean']) ?>"><?= htmlspecialchars($pvcFooterData['phone2']) ?></a>
+                        </div>
+                    </li>
+                     <li class="pvc-contact-item">
+                        <a href="tel:<?= htmlspecialchars($pvcFooterData['phone3Clean']) ?>" class="pvc-contact-icon" aria-label="Call Tertiary"><i class="fa-solid fa-phone"></i></a>
+                        <div class="pvc-contact-text">
+                            <span>Mobile Number 3</span>
+                            <a href="tel:<?= htmlspecialchars($pvcFooterData['phone3Clean']) ?>"><?= htmlspecialchars($pvcFooterData['phone3']) ?></a>
                         </div>
                     </li>
                     <li class="pvc-contact-item">
@@ -148,7 +164,7 @@ if (!defined('PVC_FOOTER_ASSETS_LOADED')) {
                 </ul>
             </div>
 
-            <!-- 4. ADDRESS & HOURS -->
+            <!-- 4. ADDRESS & HOURS & MAP -->
             <div class="pvc-footer-col">
                 <h4 class="pvc-footer-title">Our Address</h4>
                 <ul class="pvc-contact-list">
@@ -160,20 +176,29 @@ if (!defined('PVC_FOOTER_ASSETS_LOADED')) {
                            aria-label="Our Location">
                             <i class="fa-solid fa-location-dot"></i>
                         </a>
-                        <div class="pvc-contact-text">
+                        <div class="pvc-contact-text pvc-address-lines">
                             <span>Visit Us</span>
-                            <a href="https://www.google.com/maps/place/PVC+SECURITY+SOLUTIONS+CCTV+CAMERA+SHOP/@16.5447153,81.5259349,16z/data=!3m1!4b1!4m6!3m5!1s0x3a37efe240620edd:0x2e27b608fff2d823!8m2!3d16.5447153!4d81.5259349!16s%2Fg%2F11vf4klr8g?entry=ttu"
-                               target="_blank"
-                               rel="noopener noreferrer"
-                               style="color: inherit; text-decoration: none;">
-                                <?= htmlspecialchars($pvcFooterData['address']) ?>
-                            </a>
+                            <?php foreach ($pvcFooterData['addressLines'] as $line): ?>
+                                <div class="pvc-address-line"><?= htmlspecialchars($line) ?></div>
+                            <?php endforeach; ?>
                         </div>
                     </li>
                 </ul>
                 <div class="pvc-working-hours-badge">
                     <i class="fa-regular fa-clock"></i>
                     <span><?= htmlspecialchars($pvcFooterData['workingHours']) ?></span>
+                </div>
+                <div class="pvc-map-container">
+                    <iframe
+                        src="<?= htmlspecialchars($pvcFooterData['mapEmbedUrl']) ?>"
+                        width="100%"
+                        height="180"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        class="pvc-location-map">
+                    </iframe>
                 </div>
             </div>
 
@@ -259,7 +284,7 @@ if (!defined('PVC_FOOTER_ASSETS_LOADED')) {
 
 @keyframes pvcWaWave{
     0%   { transform: scale(1);   opacity: 0.45; }
-    100% { transform: scale(1.9); opacity: 0; }
+    100% { transform: scale(1.35); opacity: 0; }
 }
 
 /* Mobile: slightly smaller, still clear of the bottom bar / sticky CTA */

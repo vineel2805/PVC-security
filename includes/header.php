@@ -61,7 +61,6 @@
     }
   }
 
-
   #pvc-global-header .pvc-support-btn {
     display: none !important;
   }
@@ -83,25 +82,45 @@
       flex: 0 0 40px !important;
       aspect-ratio: 1 / 1 !important;
       border-radius: 50% !important;
-      background: transparent !important;
+      background: rgba(184, 134, 11, 0.14) !important;
       border: 1.5px solid #b8860b !important;
       color: #b8860b !important;
       font-size: 20px !important;
       line-height: 1 !important;
       padding: 0 !important;
       margin: auto 0 !important;
-      box-shadow: none !important;
+      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12) !important;
       overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease !important;
+    }
+    #pvc-global-header .pvc-header-utils a.pvc-support-btn:active {
+      background: #b8860b !important;
+      color: #1a1a1a !important;
+      transform: scale(0.9) !important;
     }
   }
 
   @media (max-width: 991px) {
+    /* Mobile logo: full wide lockup image (icon + "PVC Security Solutions"
+       wordmark baked in), so the separate HTML brand text is hidden. */
+    .pvc-header-logo {
+      gap: 0 !important;
+    }
     .pvc-header-logo img {
-      height: 35px !important;
+      height: 110px !important;
       width: auto !important;
       max-width: none !important;
       margin: 0 !important;
       padding: 0 !important;
+    }
+    .pvc-header-brand-text {
+      display: none !important;
+    }
+    #pvc-global-header,
+    #pvc-global-header .pvc-header-container {
+      height: 114px !important;
     }
   }
 
@@ -113,7 +132,34 @@
       font-size: 9px;
     }
   }
+
+  /* Gold accent line under the mobile header */
+  @media (max-width: 991px) {
+    #pvc-global-header {
+      background: #1a1a1a !important;
+      border-bottom: 2px solid var(--pvc-gold-primary, #c9a14a) !important;
+    }
+  }
+
+  /* Announcement bar — mobile only, sits above the fixed header as a
+     slim gold accent strip (no content). */
+  .pvc-announce-bar {
+    display: none;
+  }
+  @media (max-width: 991px) {
+    .pvc-announce-bar {
+      display: block !important;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 14px;
+      z-index: 10001;
+      background: linear-gradient(135deg, var(--pvc-gold-dark, #b8860b), var(--pvc-gold-mid, #d4af37));
+    }
+  }
 </style>
+<div class="pvc-announce-bar" id="pvc-announce-bar"></div>
 <header class="pvc-global-header" id="pvc-global-header">
     <div class="pvc-header-container">
       <!-- Hamburger (mobile only) -->
@@ -130,7 +176,10 @@
         </button>
       <div class="pvc-header-logo">
         <a href="index.php">
-          <img src="assets/img/logo/fav.png" alt="PVC Security Logo" width="60" height="59" >
+          <picture>
+            <source media="(max-width: 991px)" srcset="assets/img/logo/logo_new1.png">
+            <img src="assets/img/logo/fav.png" alt="PVC Security Logo" width="60" height="59" >
+          </picture>
         </a>
         <span class="pvc-header-brand-text">
           <span class="pvc-brand-line1">PVC</span>
@@ -218,31 +267,18 @@
   <div class="pvc-overlay" id="pvc-overlay"></div>
   <!-- Mobile Menu -->
   <div class="pvc-mobile-menu" id="pvc-mobile-menu">
-    <div class="pvc-mobile-close" id="pvc-mobile-close">
-      <i class="fa-solid fa-xmark"></i>
+    <div class="pvc-mobile-menu-header">
+      <div class="pvc-mobile-close" id="pvc-mobile-close">
+        <i class="fa-solid fa-xmark"></i>
+      </div>
     </div>
     <ul class="pvc-mobile-nav-list">
-      <li class="pvc-mobile-nav-item"><a href="index.php"          class="pvc-mobile-nav-link">Home</a></li>
-      <li class="pvc-mobile-nav-item"><a href="about-us.php"       class="pvc-mobile-nav-link">About Us</a></li>
-      <li class="pvc-mobile-nav-item"><a href="all-products.php"   class="pvc-mobile-nav-link" id="mob-nav-brand">Shop by Brand</a></li>
-      <li class="pvc-mobile-nav-item"><a href="all-categories.php" class="pvc-mobile-nav-link" id="mob-nav-categories">Shop by Categories</a></li>
-      <li class="pvc-mobile-nav-item"><a href="services.php"       class="pvc-mobile-nav-link">Services</a></li>
-      <li class="pvc-mobile-nav-item"><a href="contact-us.php"     class="pvc-mobile-nav-link">Contact Us</a></li>
+      <li class="pvc-mobile-nav-item"><a href="index.php"          class="pvc-mobile-nav-link"><span>Home</span></a></li>
+      <li class="pvc-mobile-nav-item"><a href="about-us.php"       class="pvc-mobile-nav-link"><span>About Us</span></a></li>
+      <li class="pvc-mobile-nav-item"><a href="all-products.php"   class="pvc-mobile-nav-link" id="mob-nav-brand"><span>Shop by Brand</span></a></li>
+      <li class="pvc-mobile-nav-item"><a href="all-categories.php" class="pvc-mobile-nav-link" id="mob-nav-categories"><span>Shop by Categories</span></a></li>
+      <li class="pvc-mobile-nav-item"><a href="services.php"       class="pvc-mobile-nav-link"><span>Services</span></a></li>
+      <li class="pvc-mobile-nav-item"><a href="contact-us.php"     class="pvc-mobile-nav-link"><span>Contact Us</span></a></li>
     </ul>
-    <div class="pvc-mobile-contact">
-      <h4 class="pvc-mobile-contact-title">Quick Connect</h4>
-      <div class="pvc-mobile-btns">
-        <a href="tel:+919114456666"          class="pvc-mobile-btn btn-call">
-          <i class="fa-solid fa-phone"></i> Call Now
-        </a>
-        <a href="https://wa.me/919114456666" class="pvc-mobile-btn btn-whatsapp">
-          <i class="fa-brands fa-whatsapp"></i> WhatsApp
-        </a>
-      </div>
-      <div class="pvc-mobile-numbers">
-        <a href="tel:+919114456666" class="pvc-mobile-num">+91 91144 56666</a>
-        <a href="tel:+919114467777" class="pvc-mobile-num">+91 91144 67777</a>
-      </div>
-    </div>
   </div>
   <link id="fa-link" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

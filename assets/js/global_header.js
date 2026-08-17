@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
        ========================================================================== */
     const header = document.getElementById('pvc-global-header');
     const spacer = document.getElementById('pvc-header-spacer');
+    const announceBar = document.getElementById('pvc-announce-bar');
     const mobileToggle = document.getElementById('pvc-mobile-toggle');
     const mobileMenu = document.getElementById('pvc-mobile-menu');
     const mobileClose = document.getElementById('pvc-mobile-close');
@@ -15,11 +16,21 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateHeaderSpacing() {
         if (!header || !spacer) return;
 
-        spacer.style.height = header.offsetHeight + 'px';
+        // Announcement bar is mobile-only and sits fixed above the header,
+        // so the header must be pushed down by its height on small screens.
+        const barHeight = (announceBar && window.innerWidth < 992)
+            ? announceBar.offsetHeight
+            : 0;
+
+        header.style.top = barHeight + 'px';
+
+        const totalHeight = barHeight + header.offsetHeight;
+
+        spacer.style.height = totalHeight + 'px';
 
         document.documentElement.style.setProperty(
             '--header-height',
-            header.offsetHeight + 'px'
+            totalHeight + 'px'
         );
     }
 
@@ -238,7 +249,53 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /* ==========================================================================
-       9. Initialization
+       9. Announcement Bar — rotating messages with prev/next arrows
+       ========================================================================== */
+    const announceMsgs = document.querySelectorAll('.pvc-announce-msg');
+    const announcePrev = document.getElementById('pvc-announce-prev');
+    const announceNext = document.getElementById('pvc-announce-next');
+    let announceIndex = 0;
+    let announceTimer = null;
+
+    function showAnnounceMsg(index) {
+        if (!announceMsgs.length) return;
+
+        announceIndex = (index + announceMsgs.length) % announceMsgs.length;
+
+        announceMsgs.forEach(function (msg, i) {
+            msg.classList.toggle('active', i === announceIndex);
+        });
+    }
+
+    function startAnnounceAutoplay() {
+        clearInterval(announceTimer);
+
+        announceTimer = setInterval(function () {
+            showAnnounceMsg(announceIndex + 1);
+        }, 3500);
+    }
+
+    if (announceMsgs.length) {
+        showAnnounceMsg(0);
+        startAnnounceAutoplay();
+
+        if (announcePrev) {
+            announcePrev.addEventListener('click', function () {
+                showAnnounceMsg(announceIndex - 1);
+                startAnnounceAutoplay();
+            });
+        }
+
+        if (announceNext) {
+            announceNext.addEventListener('click', function () {
+                showAnnounceMsg(announceIndex + 1);
+                startAnnounceAutoplay();
+            });
+        }
+    }
+
+    /* ==========================================================================
+       10. Initialization
        ========================================================================== */
     updateHeaderSpacing();
 

@@ -23,7 +23,6 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
   <link rel="shortcut icon" href="assets/img/logo/Untitled design-3.png" type="image/x-icon">
 
   <link rel="stylesheet" href="assets/css/cart_styles.css?v=<?php echo filemtime('assets/css/cart_styles.css'); ?>">
-  <link rel="stylesheet" href="assets/css/bottom-nav.css">
   <link rel="stylesheet" href="assets/css/search-overlay-visibility.css">
   <link rel="stylesheet" href="assets/css/cart-nav-footer-fix.css">
   <!--=====  JS SCRIPT LINK =======-->
@@ -198,13 +197,16 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
               <i class="fa-solid fa-arrow-left"></i> Continue Shopping
             </a>
 
-            <!-- Step 1: Next only (Mobile) -->
+            <!-- Step 1: Back + Next (Mobile) -->
+            <button id="btnBackStep" class="btn-back-step step-1-only" onclick="window.history.back()">
+              <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
             <button id="btnNextStep" class="btn-next-step step-1-only">
               Next
             </button>
 
             <!-- Step 2: Back + Place Order (Mobile) / Place Order (Desktop) -->
-            <button id="btnBackStep" class="btn-back-step step-2-only">
+            <button id="btnBackStep2" class="btn-back-step step-2-only">
               <i class="fa-solid fa-arrow-left"></i> Back
             </button>
             <button id="placeRFQBtn" class="btn-place-rfq step-2-only">
@@ -217,33 +219,6 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
   </div>
     <?php include 'global_footer.php'; ?>
 
- <style>/* =============================================================
-   CART PAGE — STICKY FOOTER + BOTTOM NAV COEXISTENCE FIX
-   Only needed on cart.php, since it has its own fixed-position
-   "Total Products / Next" bar that would otherwise sit on top of,
-   or be covered by, the bottom nav.
-
-   I don't have your cart_styles.css, so this assumes
-   .cart-sticky-footer is currently `position: fixed; bottom: 0;`
-   spanning full width. Adjust the values below if your actual
-   rule differs.
-   ============================================================= */
-
-@media (max-width: 991px) {
-
-    .cart-sticky-footer {
-        position: fixed !important;
-        left: 0;
-        right: 0;
-        bottom: 0 !important;
-        z-index: 99998 !important; /* one below the bottom nav's 99999 */
-        /* Lift the footer's own inner padding so its content isn't
-           hidden behind the nav bar (now 56px tall, flush with the
-           bottom edge, plus safe-area inset) */
-        padding-bottom: calc(76px + env(safe-area-inset-bottom)) !important;
-    }
-
-}</style>
   <?php $activeTab = 'cart'; ?>
   <?php include 'includes/bottom-nav.php'; ?>
 
