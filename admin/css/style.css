@@ -62,7 +62,6 @@
 @import url("./../icons/font-awesome/css/all.min.css");
 @import url("./../icons/material-design-iconic-font/css/materialdesignicons.min.css");
 @import url("./../icons/themify-icons/css/themify-icons.css");
-@import url("./../icons/line-awesome/css/line-awesome.min.css");
 
 
 @import url(./../vendor/metismenu/css/metisMenu.min.css);
@@ -27962,4 +27961,3 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     content: none !important;
 }
 
-/*# sourceMappingURL=style.css.map */

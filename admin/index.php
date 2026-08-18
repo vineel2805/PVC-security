@@ -51,7 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- FAVICONS ICON -->
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
-	<link href="vendor/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
 
 </head>

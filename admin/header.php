@@ -29,7 +29,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- FAVICONS ICON -->
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
-	<link href="vendor/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <script>
         window.__LAYOUT_ID = window.__LAYOUT_ID || Math.random();
