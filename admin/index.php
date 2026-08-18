@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute([$username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && $password === $user['password_hash']) {
+    if ($user && password_verify($password, $user['password_hash'])) {
         $_SESSION['username'] = $username;
         $_SESSION['admin_id'] = $user['id'];
         header("Location: brands.php");
