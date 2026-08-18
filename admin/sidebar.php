@@ -31,6 +31,20 @@
                 </a>
             </li>
 
+            <li>
+                <a href="slides.php">
+                    <i class="fas fa-sliders-h"></i>
+                    <span class="nav-text">Hero Slider</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="partners.php">
+                    <i class="fas fa-handshake"></i>
+                    <span class="nav-text">Strategic Partners</span>
+                </a>
+            </li>
+
         
 
         </ul>
