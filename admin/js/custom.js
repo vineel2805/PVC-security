@@ -247,16 +247,7 @@
 	}
 	
 	
-	var handleLightgallery = function(){
-		if(jQuery('#lightgallery').length > 0){
-			lightGallery(document.getElementById('lightgallery'), {
-				plugins: [lgThumbnail, lgZoom],
-				selector: '.lg-item',
-				thumbnail:true,
-				exThumbImage: 'data-src'
-            });
-		}
-	}
+
 	var handleCustomFileInput = function() {
 		$(".custom-file-input").on("change", function() {
 			var fileName = $(this).val().split("\\").pop();
@@ -285,13 +276,7 @@
 		  });
 	} 
 	
-	var handleDatetimepicker = function(){
-		if(jQuery("#datetimepicker1").length>0) {
-			$('#datetimepicker1').datetimepicker({
-				inline: true,
-			});
-		}
-	}
+
 
 	var handleCkEditor = function(){
 		if(jQuery("#ckeditor").length>0) {

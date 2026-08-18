@@ -10,46 +10,16 @@
     margin: 0 !important;
     padding: 0 !important;
   }
+  /* Brand text hidden on all sizes — the logo image contains the wordmark */
   .pvc-header-brand-text {
-    display: flex !important;
-    flex-direction: column;
-    justify-content: center;
-    line-height: 1.15;
-    white-space: nowrap;
-    margin: 0 !important;
-    padding-left: 6px !important;
-    border-left: 1px solid rgba(184, 134, 11, 0.3);
-  }
-  .pvc-header-brand-text .pvc-brand-line1 {
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    background: linear-gradient(180deg, #e2b567 0%, #b8860b 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: #b8860b; /* fallback if gradient text isn't supported */
-  }
-  .pvc-header-brand-text .pvc-brand-line2 {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #FAF9F6;
-    margin-top: 2px;
+    display: none !important;
   }
 
-  /* Desktop — bigger brand text so it reads clearly next to the nav */
+  /* Desktop logo — use the full lockup image */
   @media (min-width: 992px) {
-    .pvc-header-brand-text {
-      padding-left: 14px;
-    }
-    .pvc-header-brand-text .pvc-brand-line1 {
-      font-size: 20px;
-    }
-    .pvc-header-brand-text .pvc-brand-line2 {
-      font-size: 13px;
-      margin-top: 3px;
+    .pvc-header-logo img {
+      height: 70px !important;
+      width: auto !important;
     }
   }
 
@@ -176,10 +146,7 @@
         </button>
       <div class="pvc-header-logo">
         <a href="index.php">
-          <picture>
-            <source media="(max-width: 991px)" srcset="assets/img/logo/logo_new1.png">
-            <img src="assets/img/logo/fav.png" alt="PVC Security Logo" width="60" height="59" >
-          </picture>
+          <img src="assets/img/logo/logo_new1.png" alt="PVC Security Logo">
         </a>
         <span class="pvc-header-brand-text">
           <span class="pvc-brand-line1">PVC</span>
