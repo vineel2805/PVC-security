@@ -59,11 +59,7 @@
 	.custom-dropdown .dropdown-menu{
 		border-color: $d-border;
 	}
-	.widget-stat .media > span{
-	    background: $d-border;
-	    border-color: $d-border;
-		color:$white;
-	}
+
 	.plus-minus-input .custom-btn{
 		background: $d-bg;
 	    border-color: $d-border;
@@ -119,9 +115,7 @@
 			color:$white;
 		}
 	}
-	.widget-media .timeline .timeline-panel{
-		border-color:$d-border; 
-	}
+
 	.notification_dropdown .dropdown-menu-right .all-notification{
 		border-color:$d-border; 
 	}
@@ -251,10 +245,6 @@
 			color:$white;			
 		}
 	}
-	.app-fullcalendar{
-		.fc-button{
-			background-color:$d-bg;
-			border-color:var(--primary);
 			color:$white;
 			text-shadow:none;
 			&:hover,&.fc-stat-hover{
@@ -701,9 +691,6 @@
 			color:$white!important;	
 		}	
 	}
-	.fullcalendar .fc-toolbar-chunk button{
-		color:$white;	
-	}
 	.message-received p{
 		color:$white;	
 	}
@@ -805,37 +792,7 @@
 			background-color:$d-bg!important;	
 		}
 	}
-	.sidebar-right {
-		.card-tabs{
-			.nav-tabs{
-				border-color: var(--rgba-primary-1)!important;
-				.nav-item{
-					.nav-link{
-						color:$black!important;
-					}
-				} 
-			}
-		}
-		.form-control{
-			background:$white;
-			color:$black;
-			border-color:$border-color;
-		}
-		.default-select .list{
-			background:$white;
-			.option{
-				&.selected,&.focus,&:hover{
-					background:rgba($black,0.05)!important;
-				}
-			}
-		}
-		.sidebar-right-inner>h4{
-			color:$black!important;
-		}
-		.nice-select .option {
-			background: #fff;
-		}
-    }
+	
 	.brand-title{
 		.logo-dark{
 			display:inline-block
@@ -890,8 +847,6 @@
 	.bootstrap-select .btn{
 		border-color:$d-border!important;
 	}
-	.sidebar-right .bootstrap-select .btn{
-		border-color:#d1d1d1!important;
 	}
 	
 }
