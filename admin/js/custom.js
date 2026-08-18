@@ -5,11 +5,7 @@
 	var screenHeight = $( window ).height();
 	
 	
-	var handleNiceSelect = function(){
-		if(jQuery('.default-select').length > 0 ){
-			jQuery('.default-select').selectpicker();
-		}
-	}
+	
 
 	var handlePreloader = function(){
 		setTimeout(function() {
@@ -240,14 +236,10 @@
 		});
 	}
 	
-	var heartBlast = function (){
-		$(".heart").on("click", function() {
-			$(this).toggleClass("heart-blast");
-		});
-	}
 	
 	
-
+	
+	
 	var handleCustomFileInput = function() {
 		$(".custom-file-input").on("change", function() {
 			var fileName = $(this).val().split("\\").pop();
@@ -275,22 +267,9 @@
 			  $(this).addClass('demo-active');
 		  });
 	} 
+
+
 	
-
-
-	var handleCkEditor = function(){
-		if(jQuery("#ckeditor").length>0) {
-			ClassicEditor
-			.create( document.querySelector( '#ckeditor' ), {
-			} )
-			.then( editor => {
-				window.editor = editor;
-			} )
-			.catch( err => {
-				console.error( err.stack );
-			} );
-		}
-	}
 	
 	var handleMenuPosition = function(){
 		if(screenWidth > 1024){
@@ -322,29 +301,8 @@
 	
 	/* counter */
 	
-	var handleCounter = function(){
-		if(jQuery(".counter").length>0) {
-			 $(document).ready(function () {
-				$('.counter').counterUp({
-					delay: 10,
-					time: 1000
-				});
-			});
-		}
-		
-	}
-	/* handleDatepicker */
-		var handleDatemasterpicker = function(){
-		if(jQuery("#datepicker").length > 0) {
-			$(document).ready(function () {
-				$("#datepicker").datepicker({ 
-						autoclose: true, 
-						todayHighlight: true
-				}).datepicker('update', new Date());
-			
-			});
-		}
-	}
+	
+
 
 	/* responsive toogle foee emails pages */
 	
@@ -381,63 +339,8 @@
 	   });
 
 	}
-	var handleDatetimepickerTwo = function(){
-    //    if(jQuery(".datepicker").length>0) {
-    //        $('.datepicker').datetimepicker();
-    //    }
-        if(jQuery('.bt-datepicker').length > 0){
-            $(".bt-datepicker").datepicker({ 
-                autoclose: true, 
-                todayHighlight: true
-            }).datepicker('update', new Date());
-        }
-   }
-   
+	
 
-	var handleDraggableCard = function() {
-		var dzCardDraggable = function () {
-		 return {
-		  //main function to initiate the module
-		  init: function () {
-		   var containers = document.querySelectorAll('.draggable-zone');
-
-		   if (containers.length === 0) {
-			return false;
-		   }
-
-		   var swappable = new Sortable.default(containers, {
-			draggable: '.draggable',
-			handle: '.draggable.draggable-handle',
-			mirror: {
-			 appendTo: 'body',
-			 constrainDimensions: true
-			}
-			
-		   });
-		   swappable.on('drag:stop', () => {
-				setTimeout(function(){
-					setBoxCount();
-				}, 200);
-				
-			})
-		  }
-		 };
-		}();
-
-		jQuery(document).ready(function () {
-		 dzCardDraggable.init();
-		});
-
-		
-		
-		function setBoxCount(){
-			var cardCount = 0;
-			jQuery('.dropzoneContainer').each(function(){
-				cardCount = jQuery(this).find('.draggable-handle').length;
-				jQuery(this).find('.totalCount').html(cardCount);
-			});
-		}
-	}
   
 	/* Function ============ */
 	return {
@@ -455,24 +358,24 @@
 			handleBtnNumber();
 			handleDzChatUser();
 			handleshowPass();
-			heartBlast();
-			handleLightgallery();
+	
+			
 			handleCustomFileInput();
 			vHeight();
 			domoPanel();
-			handleDatetimepicker();
-			handleCkEditor();
-			handleDraggableCard();
+		
+		
+
 			handleThemeMode();
 			handleAccordianSlider();
-			handleCounter();
+
 			handleEmailresponsive();
-			handleDatemasterpicker();
-			handleDatetimepickerTwo();
+		
+		
 		},
 		load:function(){
 			handlePreloader();
-			handleNiceSelect();
+			
 		},
 		
 		resize:function(){

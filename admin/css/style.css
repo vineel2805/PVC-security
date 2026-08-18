@@ -63,8 +63,8 @@
 @import url("./../icons/material-design-iconic-font/css/materialdesignicons.min.css");
 @import url("./../icons/themify-icons/css/themify-icons.css");
 @import url("./../icons/line-awesome/css/line-awesome.min.css");
-@import url("./../icons/flaticon/flaticon.css");
-@import url("./../icons/flaticon_1/flaticon_1.css");
+
+
 @import url(./../vendor/metismenu/css/metisMenu.min.css);
 :root {
   --primary: #886CC0;

@@ -33,8 +33,7 @@
     <link href="css/style.css" rel="stylesheet">
     <script>
         window.__LAYOUT_ID = window.__LAYOUT_ID || Math.random();
-        console.log("LAYOUT INITIALIZED", Date.now());
-        console.log("LAYOUT ID:", window.__LAYOUT_ID);
+
     </script>
 </head>
 <body>
