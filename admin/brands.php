@@ -72,6 +72,68 @@ function normalizeBrandName($name) {
     return mb_strtolower($name, 'UTF-8');
 }
 
+// ── HANDLE AJAX ORDER UPDATE ───────────────────────────────────────────────
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_order') {
+    header('Content-Type: application/json');
+    $brandid  = trim($_POST['brandid'] ?? '');
+    $rawOrder = trim($_POST['display_order'] ?? '');
+    $newOrder = filter_var($rawOrder, FILTER_VALIDATE_INT);
+
+    if ($brandid === '' || $newOrder === false || $newOrder < 1) {
+        echo json_encode(['status' => 'error', 'msg' => 'Invalid order value. Please enter a positive integer.']);
+        exit;
+    }
+
+    try {
+        $stmt = $pdo->prepare("SELECT display_order FROM brands WHERE brandid = :id");
+        $stmt->execute([':id' => $brandid]);
+        $row = $stmt->fetch();
+
+        if (!$row) {
+            echo json_encode(['status' => 'error', 'msg' => 'Brand not found.']);
+            exit;
+        }
+
+        $oldOrder = (int)$row['display_order'];
+        $totalBrands = (int)$pdo->query("SELECT COUNT(*) FROM brands")->fetchColumn();
+        if ($newOrder > $totalBrands) {
+            $newOrder = $totalBrands;
+        }
+
+        if ($newOrder !== $oldOrder) {
+            $pdo->beginTransaction();
+            if ($newOrder < $oldOrder) {
+                $shiftStmt = $pdo->prepare("
+                    UPDATE brands
+                    SET display_order = display_order + 1
+                    WHERE display_order >= :new_order AND display_order < :old_order
+                ");
+                $shiftStmt->execute([':new_order' => $newOrder, ':old_order' => $oldOrder]);
+            } else {
+                $shiftStmt = $pdo->prepare("
+                    UPDATE brands
+                    SET display_order = display_order - 1
+                    WHERE display_order > :old_order AND display_order <= :new_order
+                ");
+                $shiftStmt->execute([':old_order' => $oldOrder, ':new_order' => $newOrder]);
+            }
+
+            $updateStmt = $pdo->prepare("UPDATE brands SET display_order = :new_order WHERE brandid = :id");
+            $updateStmt->execute([':new_order' => $newOrder, ':id' => $brandid]);
+            $pdo->commit();
+        }
+
+        echo json_encode(['status' => 'success', 'msg' => 'Brand order updated successfully.']);
+        exit;
+    } catch (PDOException $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        echo json_encode(['status' => 'error', 'msg' => 'Database error: ' . $e->getMessage()]);
+        exit;
+    }
+}
+
 // 1. HANDLE DELETE (cascades: brand → categories → products)
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
     try {
@@ -106,13 +168,19 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
         $delCat = $pdo->prepare("DELETE FROM category WHERE brandid = :bid");
         $delCat->execute([':bid' => $brandid]);
 
-        // Grab brand image, then delete the brand itself
-        $brandStmt = $pdo->prepare("SELECT imagelink FROM brands WHERE brandid = :id");
+        // Grab brand image and display_order, then delete the brand itself
+        $brandStmt = $pdo->prepare("SELECT imagelink, display_order FROM brands WHERE brandid = :id");
         $brandStmt->execute([':id' => $brandid]);
         $brandRow = $brandStmt->fetch();
 
         $delBrand = $pdo->prepare("DELETE FROM brands WHERE brandid = :id");
         $delBrand->execute([':id' => $brandid]);
+
+        if ($brandRow && isset($brandRow['display_order'])) {
+            $delOrder = (int)$brandRow['display_order'];
+            $shiftStmt = $pdo->prepare("UPDATE brands SET display_order = display_order - 1 WHERE display_order > :delOrder");
+            $shiftStmt->execute([':delOrder' => $delOrder]);
+        }
 
         $pdo->commit();
 
@@ -251,22 +319,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($error === '') {
             try {
+                $reqOrderInput   = trim($_POST['display_order'] ?? '');
+                $reqDisplayOrder = filter_var($reqOrderInput, FILTER_VALIDATE_INT);
+
                 if ($edit_mode) {
-                    $stmt = $pdo->prepare("
-                        UPDATE brands SET
-                            brandname = :brandname,
-                            imagelink = :imagelink,
-                            status    = :status,
-                            display_status = :display_status
-                        WHERE brandid = :brandid
-                    ");
-                    $stmt->execute([
-                        ':brandname' => $brandname,
-                        ':imagelink' => $imagelink,
-                        ':status'    => $status,
-                        ':display_status' => $display_status,
-                        ':brandid'   => $brandid,
-                    ]);
+                    $currStmt = $pdo->prepare("SELECT display_order FROM brands WHERE brandid = :id");
+                    $currStmt->execute([':id' => $brandid]);
+                    $currRow  = $currStmt->fetch();
+                    $oldOrder = $currRow ? (int)$currRow['display_order'] : 1;
+
+                    if ($reqDisplayOrder !== false && $reqDisplayOrder >= 1 && $reqDisplayOrder !== $oldOrder) {
+                        $totalBrands = (int)$pdo->query("SELECT COUNT(*) FROM brands")->fetchColumn();
+                        $newOrder    = $reqDisplayOrder > $totalBrands ? $totalBrands : $reqDisplayOrder;
+
+                        $pdo->beginTransaction();
+                        if ($newOrder < $oldOrder) {
+                            $shiftStmt = $pdo->prepare("
+                                UPDATE brands
+                                SET display_order = display_order + 1
+                                WHERE display_order >= :new_order AND display_order < :old_order
+                            ");
+                            $shiftStmt->execute([':new_order' => $newOrder, ':old_order' => $oldOrder]);
+                        } else {
+                            $shiftStmt = $pdo->prepare("
+                                UPDATE brands
+                                SET display_order = display_order - 1
+                                WHERE display_order > :old_order AND display_order <= :new_order
+                            ");
+                            $shiftStmt->execute([':old_order' => $oldOrder, ':new_order' => $newOrder]);
+                        }
+
+                        $stmt = $pdo->prepare("
+                            UPDATE brands SET
+                                brandname      = :brandname,
+                                imagelink      = :imagelink,
+                                status         = :status,
+                                display_status = :display_status,
+                                display_order  = :display_order
+                            WHERE brandid = :brandid
+                        ");
+                        $stmt->execute([
+                            ':brandname'      => $brandname,
+                            ':imagelink'      => $imagelink,
+                            ':status'         => $status,
+                            ':display_status' => $display_status,
+                            ':display_order'  => $newOrder,
+                            ':brandid'        => $brandid,
+                        ]);
+                        $pdo->commit();
+                    } else {
+                        $stmt = $pdo->prepare("
+                            UPDATE brands SET
+                                brandname      = :brandname,
+                                imagelink      = :imagelink,
+                                status         = :status,
+                                display_status = :display_status
+                            WHERE brandid = :brandid
+                        ");
+                        $stmt->execute([
+                            ':brandname'      => $brandname,
+                            ':imagelink'      => $imagelink,
+                            ':status'         => $status,
+                            ':display_status' => $display_status,
+                            ':brandid'        => $brandid,
+                        ]);
+                    }
+
                     if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
                         echo json_encode(['status' => 'success', 'msg' => 'Brand updated successfully.']);
                         exit;
@@ -274,17 +392,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     header("Location: " . strtok($_SERVER["REQUEST_URI"], '?') . "?success_msg=updated");
                     exit;
                 } else {
+                    $maxOrder = (int)$pdo->query("SELECT IFNULL(MAX(display_order), 0) FROM brands")->fetchColumn();
+                    $pdo->beginTransaction();
+
+                    if ($reqDisplayOrder === false || $reqDisplayOrder < 1 || $reqDisplayOrder > $maxOrder + 1) {
+                        $newOrder = $maxOrder + 1;
+                    } else {
+                        $newOrder  = $reqDisplayOrder;
+                        $shiftStmt = $pdo->prepare("UPDATE brands SET display_order = display_order + 1 WHERE display_order >= :norder");
+                        $shiftStmt->execute([':norder' => $newOrder]);
+                    }
+
                     $stmt = $pdo->prepare("
-                        INSERT INTO brands (brandid, brandname, imagelink, status, display_status)
-                        VALUES (:brandid, :brandname, :imagelink, :status, :display_status)
+                        INSERT INTO brands (brandid, brandname, imagelink, status, display_status, display_order)
+                        VALUES (:brandid, :brandname, :imagelink, :status, :display_status, :display_order)
                     ");
                     $stmt->execute([
-                        ':brandid'   => $brandid,
-                        ':brandname' => $brandname,
-                        ':imagelink' => $imagelink,
-                        ':status'    => $status,
+                        ':brandid'        => $brandid,
+                        ':brandname'      => $brandname,
+                        ':imagelink'      => $imagelink,
+                        ':status'         => $status,
                         ':display_status' => $display_status,
+                        ':display_order'  => $newOrder,
                     ]);
+                    $pdo->commit();
+
                     if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
                         echo json_encode(['status' => 'success', 'msg' => 'Brand inserted successfully.']);
                         exit;
@@ -293,6 +425,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit;
                 }
             } catch (PDOException $e) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
                 if ((int)$e->errorInfo[1] === 1062) {
                     // Distinguish the duplicate-name safety-net constraint
                     // (uniq_brandname) from the brandid race-condition case, so
@@ -322,7 +457,7 @@ $total_records = 0;
 try {
     $stmt = $pdo->query("
         SELECT * FROM brands
-        ORDER BY CAST(SUBSTRING(brandid, 2) AS UNSIGNED) ASC, brandid ASC
+        ORDER BY display_order ASC, CAST(SUBSTRING(brandid, 2) AS UNSIGNED) ASC, brandid ASC
     ");
     $brands        = $stmt->fetchAll();
     $total_records = count($brands);
@@ -640,33 +775,41 @@ if (!isset($_GET['partial'])) {
                             <table class="table table-responsive-md vertical-middle" id="brandsTable">
                                 <thead>
                                     <tr>
-                                        <th style="width:45%;">Brand Name</th>
+                                        <th style="width:12%;">Order</th>
+                                        <th style="width:33%;">Brand Name</th>
                                         <th style="width:15%;">Logo</th>
                                         <th style="width:20%;">Stock Status</th>
                                         <th style="width:20%;">Website Status</th>
-                                        <th style="width:20%; text-align:center;">Action</th>
+                                        <th style="width:15%; text-align:center;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="brandsTableBody">
                                     <?php if (empty($brands)): ?>
                                         <tr class="empty-state-row">
-                                            <td colspan="5">
+                                            <td colspan="6">
                                                 <div class="empty-state-icon"><i class="fa-solid fa-tags"></i></div>
                                                 <p class="text-muted mb-0">No brands added yet.</p>
                                             </td>
                                         </tr>
                                     <?php else: ?>
                                         <?php foreach ($brands as $b):
-                                            // Always normalize to the correct "../uploads/brands/..." form
-                                            // for this admin page, regardless of how it's stored in the DB
-                                            // (bare filename, root-relative, or admin-page-relative).
                                             $imgSrc    = !empty($b['imagelink']) ? htmlspecialchars(upload_display_path($b['imagelink'])) : '';
                                             $imgExists = $imgSrc !== '';
                                         ?>
                                         <tr class="brand-row"
                                             data-bid="<?= strtolower(htmlspecialchars($b['brandid'])) ?>"
                                             data-bname="<?= strtolower(htmlspecialchars($b['brandname'])) ?>"
-                                            data-status="<?= htmlspecialchars($b['status']) ?>">
+                                            data-status="<?= htmlspecialchars($b['status']) ?>"
+                                            data-order="<?= (int)$b['display_order'] ?>">
+                                            <td>
+                                                <input type="number"
+                                                       class="form-control form-control-sm brand-order-input text-center"
+                                                       style="width: 70px; padding: 4px 6px; font-weight: 600;"
+                                                       data-id="<?= htmlspecialchars($b['brandid']) ?>"
+                                                       data-original-order="<?= (int)$b['display_order'] ?>"
+                                                       value="<?= (int)$b['display_order'] ?>"
+                                                       min="1">
+                                            </td>
                                             <td>
                                                 <span class="text-dark" style="font-size:14px;">
                                                     <?= htmlspecialchars($b['brandname']) ?>
@@ -710,6 +853,7 @@ if (!isset($_GET['partial'])) {
                                                             data-name="<?= htmlspecialchars($b['brandname']) ?>"
                                                             data-status="<?= htmlspecialchars($b['status']) ?>"
                                                             data-display-status="<?= htmlspecialchars($b['display_status']) ?>"
+                                                            data-display-order="<?= (int)$b['display_order'] ?>"
                                                             data-image="<?= htmlspecialchars($b['imagelink'] ?? '') ?>"
                                                             data-image-url="<?= $imgSrc ?>"
                                                             title="Edit Record">
@@ -751,12 +895,6 @@ if (!isset($_GET['partial'])) {
 
         </div>
 
-    <!-- ══════════════════════════════════════════════════════════
-         ADD / EDIT MODAL
-         (kept INSIDE .content-body so it survives AJAX partial swaps —
-         see notes in table-ajax.js: only descendants of .content-body
-         are extracted and re-inserted on sidebar navigation)
-    ══════════════════════════════════════════════════════════ -->
     <div class="modal fade" id="brandModal" tabindex="-1"
          aria-labelledby="brandModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -788,7 +926,7 @@ if (!isset($_GET['partial'])) {
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label form-label-grey">
                                     Status <span class="text-danger">*</span>
                                 </label>
@@ -797,12 +935,17 @@ if (!isset($_GET['partial'])) {
                                     <option value="Inactive">Stock-Out</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label form-label-grey">Display on Website <span class="text-danger">*</span></label>
                                 <select name="display_status" id="modal_display_status" class="form-select" required>
                                     <option value="1">Visible</option>
                                     <option value="0">Hidden</option>
                                 </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label form-label-grey">Display Order</label>
+                                <input type="number" name="display_order" id="modal_display_order"
+                                       class="form-control" placeholder="Auto" min="1">
                             </div>
                         </div>
 
@@ -832,9 +975,6 @@ if (!isset($_GET['partial'])) {
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════════
-         DELETE CONFIRMATION MODAL
-    ══════════════════════════════════════════════════════════ -->
     <div class="modal fade" id="deleteConfirmationModal" tabindex="-1"
          aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -857,9 +997,6 @@ if (!isset($_GET['partial'])) {
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════════
-         IMAGE LIGHTBOX
-    ══════════════════════════════════════════════════════════ -->
     <div id="imgLightbox" role="dialog" aria-modal="true" aria-label="Brand logo viewer">
         <button class="close-lb" id="closeLightbox" aria-label="Close image viewer">&times;</button>
         <img id="lbImage" src="" alt="">
@@ -878,9 +1015,6 @@ if (!isset($_GET['partial'])) {
 <script>
 function initBrands() {
 
-    /* ────────────────────────────────────────────────────────
-       ELEMENT REFS FOR MODAL POPULATION
-    ──────────────────────────────────────────────────────── */
     const modalTitle          = document.getElementById('brandModalLabel');
     const modalSubmitBtn      = document.getElementById('modalSubmitBtn');
     const modalForm           = document.getElementById('modalForm');
@@ -892,10 +1026,8 @@ function initBrands() {
     const currentImageWrap    = document.getElementById('currentImageWrap');
     const currentImagePreview = document.getElementById('currentImagePreview');
     const brandImageInput     = document.getElementById('modal_brand_image');
+    const displayOrderInput   = document.getElementById('modal_display_order');
 
-    /* ────────────────────────────────────────────────────────
-       IMAGE LIGHTBOX
-    ──────────────────────────────────────────────────────── */
     const lightbox   = document.getElementById('imgLightbox');
     const lbImage    = document.getElementById('lbImage');
     const closeLbBtn = document.getElementById('closeLightbox');
@@ -916,27 +1048,6 @@ function initBrands() {
         if (e.key === 'Escape') lightbox.classList.remove('open');
     });
 
-    /* ────────────────────────────────────────────────────────
-       INERT-BASED MODAL FOCUS FIX
-       Chrome devtools flags "Blocked aria-hidden on an element
-       because its descendant retained focus" whenever a Bootstrap
-       modal finishes closing (aria-hidden="true" gets set on it)
-       while the button that was just clicked (e.g. the header
-       .btn-close, or the footer "Close"/"Cancel" button) is still
-       the focused element inside it. admin-crud.js already patches
-       this for AJAX-driven closes via a deferred blur() timed after
-       Bootstrap's focus trap deactivates — but that timing trick is
-       inherently a race. Chrome's own warning recommends a more
-       robust fix: `inert`. Setting it the INSTANT hide.bs.modal
-       fires (synchronously, no setTimeout race at all) makes the
-       browser itself refuse to let any element inside the modal
-       hold or receive focus, so by the time aria-hidden is applied
-       later, nothing focused can be in there — the warning can't
-       fire, regardless of which button (header X, footer Close/
-       Cancel, or a JS-driven hide()) triggered the close. inert is
-       cleared again on shown.bs.modal so the modal is fully
-       interactive the next time it opens.
-    ──────────────────────────────────────────────────────── */
     ['#brandModal', '#deleteConfirmationModal'].forEach(function (sel) {
         const modalEl = document.querySelector(sel);
         if (!modalEl) return;
@@ -949,28 +1060,12 @@ function initBrands() {
         });
     });
 
-    /* ────────────────────────────────────────────────────────
-       FILE INPUT STATE GUARD
-       Opening the Edit modal never cleared a stale file selection
-       left over from a prior Add/Edit session. Because the browser
-       keeps whatever file was last chosen in the <input type="file">
-       across modal open/close, an old logo could get silently
-       resubmitted and overwrite the current brand's logo even when
-       the user never touched the file field this time (despite
-       "Leave empty to keep the current image" being followed). We now
-       explicitly clear this input every time the modal opens (both
-       Add and Edit paths) AND whenever the modal is dismissed, so a
-       leftover selection can never leak into an unrelated save.
-    ──────────────────────────────────────────────────────── */
     function clearBrandImageInput() {
         brandImageInput.value = '';
     }
     document.getElementById('brandModal').addEventListener('hidden.bs.modal', clearBrandImageInput);
 
-    /* ────────────────────────────────────────────────────────
-       INITIALIZE CRUD CONTROLLER
-    ──────────────────────────────────────────────────────── */
-    new AdminCrud({
+    window.adminCrudInstance = new AdminCrud({
         endpoint: 'brands.php',
         tableSelector: '#brandsTableBody',
         rowSelector: '.brand-row',
@@ -984,10 +1079,10 @@ function initBrands() {
         statusFilterSelector: '#filterStatus',
         perPageSelector: '#perPageSelect',
         paginationSelector: '#paginationButtons',
-        emptyStateColspan: 5,
+        emptyStateColspan: 6,
         emptyStateText: 'No brands match your search or filters.',
         matchRow: function(row, q, status) {
-            const haystack = (row.dataset.bid || '') + ' ' + (row.dataset.bname || '');
+            const haystack = (row.dataset.bid || '') + ' ' + (row.dataset.bname || '') + ' ' + (row.dataset.order || '');
             if (q && haystack.toLowerCase().indexOf(q) === -1) return false;
             if (status && row.dataset.status !== status) return false;
             return true;
@@ -1003,6 +1098,7 @@ function initBrands() {
             brandNameCont.className        = 'col-md-12 mb-3';
             statusSelect.value             = 'Active';
             document.getElementById('modal_display_status').value = '1';
+            if (displayOrderInput) displayOrderInput.value        = '';
             currentImageWrap.style.display = 'none';
             modalTitle.innerText           = 'Brand Registration Form';
             modalSubmitBtn.innerText       = 'Save Brand';
@@ -1014,11 +1110,7 @@ function initBrands() {
             document.getElementById('modal_existing_image').value = btn.dataset.image || '';
 
             // Clear any stale file selection left over from a previous
-            // Add/Edit session BEFORE populating this edit's data. Without
-            // this, a previously-chosen file could still be sitting in the
-            // input and get silently resubmitted as if the user had picked
-            // a new logo for THIS brand, overwriting its real image even
-            // though "Leave empty to keep the current image" was followed.
+            // Add/Edit session BEFORE populating this edit's data.
             clearBrandImageInput();
 
             brandIdHidden.value  = btn.dataset.id;
@@ -1028,6 +1120,7 @@ function initBrands() {
             document.getElementById('modal_brandname').value = btn.dataset.name;
             statusSelect.value = btn.dataset.status || 'Active';
             document.getElementById('modal_display_status').value = btn.dataset.displayStatus || '1';
+            if (displayOrderInput) displayOrderInput.value = btn.dataset.displayOrder || '';
 
             if (btn.dataset.imageUrl) {
                 currentImagePreview.src        = btn.dataset.imageUrl;
@@ -1036,6 +1129,52 @@ function initBrands() {
                 currentImageWrap.style.display = 'none';
             }
         }
+    });
+
+    /* ────────────────────────────────────────────────────────
+       HANDLE INLINE ORDER INPUT CHANGE
+    ──────────────────────────────────────────────────────── */
+    $(document).off('change', '.brand-order-input').on('change', '.brand-order-input', function() {
+        const $input = $(this);
+        const brandid = $input.data('id');
+        const oldOrder = parseInt($input.data('original-order'), 10);
+        const valStr = $input.val().trim();
+        const newOrder = parseInt(valStr, 10);
+
+        if (!valStr || isNaN(newOrder) || newOrder < 1) {
+            alert('Please enter a valid positive order number.');
+            $input.val(oldOrder);
+            return;
+        }
+
+        if (newOrder === oldOrder) return;
+
+        $.ajax({
+            url: 'brands.php',
+            type: 'POST',
+            data: {
+                action: 'update_order',
+                brandid: brandid,
+                display_order: newOrder
+            },
+            dataType: 'json',
+            success: function(res) {
+                if (res.status === 'success') {
+                    if (window.adminCrudInstance) {
+                        window.adminCrudInstance.reloadTableAndStats(res.msg);
+                    } else {
+                        location.reload();
+                    }
+                } else {
+                    alert(res.msg || 'Failed to update order.');
+                    $input.val(oldOrder);
+                }
+            },
+            error: function() {
+                alert('Network error while updating order.');
+                $input.val(oldOrder);
+            }
+        });
     });
 
 }

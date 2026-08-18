@@ -471,7 +471,7 @@ if (empty($heroSlides)) {
 <!--===== SHOP BY CATEGORIES SECTION STARTS =======-->
 <?php
 include 'connect.php';
-$query = "SELECT brandid, brandname, imagelink FROM brands WHERE display_status = 1";
+$query = "SELECT brandid, brandname, imagelink FROM brands WHERE display_status = 1 ORDER BY display_order ASC";
 $result = mysqli_query($con, $query);
 ?>
 <!--===== SHOP BY CATEGORIES SECTION =======-->
