@@ -24,7 +24,7 @@ $pvcFooterData = [
     'addressLines'    => [
         'Near KLM Shopping Mall',
         'mavullamma Temple Road',
-        'Bhimavaram Town',
+        'Bhimavaram 1-Town',
         'Andhra Pradesh',
         'Pincode - 534201'
     ],

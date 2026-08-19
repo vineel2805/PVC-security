@@ -79,6 +79,7 @@
                 <strong>Call Us</strong>
                 <a href="tel:+919114456666">+91 91144 56666</a>
                 <a href="tel:+919114467777">+91 91144 67777</a>
+                <a href="tel:+919114467777">+91 91144 78888</a>
               </div>
             </div>
             <a href="https://wa.me/919114456666" target="_blank" rel="noopener noreferrer" class="cu-quick-card cu-quick-card--whatsapp">
@@ -101,7 +102,8 @@
                 <ul class="cu-address-list">
                   <li>Near KLM Shopping mall</li>
                   <li>Mavullamma Temple Road</li>
-                  <li>Bhimavaram Town - 1</li>
+                  <li>Bhimavaram 1-Town</li>
+                  <li>Andhra Pradesh</li>
                   <li>Pincode - 534201</li>
                 </ul>
               </div>
