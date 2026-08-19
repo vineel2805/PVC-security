@@ -1,5 +1,5 @@
 
-<div class="pvc-announce-bar" id="pvc-announce-bar"></div>
+
 <header class="pvc-global-header" id="pvc-global-header">
     <div class="pvc-header-container">
       <!-- Hamburger (mobile only) -->
