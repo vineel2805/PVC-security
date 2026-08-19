@@ -19,7 +19,7 @@
 
   <!--=====HEADER END =======-->
 
-  <!--===== CONTACT HERO (dark premium page header) =======-->
+  <!--===== CONTACT HERO (dark premium page header) =======
   <section class="cu-hero">
     <div class="cu-hero-glow"></div>
     <div class="container">
@@ -63,17 +63,17 @@
         </div>
       </div>
     </div>
-  </section>
+  </section>-->
 
   <!--===== QUICK CONTACT (left)  |  COMPLAINT FORM (right) =======-->
   <section class="cu-main-section">
     <div class="container">
-      <div class="row g-4 g-lg-5">
+      <div class="row g-4 g-lg-4">
 
         <!-- Left: Quick contact cards (appears below the form on mobile/tablet) -->
         <div class="col-lg-5 order-2 order-lg-1" data-aos="fade-right">
           <div class="cu-quick-col">
-            <div class="cu-quick-card cu-quick-card--multi">
+            <div class="cu-quick-card cu-quick-card--multi cu-quick-card--call">
               <div class="cu-quick-icon cu-icon-call"><i class="fa-solid fa-phone"></i></div>
               <div class="cu-quick-body">
                 <strong>Call Us</strong>
@@ -81,24 +81,22 @@
                 <a href="tel:+919114467777">+91 91144 67777</a>
               </div>
             </div>
-            <a href="https://wa.me/919114456666" target="_blank" rel="noopener noreferrer" class="cu-quick-card">
+            <a href="https://wa.me/919114456666" target="_blank" rel="noopener noreferrer" class="cu-quick-card cu-quick-card--whatsapp">
               <div class="cu-quick-icon cu-icon-whatsapp"><i class="fa-brands fa-whatsapp"></i></div>
               <div class="cu-quick-body">
                 <strong>WhatsApp</strong>
                 <span>Chat with us now</span>
               </div>
             </a>
-            <div class="cu-quick-card cu-quick-card--multi">
-              <div class="cu-quick-icon cu-icon-mail"><i class="fa-solid fa-envelope"></i></div>
-              <div class="cu-quick-body">
+            <div class="cu-quick-card cu-quick-card--multi cu-quick-card--email">
+              <div class="cu-quick-icon cu-icon-mail"><i class="fa-solid fa-envelope"></i></div>              <div class="cu-quick-body">
                 <strong>Email Us</strong>
                 <a href="mailto:Service@pvcsecuritysolutions.com">Service@pvcsecuritysolutions.com</a>
                 <a href="mailto:Support@pvcsecuritysolutions.com">Support@pvcsecuritysolutions.com</a>
               </div>
             </div>
-            <a href="https://www.google.com/maps/place/PVC+SECURITY+SOLUTIONS+CCTV+CAMERA+SHOP/@16.5447153,81.5259349,16z/data=!3m1!4b1!4m6!3m5!1s0x3a37efe240620edd:0x2e27b608fff2d823!8m2!3d16.5447153!4d81.5259349!16s%2Fg%2F11vf4klr8g?entry=ttu" target="_blank" rel="noopener noreferrer" class="cu-quick-card">
-              <div class="cu-quick-icon cu-icon-visit"><i class="fa-solid fa-location-dot"></i></div>
-              <div class="cu-quick-body">
+            <a href="https://www.google.com/maps/place/PVC+SECURITY+SOLUTIONS+CCTV+CAMERA+SHOP/@16.5447153,81.5259349,16z/data=!3m1!4b1!4m6!3m5!1s0x3a37efe240620edd:0x2e27b608fff2d823!8m2!3d16.5447153!4d81.5259349!16s%2Fg%2F11vf4klr8g?entry=ttu" target="_blank" rel="noopener noreferrer" class="cu-quick-card cu-quick-card--visit">
+              <div class="cu-quick-icon cu-icon-visit"><svg width="24" height="31" viewBox="0 0 24 31" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12C0 21 12 31 12 31C12 31 24 21 24 12C24 5.37 18.63 0 12 0Z" fill="#EA183F"/><circle cx="12" cy="11" r="4.5" fill="#FFFFFF"/></svg></div>              <div class="cu-quick-body">
                 <strong>Visit Store</strong>
                 <ul class="cu-address-list">
                   <li>Near KLM Shopping mall</li>

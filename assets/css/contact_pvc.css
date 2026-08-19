@@ -285,102 +285,198 @@ body {
   }
 }
 
+.cu-gmail-logo,
+.cu-visit-logo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  display: block;
+}
+
 /* ==========================================================================
    MAIN — quick contact cards (left)  |  complaint form (right)
    ========================================================================== */
 .cu-main-section {
-  padding: 56px 0 70px;
+  padding: 36px 0 48px;
 }
 
 .cu-quick-col {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 992px) {
+  .cu-quick-col {
+    height: 100%;
+    grid-template-rows: repeat(2, 1fr);
+  }
 }
 
 .cu-quick-card {
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  background: var(--contact-card-bg);
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--contact-card-bg, #ffffff);
   border-radius: 16px;
-  padding: 22px 20px;
-  border: 1px solid var(--contact-border);
-  box-shadow: var(--contact-shadow);
+  padding: 20px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: var(--contact-shadow, 0 10px 28px rgba(0, 0, 0, 0.04));
   text-decoration: none;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  flex: 1;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  justify-content: center;
   min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .cu-quick-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--contact-shadow-hover);
+  box-shadow: var(--contact-shadow-hover, 0 16px 36px rgba(0, 0, 0, 0.08));
 }
 
+/* Card Specific Accent Borders & Colors */
+.cu-quick-card--call {
+  border-bottom: 4px solid #d4af37;
+}
+
+.cu-quick-card--whatsapp {
+  border-bottom: 4px solid #25D366;
+}
+
+.cu-quick-card--email {
+  border-bottom: 4px solid rgb(234, 67, 53);
+}
+
+.cu-quick-card--visit {
+  border-bottom: 4px solid #111111;
+}
+
+/* Icon Badge */
 .cu-quick-icon {
-  width: 46px;
-  height: 46px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 19px;
+  font-size: 20px;
   flex-shrink: 0;
   color: #ffffff;
+  margin: 0 auto 14px auto;
+  transition: transform 0.3s ease;
+}
+
+.cu-quick-card:hover .cu-quick-icon {
+  transform: scale(1.06);
 }
 
 .cu-icon-call {
-  background: linear-gradient(135deg, var(--pvc-gold-dark, #b8860b), var(--pvc-gold-mid, #d4af37));
+  background: linear-gradient(135deg, #b8860b, #d4af37);
+  box-shadow: 0 6px 16px rgba(184, 134, 11, 0.25);
 }
 
 .cu-icon-whatsapp {
-  background: var(--contact-whatsapp);
+  background: #25D366;
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.25);
 }
 
 .cu-icon-mail {
-  background: var(--cu-black);
+  background: #111111;
+  box-shadow: 0 6px 16px rgba(17, 17, 17, 0.2);
 }
 
 .cu-icon-visit {
-  background: linear-gradient(135deg, #3a3a3d, #17140f);
+  background: #111111;
+  box-shadow: 0 6px 16px rgba(17, 17, 17, 0.2);
 }
 
+/* Card Body */
 .cu-quick-body {
   display: flex;
   flex-direction: column;
-  min-width: 0;
+  align-items: center;
+  text-align: center;
+  width: 100%;
   flex: 1;
 }
 
 .cu-quick-body strong {
+  display: block;
   font-size: 17px;
   font-weight: 700;
-  color: var(--contact-text-main);
-  margin-bottom: 4px;
+  color: var(--contact-text-main, #111111);
+  margin-bottom: 8px;
 }
 
-.cu-quick-body span {
-  font-size: 15px;
-  color: var(--contact-text-muted);
+/* WhatsApp Action Text */
+.cu-quick-card--whatsapp .cu-quick-body span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #25D366;
   line-height: 1.5;
   overflow-wrap: break-word;
+  word-break: break-word;
 }
 
+/* Call Us Links */
+.cu-quick-card--call .cu-quick-body a {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #b8860b;
+  text-decoration: none;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  transition: color 0.2s ease;
+}
+
+.cu-quick-card--call .cu-quick-body a:hover {
+  color: #d4af37;
+  text-decoration: underline;
+}
+
+/* Email Links */
+.cu-quick-card--email .cu-quick-body a {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+  text-decoration: none;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.cu-quick-card--email .cu-quick-body a:hover {
+  color: #111111;
+  text-decoration: underline;
+}
+
+/* Address List */
 .cu-address-list {
   list-style: none;
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 .cu-address-list li {
   position: relative;
   padding-left: 0;
-  font-size: 15px;
-  color: var(--contact-text-muted);
-  line-height: 1.6;
+  font-size: 13px;
+  color: var(--contact-text-muted, #666666);
+  line-height: 1.5;
   overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .cu-address-list li::before {
@@ -388,51 +484,24 @@ body {
   display: none;
 }
 
-/* Call Us / Email Us cards list two contact links each, so they're a
-   plain div (can't nest an <a> inside another <a>) with the links
-   styled individually below the title. */
 .cu-quick-card--multi {
   cursor: default;
-}
-
-.cu-quick-body a {
-  display: block;
-  font-size: 15px;
-  color: var(--contact-text-muted);
-  text-decoration: none;
-  line-height: 1.7;
-  overflow-wrap: break-word;
-  transition: color 0.2s ease;
-}
-
-.cu-quick-body a:hover {
-  color: var(--pvc-gold-dark, #b8860b);
 }
 
 @media (max-width: 991px) {
   .cu-main-section {
     padding: 44px 0 50px;
   }
-
-  /* Full-width column at this breakpoint, so lay the 4 cards out as a
-     2x2 grid instead of one tall stack. */
-  .cu-quick-col {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .cu-quick-card {
-    flex: 1 1 calc(50% - 10px);
-  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
   .cu-quick-col {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
   .cu-quick-card {
-    flex: none;
+    padding: 20px 14px;
   }
 }
 
@@ -459,8 +528,8 @@ body {
    ========================================================================== */
 .pvc-complaint-card {
   background: #FFFFFF;
-  border-radius: 22px;
-  padding: 32px;
+  border-radius: 20px;
+  padding: 24px 28px;
   border: 1px solid #E5E7EB;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   transition: box-shadow 0.3s ease;
@@ -473,45 +542,48 @@ body {
 
 .pvc-complaint-header.premium-header-section {
   text-align: center;
-  padding-bottom: 20px;
-  margin-bottom: 24px;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
   border-bottom: 1px solid #F3F4F6;
 }
 
 .premium-icon-box {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background: linear-gradient(135deg, var(--pvc-gold-dark), var(--pvc-gold-mid));
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 15px;
-  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+  margin: 0 auto 10px;
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
   animation: premium-pulse 3s infinite ease-in-out;
 }
 
 .premium-icon-box i {
   color: #fff;
-  font-size: 36px;
+  font-size: 26px;
 }
 
 @keyframes premium-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
-    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
   }
+
   50% {
-    transform: scale(1.05);
-    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
+    transform: scale(1.04);
+    box-shadow: 0 12px 32px rgba(212, 175, 55, 0.5);
   }
 }
 
 .premium-divider {
-  width: 100px;
-  height: 4px;
+  width: 80px;
+  height: 3px;
   background: linear-gradient(to right, transparent, var(--pvc-gold-mid), transparent);
-  margin: 0 auto 14px;
+  margin: 0 auto 10px;
   border-radius: 2px;
 }
 
@@ -558,7 +630,7 @@ body {
 }
 
 .pvc-input {
-  height: 48px !important;
+  height: 44px !important;
   border-radius: 12px !important;
   border: 1px solid #E5E7EB !important;
   padding: 0 16px !important;
@@ -578,7 +650,7 @@ body {
 .pvc-textarea {
   border-radius: 12px !important;
   border: 1px solid #E5E7EB !important;
-  padding: 12px 16px !important;
+  padding: 10px 14px !important;
   font-size: 14px !important;
   color: #111827 !important;
   resize: vertical;
@@ -604,7 +676,7 @@ body {
 
 .pvc-btn-gold-submit {
   width: 100%;
-  height: 52px;
+  height: 46px;
   border-radius: 14px;
   background: var(--pvc-gold-dark, #b8860b);
   color: #ffffff;
