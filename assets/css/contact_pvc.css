@@ -308,10 +308,163 @@ body {
   box-sizing: border-box;
 }
 
+/* ==========================================================================
+   DESKTOP HEADING SECTION (Services Page Visual Hierarchy)
+   ========================================================================== */
+.cu-page-header-section {
+  display: none;
+}
+
 @media (min-width: 992px) {
+  .cu-page-header-section {
+    display: block;
+    background-color: var(--contact-card-bg, #ffffff);
+    padding: 44px 0 10px 0;
+    text-align: center;
+  }
+
+  .cu-page-header-content {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cu-header-eyebrow {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #666666;
+    margin-bottom: 8px;
+  }
+
+  .cu-header-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--pvc-gold-dark, #b8860b) !important;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin: 0 0 12px 0;
+  }
+
+  .cu-header-title .text-gold {
+    color: var(--pvc-gold-dark, #b8860b) !important;
+  }
+
+  .cu-header-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #b8860b, #d4af37);
+    margin: 0 auto 14px auto;
+    border-radius: 2px;
+  }
+
+  .cu-header-subtitle {
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 16px;
+    font-weight: 400;
+    color: #666666;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 600px;
+  }
+
+  .cu-main-section {
+    padding: 40px 0 60px;
+    width: 100%;
+  }
+
+  /* Fluid desktop container */
+  .cu-main-section .container {
+    max-width: none !important;
+    width: 100% !important;
+    padding-left: clamp(24px, 3.5vw, 56px);
+    padding-right: clamp(24px, 3.5vw, 56px);
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* 35% / 65% desktop layout with 20px gap (outer main section row only) */
+  .cu-main-section>.container>.row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 35fr) minmax(0, 65fr) !important;
+    gap: 20px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+  }
+
+  .cu-main-section>.container>.row>.col-lg-5,
+  .cu-main-section>.container>.row>.col-lg-7 {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    flex: none !important;
+  }
+
+  /* 2x2 Contact Cards Grid */
   .cu-quick-col {
-    height: 100%;
-    grid-template-rows: repeat(2, 1fr);
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    width: 100% !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .cu-quick-card {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 24px 20px !important;
+  }
+
+  /* Complaint Form Card */
+  .pvc-complaint-card {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 32px 40px !important;
+  }
+
+  /* Center action section (Submit button + Secure note) relative to .pvc-complaint-card boundary */
+  .pvc-complaint-card #pvc-complaint-form .col-12.mt-4 {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+  .pvc-complaint-card #btnSubmitComplaint {
+    width: 100% !important;
+    max-width: 320px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .pvc-complaint-card .pvc-secure-note {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 14px !important;
+    text-align: center !important;
   }
 }
 
@@ -417,7 +570,7 @@ body {
 
 /* WhatsApp Action Text */
 .cu-quick-card--whatsapp .cu-quick-body span {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 600;
   color: #25D366;
   line-height: 1.5;
@@ -428,7 +581,7 @@ body {
 /* Call Us Links */
 .cu-quick-card--call .cu-quick-body a {
   display: block;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
   color: #b8860b;
   text-decoration: none;
@@ -446,7 +599,7 @@ body {
 /* Email Links */
 .cu-quick-card--email .cu-quick-body a {
   display: block;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   color: #333333;
   text-decoration: none;
@@ -466,13 +619,13 @@ body {
   list-style: none;
   margin: 0;
   padding: 0;
-  text-align: center;
+  text-align: left;
 }
 
 .cu-address-list li {
   position: relative;
   padding-left: 0;
-  font-size: 13px;
+  font-size: 18px;
   color: var(--contact-text-muted, #666666);
   line-height: 1.5;
   overflow-wrap: break-word;

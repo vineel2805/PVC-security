@@ -17,53 +17,17 @@
  <?php include 'header.php'; ?>
  <?php include 'includes/header.php'; ?>
 
-  <!--=====HEADER END =======-->
-
-  <!--===== CONTACT HERO (dark premium page header) =======
-  <section class="cu-hero">
-    <div class="cu-hero-glow"></div>
+  <!--===== DESKTOP HEADING SECTION (Services Page Visual Hierarchy) =======-->
+  <section class="cu-page-header-section" data-aos="fade-up">
     <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-6">
-          <div class="cu-hero-inner" data-aos="fade-up">
-            <nav class="cu-breadcrumb" aria-label="breadcrumb">
-              <a href="index.php">Home</a>
-              <i class="fa-solid fa-chevron-right"></i>
-              <span>Contact Us</span>
-            </nav>
-            <span class="cu-eyebrow">Get In Touch</span>
-            <h1 class="cu-hero-title">We're Here To <span class="text-gold">Help You</span></h1>
-            <p class="cu-hero-desc">Installation, service, warranty or sales — reach the PVC Security team any way that works for you.</p>
-          </div>
-        </div>
-        <div class="col-lg-6" data-aos="fade-left">
-          <div class="cu-hero-stats">
-            <div class="cu-stat-card">
-              <div class="cu-stat-icon"><i class="fa-solid fa-headset"></i></div>
-              <div class="cu-stat-content">
-                <div class="cu-stat-number">24/7</div>
-                <div class="cu-stat-label">Support Available</div>
-              </div>
-            </div>
-            <div class="cu-stat-card">
-              <div class="cu-stat-icon"><i class="fa-solid fa-bolt"></i></div>
-              <div class="cu-stat-content">
-                <div class="cu-stat-number">Fast</div>
-                <div class="cu-stat-label">Response Time</div>
-              </div>
-            </div>
-            <div class="cu-stat-card">
-              <div class="cu-stat-icon"><i class="fa-solid fa-handshake"></i></div>
-              <div class="cu-stat-content">
-                <div class="cu-stat-number">Expert</div>
-                <div class="cu-stat-label">Team Support</div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="cu-page-header-content">
+        <span class="cu-header-eyebrow">GET IN TOUCH</span>
+        <h1 class="cu-header-title">Contact <span class="text-gold">Us</span></h1>
+        
+        <p class="cu-header-subtitle">We're here to help you. Reach out to us anytime!</p>
       </div>
     </div>
-  </section>-->
+  </section>
 
   <!--===== QUICK CONTACT (left)  |  COMPLAINT FORM (right) =======-->
   <section class="cu-main-section">
@@ -156,7 +120,7 @@
                 <div class="col-12">
                   <div class="pvc-form-group">
                     <div class="d-flex justify-content-between align-items-center mb-1">
-                      <label for="complaint-desc" class="mb-0">Complaint Reason <span class="req">*</span></label>
+                      <label for="complaint-desc" class="mb-0">Complaint Reason <i class="fa-solid fa-pencil"></i> <span class="req">*</span></label>
                       <span class="char-count" id="desc-char-count">0 / 500</span>
                     </div>
                     <textarea id="complaint-desc" class="form-control pvc-textarea" rows="3" maxlength="500" placeholder="Describe your issue..." required></textarea>
