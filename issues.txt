@@ -1,0 +1,1 @@
+mobile style duplication in global_header.css
