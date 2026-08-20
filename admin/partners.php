@@ -210,10 +210,12 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit' && isset($_POST['id']
 // Fetch all partners
 $partners = $pdo->query("SELECT * FROM strategic_partners ORDER BY display_order ASC, id ASC")->fetchAll();
 
-include 'header.php';
-include 'nav_header.php';
-include 'main_header.php';
-include 'sidebar.php';
+if (!isset($_GET['partial'])) {
+    include 'header.php';
+    include 'nav_header.php';
+    include 'main_header.php';
+    include 'sidebar.php';
+}
 ?>
 
 <div class="content-body">
@@ -324,7 +326,6 @@ include 'sidebar.php';
         </div>
 
     </div>
-</div>
 
 <!-- Modal: Add Partner -->
 <div class="modal fade" id="addPartnerModal" tabindex="-1" role="dialog">
@@ -458,23 +459,30 @@ include 'sidebar.php';
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+window.AdminPageInits = window.AdminPageInits || {};
+window.initPartnersPage = function initPartnersPage() {
+    if (!document.getElementById('addPartnerModal') && !document.getElementById('editPartnerModal')) {
+        return;
+    }
+
     <?php if ($active_modal === 'add'): ?>
-    const addModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('addPartnerModal'));
-    addModal.show();
+    const addModalEl = document.getElementById('addPartnerModal');
+    if (addModalEl) {
+        bootstrap.Modal.getOrCreateInstance(addModalEl).show();
+    }
     <?php endif; ?>
 
     <?php if ($active_modal === 'edit'): ?>
-    const editModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('editPartnerModal'));
-    editModal.show();
+    const editModalEl = document.getElementById('editPartnerModal');
+    if (editModalEl) {
+        bootstrap.Modal.getOrCreateInstance(editModalEl).show();
+    }
     <?php endif; ?>
 
-    // Edit button handler
-    document.querySelectorAll('.btn-edit').forEach(function(btn) {
-        btn.addEventListener('click', function() {
+    $(document)
+        .off('click.partnersEdit', '.btn-edit[data-partner]')
+        .on('click.partnersEdit', '.btn-edit[data-partner]', function () {
             var data = JSON.parse(this.getAttribute('data-partner'));
             document.getElementById('edit_id').value = data.id;
             document.getElementById('edit_partner_name').value = data.partner_name || '';
@@ -490,32 +498,32 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             document.getElementById('edit_image_js_error').style.display = 'none';
 
-            const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('editPartnerModal'));
-            modal.show();
+            const modalEl = document.getElementById('editPartnerModal');
+            if (modalEl) {
+                bootstrap.Modal.getOrCreateInstance(modalEl).show();
+            }
         });
-    });
 
-    // Client-side image preview and max file size (1.5 MB) validation
-    function setupImageValidation(fileInputId, previewContainerId, previewImgId, dimsId, errorDivId, submitBtnId) {
-        const fileInput = document.getElementById(fileInputId);
-        const container = document.getElementById(previewContainerId);
-        const img = document.getElementById(previewImgId);
-        const dims = document.getElementById(dimsId);
-        const errorDiv = document.getElementById(errorDivId);
-        const submitBtn = document.getElementById(submitBtnId);
+    function bindPartnerImageValidation(fileInputId, previewContainerId, previewImgId, dimsId, errorDivId, submitBtnId, ns) {
+        $(document).off('change.' + ns, '#' + fileInputId).on('change.' + ns, '#' + fileInputId, function () {
+            const container = document.getElementById(previewContainerId);
+            const img = document.getElementById(previewImgId);
+            const dims = document.getElementById(dimsId);
+            const errorDiv = document.getElementById(errorDivId);
+            const submitBtn = document.getElementById(submitBtnId);
 
-        if (!fileInput) return;
+            if (!errorDiv || !img || !container) {
+                return;
+            }
 
-        fileInput.addEventListener('change', function() {
             errorDiv.style.display = 'none';
             errorDiv.innerHTML = '';
             if (submitBtn) submitBtn.disabled = false;
 
             if (this.files && this.files[0]) {
                 const file = this.files[0];
-                const maxBytes = 1.5 * 1024 * 1024; // 1,572,864 bytes
+                const maxBytes = 1.5 * 1024 * 1024;
 
-                // Validate maximum file size: 1.5 MB
                 if (file.size > maxBytes) {
                     const uploadedMb = (file.size / (1024 * 1024)).toFixed(2);
                     errorDiv.innerHTML = `<i class="fas fa-times-circle mr-1"></i>❌ Partner logo file size (${uploadedMb} MB) exceeds maximum allowed limit of 1.5 MB.`;
@@ -527,18 +535,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 const isSvg = file.name.toLowerCase().endsWith('.svg') || file.type === 'image/svg+xml';
 
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     img.src = e.target.result;
                     container.style.display = 'block';
 
-                    if (isSvg) {
-                        dims.innerText = 'SVG Vector Image selected';
-                    } else {
-                        const tempImg = new Image();
-                        tempImg.onload = function() {
-                            dims.innerText = `Detected dimensions: ${tempImg.width} × ${tempImg.height} px`;
-                        };
-                        tempImg.src = e.target.result;
+                    if (dims) {
+                        if (isSvg) {
+                            dims.innerText = 'SVG Vector Image selected';
+                        } else {
+                            const tempImg = new Image();
+                            tempImg.onload = function () {
+                                dims.innerText = `Detected dimensions: ${tempImg.width} × ${tempImg.height} px`;
+                            };
+                            tempImg.src = e.target.result;
+                        }
                     }
                 };
                 reader.readAsDataURL(file);
@@ -546,7 +556,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    setupImageValidation('add_partner_image', 'add_preview_container', 'add_preview_img', 'add_preview_dims', 'add_image_js_error', 'addSubmitBtn');
-    setupImageValidation('edit_partner_image', 'edit_preview_container', 'edit_preview_img', 'edit_preview_dims', 'edit_image_js_error', 'editSubmitBtn');
-});
+    bindPartnerImageValidation('add_partner_image', 'add_preview_container', 'add_preview_img', 'add_preview_dims', 'add_image_js_error', 'addSubmitBtn', 'partnersAddImage');
+    bindPartnerImageValidation('edit_partner_image', 'edit_preview_container', 'edit_preview_img', 'edit_preview_dims', 'edit_image_js_error', 'editSubmitBtn', 'partnersEditImage');
+};
+window.AdminPageInits['partners.php'] = window.initPartnersPage;
 </script>
+</div><!-- /.content-body -->
+<?php
+if (!isset($_GET['partial'])) {
+    include 'footer.php';
+}
+?>

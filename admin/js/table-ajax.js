@@ -127,6 +127,27 @@ $(document).ready(function() {
         });
     }
 
+    // Pages register an init function on window.AdminPageInits['page.php']
+    // from a script inside .content-body. Direct loads register before
+    // $(document).ready; AJAX loads re-register via runExtractedScripts.
+    window.AdminPageInits = window.AdminPageInits || {};
+
+    window.runAdminPageInit = function(url) {
+        const filename = ((url || window.location.pathname || '').split('/').pop() || '').split('?')[0];
+        if (!filename) {
+            return;
+        }
+        const fn = window.AdminPageInits[filename];
+        if (typeof fn === 'function') {
+            try {
+                fn();
+            } catch (err) {
+                console.error('Admin page init failed for ' + filename, err);
+            }
+        }
+        $(document).trigger('admin:content-replaced', [filename, url]);
+    };
+
     // Global loadPage function
     window.loadPage = function(url, pushState = true) {
         const $contentBody = $('.content-body');
@@ -240,6 +261,10 @@ $(document).ready(function() {
                         cleanupModals();
                     }
 
+                    if (typeof window.runAdminPageInit === 'function') {
+                        window.runAdminPageInit(url);
+                    }
+
                     // Update title
                     let title = "PVC Admin Dashboard";
                     const filename = url.split('/').pop().split('?')[0];
@@ -247,6 +272,8 @@ $(document).ready(function() {
                     else if (filename === 'categories.php') title = "Categories - PVC Admin Dashboard";
                     else if (filename === 'products.php') title = "Products - PVC Admin Dashboard";
                     else if (filename === 'dashboard.php') title = "Dashboard - PVC Admin Dashboard";
+                    else if (filename === 'slides.php') title = "Homepage Slider - PVC Admin Dashboard";
+                    else if (filename === 'partners.php') title = "Strategic Partners - PVC Admin Dashboard";
                     document.title = title;
 
                     // Update active sidebar
@@ -277,6 +304,10 @@ $(document).ready(function() {
     // Initialize initial state inside history
     if (window.history && window.history.replaceState) {
         window.history.replaceState({ path: window.location.pathname + window.location.search }, '', window.location.href);
+    }
+
+    if (typeof window.runAdminPageInit === 'function') {
+        window.runAdminPageInit(window.location.pathname + window.location.search);
     }
 
     // Intercept sidebar link clicks

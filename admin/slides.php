@@ -363,6 +363,16 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit' && isset($_POST['id']
     
     if ($hasError) {
         $active_modal = 'edit';
+        if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 'error',
+                'error' => !empty($desktop_error) ? $desktop_error : $mobile_error,
+                'desktop_error' => $desktop_error,
+                'mobile_error' => $mobile_error
+            ]);
+            exit();
+        }
     } else {
         $desktop_image = $dResult['path'];
         $mobile_image  = $mResult['path'];
@@ -373,16 +383,32 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit' && isset($_POST['id']
         $up->execute([$title, $subtitle, $description, $desktop_image, $mobile_image, $button_text, $button_link, $display_order, $status, $slideId]);
         $success = "Slide updated successfully!";
         $form_data = [];
+
+        if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            header('Content-Type: application/json');
+            $updatedStmt = $pdo->prepare("SELECT * FROM hero_slides WHERE id = ?");
+            $updatedStmt->execute([$slideId]);
+            $updatedSlide = $updatedStmt->fetch(PDO::FETCH_ASSOC);
+
+            echo json_encode([
+                'status' => 'success',
+                'msg' => 'Slide updated successfully!',
+                'slide' => $updatedSlide
+            ]);
+            exit();
+        }
     }
 }
 
 // Fetch all slides
 $slides = $pdo->query("SELECT * FROM hero_slides ORDER BY display_order ASC, id ASC")->fetchAll();
 
-include 'header.php';
-include 'nav_header.php';
-include 'main_header.php';
-include 'sidebar.php';
+if (!isset($_GET['partial'])) {
+    include 'header.php';
+    include 'nav_header.php';
+    include 'main_header.php';
+    include 'sidebar.php';
+}
 ?>
 
 <div class="content-body">
@@ -402,6 +428,13 @@ include 'sidebar.php';
             </div>
         </div>
 
+        <div id="alertContainer">
+        <?php 
+        $msg_query = $_GET['msg'] ?? '';
+        if ($msg_query === 'status_updated') {
+            $success = "Status updated successfully!";
+        }
+        ?>
         <?php if (!empty($success)): ?>
             <div class="alert alert-success alert-dismissible fade show">
                 <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
@@ -415,6 +448,7 @@ include 'sidebar.php';
                 <strong>Error!</strong> <?php echo htmlspecialchars($error); ?>
             </div>
         <?php endif; ?>
+        </div>
 
         <div class="row">
             <div class="col-12">
@@ -445,7 +479,7 @@ include 'sidebar.php';
                                             $dImg = '../' . htmlspecialchars($slide['desktop_image']);
                                             $mImg = '../' . htmlspecialchars($slide['mobile_image']);
                                         ?>
-                                        <tr>
+                                        <tr id="slide-row-<?php echo $slide['id']; ?>">
                                             <td>
                                                 <span class="badge badge-secondary"><?php echo (int)$slide['display_order']; ?></span>
                                             </td>
@@ -495,7 +529,6 @@ include 'sidebar.php';
         </div>
 
     </div>
-</div>
 
 <!-- Modal: Add Slide -->
 <div class="modal fade" id="addSlideModal" tabindex="-1" role="dialog">
@@ -575,10 +608,10 @@ include 'sidebar.php';
 </div>
 
 <!-- Modal: Edit Slide -->
-<div class="modal fade" id="editSlideModal" tabindex="-1" role="dialog">
+<div class="modal" id="editSlideModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <form action="slides.php" method="POST" enctype="multipart/form-data">
+            <form id="editSlideForm" action="slides.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="id" id="edit_id" value="<?php echo htmlspecialchars($form_data['id'] ?? ''); ?>">
                 <div class="modal-header">
@@ -658,39 +691,200 @@ include 'sidebar.php';
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+window.AdminPageInits = window.AdminPageInits || {};
+window.initSlidesPage = function initSlidesPage() {
+    if (!document.getElementById('addSlideModal') && !document.getElementById('editSlideModal')) {
+        return;
+    }
+
     <?php if ($active_modal === 'add'): ?>
-    const addModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('addSlideModal'));
-    addModal.show();
+    const addModalEl = document.getElementById('addSlideModal');
+    if (addModalEl) {
+        bootstrap.Modal.getOrCreateInstance(addModalEl).show();
+    }
     <?php endif; ?>
 
     <?php if ($active_modal === 'edit'): ?>
-    const editModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('editSlideModal'));
-    editModal.show();
+    const editModalEl = document.getElementById('editSlideModal');
+    if (editModalEl) {
+        bootstrap.Modal.getOrCreateInstance(editModalEl).show();
+    }
     <?php endif; ?>
 
-    document.querySelectorAll('.btn-edit').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            var data = JSON.parse(this.getAttribute('data-slide'));
-            document.getElementById('edit_id').value = data.id;
-            document.getElementById('edit_title').value = data.title || '';
-            document.getElementById('edit_subtitle').value = data.subtitle || '';
-            document.getElementById('edit_description').value = data.description || '';
-            document.getElementById('edit_button_text').value = data.button_text || '';
-            document.getElementById('edit_button_link').value = data.button_link || '';
-            document.getElementById('edit_display_order').value = data.display_order || 0;
-            document.getElementById('edit_status').checked = (parseInt(data.status) === 1);
+    $(document)
+        .off('click.slidesEdit', '.btn-edit[data-slide]')
+        .on('click.slidesEdit', '.btn-edit[data-slide]', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-            document.getElementById('edit_desktop_current').innerText = 'Current: ' + (data.desktop_image || 'None');
-            document.getElementById('edit_mobile_current').innerText = 'Current: ' + (data.mobile_image || 'None');
+            const dataAttribute = this.getAttribute('data-slide');
+            if (!dataAttribute) {
+                return;
+            }
 
-            const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('editSlideModal'));
-            modal.show();
+            let data;
+            try {
+                data = JSON.parse(dataAttribute);
+            } catch (error) {
+                console.error('Invalid slide data:', error);
+                return;
+            }
+
+            const editId = document.getElementById('edit_id');
+            const editTitle = document.getElementById('edit_title');
+            const editSubtitle = document.getElementById('edit_subtitle');
+            const editDescription = document.getElementById('edit_description');
+            const editButtonText = document.getElementById('edit_button_text');
+            const editButtonLink = document.getElementById('edit_button_link');
+            const editDisplayOrder = document.getElementById('edit_display_order');
+            const editStatus = document.getElementById('edit_status');
+            const editDesktopCurrent = document.getElementById('edit_desktop_current');
+            const editMobileCurrent = document.getElementById('edit_mobile_current');
+            const editModalEl = document.getElementById('editSlideModal');
+
+            if (!editModalEl) {
+                console.error('Edit modal not found.');
+                return;
+            }
+
+            if (editId) editId.value = data.id || '';
+            if (editTitle) editTitle.value = data.title || '';
+            if (editSubtitle) editSubtitle.value = data.subtitle || '';
+            if (editDescription) editDescription.value = data.description || '';
+            if (editButtonText) editButtonText.value = data.button_text || '';
+            if (editButtonLink) editButtonLink.value = data.button_link || '';
+            if (editDisplayOrder) editDisplayOrder.value = data.display_order || 0;
+
+            if (editStatus) {
+                editStatus.checked = parseInt(data.status, 10) === 1;
+            }
+
+            if (editDesktopCurrent) {
+                editDesktopCurrent.innerText = 'Current: ' + (data.desktop_image || 'None');
+            }
+
+            if (editMobileCurrent) {
+                editMobileCurrent.innerText = 'Current: ' + (data.mobile_image || 'None');
+            }
+
+            bootstrap.Modal.getOrCreateInstance(editModalEl).show();
         });
-    });
-});
+
+    $(document)
+        .off('submit.slidesEdit', '#editSlideForm')
+        .on('submit.slidesEdit', '#editSlideForm', function (e) {
+            e.preventDefault();
+
+            const editForm = this;
+            const submitBtn = editForm.querySelector('button[type="submit"]');
+            const originalBtnHtml = submitBtn ? submitBtn.innerHTML : 'Save Changes';
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Saving...';
+            }
+
+            const formData = new FormData(editForm);
+            formData.append('ajax', '1');
+
+            fetch('slides.php', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
+                }
+
+                if (data.status === 'success') {
+                    const modalEl = document.getElementById('editSlideModal');
+                    if (modalEl) {
+                        const modal = bootstrap.Modal.getInstance(modalEl);
+                        if (modal) {
+                            modal.hide();
+                        }
+                    }
+
+                    const alertContainer = document.getElementById('alertContainer');
+                    if (alertContainer) {
+                        alertContainer.innerHTML = `
+                            <div class="alert alert-success alert-dismissible fade show">
+                                <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+                                <strong>Success!</strong>
+                                ${data.msg || 'Slide updated successfully!'}
+                            </div>
+                        `;
+                    }
+
+                    if (data.slide) {
+                        const row = document.getElementById('slide-row-' + data.slide.id);
+                        if (row) {
+                            const cells = row.cells;
+
+                            if (cells[0]) {
+                                cells[0].innerHTML =
+                                    `<span class="badge badge-secondary">${parseInt(data.slide.display_order, 10)}</span>`;
+                            }
+
+                            if (cells[1]) {
+                                cells[1].innerHTML =
+                                    `<img src="../${data.slide.desktop_image}" alt="Desktop Banner" style="max-width:120px; max-height:50px; object-fit:cover; border-radius:4px; border:1px solid #ddd;">`;
+                            }
+
+                            if (cells[2]) {
+                                cells[2].innerHTML =
+                                    `<img src="../${data.slide.mobile_image}" alt="Mobile Banner" style="max-width:80px; max-height:50px; object-fit:cover; border-radius:4px; border:1px solid #ddd;">`;
+                            }
+
+                            let detailsHtml = `<strong>${data.slide.title ? data.slide.title : '(No Title)'}</strong>`;
+                            if (data.slide.subtitle) {
+                                detailsHtml += `<br><small class="text-info">${data.slide.subtitle}</small>`;
+                            }
+                            if (data.slide.button_text) {
+                                detailsHtml += `<br><small class="text-muted">Button: ${data.slide.button_text} (${data.slide.button_link || ''})</small>`;
+                            }
+                            if (cells[3]) {
+                                cells[3].innerHTML = detailsHtml;
+                            }
+
+                            const isStatusActive = parseInt(data.slide.status, 10) === 1;
+                            if (cells[4]) {
+                                cells[4].innerHTML =
+                                    `<a href="slides.php?action=toggle_status&id=${data.slide.id}" class="badge badge-${isStatusActive ? 'success' : 'danger'}" title="Click to toggle status">${isStatusActive ? 'Active' : 'Disabled'}</a>`;
+                            }
+
+                            const editBtn = row.querySelector('.btn-edit');
+                            if (editBtn) {
+                                editBtn.setAttribute('data-slide', JSON.stringify(data.slide));
+                            }
+                        }
+                    }
+                } else {
+                    alert(data.error || 'Failed to update slide.');
+                }
+            })
+            .catch(err => {
+                console.error('Edit slide AJAX error:', err);
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
+                }
+                alert('An error occurred while saving changes.');
+            });
+        });
+};
+window.AdminPageInits['slides.php'] = window.initSlidesPage;
 </script>
+</div><!-- /.content-body -->
+<?php
+if (!isset($_GET['partial'])) {
+    include 'footer.php';
+}
+?>
 
