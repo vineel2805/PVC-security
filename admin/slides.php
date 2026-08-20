@@ -24,23 +24,27 @@ if (!is_dir($uploadDir)) {
 }
 
 /**
- * Smart Center Crop & Resample Hero Slider Banner Image via PHP GD
+ * Proportional-only resize for Hero Slider Banner Images via PHP GD.
+ *
+ * NEVER crops or distorts the original content.
+ * Only downscales proportionally when the image exceeds the max dimensions.
+ * Images smaller than the max are saved as-is (after re-encoding for optimization).
  *
  * @param string $srcPath  Source temporary file path
- * @param int    $targetW  Target width (1920 or 768)
- * @param int    $targetH  Target height (420 or 500)
+ * @param int    $maxW     Maximum allowed width in pixels
+ * @param int    $maxH     Maximum allowed height in pixels
  * @param string $destPath Destination file path on disk
  * @param string $ext      File extension
  * @return bool True on success, false on failure
  */
-function process_and_optimize_hero_image($srcPath, $targetW, $targetH, $destPath, $ext) {
+function process_and_optimize_hero_image($srcPath, $maxW, $maxH, $destPath, $ext) {
     if (!file_exists($srcPath)) {
         return false;
     }
 
     $ext = strtolower($ext);
 
-    // SVG vector files do not require GD raster processing
+    // SVG vector files — just copy, no GD processing needed
     if ($ext === 'svg') {
         return @copy($srcPath, $destPath);
     }
@@ -70,26 +74,14 @@ function process_and_optimize_hero_image($srcPath, $targetW, $targetH, $destPath
         return false;
     }
 
-    // Calculate smart center crop coordinates
-    $srcRatio = $srcW / $srcH;
-    $dstRatio = $targetW / $targetH;
+    // Calculate proportional output dimensions — never exceed maxW x maxH,
+    // never crop, never distort.
+    $scale  = min(1.0, $maxW / $srcW, $maxH / $srcH); // 1.0 = no upscaling
+    $dstW   = (int)round($srcW * $scale);
+    $dstH   = (int)round($srcH * $scale);
 
-    if ($srcRatio > $dstRatio) {
-        // Source is wider than target: crop left & right equally
-        $cropH = $srcH;
-        $cropW = (int)round($srcH * $dstRatio);
-        $cropX = (int)round(($srcW - $cropW) / 2);
-        $cropY = 0;
-    } else {
-        // Source is taller than target: crop top & bottom equally
-        $cropW = $srcW;
-        $cropH = (int)round($srcW / $dstRatio);
-        $cropX = 0;
-        $cropY = (int)round(($srcH - $cropH) / 2);
-    }
-
-    // Create truecolor destination canvas
-    $dstImg = imagecreatetruecolor($targetW, $targetH);
+    // Create truecolor destination canvas at the calculated size
+    $dstImg = imagecreatetruecolor($dstW, $dstH);
     if (!$dstImg) {
         imagedestroy($srcImg);
         return false;
@@ -100,16 +92,16 @@ function process_and_optimize_hero_image($srcPath, $targetW, $targetH, $destPath
         imagealphablending($dstImg, false);
         imagesavealpha($dstImg, true);
         $transparent = imagecolorallocatealpha($dstImg, 0, 0, 0, 127);
-        imagefilledrectangle($dstImg, 0, 0, $targetW, $targetH, $transparent);
+        imagefilledrectangle($dstImg, 0, 0, $dstW, $dstH, $transparent);
     }
 
-    // High quality bicubic resampling
-    imagecopyresampled($dstImg, $srcImg, 0, 0, $cropX, $cropY, $targetW, $targetH, $cropW, $cropH);
+    // High-quality bicubic resampling (full source → full destination, no crop)
+    imagecopyresampled($dstImg, $srcImg, 0, 0, 0, 0, $dstW, $dstH, $srcW, $srcH);
 
     // Enable Progressive JPEG rendering for fast web delivery
     imageinterlace($dstImg, true);
 
-    // Export optimized image with tuned quality settings
+    // Export with optimized quality settings
     $success = false;
     if ($ext === 'jpg' || $ext === 'jpeg') {
         $success = imagejpeg($dstImg, $destPath, 89);
@@ -181,42 +173,44 @@ function validate_and_upload_slide_image($fileArray, $type, $uploadDir, $existin
         ];
     }
     
-    // Specifications per banner type
+    // Max output dimensions — proportional resize only, no crop.
+    // Desktop: cap at 3000 px wide; mobile: cap at 1600 px wide.
+    // Height is capped at 3000 px for both to prevent runaway tall images.
     if ($type === 'desktop') {
-        $targetW  = 1920;
-        $targetH  = 420;
-        $minWidth = 1200;
+        $maxW     = 3000;
+        $maxH     = 3000;
+        $minWidth = 400;
     } else {
-        $targetW  = 768;
-        $targetH  = 500;
-        $minWidth = 600;
+        $maxW     = 1600;
+        $maxH     = 3000;
+        $minWidth = 400;
     }
 
-    // Minimum width validation (Skipped for SVG vector files)
+    // Minimum width validation (skipped for SVG vector files)
     if ($ext !== 'svg' && $mime !== 'image/svg+xml' && $mime !== 'image/svg') {
         $imgInfo = @getimagesize($fileArray['tmp_name']);
         if (!$imgInfo) {
             return ['path' => $existingPath, 'error' => ucfirst($type) . ' banner image file is invalid or corrupted.'];
         }
-        
+
         $width  = (int)$imgInfo[0];
         $height = (int)$imgInfo[1];
-        
+
         if ($width < $minWidth) {
             return [
                 'path'  => $existingPath,
-                'error' => ucfirst($type) . " banner width must be at least {$minWidth} pixels for high-quality display. Uploaded image: {$width} × {$height} pixels."
+                'error' => ucfirst($type) . " banner must be at least {$minWidth} px wide. Uploaded image: {$width} × {$height} px."
             ];
         }
     }
-    
+
     // Generate output file path
     $outExt   = ($ext === 'svg') ? 'svg' : (($ext === 'png') ? 'png' : 'jpg');
     $filename = 'slide_' . time() . '_' . rand(1000, 9999) . '.' . $outExt;
     $target   = $uploadDir . $filename;
-    
-    // Execute Smart Center Crop & Resample
-    $processed = process_and_optimize_hero_image($fileArray['tmp_name'], $targetW, $targetH, $target, $ext);
+
+    // Execute proportional resize (no crop)
+    $processed = process_and_optimize_hero_image($fileArray['tmp_name'], $maxW, $maxH, $target, $ext);
     
     if ($processed && file_exists($target)) {
         // Clean up old file if replacing
@@ -556,8 +550,8 @@ if (!isset($_GET['partial'])) {
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Desktop Banner Image <span class="text-danger">*</span></label>
-                            <div class="small text-muted mb-1">
-                                <strong>Auto-Processed Output:</strong> 1920 × 420 px | <strong>Min Width:</strong> 1200 px | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
+                             <div class="small text-muted mb-1">
+                                <strong>Processing:</strong> Proportional resize only &mdash; no crop, no distortion | <strong>Min Width:</strong> 400 px | <strong>Max Output:</strong> 3000 px wide | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
                             </div>
                             <input type="file" name="desktop_image" class="form-control-file <?php echo (!empty($desktop_error) && $active_modal === 'add') ? 'is-invalid' : ''; ?>" accept="image/*" <?php echo ($active_modal === 'add') ? '' : 'required'; ?>>
                             <?php if (!empty($desktop_error) && $active_modal === 'add'): ?>
@@ -568,8 +562,8 @@ if (!isset($_GET['partial'])) {
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Mobile Banner Image</label>
-                            <div class="small text-muted mb-1">
-                                <strong>Auto-Processed Output:</strong> 768 × 500 px | <strong>Min Width:</strong> 600 px | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
+                             <div class="small text-muted mb-1">
+                                <strong>Processing:</strong> Proportional resize only &mdash; no crop, no distortion | <strong>Min Width:</strong> 400 px | <strong>Max Output:</strong> 1600 px wide | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
                             </div>
                             <input type="file" name="mobile_image" class="form-control-file <?php echo (!empty($mobile_error) && $active_modal === 'add') ? 'is-invalid' : ''; ?>" accept="image/*">
                             <?php if (!empty($mobile_error) && $active_modal === 'add'): ?>
@@ -634,8 +628,8 @@ if (!isset($_GET['partial'])) {
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Replace Desktop Banner</label>
-                            <div class="small text-muted mb-1">
-                                <strong>Auto-Processed Output:</strong> 1920 × 420 px | <strong>Min Width:</strong> 1200 px | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
+                             <div class="small text-muted mb-1">
+                                <strong>Processing:</strong> Proportional resize only &mdash; no crop, no distortion | <strong>Min Width:</strong> 400 px | <strong>Max Output:</strong> 3000 px wide | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
                             </div>
                             <input type="file" name="desktop_image" class="form-control-file <?php echo (!empty($desktop_error) && $active_modal === 'edit') ? 'is-invalid' : ''; ?>" accept="image/*">
                             <small class="form-text text-muted d-block mt-1" id="edit_desktop_current">
@@ -649,8 +643,8 @@ if (!isset($_GET['partial'])) {
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Replace Mobile Banner</label>
-                            <div class="small text-muted mb-1">
-                                <strong>Auto-Processed Output:</strong> 768 × 500 px | <strong>Min Width:</strong> 600 px | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
+                             <div class="small text-muted mb-1">
+                                <strong>Processing:</strong> Proportional resize only &mdash; no crop, no distortion | <strong>Min Width:</strong> 400 px | <strong>Max Output:</strong> 1600 px wide | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
                             </div>
                             <input type="file" name="mobile_image" class="form-control-file <?php echo (!empty($mobile_error) && $active_modal === 'edit') ? 'is-invalid' : ''; ?>" accept="image/*">
                             <small class="form-text text-muted d-block mt-1" id="edit_mobile_current">
