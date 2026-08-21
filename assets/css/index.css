@@ -1,42 +1,135 @@
 /* ==========================================================================
    HOME PAGE HERO CAROUSEL - RESPONSIVE HTML <img> IMPLEMENTATION
-   No crop, no distortion. Image always shown 100% complete.
    ========================================================================== */
 
-/* 1. Header alignment */
+/* 1. Header alignment - Match original live PVC website layout */
 #home {
     margin-top: 0 !important;
     padding-top: 0 !important;
 }
 
-/* 2. Carousel container — height follows the image's natural ratio */
-#home .carousel-area,
-#home .hero3-section-area,
-#home .carousel-area .owl-stage-outer,
-#home .carousel-area .owl-stage,
-#home .carousel-area .owl-item,
-#home .carousel-area .carousel-item {
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    position: relative !important;
-    overflow: visible !important;
-    background: transparent !important;
+/* 2. Desktop Proportional Height (Matches Image 2 PVC Production Proportions) */
+@media (min-width: 992px) {
+
+    #home .carousel-area,
+    #home .hero3-section-area,
+    #home .carousel-area .owl-stage-outer,
+    #home .carousel-area .owl-stage,
+    #home .carousel-area .owl-item,
+    #home .carousel-area .carousel-item {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: 560px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        background: transparent !important;
+    }
+
+    #home .hero3-section-area .hero-banner-img,
+    #home .carousel-area img {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        max-height: 560px !important;
+        object-fit: contain !important;
+        object-position: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+    }
 }
 
-/* 3. Banner image — fill full width, never crop, preserve aspect ratio */
-#home .hero3-section-area .hero-banner-img,
-#home .carousel-area img {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    max-height: none !important;
-    object-fit: contain !important;
-    object-position: center center !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
+/* Responsive height scaling across desktop viewports */
+@media (min-width: 1200px) and (max-width: 1440px) {
+
+    #home .carousel-area,
+    #home .hero3-section-area,
+    #home .carousel-area .owl-stage-outer,
+    #home .hero3-section-area .hero-banner-img,
+    #home .carousel-area img {
+        max-height: 500px !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    #home .carousel-area,
+    #home .hero3-section-area,
+    #home .carousel-area .owl-stage-outer,
+    #home .hero3-section-area .hero-banner-img,
+    #home .carousel-area img {
+        max-height: 440px !important;
+    }
+}
+
+/* Mobile & Tablet setup - Banners sized to 1200x800 (3:2) source ratio, no forced min-height crop */
+@media (max-width: 991px) {
+
+    #home,
+    #home .carousel-area,
+    #home .hero3-section-area,
+    #home .carousel-area .owl-stage-outer,
+    #home .carousel-area .owl-stage,
+    #home .carousel-area .owl-item,
+    #home .carousel-area .carousel-item {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        aspect-ratio: 4 / 3 !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+
+    #home .hero3-section-area .hero-banner-img,
+    #home .carousel-area img {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        aspect-ratio: 4 / 3 !important;
+        object-fit: contain !important;
+        object-position: center !important;
+    }
+}
+
+/* Small mobile (phones) - same 3:2 ratio, no separate min-height override needed */
+@media (max-width: 480px) {
+
+    #home,
+    #home .carousel-area,
+    #home .hero3-section-area,
+    #home .carousel-area .owl-stage-outer,
+    #home .carousel-area .owl-stage,
+    #home .carousel-area .owl-item,
+    #home .carousel-area .carousel-item {
+        aspect-ratio: 4 / 3 !important;
+    }
+
+    #home .hero3-section-area .hero-banner-img,
+    #home .carousel-area img {
+        aspect-ratio: 4 / 3 !important;
+    }
+}
+
+/* Extra small mobile (narrow phones) - same 3:2 ratio */
+@media (max-width: 375px) {
+
+    #home,
+    #home .carousel-area,
+    #home .hero3-section-area,
+    #home .carousel-area .owl-stage-outer,
+    #home .carousel-area .owl-stage,
+    #home .carousel-area .owl-item,
+    #home .carousel-area .carousel-item {
+        aspect-ratio: 4 / 3 !important;
+    }
+
+    #home .hero3-section-area .hero-banner-img,
+    #home .carousel-area img {
+        aspect-ratio: 4 / 3 !important;
+    }
 }
 
 
@@ -1013,4 +1106,42 @@ QUICK LINKS SECTION - LG Style Open Layout
     font-size: 14px;
     color: #888;
     font-weight: 600;
+}
+/* ==========================================================================
+   HERO CAROUSEL - RESPONSIVE BREAKPOINT
+   Mobile/Tablet: < 992px
+   Desktop:       >= 992px
+   ========================================================================== */
+
+.hero-slider-desktop {
+    display: none !important;
+}
+
+.hero-slider-mobile {
+    display: block !important;
+}
+
+@media (min-width: 992px) {
+    .hero-slider-mobile {
+        display: none !important;
+    }
+
+    .hero-slider-desktop {
+        display: block !important;
+    }
+}
+/* ==========================================================================
+   HERO IMAGE - NEVER CROP OR DISTORT
+   ========================================================================== */
+
+.hero-slider-mobile .hero-banner-img,
+.hero-slider-desktop .hero-banner-img {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }

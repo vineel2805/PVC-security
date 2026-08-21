@@ -45,7 +45,7 @@ if (empty($heroSlides)) {
 <!--===== HERO AREA STARTS =======-->
 <section id="home">
 <!-- ================= DESKTOP CAROUSEL ================= -->
-  <div class="carousel-area owl-carousel hero-slider-desktop d-none d-md-block">
+  <div class="carousel-area owl-carousel hero-slider-desktop">
     <?php foreach ($heroSlides as $slide):
         $dImg = htmlspecialchars($slide['desktop_image']);
     ?>
@@ -66,7 +66,7 @@ if (empty($heroSlides)) {
     <?php endforeach; ?>
   </div>
 <!-- ================= MOBILE CAROUSEL ================= -->
-  <div class="carousel-area owl-carousel hero-slider-mobile d-block d-md-none">
+  <div class="carousel-area owl-carousel hero-slider-mobile">
     <?php foreach ($heroSlides as $slide):
         $mImg = htmlspecialchars(!empty($slide['mobile_image']) ? $slide['mobile_image'] : $slide['desktop_image']);
     ?>
