@@ -524,77 +524,518 @@ if (!isset($_GET['partial'])) {
 
     </div>
 
+<style>
+/* ==========================================================================
+   SLIDER ITEM MODAL — REDESIGNED UI (MATCHING REFERENCE)
+   ========================================================================== */
+.slider-item-modal .modal-dialog {
+    max-width: 840px;
+    margin: 1.75rem auto;
+}
+.slider-item-modal .modal-content {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06);
+    background: #ffffff;
+    overflow: hidden;
+}
+.slider-item-modal .modal-header {
+    padding: 22px 28px 18px;
+    border-bottom: 1px solid #f0f2f7;
+    background: #ffffff;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.slider-item-modal .modal-header-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    background: rgba(136, 108, 192, 0.12);
+    color: #886CC0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+.slider-item-modal .modal-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: #1a1d24;
+    line-height: 1.25;
+    margin-bottom: 2px;
+}
+.slider-item-modal .modal-subtitle {
+    font-size: 13px;
+    color: #737B8B;
+    font-weight: 400;
+}
+.slider-item-modal .btn-close-modal {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid #edf0f5;
+    background: #f8f9fb;
+    color: #6c757d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+.slider-item-modal .btn-close-modal:hover {
+    background: #e9ecef;
+    color: #1a1d24;
+    border-color: #dee2e6;
+}
+.slider-item-modal .modal-body {
+    padding: 24px 28px 16px;
+    background: #ffffff;
+}
+.slider-item-modal .form-group {
+    margin-bottom: 18px;
+}
+.slider-item-modal .form-label-custom {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #2b303b;
+    margin-bottom: 7px;
+    display: block;
+}
+.slider-item-modal .form-control-custom {
+    height: 44px;
+    border: 1.5px solid #e2e6ee;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #2b303b;
+    background: #ffffff;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.slider-item-modal .form-control-custom:focus {
+    border-color: #886CC0;
+    box-shadow: 0 0 0 3.5px rgba(136, 108, 192, 0.14);
+    outline: none;
+}
+.slider-item-modal .form-control-custom::placeholder {
+    color: #9aa1af;
+    font-size: 13.5px;
+}
+.slider-item-modal .textarea-custom {
+    height: 72px;
+    min-height: 72px;
+    resize: vertical;
+}
+
+/* Upload Card & Dropzone */
+.slider-upload-card {
+    background: #ffffff;
+    border: 1.5px solid #edf0f6;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: border-color 0.2s;
+}
+.slider-upload-card:hover {
+    border-color: #e0e4ee;
+}
+.upload-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.upload-card-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 8px;
+    background: rgba(136, 108, 192, 0.12);
+    color: #886CC0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+.upload-card-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #2b303b;
+}
+.slider-dropzone {
+    border: 1.5px dashed #d5dbe7;
+    border-radius: 8px;
+    padding: 20px 14px;
+    text-align: center;
+    background: #fafbfd;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 10px;
+    position: relative;
+}
+.slider-dropzone:hover,
+.slider-dropzone.dragover {
+    border-color: #886CC0;
+    background: #f8f6fc;
+}
+.slider-dropzone .dropzone-icon {
+    font-size: 24px;
+    color: #886CC0;
+    margin-bottom: 6px;
+}
+.slider-dropzone .dropzone-primary {
+    font-size: 13px;
+    color: #2b303b;
+    display: block;
+}
+.slider-dropzone .dropzone-primary strong {
+    color: #1a1d24;
+    font-weight: 600;
+}
+.slider-dropzone .dropzone-sub {
+    font-size: 11.5px;
+    color: #8a92a2;
+    display: block;
+    margin-top: 3px;
+}
+.dropzone-file-name {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #553c9a;
+    background: rgba(136, 108, 192, 0.1);
+    border: 1px solid rgba(136, 108, 192, 0.25);
+    border-radius: 6px;
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    word-break: break-all;
+}
+.upload-guidance-pill {
+    background: #f7f4fc;
+    color: #7251b5;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.current-file-badge {
+    font-size: 11.5px;
+    color: #5c6270;
+    background: #f1f3f7;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    word-break: break-all;
+}
+
+/* Custom Input Groups */
+.custom-input-group {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
+.custom-input-group .input-group-addon-custom {
+    width: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fb;
+    border: 1.5px solid #e2e6ee;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    color: #886CC0;
+    font-size: 14px;
+}
+.custom-input-group .input-group-addon-custom .tx-icon {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1;
+}
+.custom-input-group .input-group-addon-custom .tx-icon sub {
+    font-size: 10px;
+    bottom: -0.1em;
+}
+.custom-input-group .form-control-custom.has-addon {
+    border-radius: 0 8px 8px 0 !important;
+    border-left: 1.5px solid #e2e6ee;
+}
+.custom-input-group:focus-within .input-group-addon-custom {
+    border-color: #886CC0;
+}
+.custom-input-group:focus-within .form-control-custom.has-addon {
+    border-color: #886CC0;
+}
+
+/* Checkbox Card / Styled Checkbox */
+.custom-slider-checkbox {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 0;
+    width: 100%;
+}
+.custom-slider-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.custom-slider-checkbox .checkbox-box {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border-radius: 5px;
+    border: 2px solid #d1d5db;
+    background: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    transition: all 0.2s ease;
+    margin-right: 12px;
+    margin-top: 2px;
+}
+.custom-slider-checkbox .checkbox-box::after {
+    content: "\f00c";
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome";
+    font-weight: 900;
+    font-size: 11px;
+}
+.custom-slider-checkbox input[type="checkbox"]:checked + .checkbox-box {
+    background: #886CC0;
+    border-color: #886CC0;
+    color: #ffffff;
+}
+.custom-slider-checkbox .checkbox-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1d24;
+    line-height: 1.2;
+}
+.custom-slider-checkbox .checkbox-desc {
+    font-size: 12px;
+    color: #737B8B;
+    margin-top: 3px;
+    display: block;
+}
+
+/* Modal Footer */
+.slider-item-modal .modal-footer {
+    padding: 16px 28px 22px;
+    border-top: 1px solid #f0f2f7;
+    background: #ffffff;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+.btn-slider-cancel {
+    padding: 9px 24px;
+    font-size: 13.5px;
+    font-weight: 600;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1.5px solid #e2e6ee;
+    color: #495057;
+    transition: all 0.2s;
+}
+.btn-slider-cancel:hover {
+    background: #f8f9fb;
+    border-color: #d5dbe7;
+    color: #212529;
+}
+.btn-slider-save {
+    padding: 9px 26px;
+    font-size: 13.5px;
+    font-weight: 600;
+    border-radius: 8px;
+    background: #886CC0;
+    border: 1.5px solid #886CC0;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(136, 108, 192, 0.25);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+.btn-slider-save:hover,
+.btn-slider-save:focus {
+    background: #6c4bae;
+    border-color: #6c4bae;
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(136, 108, 192, 0.35);
+    transform: translateY(-1px);
+}
+.btn-slider-save:active {
+    transform: translateY(0);
+}
+@media (max-width: 767px) {
+    .slider-item-modal .modal-header,
+    .slider-item-modal .modal-body,
+    .slider-item-modal .modal-footer {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+}
+</style>
+
 <!-- Modal: Add Slide -->
-<div class="modal fade" id="addSlideModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade slider-item-modal" id="addSlideModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <form action="slides.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="add">
+                
+                <!-- Modal Header -->
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New Slider Item</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                    <div class="d-flex align-items-center">
+                        <div class="modal-header-icon mr-3">
+                            <i class="far fa-images"></i>
+                        </div>
+                        <div>
+                            <h5 class="modal-title">Add New Slider Item</h5>
+                            <p class="modal-subtitle mb-0">Create a new hero slider item for the homepage</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close-modal" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
+
+                <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="row">
+                        <!-- Title -->
                         <div class="col-md-6 form-group">
-                            <label>Title (Banner Text / Heading)</label>
-                            <input type="text" name="title" class="form-control" value="<?php echo htmlspecialchars($form_data['title'] ?? ''); ?>" placeholder="Optional title overlay">
+                            <label class="form-label-custom">Title (Banner Text / Heading) <span class="text-danger">*</span></label>
+                            <input type="text" name="title" class="form-control form-control-custom" value="<?php echo htmlspecialchars($form_data['title'] ?? ''); ?>" placeholder="Enter banner title">
                         </div>
+
+                        <!-- Subtitle -->
                         <div class="col-md-6 form-group">
-                            <label>Subtitle</label>
-                            <input type="text" name="subtitle" class="form-control" value="<?php echo htmlspecialchars($form_data['subtitle'] ?? ''); ?>" placeholder="Optional subtitle">
+                            <label class="form-label-custom">Subtitle</label>
+                            <input type="text" name="subtitle" class="form-control form-control-custom" value="<?php echo htmlspecialchars($form_data['subtitle'] ?? ''); ?>" placeholder="Enter subtitle (optional)">
                         </div>
+
+                        <!-- Description -->
                         <div class="col-12 form-group">
-                            <label>Description</label>
-                            <textarea name="description" class="form-control" rows="2" placeholder="Optional description"><?php echo htmlspecialchars($form_data['description'] ?? ''); ?></textarea>
+                            <label class="form-label-custom">Description</label>
+                            <textarea name="description" class="form-control form-control-custom textarea-custom" rows="2" placeholder="Enter description (optional)"><?php echo htmlspecialchars($form_data['description'] ?? ''); ?></textarea>
                         </div>
+
+                        <!-- Desktop Banner Image -->
                         <div class="col-md-6 form-group">
-                            <label>Desktop Banner Image <span class="text-danger">*</span></label>
-                             <div class="small text-muted mb-1">
-                                <strong>Processing:</strong> Proportional resize only &mdash; no crop, no distortion | <strong>Min Width:</strong> 400 px | <strong>Max Output:</strong> 3000 px wide | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
+                            <div class="slider-upload-card">
+                                <div class="upload-card-header">
+                                    <span class="upload-card-icon"><i class="fas fa-desktop"></i></span>
+                                    <span class="upload-card-title">Desktop Banner Image <span class="text-danger">*</span></span>
+                                </div>
+                                <div class="slider-dropzone" data-input-id="add_desktop_file">
+                                    <input type="file" id="add_desktop_file" name="desktop_image" class="d-none dropzone-file-input <?php echo (!empty($desktop_error) && $active_modal === 'add') ? 'is-invalid' : ''; ?>" accept="image/*" <?php echo ($active_modal === 'add') ? '' : 'required'; ?>>
+                                    <div class="dropzone-content">
+                                        <div class="dropzone-icon"><i class="fas fa-arrow-up-from-bracket"></i></div>
+                                        <div class="dropzone-text">
+                                            <span class="dropzone-primary"><strong>Choose file</strong> or drag &amp; drop</span>
+                                            <span class="dropzone-sub">JPG, PNG, WEBP, SVG &bull; Max 10 MB</span>
+                                        </div>
+                                    </div>
+                                    <div class="dropzone-file-name d-none"></div>
+                                </div>
+                                <div class="upload-guidance-pill">
+                                    <i class="fas fa-info-circle mr-1"></i> Recommended: 1920 &times; 560 px
+                                </div>
                             </div>
-                            <input type="file" name="desktop_image" class="form-control-file <?php echo (!empty($desktop_error) && $active_modal === 'add') ? 'is-invalid' : ''; ?>" accept="image/*" <?php echo ($active_modal === 'add') ? '' : 'required'; ?>>
                             <?php if (!empty($desktop_error) && $active_modal === 'add'): ?>
                                 <div class="invalid-feedback d-block text-danger font-weight-bold mt-1">
                                     <i class="fas fa-times-circle mr-1"></i>❌ <?php echo htmlspecialchars($desktop_error); ?>
                                 </div>
                             <?php endif; ?>
                         </div>
+
+                        <!-- Mobile Banner Image -->
                         <div class="col-md-6 form-group">
-                            <label>Mobile Banner Image</label>
-                             <div class="small text-muted mb-1">
-                                <strong>Processing:</strong> Proportional resize only &mdash; no crop, no distortion | <strong>Min Width:</strong> 400 px | <strong>Max Output:</strong> 1600 px wide | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
+                            <div class="slider-upload-card">
+                                <div class="upload-card-header">
+                                    <span class="upload-card-icon"><i class="fas fa-mobile-alt"></i></span>
+                                    <span class="upload-card-title">Mobile Banner Image</span>
+                                </div>
+                                <div class="slider-dropzone" data-input-id="add_mobile_file">
+                                    <input type="file" id="add_mobile_file" name="mobile_image" class="d-none dropzone-file-input <?php echo (!empty($mobile_error) && $active_modal === 'add') ? 'is-invalid' : ''; ?>" accept="image/*">
+                                    <div class="dropzone-content">
+                                        <div class="dropzone-icon"><i class="fas fa-arrow-up-from-bracket"></i></div>
+                                        <div class="dropzone-text">
+                                            <span class="dropzone-primary"><strong>Choose file</strong> or drag &amp; drop</span>
+                                            <span class="dropzone-sub">JPG, PNG, WEBP &bull; Max 10 MB</span>
+                                        </div>
+                                    </div>
+                                    <div class="dropzone-file-name d-none"></div>
+                                </div>
+                                <div class="upload-guidance-pill">
+                                    <i class="fas fa-info-circle mr-1"></i> Recommended: 1200 &times; 900 px
+                                </div>
                             </div>
-                            <input type="file" name="mobile_image" class="form-control-file <?php echo (!empty($mobile_error) && $active_modal === 'add') ? 'is-invalid' : ''; ?>" accept="image/*">
                             <?php if (!empty($mobile_error) && $active_modal === 'add'): ?>
                                 <div class="invalid-feedback d-block text-danger font-weight-bold mt-1">
                                     <i class="fas fa-times-circle mr-1"></i>❌ <?php echo htmlspecialchars($mobile_error); ?>
                                 </div>
                             <?php endif; ?>
                         </div>
+
+                        <!-- Button Text -->
                         <div class="col-md-6 form-group">
-                            <label>Button Text</label>
-                            <input type="text" name="button_text" class="form-control" value="<?php echo htmlspecialchars($form_data['button_text'] ?? ''); ?>" placeholder="Optional button text">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Button Link URL</label>
-                            <input type="text" name="button_link" class="form-control" value="<?php echo htmlspecialchars($form_data['button_link'] ?? ''); ?>" placeholder="Optional button URL">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Display Order</label>
-                            <input type="number" name="display_order" class="form-control" value="<?php echo htmlspecialchars($form_data['display_order'] ?? '0'); ?>" min="0">
-                        </div>
-                        <div class="col-md-6 form-group d-flex align-items-center mt-4">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="status" class="custom-control-input" id="addStatus" value="1" <?php echo (!isset($form_data['status']) || $form_data['status'] == 1) ? 'checked' : ''; ?>>
-                                <label class="custom-control-label" for="addStatus">Active & Visible</label>
+                            <label class="form-label-custom">Button Text</label>
+                            <div class="custom-input-group">
+                                <span class="input-group-addon-custom"><span class="tx-icon">T<sub>x</sub></span></span>
+                                <input type="text" name="button_text" class="form-control form-control-custom has-addon" value="<?php echo htmlspecialchars($form_data['button_text'] ?? ''); ?>" placeholder="Enter button text (optional)">
                             </div>
+                        </div>
+
+                        <!-- Button Link URL -->
+                        <div class="col-md-6 form-group">
+                            <label class="form-label-custom">Button Link URL</label>
+                            <div class="custom-input-group">
+                                <span class="input-group-addon-custom"><i class="fas fa-link"></i></span>
+                                <input type="text" name="button_link" class="form-control form-control-custom has-addon" value="<?php echo htmlspecialchars($form_data['button_link'] ?? ''); ?>" placeholder="Enter button URL (optional)">
+                            </div>
+                        </div>
+
+                        <!-- Display Order -->
+                        <div class="col-md-6 form-group">
+                            <label class="form-label-custom">Display Order</label>
+                            <div class="custom-input-group">
+                                <span class="input-group-addon-custom"><i class="fas fa-hashtag"></i></span>
+                                <input type="number" name="display_order" class="form-control form-control-custom has-addon" value="<?php echo htmlspecialchars($form_data['display_order'] ?? '0'); ?>" min="0">
+                            </div>
+                        </div>
+
+                        <!-- Active & Visible Switch/Checkbox -->
+                        <div class="col-md-6 form-group d-flex align-items-center pt-md-4">
+                            <label class="custom-slider-checkbox" for="addStatus">
+                                <input type="checkbox" name="status" id="addStatus" value="1" <?php echo (!isset($form_data['status']) || $form_data['status'] == 1) ? 'checked' : ''; ?>>
+                                <span class="checkbox-box"></span>
+                                <span class="checkbox-label-block">
+                                    <strong class="d-block checkbox-title">Active &amp; Visible</strong>
+                                    <small class="checkbox-desc">Enable this slide to show on website</small>
+                                </span>
+                            </label>
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Slide</button>
+                    <button type="button" class="btn btn-slider-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-slider-save"><i class="fas fa-save mr-2"></i>Save Slide</button>
                 </div>
             </form>
         </div>
@@ -602,83 +1043,159 @@ if (!isset($_GET['partial'])) {
 </div>
 
 <!-- Modal: Edit Slide -->
-<div class="modal" id="editSlideModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade slider-item-modal" id="editSlideModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <form id="editSlideForm" action="slides.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="id" id="edit_id" value="<?php echo htmlspecialchars($form_data['id'] ?? ''); ?>">
+                
+                <!-- Modal Header -->
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Slider Item</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                    <div class="d-flex align-items-center">
+                        <div class="modal-header-icon mr-3">
+                            <i class="fas fa-pen-to-square"></i>
+                        </div>
+                        <div>
+                            <h5 class="modal-title">Edit Slider Item</h5>
+                            <p class="modal-subtitle mb-0">Update hero slider item details, banners and ordering</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close-modal" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
+
+                <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="row">
+                        <!-- Title -->
                         <div class="col-md-6 form-group">
-                            <label>Title (Banner Text / Heading)</label>
-                            <input type="text" name="title" id="edit_title" class="form-control" value="<?php echo htmlspecialchars($form_data['title'] ?? ''); ?>">
+                            <label class="form-label-custom">Title (Banner Text / Heading) <span class="text-danger">*</span></label>
+                            <input type="text" name="title" id="edit_title" class="form-control form-control-custom" value="<?php echo htmlspecialchars($form_data['title'] ?? ''); ?>" placeholder="Enter banner title">
                         </div>
+
+                        <!-- Subtitle -->
                         <div class="col-md-6 form-group">
-                            <label>Subtitle</label>
-                            <input type="text" name="subtitle" id="edit_subtitle" class="form-control" value="<?php echo htmlspecialchars($form_data['subtitle'] ?? ''); ?>">
+                            <label class="form-label-custom">Subtitle</label>
+                            <input type="text" name="subtitle" id="edit_subtitle" class="form-control form-control-custom" value="<?php echo htmlspecialchars($form_data['subtitle'] ?? ''); ?>" placeholder="Enter subtitle (optional)">
                         </div>
+
+                        <!-- Description -->
                         <div class="col-12 form-group">
-                            <label>Description</label>
-                            <textarea name="description" id="edit_description" class="form-control" rows="2"><?php echo htmlspecialchars($form_data['description'] ?? ''); ?></textarea>
+                            <label class="form-label-custom">Description</label>
+                            <textarea name="description" id="edit_description" class="form-control form-control-custom textarea-custom" rows="2" placeholder="Enter description (optional)"><?php echo htmlspecialchars($form_data['description'] ?? ''); ?></textarea>
                         </div>
+
+                        <!-- Replace Desktop Banner -->
                         <div class="col-md-6 form-group">
-                            <label>Replace Desktop Banner</label>
-                             <div class="small text-muted mb-1">
-                                <strong>Processing:</strong> Proportional resize only &mdash; no crop, no distortion | <strong>Min Width:</strong> 400 px | <strong>Max Output:</strong> 3000 px wide | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
+                            <div class="slider-upload-card">
+                                <div class="upload-card-header">
+                                    <span class="upload-card-icon"><i class="fas fa-desktop"></i></span>
+                                    <span class="upload-card-title">Replace Desktop Banner</span>
+                                </div>
+                                <div class="current-file-badge mb-2" id="edit_desktop_current">
+                                    <?php echo !empty($form_data['desktop_image']) ? 'Current: ' . htmlspecialchars($form_data['desktop_image']) : 'Current: None'; ?>
+                                </div>
+                                <div class="slider-dropzone" data-input-id="edit_desktop_file">
+                                    <input type="file" id="edit_desktop_file" name="desktop_image" class="d-none dropzone-file-input <?php echo (!empty($desktop_error) && $active_modal === 'edit') ? 'is-invalid' : ''; ?>" accept="image/*">
+                                    <div class="dropzone-content">
+                                        <div class="dropzone-icon"><i class="fas fa-arrow-up-from-bracket"></i></div>
+                                        <div class="dropzone-text">
+                                            <span class="dropzone-primary"><strong>Choose file</strong> or drag &amp; drop</span>
+                                            <span class="dropzone-sub">JPG, PNG, WEBP, SVG &bull; Max 10 MB</span>
+                                        </div>
+                                    </div>
+                                    <div class="dropzone-file-name d-none"></div>
+                                </div>
+                                <div class="upload-guidance-pill">
+                                    <i class="fas fa-info-circle mr-1"></i> Recommended: 1920 &times; 560 px
+                                </div>
                             </div>
-                            <input type="file" name="desktop_image" class="form-control-file <?php echo (!empty($desktop_error) && $active_modal === 'edit') ? 'is-invalid' : ''; ?>" accept="image/*">
-                            <small class="form-text text-muted d-block mt-1" id="edit_desktop_current">
-                                <?php echo !empty($form_data['desktop_image']) ? 'Current: ' . htmlspecialchars($form_data['desktop_image']) : ''; ?>
-                            </small>
                             <?php if (!empty($desktop_error) && $active_modal === 'edit'): ?>
                                 <div class="invalid-feedback d-block text-danger font-weight-bold mt-1">
                                     <i class="fas fa-times-circle mr-1"></i>❌ <?php echo htmlspecialchars($desktop_error); ?>
                                 </div>
                             <?php endif; ?>
                         </div>
+
+                        <!-- Replace Mobile Banner -->
                         <div class="col-md-6 form-group">
-                            <label>Replace Mobile Banner</label>
-                             <div class="small text-muted mb-1">
-                                <strong>Processing:</strong> Proportional resize only &mdash; no crop, no distortion | <strong>Min Width:</strong> 400 px | <strong>Max Output:</strong> 1600 px wide | <strong>Formats:</strong> JPG, JPEG, PNG, WEBP, SVG | <strong>Max Upload:</strong> 10 MB
+                            <div class="slider-upload-card">
+                                <div class="upload-card-header">
+                                    <span class="upload-card-icon"><i class="fas fa-mobile-alt"></i></span>
+                                    <span class="upload-card-title">Replace Mobile Banner</span>
+                                </div>
+                                <div class="current-file-badge mb-2" id="edit_mobile_current">
+                                    <?php echo !empty($form_data['mobile_image']) ? 'Current: ' . htmlspecialchars($form_data['mobile_image']) : 'Current: None'; ?>
+                                </div>
+                                <div class="slider-dropzone" data-input-id="edit_mobile_file">
+                                    <input type="file" id="edit_mobile_file" name="mobile_image" class="d-none dropzone-file-input <?php echo (!empty($mobile_error) && $active_modal === 'edit') ? 'is-invalid' : ''; ?>" accept="image/*">
+                                    <div class="dropzone-content">
+                                        <div class="dropzone-icon"><i class="fas fa-arrow-up-from-bracket"></i></div>
+                                        <div class="dropzone-text">
+                                            <span class="dropzone-primary"><strong>Choose file</strong> or drag &amp; drop</span>
+                                            <span class="dropzone-sub">JPG, PNG, WEBP &bull; Max 10 MB</span>
+                                        </div>
+                                    </div>
+                                    <div class="dropzone-file-name d-none"></div>
+                                </div>
+                                <div class="upload-guidance-pill">
+                                    <i class="fas fa-info-circle mr-1"></i> Recommended: 412 &times; 309 px
+                                </div>
                             </div>
-                            <input type="file" name="mobile_image" class="form-control-file <?php echo (!empty($mobile_error) && $active_modal === 'edit') ? 'is-invalid' : ''; ?>" accept="image/*">
-                            <small class="form-text text-muted d-block mt-1" id="edit_mobile_current">
-                                <?php echo !empty($form_data['mobile_image']) ? 'Current: ' . htmlspecialchars($form_data['mobile_image']) : ''; ?>
-                            </small>
                             <?php if (!empty($mobile_error) && $active_modal === 'edit'): ?>
                                 <div class="invalid-feedback d-block text-danger font-weight-bold mt-1">
                                     <i class="fas fa-times-circle mr-1"></i>❌ <?php echo htmlspecialchars($mobile_error); ?>
                                 </div>
                             <?php endif; ?>
                         </div>
+
+                        <!-- Button Text -->
                         <div class="col-md-6 form-group">
-                            <label>Button Text</label>
-                            <input type="text" name="button_text" id="edit_button_text" class="form-control" value="<?php echo htmlspecialchars($form_data['button_text'] ?? ''); ?>">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Button Link URL</label>
-                            <input type="text" name="button_link" id="edit_button_link" class="form-control" value="<?php echo htmlspecialchars($form_data['button_link'] ?? ''); ?>">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Display Order</label>
-                            <input type="number" name="display_order" id="edit_display_order" class="form-control" min="0" value="<?php echo htmlspecialchars($form_data['display_order'] ?? '0'); ?>">
-                        </div>
-                        <div class="col-md-6 form-group d-flex align-items-center mt-4">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="status" class="custom-control-input" id="edit_status" value="1" <?php echo (!isset($form_data['status']) || $form_data['status'] == 1) ? 'checked' : ''; ?>>
-                                <label class="custom-control-label" for="edit_status">Active & Visible</label>
+                            <label class="form-label-custom">Button Text</label>
+                            <div class="custom-input-group">
+                                <span class="input-group-addon-custom"><span class="tx-icon">T<sub>x</sub></span></span>
+                                <input type="text" name="button_text" id="edit_button_text" class="form-control form-control-custom has-addon" value="<?php echo htmlspecialchars($form_data['button_text'] ?? ''); ?>" placeholder="Enter button text (optional)">
                             </div>
+                        </div>
+
+                        <!-- Button Link URL -->
+                        <div class="col-md-6 form-group">
+                            <label class="form-label-custom">Button Link URL</label>
+                            <div class="custom-input-group">
+                                <span class="input-group-addon-custom"><i class="fas fa-link"></i></span>
+                                <input type="text" name="button_link" id="edit_button_link" class="form-control form-control-custom has-addon" value="<?php echo htmlspecialchars($form_data['button_link'] ?? ''); ?>" placeholder="Enter button URL (optional)">
+                            </div>
+                        </div>
+
+                        <!-- Display Order -->
+                        <div class="col-md-6 form-group">
+                            <label class="form-label-custom">Display Order</label>
+                            <div class="custom-input-group">
+                                <span class="input-group-addon-custom"><i class="fas fa-hashtag"></i></span>
+                                <input type="number" name="display_order" id="edit_display_order" class="form-control form-control-custom has-addon" min="0" value="<?php echo htmlspecialchars($form_data['display_order'] ?? '0'); ?>">
+                            </div>
+                        </div>
+
+                        <!-- Active & Visible Switch/Checkbox -->
+                        <div class="col-md-6 form-group d-flex align-items-center pt-md-4">
+                            <label class="custom-slider-checkbox" for="edit_status">
+                                <input type="checkbox" name="status" id="edit_status" value="1" <?php echo (!isset($form_data['status']) || $form_data['status'] == 1) ? 'checked' : ''; ?>>
+                                <span class="checkbox-box"></span>
+                                <span class="checkbox-label-block">
+                                    <strong class="d-block checkbox-title">Active &amp; Visible</strong>
+                                    <small class="checkbox-desc">Enable this slide to show on website</small>
+                                </span>
+                            </label>
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-slider-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-slider-save"><i class="fas fa-save mr-2"></i>Save Changes</button>
                 </div>
             </form>
         </div>
@@ -691,6 +1208,96 @@ window.initSlidesPage = function initSlidesPage() {
     if (!document.getElementById('addSlideModal') && !document.getElementById('editSlideModal')) {
         return;
     }
+
+    function initDropzones() {
+        document.querySelectorAll('.slider-dropzone').forEach(function (dropzone) {
+            const inputId = dropzone.getAttribute('data-input-id');
+            if (!inputId) return;
+            const fileInput = document.getElementById(inputId);
+            if (!fileInput) return;
+
+            const contentEl = dropzone.querySelector('.dropzone-content');
+            const nameEl = dropzone.querySelector('.dropzone-file-name');
+
+            function updateDisplay(file) {
+                if (file) {
+                    const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+                    if (nameEl) {
+                        nameEl.innerHTML = '<i class="fas fa-check-circle text-success mr-1"></i> ' + escapeHtml(file.name) + ' (' + sizeMb + ' MB) <span class="badge badge-light ml-2">Change</span>';
+                        nameEl.classList.remove('d-none');
+                    }
+                    if (contentEl) contentEl.classList.add('d-none');
+                } else {
+                    if (nameEl) {
+                        nameEl.classList.add('d-none');
+                        nameEl.innerHTML = '';
+                    }
+                    if (contentEl) contentEl.classList.remove('d-none');
+                }
+            }
+
+            dropzone.onclick = function (e) {
+                if (e.target !== fileInput) {
+                    fileInput.click();
+                }
+            };
+
+            fileInput.onchange = function () {
+                if (fileInput.files && fileInput.files[0]) {
+                    updateDisplay(fileInput.files[0]);
+                } else {
+                    updateDisplay(null);
+                }
+            };
+
+            dropzone.ondragover = function (e) {
+                e.preventDefault();
+                dropzone.classList.add('dragover');
+            };
+
+            dropzone.ondragleave = function (e) {
+                e.preventDefault();
+                dropzone.classList.remove('dragover');
+            };
+
+            dropzone.ondrop = function (e) {
+                e.preventDefault();
+                dropzone.classList.remove('dragover');
+                if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    updateDisplay(e.dataTransfer.files[0]);
+                    $(fileInput).trigger('change');
+                }
+            };
+        });
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.innerText = text;
+        return div.innerHTML;
+    }
+
+    initDropzones();
+
+    // Reset dropzones on modal close
+    ['addSlideModal', 'editSlideModal'].forEach(function (modalId) {
+        const el = document.getElementById(modalId);
+        if (el) {
+            el.addEventListener('hidden.bs.modal', function () {
+                el.querySelectorAll('.dropzone-file-name').forEach(function (nameEl) {
+                    nameEl.classList.add('d-none');
+                    nameEl.innerHTML = '';
+                });
+                el.querySelectorAll('.dropzone-content').forEach(function (contentEl) {
+                    contentEl.classList.remove('d-none');
+                });
+                el.querySelectorAll('.dropzone-file-input').forEach(function (input) {
+                    input.value = '';
+                });
+            });
+        }
+    });
 
     <?php if ($active_modal === 'add'): ?>
     const addModalEl = document.getElementById('addSlideModal');
@@ -760,6 +1367,20 @@ window.initSlidesPage = function initSlidesPage() {
 
             if (editMobileCurrent) {
                 editMobileCurrent.innerText = 'Current: ' + (data.mobile_image || 'None');
+            }
+
+            // Reset dropzone files
+            if (editModalEl) {
+                editModalEl.querySelectorAll('.dropzone-file-name').forEach(function (nameEl) {
+                    nameEl.classList.add('d-none');
+                    nameEl.innerHTML = '';
+                });
+                editModalEl.querySelectorAll('.dropzone-content').forEach(function (contentEl) {
+                    contentEl.classList.remove('d-none');
+                });
+                editModalEl.querySelectorAll('.dropzone-file-input').forEach(function (input) {
+                    input.value = '';
+                });
             }
 
             bootstrap.Modal.getOrCreateInstance(editModalEl).show();
