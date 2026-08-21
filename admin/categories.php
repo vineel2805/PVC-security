@@ -967,7 +967,7 @@ if (!isset($_GET['partial'])) {
     <div class="footer">
         <div class="copyright">
             <p>Copyright &copy; Designed &amp; Developed by
-                <a href="https://dexignlab.com/" target="_blank">DexignLab</a> 2023
+                <a href="https://bhimavaramdigitals.com/" target="_blank">Bhimavarm Digitals</a> 2023
             </p>
         </div>
     </div>
