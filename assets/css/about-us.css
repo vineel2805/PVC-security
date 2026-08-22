@@ -175,7 +175,7 @@ img {
    WORKSPACE SECTION (IMAGES)
    ========================================= */
 .workspace-section {
-    padding: var(--section-pad) 0 clamp(32px, 6vw, 60px);
+    padding: 24px 0 clamp(32px, 6vw, 60px);
     background: var(--pvc-off-white);
 }
 

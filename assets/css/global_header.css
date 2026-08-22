@@ -763,7 +763,7 @@
     }
 
     .pvc-header-logo img {
-        height: 60px;
+        height: 80px;
     }
 
     /* Hide search & cart - bottom nav handles them */
@@ -896,7 +896,7 @@
     }
 
     .pvc-global-header.sticky .pvc-header-logo img {
-        height: 40px;
+        height: 50px;
     }
 }
 
