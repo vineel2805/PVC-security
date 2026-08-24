@@ -85,50 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 
     try {
-        $stmt = $pdo->prepare("SELECT display_order FROM brands WHERE brandid = :id");
-        $stmt->execute([':id' => $brandid]);
-        $row = $stmt->fetch();
-
-        if (!$row) {
-            echo json_encode(['status' => 'error', 'msg' => 'Brand not found.']);
-            exit;
-        }
-
-        $oldOrder = (int)$row['display_order'];
-        $totalBrands = (int)$pdo->query("SELECT COUNT(*) FROM brands")->fetchColumn();
-        if ($newOrder > $totalBrands) {
-            $newOrder = $totalBrands;
-        }
-
-        if ($newOrder !== $oldOrder) {
-            $pdo->beginTransaction();
-            if ($newOrder < $oldOrder) {
-                $shiftStmt = $pdo->prepare("
-                    UPDATE brands
-                    SET display_order = display_order + 1
-                    WHERE display_order >= :new_order AND display_order < :old_order
-                ");
-                $shiftStmt->execute([':new_order' => $newOrder, ':old_order' => $oldOrder]);
-            } else {
-                $shiftStmt = $pdo->prepare("
-                    UPDATE brands
-                    SET display_order = display_order - 1
-                    WHERE display_order > :old_order AND display_order <= :new_order
-                ");
-                $shiftStmt->execute([':old_order' => $oldOrder, ':new_order' => $newOrder]);
-            }
-
-            $updateStmt = $pdo->prepare("UPDATE brands SET display_order = :new_order WHERE brandid = :id");
-            $updateStmt->execute([':new_order' => $newOrder, ':id' => $brandid]);
-            $pdo->commit();
-        }
+        $updateStmt = $pdo->prepare("UPDATE brands SET display_order = :new_order WHERE brandid = :id");
+        $updateStmt->execute([':new_order' => $newOrder, ':id' => $brandid]);
 
         echo json_encode(['status' => 'success', 'msg' => 'Brand order updated successfully.']);
         exit;
     } catch (PDOException $e) {
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
         echo json_encode(['status' => 'error', 'msg' => 'Database error: ' . $e->getMessage()]);
         exit;
     }
@@ -168,19 +130,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
         $delCat = $pdo->prepare("DELETE FROM category WHERE brandid = :bid");
         $delCat->execute([':bid' => $brandid]);
 
-        // Grab brand image and display_order, then delete the brand itself
-        $brandStmt = $pdo->prepare("SELECT imagelink, display_order FROM brands WHERE brandid = :id");
+        // Grab brand image, then delete the brand itself
+        $brandStmt = $pdo->prepare("SELECT imagelink FROM brands WHERE brandid = :id");
         $brandStmt->execute([':id' => $brandid]);
         $brandRow = $brandStmt->fetch();
 
         $delBrand = $pdo->prepare("DELETE FROM brands WHERE brandid = :id");
         $delBrand->execute([':id' => $brandid]);
-
-        if ($brandRow && isset($brandRow['display_order'])) {
-            $delOrder = (int)$brandRow['display_order'];
-            $shiftStmt = $pdo->prepare("UPDATE brands SET display_order = display_order - 1 WHERE display_order > :delOrder");
-            $shiftStmt->execute([':delOrder' => $delOrder]);
-        }
 
         $pdo->commit();
 
@@ -323,32 +279,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $reqDisplayOrder = filter_var($reqOrderInput, FILTER_VALIDATE_INT);
 
                 if ($edit_mode) {
-                    $currStmt = $pdo->prepare("SELECT display_order FROM brands WHERE brandid = :id");
-                    $currStmt->execute([':id' => $brandid]);
-                    $currRow  = $currStmt->fetch();
-                    $oldOrder = $currRow ? (int)$currRow['display_order'] : 1;
-
-                    if ($reqDisplayOrder !== false && $reqDisplayOrder >= 1 && $reqDisplayOrder !== $oldOrder) {
-                        $totalBrands = (int)$pdo->query("SELECT COUNT(*) FROM brands")->fetchColumn();
-                        $newOrder    = $reqDisplayOrder > $totalBrands ? $totalBrands : $reqDisplayOrder;
-
-                        $pdo->beginTransaction();
-                        if ($newOrder < $oldOrder) {
-                            $shiftStmt = $pdo->prepare("
-                                UPDATE brands
-                                SET display_order = display_order + 1
-                                WHERE display_order >= :new_order AND display_order < :old_order
-                            ");
-                            $shiftStmt->execute([':new_order' => $newOrder, ':old_order' => $oldOrder]);
-                        } else {
-                            $shiftStmt = $pdo->prepare("
-                                UPDATE brands
-                                SET display_order = display_order - 1
-                                WHERE display_order > :old_order AND display_order <= :new_order
-                            ");
-                            $shiftStmt->execute([':old_order' => $oldOrder, ':new_order' => $newOrder]);
-                        }
-
+                    if ($reqDisplayOrder !== false && $reqDisplayOrder >= 1) {
                         $stmt = $pdo->prepare("
                             UPDATE brands SET
                                 brandname      = :brandname,
@@ -363,10 +294,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             ':imagelink'      => $imagelink,
                             ':status'         => $status,
                             ':display_status' => $display_status,
-                            ':display_order'  => $newOrder,
+                            ':display_order'  => $reqDisplayOrder,
                             ':brandid'        => $brandid,
                         ]);
-                        $pdo->commit();
                     } else {
                         $stmt = $pdo->prepare("
                             UPDATE brands SET
@@ -392,15 +322,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     header("Location: " . strtok($_SERVER["REQUEST_URI"], '?') . "?success_msg=updated");
                     exit;
                 } else {
-                    $maxOrder = (int)$pdo->query("SELECT IFNULL(MAX(display_order), 0) FROM brands")->fetchColumn();
-                    $pdo->beginTransaction();
-
-                    if ($reqDisplayOrder === false || $reqDisplayOrder < 1 || $reqDisplayOrder > $maxOrder + 1) {
-                        $newOrder = $maxOrder + 1;
+                    if ($reqDisplayOrder !== false && $reqDisplayOrder >= 1) {
+                        $newOrder = $reqDisplayOrder;
                     } else {
-                        $newOrder  = $reqDisplayOrder;
-                        $shiftStmt = $pdo->prepare("UPDATE brands SET display_order = display_order + 1 WHERE display_order >= :norder");
-                        $shiftStmt->execute([':norder' => $newOrder]);
+                        $maxOrder = (int)$pdo->query("SELECT IFNULL(MAX(display_order), 0) FROM brands")->fetchColumn();
+                        $newOrder = $maxOrder + 1;
                     }
 
                     $stmt = $pdo->prepare("
@@ -415,7 +341,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ':display_status' => $display_status,
                         ':display_order'  => $newOrder,
                     ]);
-                    $pdo->commit();
 
                     if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
                         echo json_encode(['status' => 'success', 'msg' => 'Brand inserted successfully.']);
