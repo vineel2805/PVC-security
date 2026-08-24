@@ -56,8 +56,8 @@
             <div class="cu-quick-card cu-quick-card--multi cu-quick-card--email">
               <div class="cu-quick-icon cu-icon-mail"><i class="fa-solid fa-envelope"></i></div>              <div class="cu-quick-body">
                 <strong>Email Us</strong>
-                <a href="mailto:Service@pvcsecuritysolutions.com">Service@pvcsecuritysolutions.com</a>
-                <a href="mailto:Support@pvcsecuritysolutions.com">Support@pvcsecuritysolutions.com</a>
+                <a href="mailto:service@pvcsecuritysolutions.com">Service@pvcsecuritysolutions.com</a>
+                <a href="mailto:support@pvcsecuritysolutions.com">Support@pvcsecuritysolutions.com</a>
               </div>
             </div>
             <a href="https://www.google.com/maps/place/PVC+SECURITY+SOLUTIONS+CCTV+CAMERA+SHOP/@16.5447153,81.5259349,16z/data=!3m1!4b1!4m6!3m5!1s0x3a37efe240620edd:0x2e27b608fff2d823!8m2!3d16.5447153!4d81.5259349!16s%2Fg%2F11vf4klr8g?entry=ttu" target="_blank" rel="noopener noreferrer" class="cu-quick-card cu-quick-card--visit">

@@ -19,8 +19,8 @@ $pvcFooterData = [
     'phone2Clean'     => '+919114467777',
     'phone3'          => '+91 91144 78888',
     'phone3Clean'     => '+919114478888',
-    'email1'          => 'Service@pvcsecuritysolutions.com',
-    'email2'          => 'Support@pvcsecuritysolutions.com',
+    'email1'          => 'service@pvcsecuritysolutions.com',
+    'email2'          => 'support@pvcsecuritysolutions.com',
     'addressLines'    => [
         'Near KLM Shopping Mall',
         'mavullamma Temple Road',

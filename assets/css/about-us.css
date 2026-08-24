@@ -231,7 +231,7 @@ img {
 
 .shop-img-card {
     background: #fff;
-    border-radius: 0;
+    border-radius:  clamp(10px, 1.5vw, 16px);
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     transition: var(--transition-smooth);
