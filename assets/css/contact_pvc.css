@@ -504,11 +504,11 @@ body {
 }
 
 .cu-quick-card--email {
-  border-bottom: 4px solid rgb(234, 67, 53);
+  border-bottom: 4px solid rgb(0, 0, 0);
 }
 
 .cu-quick-card--visit {
-  border-bottom: 4px solid #111111;
+  border-bottom: 4px solid rgb(234, 24, 63);
 }
 
 /* Icon Badge */

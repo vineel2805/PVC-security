@@ -202,7 +202,7 @@ if (!empty($_SESSION['cart']) && is_array($_SESSION['cart'])) {
               <i class="fa-solid fa-arrow-left"></i> Back
             </button>
             <button id="btnNextStep" class="btn-next-step step-1-only">
-              Next
+              Order Now
             </button>
 
             <!-- Step 2: Back + Place Order (Mobile) / Place Order (Desktop) -->
