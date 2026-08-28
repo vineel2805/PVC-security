@@ -928,7 +928,7 @@ a[href="all-products.php"].btn-continue-shopping {
     flex: 1 !important;
     width: auto !important;
     height: 54px !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
     font-weight: 600 !important;
     border-radius: 12px !important;
     background: #25D366 !important;
@@ -1130,6 +1130,7 @@ a[href="all-products.php"].btn-continue-shopping {
 }
 
 @media (min-width: 992px) {
+
     /* Max width container centered */
     .cart-page-section .container,
     .cart-sticky-footer .container {
@@ -1813,10 +1814,10 @@ a[href="all-products.php"].btn-continue-shopping {
         max-width: none !important;
         min-width: auto !important;
         border-radius: 8px !important;
-        font-size: 13px !important;
+        font-size: 16px !important;
         font-weight: 600 !important;
         padding: 0 16px !important;
-        background: var(--pvc-gold-mid) !important;
+        background: rgb(37, 211, 102) !important;
         color: #fff !important;
         border: none !important;
     }
@@ -1909,4 +1910,53 @@ a[href="all-products.php"].btn-continue-shopping {
 
 .floating-cart-btn {
     display: none !important;
+}
+
+/* =========================================
+   DESKTOP ONLY — STICKY FOOTER BUTTON LAYOUT
+   ========================================= */
+@media (min-width: 992px) {
+
+    /* Full width container with space-between layout for Back (left) & Order/Place Order (right) */
+    .cart-sticky-footer .sticky-buttons {
+        width: 100% !important;
+        max-width: none !important;
+        flex: 1 1 auto !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 24px !important;
+    }
+
+    /* Hide desktop continue shopping link so Back button stays on the far left */
+    .cart-sticky-footer .sticky-buttons .btn-continue-shopping-desktop {
+        display: none !important;
+    }
+
+    /* Back button — fixed/normal width, NEVER stretch or expand */
+    .cart-sticky-footer .sticky-buttons .btn-back-step {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        min-width: 130px !important;
+        max-width: none !important;
+    }
+
+    /* Order Now button — fixed ~220px width on the far right */
+    .cart-sticky-footer .sticky-buttons .btn-next-step {
+        flex: 0 0 auto !important;
+        width: 220px !important;
+        min-width: 220px !important;
+        max-width: 220px !important;
+        margin-left: 0 !important;
+    }
+
+    /* Place Order button — fixed ~220px width on the far right */
+    .cart-sticky-footer .sticky-buttons .btn-place-rfq {
+        flex: 0 0 auto !important;
+        width: 220px !important;
+        min-width: 220px !important;
+        max-width: 220px !important;
+        margin-left: 0 !important;
+    }
 }
