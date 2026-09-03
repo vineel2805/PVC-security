@@ -611,7 +611,6 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 <script src="assets/js/plugins/fontawesome.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/global_footer.js"></script>
-<script src="assets/js/global_search.js"></script>
 
 <script>
 /* ===================================================================

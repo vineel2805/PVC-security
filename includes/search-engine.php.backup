@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 /**
- * Catalog search â€” single source of truth for suggest API, overlay, and listing.
+ * Catalog search — single source of truth for suggest API, overlay, and listing.
  *
- * Pipeline: normalize â†’ tokenize â†’ resolve brands/categories in memory â†’
- * one AND-of-token candidate query â†’ field-aware scoring â†’ rank.
+ * Pipeline: normalize → tokenize → resolve brands/categories in memory →
+ * one AND-of-token candidate query → field-aware scoring → rank.
  *
  * IDs (pid, brandid, cid) are strings. No product/brand/category names are hard-coded.
  */
@@ -317,7 +317,7 @@ function pvc_search_model_match(string $token, string $name, string $pid): strin
         return 'exact';
     }
 
-    if (strpos($name, $token) === 0 || strpos($pid, $token) === 0) {
+    if ($tokenLen >= 4 && (strpos($name, $token) !== false || strpos($pid, $token) !== false)) {
         return 'prefix';
     }
 
@@ -811,7 +811,7 @@ function pvc_search_product_sublabel(array $product): string
     $cat = trim((string) ($product['catname'] ?? ''));
 
     if ($brand !== '' && $cat !== '') {
-        return $brand . ' â€¢ ' . $cat;
+        return $brand . ' • ' . $cat;
     }
 
     return $brand !== '' ? $brand : $cat;
@@ -864,4 +864,3 @@ function pvc_search_suggest_items(mysqli $con, string $query): array
 
     return $items;
 }
-

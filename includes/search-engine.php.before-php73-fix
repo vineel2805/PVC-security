@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 /**
- * Catalog search â€” single source of truth for suggest API, overlay, and listing.
+ * Catalog search — single source of truth for suggest API, overlay, and listing.
  *
- * Pipeline: normalize â†’ tokenize â†’ resolve brands/categories in memory â†’
- * one AND-of-token candidate query â†’ field-aware scoring â†’ rank.
+ * Pipeline: normalize → tokenize → resolve brands/categories in memory →
+ * one AND-of-token candidate query → field-aware scoring → rank.
  *
  * IDs (pid, brandid, cid) are strings. No product/brand/category names are hard-coded.
  */
@@ -295,7 +295,7 @@ function pvc_search_field_match(string $token, string $text): string
     $textCompact = pvc_search_compact($text);
     if (
         mb_strlen($tokenCompact, 'UTF-8') >= 3
-        && strpos($textCompact, $tokenCompact) !== false
+        && str_contains($textCompact, $tokenCompact)
     ) {
         return 'partial';
     }
@@ -317,12 +317,12 @@ function pvc_search_model_match(string $token, string $name, string $pid): strin
         return 'exact';
     }
 
-    if (strpos($name, $token) === 0 || strpos($pid, $token) === 0) {
+    if (str_starts_with($name, $token) || str_starts_with($pid, $token)) {
         return 'prefix';
     }
 
     $tokenLen = mb_strlen($token, 'UTF-8');
-    if ($tokenLen >= 4 && (strpos($name, $token) !== false || strpos($pid, $token) !== false)) {
+    if ($tokenLen >= 4 && (str_contains($name, $token) || str_contains($pid, $token))) {
         return 'partial';
     }
 
@@ -367,14 +367,14 @@ function pvc_search_entity_match_rank(array $tokens, string $name): int
         if ($kind === 'prefix' && $tokenLen < 3) {
             foreach ($words as $word) {
                 if (
-                    strpos($word, $token) === 0
+                    str_starts_with($word, $token)
                     && mb_strlen($word, 'UTF-8') <= 4
                 ) {
                     $allowWeakPrefix = true;
                     break;
                 }
             }
-            if (!$allowWeakPrefix && $name !== $token && strpos($name, $token) !== 0) {
+            if (!$allowWeakPrefix && $name !== $token && !str_starts_with($name, $token)) {
                 continue;
             }
         }
@@ -606,7 +606,7 @@ function pvc_search_analyze_match(array $product, array $tokens, string $normali
         'exact_model'            => pvc_search_model_match($normalized, $fields['name'], $fields['pid']) === 'exact',
         'exact_name'             => $fields['name'] !== '' && $fields['name'] === $normalized,
         'pid_exact'              => $fields['pid'] !== '' && $fields['pid'] === $normalized,
-        'phrase_name'            => $normalized !== '' && strpos($fields['name'], $normalized) !== false,
+        'phrase_name'            => $normalized !== '' && str_contains($fields['name'], $normalized),
         'matched_tokens'         => 0,
         'name_exact_tokens'      => 0,
         'name_prefix_tokens'     => 0,
@@ -811,7 +811,7 @@ function pvc_search_product_sublabel(array $product): string
     $cat = trim((string) ($product['catname'] ?? ''));
 
     if ($brand !== '' && $cat !== '') {
-        return $brand . ' â€¢ ' . $cat;
+        return $brand . ' • ' . $cat;
     }
 
     return $brand !== '' ? $brand : $cat;
@@ -864,4 +864,3 @@ function pvc_search_suggest_items(mysqli $con, string $query): array
 
     return $items;
 }
-

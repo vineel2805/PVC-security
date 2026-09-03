@@ -251,7 +251,6 @@
       }
     });
   </script>
-  <script src="assets/js/global_search.js"></script>
 </body>
 
 </html>

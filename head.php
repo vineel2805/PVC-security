@@ -34,7 +34,7 @@
 <!-- JS Plugins -->
   <script src="assets/js/plugins/jquery-3-6-0.min.js"></script>
   <script src="assets/js/plugins/waypoints.js"></script>
-  <script src="assets/js/global_search.js"></script>
+  <script src="assets/js/global_search.js?v=<?php echo filemtime(__DIR__ . '/assets/js/global_search.js'); ?>"></script>
 
   <?php $pvcIsHomePage = in_array(basename($_SERVER['SCRIPT_NAME']), ['index.php', '']); ?>
 

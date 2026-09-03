@@ -2,12 +2,13 @@
 /* ===================================================================
    shop by brands page
    =================================================================== */
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
 include 'connect.php';
 include 'product-helpers.php';
+require_once __DIR__ . '/includes/search-engine.php';
 
 $defaultImg = get_default_placeholder_img();
 
@@ -99,33 +100,21 @@ if (!empty($selectedProductIdEscaped) && !$brandRow) {
     }
 }
 
-if (empty($selectedBrandEscaped) && empty($selectedCatEscaped) && !empty($selectedSearchEscaped)) {
-    $searchBrands = mysqli_query($con, "
-        SELECT
-            p.brandid,
-            b.brandname,
-            COUNT(*) AS result_count
-        FROM products p
-        JOIN brands b ON b.brandid = p.brandid
-        JOIN category c ON c.cid = p.pcat
-        WHERE p.display_status = 1
-          AND b.display_status = 1
-          AND c.display_status = 1
-          AND (
-                LOWER(p.pname)        LIKE '%$selectedSearchEscaped%'
-             OR LOWER(p.pdescription) LIKE '%$selectedSearchEscaped%'
-             OR LOWER(p.pid)          LIKE '%$selectedSearchEscaped%'
-             OR LOWER(b.brandname)    LIKE '%$selectedSearchEscaped%'
-             OR LOWER(c.cname)        LIKE '%$selectedSearchEscaped%'
-          )
-        GROUP BY p.brandid, b.brandname
-        ORDER BY result_count DESC, b.brandname ASC
-    ");
-    if ($searchBrands && mysqli_num_rows($searchBrands) === 1) {
-        $searchBrandRow = mysqli_fetch_assoc($searchBrands);
+$catalogSearch = null;
+if ($selectedSearch !== '' && $selectedProductId === '') {
+    $catalogSearch = pvc_search($con, $selectedSearch, ['product_limit' => 200]);
+}
+
+if (empty($selectedBrandEscaped) && empty($selectedCatEscaped) && $catalogSearch !== null) {
+    $searchBrandIds = [];
+    foreach ($catalogSearch['products'] as $hit) {
+        $searchBrandIds[(string) $hit['brandid']] = (string) $hit['brandname'];
+    }
+    if (count($searchBrandIds) === 1) {
+        $onlyBrandId = (string) array_key_first($searchBrandIds);
         $brandRow = [
-            'brandid'   => $searchBrandRow['brandid'],
-            'brandname' => $searchBrandRow['brandname'],
+            'brandid'   => $onlyBrandId,
+            'brandname' => $searchBrandIds[$onlyBrandId],
         ];
     }
 }
@@ -206,20 +195,29 @@ if (!empty($selectedSearchEscaped)) {
 $products  = [];
 $totalRows = 0;
 
-if ($viewMode === 'products') {
+if ($viewMode === 'products' && $catalogSearch !== null && empty($selectedProductIdEscaped)) {
+    $ranked = $catalogSearch['products'];
+    if ($brandRow && $catRow) {
+        $ranked = array_values(array_filter($ranked, static function (array $row) use ($catRow): bool {
+            return (string) $row['pcat'] === (string) $catRow['cid'];
+        }));
+    } elseif (!empty($selectedCatNameEscaped)) {
+        $allowed = array_flip($namedCatIds);
+        $ranked = array_values(array_filter($ranked, static function (array $row) use ($allowed): bool {
+            return isset($allowed[(string) $row['pcat']]);
+        }));
+    } elseif ($brandRow) {
+        $ranked = array_values(array_filter($ranked, static function (array $row) use ($brandRow): bool {
+            return (string) $row['brandid'] === (string) $brandRow['brandid'];
+        }));
+    }
+    $products = $ranked;
+    $totalRows = count($products);
+} elseif ($viewMode === 'products') {
     $whereClauses = [];
 
     if (!empty($selectedProductIdEscaped)) {
         $whereClauses[] = "p.pid = '{$selectedProductIdEscaped}'";
-    }
-    if (!empty($selectedSearchEscaped)) {
-        $whereClauses[] = "(
-            LOWER(p.pname)        LIKE '%{$selectedSearchEscaped}%'
-         OR LOWER(p.pdescription) LIKE '%{$selectedSearchEscaped}%'
-         OR LOWER(p.pid)          LIKE '%{$selectedSearchEscaped}%'
-         OR LOWER(b.brandname)    LIKE '%{$selectedSearchEscaped}%'
-         OR LOWER(c.cname)        LIKE '%{$selectedSearchEscaped}%'
-        )";
     }
     if ($brandRow && $catRow) {
         $whereClauses[] = "p.pcat = '{$catRow['cid']}'";
@@ -669,7 +667,6 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 <script src="assets/js/plugins/fontawesome.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/global_footer.js"></script>
-<script src="assets/js/global_search.js"></script>
 
 <script>
 /* ===================================================================
